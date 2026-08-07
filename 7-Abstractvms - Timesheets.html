@@ -54,6 +54,41 @@
             text-align: center;
             line-height: 14px;
         }
+
+        /* ===== Time-of-day shift backgrounds ===== */
+        .shift-bg { position: relative; overflow: hidden; isolation: isolate; }
+        .shift-bg > * { position: relative; z-index: 2; }
+
+        /* Morning — cool, fresh dawn sky (blue → mint), small rising sun */
+        .shift-morning { background: linear-gradient(160deg, #4aa8ec 0%, #93d1f6 45%, #dff5ec 100%); }
+        .shift-morning::after { content:''; position:absolute; z-index:1; width:42px; height:42px; right:-4px; bottom:-12px;
+            border-radius:9999px; background: radial-gradient(circle, #fff7d6 0%, #ffe27a 55%, rgba(255,226,122,0) 72%); }
+
+        /* Afternoon — warm golden daylight, big blazing sun */
+        .shift-afternoon { background: linear-gradient(160deg, #ff9f2e 0%, #ffc25a 46%, #ffe6a6 100%); }
+        .shift-afternoon::after { content:''; position:absolute; z-index:1; width:54px; height:54px; right:-6px; top:-16px;
+            border-radius:9999px; background: radial-gradient(circle, #fffdf2 0%, #fff0a8 45%, rgba(255,240,168,0) 72%); }
+
+        /* Night — deep sky, moon and stars */
+        .shift-night { background: linear-gradient(165deg, #0b1224 0%, #1c2740 55%, #38456b 100%); }
+        .shift-night::before { content:''; position:absolute; z-index:1; inset:0;
+            background-image:
+              radial-gradient(1.6px 1.6px at 18% 28%, #ffffff, transparent),
+              radial-gradient(1.4px 1.4px at 62% 58%, #ffffff, transparent),
+              radial-gradient(1.2px 1.2px at 82% 22%, #e2e8f0, transparent),
+              radial-gradient(1.2px 1.2px at 40% 78%, #cbd5e1, transparent),
+              radial-gradient(1px 1px at 30% 50%, #f1f5f9, transparent);
+            opacity:.9; }
+        .shift-night::after { content:''; position:absolute; z-index:1; width:24px; height:24px; right:10px; top:10px;
+            border-radius:9999px; background: radial-gradient(circle at 34% 34%, #ffffff 0%, #dbe3ef 58%, #aab6cc 100%);
+            box-shadow: 0 0 12px rgba(226,232,240,.55), inset -5px -3px 0 rgba(148,163,184,.35); }
+
+        /* Subtle variants for the compact grid cells */
+        .cell-morning { background: linear-gradient(160deg, #c4e7fb 0%, #e2f5ff 55%, #e6faf0 100%); }
+        .cell-afternoon { background: linear-gradient(160deg, #ffcf82 0%, #ffe3ab 50%, #fff4d6 100%); }
+        .cell-night { background: linear-gradient(165deg, #101a33 0%, #22304f 60%, #3a4a72 100%); }
+        .cell-night::after { content:''; position:absolute; z-index:1; width:12px; height:12px; right:6px; top:5px; border-radius:9999px;
+            background: radial-gradient(circle at 34% 34%, #ffffff 0%, #cbd5e1 70%); box-shadow: 0 0 6px rgba(226,232,240,.5); }
     </style>
 </head>
 <body class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800 flex bg-[#F3F4F6]">
@@ -153,10 +188,10 @@
                 </div>
 
                 <!-- Notifications -->
-                <button class="relative text-gray-500 hover:text-navy transition-colors">
+                <a href="12-Abstractvms - Notifications.html" class="relative text-gray-500 hover:text-navy transition-colors" title="Notifications" aria-label="Notifications">
                     <i class="fa-regular fa-bell text-lg"></i>
                     <span class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-danger text-[10px] font-bold text-white ring-2 ring-white">5</span>
-                </button>
+                </a>
             </div>
         </header>
 
@@ -212,6 +247,18 @@
                     </div>
                 </div>
 
+                <!-- Booking change approvals (agency-requested future unbookings — needs client decision) -->
+                <div id="approvals-panel" class="bg-white rounded-xl shadow-sm border border-amber-200 overflow-hidden">
+                    <div class="px-4 py-3 border-b border-amber-100 bg-amber-50/60 flex items-center gap-2.5">
+                        <i class="fa-solid fa-calendar-xmark text-amber-600"></i>
+                        <h2 class="text-sm font-sora font-semibold text-navy">Booking change approvals</h2>
+                        <span id="approvals-count" class="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-500 text-white">2</span>
+                        <p class="text-xs text-amber-700/80 ml-1 hidden sm:block">The supplying agency wants to <span class="font-semibold">un-book</span> a candidate on a future day. Your decision is required.</p>
+                    </div>
+                    <div id="approvals-body" class="divide-y divide-gray-100"></div>
+                    <div id="approvals-empty" class="hidden px-4 py-6 text-center text-sm text-gray-400"><i class="fa-solid fa-circle-check text-emerald-500 mr-1.5"></i> No booking changes awaiting your decision.</div>
+                </div>
+
                 <!-- Charge-rates-only reassurance (segregation §3) -->
                 <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2.5 flex items-center gap-2.5">
                     <i class="fa-solid fa-shield-halved text-emerald-600"></i>
@@ -252,14 +299,14 @@
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 border-l-4 border-l-danger">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 border-l-4 border-l-warning">
                         <div class="flex justify-between items-start mb-2">
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Exceptions / Flags</p>
-                            <i class="fa-solid fa-triangle-exclamation text-danger bg-danger/10 p-2 rounded-lg"></i>
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Sick Leave / Holiday</p>
+                            <i class="fa-solid fa-notes-medical text-warning bg-warning/10 p-2 rounded-lg"></i>
                         </div>
                         <div class="flex items-end gap-2">
-                            <h3 class="text-3xl font-bold text-danger font-sora">3</h3>
-                            <span class="text-sm text-gray-500 mb-1">require review</span>
+                            <h3 class="text-3xl font-bold text-navy font-sora" id="kpi-absence">0</h3>
+                            <span class="text-sm text-gray-500 mb-1">days this week</span>
                         </div>
                     </div>
                 </div>
@@ -273,11 +320,11 @@
                             <h2 class="text-sm font-sora font-semibold text-navy flex items-center gap-2">
                                 <i class="fa-solid fa-table-cells text-blue"></i> Weekly entry — all booked candidates
                             </h2>
-                            <p class="text-xs text-gray-500 mt-0.5">6 candidates booked to your organisation this week. Type hours to mark a day as Worked, or click a cell to record an absence.</p>
+                            <p class="text-xs text-gray-500 mt-0.5">6 candidates booked to your organisation this week. Click any day to set the shift &amp; hours, or record an absence.</p>
                         </div>
                         <div class="flex flex-wrap items-center gap-2">
-                            <button onclick="fillAll()" class="px-4 py-2 bg-blue text-white rounded-md text-sm font-semibold hover:bg-navy transition-colors shadow-sm flex items-center gap-2" title="Fill scheduled working days with configured shift hours for every booked candidate">
-                                <i class="fa-solid fa-wand-magic-sparkles text-xs"></i> Fill all from shift pattern
+                            <button onclick="openShiftPicker('all')" class="px-4 py-2 bg-blue text-white rounded-md text-sm font-semibold hover:bg-navy transition-colors shadow-sm flex items-center gap-2" title="Choose a shift, then fill scheduled working days for every booked candidate">
+                                <i class="fa-solid fa-wand-magic-sparkles text-xs"></i> Fill all — choose shift
                             </button>
                             <button onclick="fillAll()" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
                                 <i class="fa-solid fa-copy text-gray-400 text-xs"></i> Copy last week
@@ -285,7 +332,7 @@
                         </div>
                     </div>
 
-                    <!-- Day-status legend (always visible) -->
+                    <!-- Day-status + shift legend (always visible) -->
                     <div class="px-4 py-3 border-b border-gray-200 bg-white flex flex-wrap items-center gap-x-5 gap-y-2">
                         <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Day status</span>
                         <span class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700"><span class="w-3 h-3 rounded-sm bg-emerald-50 border border-emerald-200"></span> Worked</span>
@@ -293,7 +340,13 @@
                         <span class="inline-flex items-center gap-1.5 text-xs font-medium text-blue-700"><i class="fa-solid fa-umbrella-beach text-blue-500 text-[11px]"></i> Holiday</span>
                         <span class="inline-flex items-center gap-1.5 text-xs font-medium text-red-700"><i class="fa-solid fa-user-xmark text-red-500 text-[11px]"></i> No-show</span>
                         <span class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500"><i class="fa-solid fa-minus text-slate-400 text-[11px]"></i> Not Booked</span>
-                        <span class="ml-auto text-[11px] text-gray-400 flex items-center gap-1.5"><i class="fa-solid fa-circle-info"></i> Shift hours come from the booking's configured pattern.</span>
+                        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-purple"><span class="w-3 h-3 rounded-sm bg-white ring-2 ring-purple"></span> Role changed for shift</span>
+                        <span class="h-4 w-px bg-gray-200"></span>
+                        <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Shift</span>
+                        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-amber-700"><i class="fa-solid fa-sun text-amber-500 text-[11px]"></i> Morning 06:00–14:00</span>
+                        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-700"><i class="fa-solid fa-cloud-sun text-indigo-500 text-[11px]"></i> Afternoon 14:00–22:00</span>
+                        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-700"><i class="fa-solid fa-moon text-slate-600 text-[11px]"></i> Night 22:00–06:00</span>
+                        <span class="ml-auto text-[11px] text-gray-400 flex items-center gap-1.5"><i class="fa-solid fa-circle-info"></i> Charge rate follows the shift — night pays more.</span>
                     </div>
 
                     <!-- The Grid -->
@@ -346,40 +399,47 @@
         </main>
     </div>
 
-    <!-- Absence Modal (static) -->
+    <!-- Day entry Modal (worked shift + absence) -->
     <div id="absence-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-navy/50 backdrop-blur-sm" onclick="closeAbsence()"></div>
         <div class="relative bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
                 <div>
-                    <h3 class="text-base font-sora font-semibold text-navy">Record absence</h3>
+                    <h3 class="text-base font-sora font-semibold text-navy">Record day</h3>
                     <p id="absence-context" class="text-xs text-gray-500 mt-0.5">Sarah Williams · Tue 9 Jun</p>
                 </div>
-                <button onclick="closeAbsence()" class="w-8 h-8 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-navy transition-colors flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeAbsence()" class="w-8 h-8 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-navy transition-colors flex items-center justify-center" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
             <div class="p-6 space-y-5">
                 <!-- Day status choice -->
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Day status</label>
-                    <div class="grid grid-cols-3 gap-2">
+                    <div class="grid grid-cols-4 gap-2">
                         <label class="cursor-pointer">
-                            <input type="radio" name="absence-status" value="sick" onchange="updateModalPay()" class="peer sr-only" checked>
-                            <div class="rounded-lg border border-gray-200 peer-checked:border-amber-400 peer-checked:bg-amber-50 px-3 py-3 flex flex-col items-center gap-1 text-center transition-colors">
-                                <i class="fa-solid fa-notes-medical text-amber-500"></i>
-                                <span class="text-xs font-semibold text-gray-700">Sick Leave</span>
+                            <input type="radio" name="absence-status" value="worked" onchange="updateModalMode()" class="peer sr-only" checked>
+                            <div class="rounded-lg border border-gray-200 peer-checked:border-emerald-400 peer-checked:bg-emerald-50 px-2 py-3 flex flex-col items-center gap-1 text-center transition-colors">
+                                <i class="fa-solid fa-briefcase text-emerald-500"></i>
+                                <span class="text-xs font-semibold text-gray-700">Worked</span>
                             </div>
                         </label>
                         <label class="cursor-pointer">
-                            <input type="radio" name="absence-status" value="holiday" onchange="updateModalPay()" class="peer sr-only">
-                            <div class="rounded-lg border border-gray-200 peer-checked:border-blue-400 peer-checked:bg-blue-50 px-3 py-3 flex flex-col items-center gap-1 text-center transition-colors">
+                            <input type="radio" name="absence-status" value="sick" onchange="updateModalMode()" class="peer sr-only">
+                            <div class="rounded-lg border border-gray-200 peer-checked:border-amber-400 peer-checked:bg-amber-50 px-2 py-3 flex flex-col items-center gap-1 text-center transition-colors">
+                                <i class="fa-solid fa-notes-medical text-amber-500"></i>
+                                <span class="text-xs font-semibold text-gray-700">Sick</span>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="absence-status" value="holiday" onchange="updateModalMode()" class="peer sr-only">
+                            <div class="rounded-lg border border-gray-200 peer-checked:border-blue-400 peer-checked:bg-blue-50 px-2 py-3 flex flex-col items-center gap-1 text-center transition-colors">
                                 <i class="fa-solid fa-umbrella-beach text-blue-500"></i>
                                 <span class="text-xs font-semibold text-gray-700">Holiday</span>
                             </div>
                         </label>
                         <label class="cursor-pointer">
-                            <input type="radio" name="absence-status" value="noshow" onchange="updateModalPay()" class="peer sr-only">
-                            <div class="rounded-lg border border-gray-200 peer-checked:border-red-400 peer-checked:bg-red-50 px-3 py-3 flex flex-col items-center gap-1 text-center transition-colors">
+                            <input type="radio" name="absence-status" value="noshow" onchange="updateModalMode()" class="peer sr-only">
+                            <div class="rounded-lg border border-gray-200 peer-checked:border-red-400 peer-checked:bg-red-50 px-2 py-3 flex flex-col items-center gap-1 text-center transition-colors">
                                 <i class="fa-solid fa-user-xmark text-red-500"></i>
                                 <span class="text-xs font-semibold text-gray-700">No-show</span>
                             </div>
@@ -387,39 +447,107 @@
                     </div>
                 </div>
 
-                <!-- Reason -->
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Reason</label>
-                    <textarea id="absence-reason" rows="3" class="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue" placeholder="e.g. Called in unwell, expected back Wednesday"></textarea>
-                </div>
-
-                <!-- Pay impact (derived) -->
-                <div class="rounded-lg bg-gray-50 border border-gray-200 px-4 py-3 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Pay impact</p>
-                        <p class="text-[11px] text-gray-400 mt-0.5">Set by your leave policy</p>
+                <!-- WORKED panel: role + shift + hours -->
+                <div id="worked-panel" class="space-y-4">
+                    <!-- Role for this shift (TS-039 role × shift) -->
+                    <div id="role-block">
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Role for this shift</label>
+                            <span id="role-changed-pill" class="hidden inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple/10 text-purple border border-purple/20"><i class="fa-solid fa-right-left text-[9px]"></i> Role changed</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="relative flex-1">
+                                <select id="role-select" onchange="pickRole(this.value)" disabled class="appearance-none block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg text-sm font-medium bg-gray-100 text-gray-500 cursor-not-allowed disabled:cursor-not-allowed focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue transition-colors"></select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400"><i class="fa-solid fa-chevron-down text-xs"></i></div>
+                            </div>
+                            <button type="button" id="role-change-btn" onclick="enableRoleChange()" class="px-3 py-2 bg-white border border-blue/40 text-blue rounded-lg text-sm font-medium hover:bg-blue/5 transition-colors flex items-center gap-1.5 shrink-0" title="Change the role worked for this shift only">
+                                <i class="fa-solid fa-right-left text-xs"></i> Change role
+                            </button>
+                            <button type="button" id="role-reset" onclick="resetRole()" class="hidden px-3 py-2 bg-white border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors items-center gap-1.5 shrink-0" title="Revert to the worker's assigned role">
+                                <i class="fa-solid fa-rotate-left text-xs"></i> Reset
+                            </button>
+                        </div>
+                        <p id="role-note" class="text-[11px] text-gray-400 mt-2 flex items-center gap-1.5"><i class="fa-solid fa-circle-info"></i> This worker's assigned role. Pay &amp; charge rate follow the role selected.</p>
+                        <div id="role-changed-note" class="hidden mt-2 rounded-lg border border-purple/30 bg-purple/5 px-3 py-2 text-[11px] text-purple flex items-start gap-1.5">
+                            <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
+                            <span>Covering <span id="role-new-name" class="font-bold"></span> for this shift only (assigned role: <span id="role-assigned-name" class="font-semibold"></span>). This day's rate uses the <span id="role-new-name2" class="font-semibold"></span> rate card.</span>
+                        </div>
+                        <div id="role-viewonly-note" class="hidden mt-2 text-[11px] text-gray-400 flex items-center gap-1.5"><i class="fa-solid fa-lock"></i> Only Abstract and the client can change a worker's role. This section is read-only for you.</div>
                     </div>
-                    <span id="modal-pay-pill" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        <i class="fa-solid fa-sterling-sign text-[10px]"></i> Paid
-                    </span>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Shift attended</label>
+                        <div id="shift-choices" class="grid grid-cols-3 gap-2"></div>
+                        <p class="text-[11px] text-gray-400 mt-2 flex items-center gap-1.5"><i class="fa-solid fa-circle-info"></i> Charge rate follows the shift. Defaults to this candidate's last shift this week.</p>
+                    </div>
+                    <div class="flex items-end gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Hours worked</label>
+                            <input id="worked-hours" type="number" step="0.5" min="0" class="w-28 rounded-lg border border-gray-300 px-3 py-2 text-sm font-bold text-navy focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue">
+                        </div>
+                        <div class="flex-1 rounded-lg bg-gray-50 border border-gray-200 px-3 py-2">
+                            <p class="text-[11px] text-gray-500">Est. day charge <span class="text-gray-400">(charge rate only)</span></p>
+                            <p id="worked-charge" class="text-sm font-bold text-purple font-sora">£0.00</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Request agency confirmation -->
-                <div class="rounded-lg border border-amber-200 bg-amber-50/60 px-4 py-3">
-                    <label class="flex items-start gap-3 cursor-pointer">
-                        <input type="checkbox" id="absence-confirm" class="custom-checkbox mt-0.5 w-4 h-4 rounded border-gray-300 text-blue focus:ring-blue cursor-pointer appearance-none border bg-white shrink-0">
-                        <span>
-                            <span class="text-sm font-semibold text-navy">Request agency confirmation</span>
-                            <span class="block text-xs text-gray-500 mt-0.5">The supplying agency will be asked to justify this absence. This does not delay your timesheet.</span>
+                <!-- ABSENCE panel: reason + pay + agency confirm -->
+                <div id="absence-panel" class="space-y-5 hidden">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Reason</label>
+                        <textarea id="absence-reason" rows="3" class="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue" placeholder="e.g. Called in unwell, expected back Wednesday"></textarea>
+                    </div>
+
+                    <div class="rounded-lg bg-gray-50 border border-gray-200 px-4 py-3 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Pay impact</p>
+                            <p class="text-[11px] text-gray-400 mt-0.5">Set by your leave policy</p>
+                        </div>
+                        <span id="modal-pay-pill" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <i class="fa-solid fa-sterling-sign text-[10px]"></i> Paid
                         </span>
-                    </label>
-                    <p class="text-[11px] text-gray-400 mt-2 flex items-center gap-1.5 pl-7"><i class="fa-solid fa-circle-info"></i> This option is hidden for workers supplied directly by Abstract, as there is no agency to confirm.</p>
+                    </div>
+
+                    <div class="rounded-lg border border-amber-200 bg-amber-50/60 px-4 py-3">
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" id="absence-confirm" class="custom-checkbox mt-0.5 w-4 h-4 rounded border-gray-300 text-blue focus:ring-blue cursor-pointer appearance-none border bg-white shrink-0">
+                            <span>
+                                <span class="text-sm font-semibold text-navy">Request agency confirmation</span>
+                                <span class="block text-xs text-gray-500 mt-0.5">The supplying agency will be asked to justify this absence. This does not delay your timesheet.</span>
+                            </span>
+                        </label>
+                        <p class="text-[11px] text-gray-400 mt-2 flex items-center gap-1.5 pl-7"><i class="fa-solid fa-circle-info"></i> This option is hidden for workers supplied directly by Abstract, as there is no agency to confirm.</p>
+                    </div>
                 </div>
             </div>
 
+            <div class="flex items-center justify-between gap-3 px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <button onclick="markNotBooked()" class="px-3 py-2 text-gray-500 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors flex items-center gap-1.5" title="Clear this day — worker was not scheduled"><i class="fa-solid fa-minus text-xs"></i> Not booked</button>
+                <div class="flex items-center gap-3">
+                    <button onclick="closeAbsence()" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors">Cancel</button>
+                    <button onclick="saveAbsence()" class="px-5 py-2 bg-blue text-white rounded-md text-sm font-semibold hover:bg-navy transition-colors shadow-sm">Save day</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shift Picker Modal (for Fill week / Fill all) -->
+    <div id="shift-picker-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-navy/50 backdrop-blur-sm" onclick="closeShiftPicker()"></div>
+        <div class="relative bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-md">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                <div>
+                    <h3 class="text-base font-sora font-semibold text-navy">Choose shift to fill</h3>
+                    <p id="picker-context" class="text-xs text-gray-500 mt-0.5">Applies to all scheduled working days</p>
+                </div>
+                <button onclick="closeShiftPicker()" class="w-8 h-8 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-navy transition-colors flex items-center justify-center" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6">
+                <div id="picker-choices" class="grid grid-cols-1 gap-2.5"></div>
+            </div>
             <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-200 bg-gray-50">
-                <button onclick="closeAbsence()" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors">Cancel</button>
-                <button onclick="saveAbsence()" class="px-5 py-2 bg-blue text-white rounded-md text-sm font-semibold hover:bg-navy transition-colors shadow-sm">Save absence</button>
+                <button onclick="closeShiftPicker()" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors">Cancel</button>
+                <button onclick="applyShiftPicker()" class="px-5 py-2 bg-blue text-white rounded-md text-sm font-semibold hover:bg-navy transition-colors shadow-sm">Fill days</button>
             </div>
         </div>
     </div>
@@ -444,34 +572,96 @@
     </div>
 
     <script>
-        // ---- Data model (Draft week — fully editable) ----
+        // ---- Config ----
         const DAYS  = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
         const DATES = ['8 Jun','9 Jun','10 Jun','11 Jun','12 Jun','13 Jun','14 Jun'];
-        const wk = h => ({status:'worked', hours:h});
+
+        // Shift library (client-scoped — configured at onboarding). Charge rate follows the shift
+        // via a per-role multiplier; night pays more. Client sees charge rates only.
+        const SHIFTS = {
+          morning:   {label:'Morning',   time:'06:00–14:00', short:'06–14', hours:8, icon:'fa-sun', mult:1.00,
+                      theme:'shift-morning', iconCls:'text-amber-500', tileTxt:'text-slate-800', tileSub:'text-slate-700', tileRate:'text-blue-900', tileRateBg:'bg-white/70',
+                      cellTheme:'cell-morning', cellBorder:'border-sky-200', cellTxt:'text-slate-800', cellSub:'text-sky-700'},
+          afternoon: {label:'Afternoon', time:'14:00–22:00', short:'14–22', hours:8, icon:'fa-cloud-sun', mult:1.08,
+                      theme:'shift-afternoon', iconCls:'text-amber-500', tileTxt:'text-slate-800', tileSub:'text-slate-700', tileRate:'text-blue-900', tileRateBg:'bg-white/70',
+                      cellTheme:'cell-afternoon', cellBorder:'border-sky-200', cellTxt:'text-slate-800', cellSub:'text-amber-700'},
+          night:     {label:'Night',     time:'22:00–06:00', short:'22–06', hours:8, icon:'fa-moon', mult:1.20,
+                      theme:'shift-night', iconCls:'text-slate-100', tileTxt:'text-white', tileSub:'text-slate-300', tileRate:'text-amber-100', tileRateBg:'bg-white/15',
+                      cellTheme:'cell-night', cellBorder:'border-slate-700', cellTxt:'text-white', cellSub:'text-slate-300'},
+        };
+        const SHIFT_ORDER = ['morning','afternoon','night'];
+
+        // ---- Viewer role (segregation) ----
+        // Only the Abstract admin and the client may change a worker's role for a shift.
+        // The agency admin sees timesheets read-only — that is enforced in the agency portal
+        // (../agency login/22-…Timesheets.html). This is the client portal, so role editing is on.
+        const VIEWER = 'client';                                  // 'client' | 'admin' | 'agency'
+        const CAN_EDIT_ROLE = (VIEWER === 'client' || VIEWER === 'admin');
+
+        // ---- Role rate card (role × shift resolves the rate; charge = role base × shift multiplier) ----
+        // Client sees charge rates only (RT-015 / TS-038). A worker occasionally covers a different role
+        // for a single shift (e.g. a Warehouse Operative stands in as an FLT Driver) — the day's rate then
+        // follows the covering role's rate card, not the worker's assigned role.
+        const ROLES = {
+          warehouse: {label:'Warehouse Operative', base:16.50},
+          flt:       {label:'FLT Driver',          base:18.50},
+          forklift:  {label:'Forklift Operative',  base:16.50},
+          picker:    {label:'Picker/Packer',       base:16.00},
+          cleaner:   {label:'Cleaner',             base:15.00},
+        };
+        const ROLE_ORDER = ['warehouse','flt','forklift','picker','cleaner'];
+
+        const wk  = (h, shift) => ({status:'worked', hours:h, shift:shift||'morning'});
+        const wkr = (h, shift, role) => ({status:'worked', hours:h, shift:shift||'morning', role}); // worked, covering a different role
         const nb = () => ({status:'notbooked'});
         const ab = (status, pay, confirm) => ({status, pay, confirm, reason:''});
 
+        // Each candidate has an assigned roleKey + business unit. A day may carry a `role` override
+        // (the role actually worked that shift); the rate is resolved from the day's role when present.
         const cands = [
-          {id:'mj', name:'Marcus Johnson', initials:'MJ', avatar:'bg-navy text-white',   role:'Warehouse Operative · North Hub',        rate:16.50, shift:8,   workDays:[0,1,2,3,4],
-            days:[wk(8),wk(8),wk(8),wk(8),wk(8),nb(),nb()]},
-          {id:'sw', name:'Sarah Williams', initials:'SW', avatar:'bg-purple/20 text-purple', role:'FLT Driver · Midlands Distribution',   rate:16.50, shift:8,   workDays:[0,1,2,3,4],
-            days:[wk(8),ab('sick','Paid','Awaiting agency'),wk(8),wk(8),wk(8),nb(),nb()]},
-          {id:'dp', name:'David Patel', initials:'DP', avatar:'bg-navy text-white',       role:'Picker/Packer · North Hub',              rate:16.00, shift:7.5, workDays:[0,1,2,3,4],
-            days:[wk(7.5),wk(7.5),wk(7.5),wk(7.5),ab('holiday','Paid',null),nb(),nb()]},
-          {id:'ak', name:'Aisha Khan', initials:'AK', avatar:'bg-navy text-white',        role:'Warehouse Operative · South Depot',      rate:16.00, shift:8,   workDays:[0,1,2,3,4],
-            days:[wk(8),wk(8),ab('noshow','Unpaid',null),wk(8),wk(8),nb(),nb()]},
-          {id:'tb', name:'Tom Bryant', initials:'TB', avatar:'bg-purple/20 text-purple',  role:'Cleaner · Midlands Distribution',        rate:15.00, shift:6,   workDays:[0,1,2,3,4,5],
-            days:[wk(6),wk(6),wk(6),wk(6),wk(6),wk(6),nb()]},
-          {id:'go', name:'Grace Owusu', initials:'GO', avatar:'bg-navy text-white',       role:'Forklift Operative · North Hub',         rate:16.50, shift:8,   workDays:[0,1,2,3,4],
-            days:[wk(8),wk(8),wk(8),wk(8),wk(8),nb(),nb()]},
+          {id:'mj', name:'Marcus Johnson', initials:'MJ', avatar:'bg-navy text-white',   roleKey:'warehouse', bu:'North Hub',              hrs:8,   defShift:'morning',   workDays:[0,1,2,3,4],
+            days:[wk(8,'morning'),wk(8,'morning'),wkr(8,'morning','flt'),wk(8,'morning'),wk(8,'morning'),nb(),nb()]},
+          {id:'sw', name:'Sarah Williams', initials:'SW', avatar:'bg-purple/20 text-purple', roleKey:'flt', bu:'Midlands Distribution',    hrs:8,   defShift:'afternoon', workDays:[0,1,2,3,4],
+            days:[wk(8,'afternoon'),ab('sick','Paid','Awaiting agency'),wk(8,'afternoon'),wk(8,'afternoon'),wk(8,'afternoon'),nb(),nb()]},
+          {id:'dp', name:'David Patel', initials:'DP', avatar:'bg-navy text-white',       roleKey:'picker', bu:'North Hub',                 hrs:7.5, defShift:'morning',   workDays:[0,1,2,3,4],
+            days:[wk(7.5,'morning'),wk(7.5,'morning'),wk(7.5,'morning'),wk(7.5,'morning'),ab('holiday','Paid',null),nb(),nb()]},
+          {id:'ak', name:'Aisha Khan', initials:'AK', avatar:'bg-navy text-white',        roleKey:'warehouse', bu:'South Depot',           hrs:8,   defShift:'night',     workDays:[0,1,2,3,4],
+            days:[wk(8,'night'),wk(8,'night'),ab('noshow','Unpaid',null),wk(8,'night'),wk(8,'night'),nb(),nb()]},
+          {id:'tb', name:'Tom Bryant', initials:'TB', avatar:'bg-purple/20 text-purple',  roleKey:'cleaner', bu:'Midlands Distribution',   hrs:6,   defShift:'morning',   workDays:[0,1,2,3,4,5],
+            days:[wk(6,'morning'),wk(6,'morning'),wk(6,'morning'),wk(6,'morning'),wk(6,'morning'),wk(6,'morning'),nb()]},
+          {id:'go', name:'Grace Owusu', initials:'GO', avatar:'bg-navy text-white',       roleKey:'forklift', bu:'North Hub',              hrs:8,   defShift:'night',     workDays:[0,1,2,3,4],
+            days:[wk(8,'night'),wk(8,'night'),wk(8,'night'),wk(8,'night'),wk(8,'night'),nb(),nb()]},
         ];
 
-        let editing = null;      // {cid, d}
-        let modalTarget = null;  // {cid, d} for absence modal
+        // ---- Booking-change approval requests (agency-requested future unbookings) ----
+        const approvals = [
+          {id:'ap1', cand:'Grace Owusu', initials:'GO', avatar:'bg-navy text-white', role:'Forklift Operative · North Hub', agency:'Prime Staffing', day:'Thu 11 Jun', reason:'Candidate requested the day off for a family commitment — we can cover Friday instead.', state:'pending'},
+          {id:'ap2', cand:'Aisha Khan', initials:'AK', avatar:'bg-navy text-white', role:'Warehouse Operative · South Depot', agency:'Blue Arrow', day:'Fri 12 Jun', reason:'Re-allocating this worker to another site for the Friday night shift — proposing to un-book.', state:'pending'},
+        ];
+
+        let modalTarget = null;   // {cid, d} for day-entry modal
+        let modalShift  = 'morning';
+        let modalRole   = null;   // role key selected in the day-entry modal
+        let roleEditing = false;  // is the role dropdown unlocked for this open modal?
+        let pickerTarget = null;  // candidate id or 'all' for shift-picker
+        let pickerShift  = 'morning';
 
         const money = n => '£' + n.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
         const getCand = id => cands.find(c => c.id === id);
+        const roleKeyFor = (c, override) => override || c.roleKey;             // day's role, else assigned
+        const roleLabel = c => ROLES[c.roleKey].label + ' · ' + c.bu;         // row display
+        const roleBase = (c, roleOverride) => ROLES[roleKeyFor(c, roleOverride)].base;
+        const dayRate = (c, shift, roleOverride) => roleBase(c, roleOverride) * SHIFTS[shift||'morning'].mult;
+        const isRoleChanged = (c, day) => day && day.role && day.role !== c.roleKey;
         const workedHours = c => c.days.reduce((t,x)=> t + (x.status==='worked' ? (x.hours||0) : 0), 0);
+        const workedCharge = c => c.days.reduce((t,x)=> t + (x.status==='worked' ? (x.hours||0)*dayRate(c,x.shift,x.role) : 0), 0);
+
+        // Default shift when marking a new day: last worked day's shift this week, else the candidate's usual, else Morning.
+        function defaultShiftFor(c, d){
+          for(let i=d-1; i>=0; i--){ if(c.days[i].status==='worked') return c.days[i].shift; }
+          for(let i=d+1; i<7; i++){ if(c.days[i].status==='worked') return c.days[i].shift; }
+          return c.defShift || 'morning';
+        }
 
         function payPill(pay){
           if(pay==='Unpaid') return '<span class="inline-flex px-1.5 rounded-full text-[8px] font-bold bg-slate-200 text-slate-600 leading-tight">Unpaid</span>';
@@ -486,30 +676,27 @@
         function cellHtml(c, d){
           const day = c.days[d];
           const wknd = (d>=5) ? ' bg-gray-50/60' : '';
-          // editing state — inline editor
-          if(editing && editing.cid===c.id && editing.d===d){
-            const cur = day.status==='worked' ? day.hours : '';
-            return '<td class="p-1.5 border-b border-gray-100'+wknd+'">'
-              + '<div class="flex flex-col items-center gap-1">'
-              +   '<input id="cell-input" type="number" step="0.5" min="0" value="'+cur+'" '
-              +     'class="w-16 h-8 text-center text-sm font-bold text-navy border-2 border-blue rounded-md focus:outline-none" '
-              +     'onblur="commitHours(this.value)" '
-              +     'onkeydown="if(event.key===\'Enter\'){commitHours(this.value)} else if(event.key===\'Escape\'){cancelEdit()}">'
-              +   '<div class="flex gap-0.5">'
-              +     '<button type="button" title="Sick Leave" onmousedown="event.preventDefault()" onclick="pickStatus(\'sick\')" class="w-5 h-5 rounded text-[9px] font-bold bg-amber-100 text-amber-700 hover:bg-amber-200">S</button>'
-              +     '<button type="button" title="Holiday" onmousedown="event.preventDefault()" onclick="pickStatus(\'holiday\')" class="w-5 h-5 rounded text-[9px] font-bold bg-blue-100 text-blue-700 hover:bg-blue-200">H</button>'
-              +     '<button type="button" title="No-show" onmousedown="event.preventDefault()" onclick="pickStatus(\'noshow\')" class="w-5 h-5 rounded text-[9px] font-bold bg-red-100 text-red-700 hover:bg-red-200">N</button>'
-              +     '<button type="button" title="Not booked" onmousedown="event.preventDefault()" onclick="pickStatus(\'nb\')" class="w-5 h-5 rounded text-[9px] font-bold bg-slate-100 text-slate-500 hover:bg-slate-200">—</button>'
-              +     '<button type="button" title="Apply hours" onmousedown="event.preventDefault()" onclick="commitHours(document.getElementById(\'cell-input\').value)" class="w-5 h-5 rounded text-[9px] bg-emerald-100 text-emerald-700 hover:bg-emerald-200"><i class="fa-solid fa-check"></i></button>'
-              +   '</div>'
-              + '</div></td>';
-          }
-          const open = 'onclick="editCell(\''+c.id+'\','+d+')"';
+          const open = 'onclick="openDay(\''+c.id+'\','+d+')"';
           if(day.status==='worked'){
-            return '<td class="p-1.5 border-b border-gray-100'+wknd+'">'
-              + '<button '+open+' class="w-full h-14 rounded-lg border border-emerald-200 bg-white hover:bg-emerald-50 flex flex-col items-center justify-center transition-colors">'
-              + '<span class="text-sm font-bold text-emerald-700 font-sora">'+day.hours.toFixed(1)+'</span>'
-              + '<span class="text-[9px] text-emerald-600 uppercase tracking-wide">Worked</span></button></td>';
+            const s = SHIFTS[day.shift||'morning'];
+            const changed = isRoleChanged(c, day);
+            const ring = changed ? ' ring-2 ring-purple ring-offset-1' : '';
+            const title = changed
+              ? ROLES[day.role].label+' (covering — assigned role: '+ROLES[c.roleKey].label+') · '+s.label+' '+s.time
+              : s.label+' shift · '+s.time;
+            const badge = changed
+              ? '<span class="absolute -top-1.5 -right-1.5 z-[4] w-5 h-5 rounded-full bg-purple text-white flex items-center justify-center text-[9px] shadow ring-2 ring-white" title="Role changed for this shift"><i class="fa-solid fa-right-left"></i></span>'
+              : '';
+            const roleTag = changed
+              ? '<span class="text-[8px] font-bold '+s.cellSub+' uppercase tracking-wide leading-none mt-0.5 flex items-center gap-0.5"><i class="fa-solid fa-right-left text-[7px]"></i>'+ROLES[day.role].label.split(' ')[0]+'</span>'
+              : '';
+            return '<td class="relative p-1.5 border-b border-gray-100'+wknd+'">'
+              + badge
+              + '<button '+open+' class="shift-bg w-full h-14 rounded-lg border '+s.cellBorder+' '+s.cellTheme+ring+' flex flex-col items-center justify-center gap-0.5 transition-all hover:brightness-95" title="'+title+'">'
+              + '<span class="text-sm font-bold '+s.cellTxt+' font-sora leading-none">'+day.hours.toFixed(1)+'h</span>'
+              + '<span class="text-[9px] '+s.cellSub+' flex items-center gap-1 leading-none whitespace-nowrap"><i class="fa-solid '+s.icon+' '+s.iconCls+'"></i>'+s.time+'</span>'
+              + roleTag
+              + '</button></td>';
           }
           if(day.status==='notbooked'){
             return '<td class="p-1.5 border-b border-gray-100'+wknd+'">'
@@ -532,7 +719,7 @@
 
         function rowHtml(c){
           let total = workedHours(c);
-          let charge = total * c.rate;
+          let charge = workedCharge(c);
           let cells = '';
           for(let d=0; d<7; d++) cells += cellHtml(c, d);
           return '<tr class="hover:bg-blue/5 transition-colors group">'
@@ -540,57 +727,144 @@
             +   '<div class="flex items-center gap-3">'
             +     '<div class="w-8 h-8 rounded-full '+c.avatar+' flex items-center justify-center text-xs font-bold font-sora shrink-0">'+c.initials+'</div>'
             +     '<div class="min-w-0"><p class="text-sm font-semibold text-navy truncate">'+c.name+'</p>'
-            +       '<p class="text-xs text-gray-500 truncate">'+c.role+'</p></div>'
+            +       '<p class="text-xs text-gray-500 truncate">'+roleLabel(c)+'</p></div>'
             +   '</div></td>'
             + cells
             + '<td class="px-3 py-3 border-b border-gray-100 text-center"><span class="text-base font-bold text-navy font-sora">'+total.toFixed(1)+'</span></td>'
             + '<td class="px-3 py-3 border-b border-gray-100 text-right"><p class="text-sm font-bold text-navy font-sora">'+money(charge)+'</p><p class="text-[9px] text-gray-400 uppercase">Charge</p></td>'
             + '<td class="px-3 py-3 border-b border-gray-100 text-center">'
-            +   '<button onclick="fillWeek(\''+c.id+'\')" class="px-2.5 py-1.5 bg-blue/10 text-blue rounded-md text-xs font-semibold hover:bg-blue hover:text-white transition-colors flex items-center gap-1.5 mx-auto" title="Fill scheduled working days with configured shift hours"><i class="fa-solid fa-bolt text-[10px]"></i> Fill week</button>'
+            +   '<button onclick="openShiftPicker(\''+c.id+'\')" class="px-2.5 py-1.5 bg-blue/10 text-blue rounded-md text-xs font-semibold hover:bg-blue hover:text-white transition-colors flex items-center gap-1.5 mx-auto" title="Choose a shift, then fill scheduled working days"><i class="fa-solid fa-bolt text-[10px]"></i> Fill week</button>'
             + '</td></tr>';
         }
 
         function render(){
           document.getElementById('ts-body').innerHTML = cands.map(rowHtml).join('');
-          let gh=0, gc=0;
-          cands.forEach(c=>{ const h=workedHours(c); gh+=h; gc+=h*c.rate; });
+          let gh=0, gc=0, absDays=0;
+          cands.forEach(c=>{
+            gh += workedHours(c); gc += workedCharge(c);
+            c.days.forEach(x=>{ if(x.status==='sick' || x.status==='holiday') absDays++; });
+          });
           document.getElementById('foot-hours').textContent = gh.toFixed(1);
           document.getElementById('foot-charge').textContent = money(gc);
           document.getElementById('foot-note').textContent = gh.toFixed(1)+' worked hours across '+cands.length+' candidates';
-          if(editing){ const i=document.getElementById('cell-input'); if(i){ i.focus(); i.select(); } }
+          const kpi = document.getElementById('kpi-absence'); if(kpi) kpi.textContent = absDays;
         }
 
-        // ---- Interactions ----
-        function editCell(cid, d){ editing = {cid, d}; render(); }
-        function cancelEdit(){ editing = null; render(); }
-        function commitHours(v){
-          if(!editing) return;
-          const c = getCand(editing.cid);
-          const n = parseFloat(v);
-          c.days[editing.d] = (v==='' || isNaN(n) || n<=0) ? nb() : wk(n);
-          editing = null; render();
-        }
-        function fillWeek(cid){
+        // ---- Day-entry modal ----
+        function openDay(cid, d){
           const c = getCand(cid);
-          for(let d=0; d<7; d++) c.days[d] = c.workDays.includes(d) ? wk(c.shift) : nb();
-          editing = null; render();
-        }
-        function fillAll(){ cands.forEach(c => fillWeek(c.id)); }
-
-        // ---- Absence modal wiring ----
-        function pickStatus(status){
-          if(!editing) return;
-          if(status==='nb'){ getCand(editing.cid).days[editing.d] = nb(); editing=null; render(); return; }
-          modalTarget = {cid:editing.cid, d:editing.d};
-          const c = getCand(editing.cid);
+          modalTarget = {cid, d};
+          const day = c.days[d];
+          let status, shift, hours;
+          if(day.status==='worked'){ status='worked'; shift=day.shift||'morning'; hours=day.hours; }
+          else if(day.status==='notbooked'){ status='worked'; shift=defaultShiftFor(c,d); hours=SHIFTS[shift].hours; }
+          else { status=day.status; shift=defaultShiftFor(c,d); hours=SHIFTS[shift].hours; }
+          modalShift = shift;
+          modalRole = roleKeyFor(c, day.role);   // day's covering role if set, else assigned
+          roleEditing = false;
           const r = document.querySelector('input[name=absence-status][value='+status+']'); if(r) r.checked = true;
-          document.getElementById('absence-reason').value = '';
-          document.getElementById('absence-confirm').checked = false;
-          updateModalPay();
-          document.getElementById('absence-context').textContent = c.name + ' · ' + DAYS[editing.d] + ' ' + DATES[editing.d];
+          document.getElementById('worked-hours').value = hours;
+          document.getElementById('absence-reason').value = (day.reason || '');
+          document.getElementById('absence-confirm').checked = !!day.confirm;
+          renderRoleBlock(c);
+          renderShiftChoices();
+          updateModalMode();
+          document.getElementById('absence-context').textContent = c.name + ' · ' + DAYS[d] + ' ' + DATES[d];
           document.getElementById('absence-modal').classList.remove('hidden');
         }
-        function selectedStatus(){ const el=document.querySelector('input[name=absence-status]:checked'); return el?el.value:'sick'; }
+        function renderShiftChoices(){
+          if(!modalTarget) return;
+          const c = getCand(modalTarget.cid);
+          document.getElementById('shift-choices').innerHTML = SHIFT_ORDER.map(k=>{
+            const s = SHIFTS[k]; const on = (k===modalShift);
+            return '<button type="button" onclick="pickShift(\''+k+'\')" class="shift-bg '+s.theme+' relative rounded-xl px-2 py-3 flex flex-col items-center gap-1 text-center transition-all '
+              + (on ? 'ring-2 ring-offset-2 ring-blue-600 scale-[1.03] shadow-md' : 'opacity-80 hover:opacity-100') + '">'
+              + (on ? '<span class="absolute top-1 right-1 z-[3] w-4 h-4 rounded-full bg-white text-blue-600 flex items-center justify-center text-[9px] shadow"><i class="fa-solid fa-check"></i></span>' : '')
+              + '<i class="fa-solid '+s.icon+' '+s.iconCls+' text-base drop-shadow-sm"></i>'
+              + '<span class="text-xs font-bold '+s.tileTxt+'">'+s.label+'</span>'
+              + '<span class="text-[10px] '+s.tileSub+'">'+s.time+'</span>'
+              + '<span class="text-[10px] font-bold '+s.tileRate+' '+s.tileRateBg+' rounded px-1.5 py-0.5">'+money(dayRate(c,k,modalRole))+'/hr</span>'
+              + '</button>';
+          }).join('');
+        }
+        function pickShift(k){ modalShift = k; renderShiftChoices(); updateWorkedCharge(); }
+
+        // ---- Role for this shift ----
+        function renderRoleBlock(c){
+          const sel = document.getElementById('role-select');
+          sel.innerHTML = ROLE_ORDER.map(k=>{
+            const assigned = (k === c.roleKey);
+            return '<option value="'+k+'"'+(k===modalRole?' selected':'')+'>'
+              + ROLES[k].label + (assigned ? ' (assigned)' : '') + ' — ' + money(ROLES[k].base) + '/hr'
+              + '</option>';
+          }).join('');
+          sel.value = modalRole;
+          applyRoleEditingState(c);
+        }
+        function applyRoleEditingState(c){
+          const sel   = document.getElementById('role-select');
+          const btn   = document.getElementById('role-change-btn');
+          const reset = document.getElementById('role-reset');
+          const unlocked = roleEditing && CAN_EDIT_ROLE;
+          sel.disabled = !unlocked;
+          sel.className = 'appearance-none block w-full pl-3 pr-10 py-2 border rounded-lg text-sm font-medium focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue transition-colors '
+            + (unlocked ? 'border-blue/50 bg-white text-navy cursor-pointer' : 'border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed');
+          // Change button only for users who may edit; hidden once unlocked. Reset shows while unlocked.
+          btn.classList.toggle('hidden', roleEditing || !CAN_EDIT_ROLE);
+          reset.classList.toggle('hidden', !roleEditing);
+          reset.classList.toggle('flex', roleEditing);
+          document.getElementById('role-viewonly-note').classList.toggle('hidden', CAN_EDIT_ROLE);
+          updateRoleChangedNote(c);
+        }
+        function updateRoleChangedNote(c){
+          const changed = (modalRole !== c.roleKey);
+          const note = document.getElementById('role-changed-note');
+          const pill = document.getElementById('role-changed-pill');
+          note.classList.toggle('hidden', !changed);
+          pill.classList.toggle('hidden', !changed);
+          document.getElementById('role-note').classList.toggle('hidden', changed);
+          if(changed){
+            document.getElementById('role-new-name').textContent   = ROLES[modalRole].label;
+            document.getElementById('role-new-name2').textContent  = ROLES[modalRole].label;
+            document.getElementById('role-assigned-name').textContent = ROLES[c.roleKey].label;
+          }
+        }
+        function enableRoleChange(){
+          if(!modalTarget || !CAN_EDIT_ROLE) return;
+          roleEditing = true;
+          applyRoleEditingState(getCand(modalTarget.cid));
+          document.getElementById('role-select').focus();
+        }
+        function pickRole(k){
+          if(!modalTarget) return;
+          modalRole = k;
+          const c = getCand(modalTarget.cid);
+          updateRoleChangedNote(c);
+          renderShiftChoices();   // per-shift rate tiles follow the selected role
+          updateWorkedCharge();
+        }
+        function resetRole(){
+          if(!modalTarget) return;
+          const c = getCand(modalTarget.cid);
+          modalRole = c.roleKey;
+          roleEditing = false;
+          renderRoleBlock(c);
+          renderShiftChoices();
+          updateWorkedCharge();
+        }
+        function selectedStatus(){ const el=document.querySelector('input[name=absence-status]:checked'); return el?el.value:'worked'; }
+        function updateModalMode(){
+          const worked = (selectedStatus()==='worked');
+          document.getElementById('worked-panel').classList.toggle('hidden', !worked);
+          document.getElementById('absence-panel').classList.toggle('hidden', worked);
+          if(worked) updateWorkedCharge(); else updateModalPay();
+        }
+        function updateWorkedCharge(){
+          if(!modalTarget) return;
+          const c = getCand(modalTarget.cid);
+          const h = parseFloat(document.getElementById('worked-hours').value) || 0;
+          document.getElementById('worked-charge').textContent = money(h * dayRate(c, modalShift, modalRole));
+        }
         function updateModalPay(){
           const pay = (selectedStatus()==='noshow') ? 'Unpaid' : 'Paid';
           const pill = document.getElementById('modal-pay-pill');
@@ -603,25 +877,122 @@
             pill.innerHTML = '<i class="fa-solid fa-sterling-sign text-[10px]"></i> Paid';
           }
         }
-        function saveAbsence(){
+        function saveAbsence(){   // saves the whole day (worked or absence)
           if(!modalTarget){ closeAbsence(); return; }
           const c = getCand(modalTarget.cid);
-          const status = selectedStatus();
-          const pay = (status==='noshow') ? 'Unpaid' : 'Paid';
-          const confirmReq = document.getElementById('absence-confirm').checked;
-          c.days[modalTarget.d] = {status, pay, confirm: confirmReq ? 'Awaiting agency' : null, reason: document.getElementById('absence-reason').value};
-          modalTarget = null; editing = null; closeAbsence(); render();
+          const d = modalTarget.d;
+          const st = selectedStatus();
+          if(st==='worked'){
+            let h = parseFloat(document.getElementById('worked-hours').value);
+            if(isNaN(h) || h<=0) h = SHIFTS[modalShift].hours;
+            const roleOverride = (modalRole && modalRole !== c.roleKey) ? modalRole : undefined;
+            c.days[d] = {status:'worked', hours:h, shift:modalShift, role:roleOverride};
+          } else {
+            const pay = (st==='noshow') ? 'Unpaid' : 'Paid';
+            const confirmReq = document.getElementById('absence-confirm').checked;
+            c.days[d] = {status:st, pay, confirm: confirmReq ? 'Awaiting agency' : null, reason: document.getElementById('absence-reason').value};
+          }
+          modalTarget = null; closeAbsence(); render();
+        }
+        function markNotBooked(){
+          if(!modalTarget){ closeAbsence(); return; }
+          getCand(modalTarget.cid).days[modalTarget.d] = nb();
+          modalTarget = null; closeAbsence(); render();
+        }
+
+        // ---- Shift picker (Fill week / Fill all) ----
+        function openShiftPicker(target){
+          pickerTarget = target;
+          pickerShift = (target==='all') ? 'morning' : (getCand(target).defShift || 'morning');
+          document.getElementById('picker-context').textContent = (target==='all')
+            ? 'Applies to every booked candidate’s scheduled working days'
+            : 'Applies to ' + getCand(target).name + '’s scheduled working days';
+          renderPickerChoices();
+          document.getElementById('shift-picker-modal').classList.remove('hidden');
+        }
+        function renderPickerChoices(){
+          document.getElementById('picker-choices').innerHTML = SHIFT_ORDER.map(k=>{
+            const s = SHIFTS[k]; const on = (k===pickerShift);
+            return '<button type="button" onclick="pickPickerShift(\''+k+'\')" class="shift-bg '+s.theme+' relative w-full rounded-xl px-4 py-3 flex items-center gap-3 text-left transition-all '
+              + (on ? 'ring-2 ring-offset-2 ring-blue-600 shadow-md' : 'opacity-80 hover:opacity-100') + '">'
+              + '<i class="fa-solid '+s.icon+' '+s.iconCls+' w-5 text-center text-lg drop-shadow-sm"></i>'
+              + '<div class="flex-1"><p class="text-sm font-bold '+s.tileTxt+'">'+s.label+'</p><p class="text-xs '+s.tileSub+'">'+s.time+' · '+s.hours+'h/day</p></div>'
+              + (on ? '<i class="fa-solid fa-circle-check text-white text-lg drop-shadow"></i>' : '')
+              + '</button>';
+          }).join('');
+        }
+        function pickPickerShift(k){ pickerShift = k; renderPickerChoices(); }
+        function applyShiftPicker(){
+          if(pickerTarget==='all'){ cands.forEach(c=> fillWeek(c.id, pickerShift)); }
+          else { fillWeek(pickerTarget, pickerShift); }
+          closeShiftPicker(); render();
+        }
+        function fillWeek(cid, shift){
+          const c = getCand(cid);
+          const sh = shift || c.defShift || 'morning';
+          for(let d=0; d<7; d++) c.days[d] = c.workDays.includes(d) ? wk(c.hrs, sh) : nb();
+        }
+        function fillAll(){ cands.forEach(c => fillWeek(c.id, c.defShift)); render(); }  // "Copy last week"
+
+        // ---- Booking-change approvals ----
+        function renderApprovals(){
+          const pending = approvals.filter(a=>a.state==='pending');
+          document.getElementById('approvals-count').textContent = pending.length;
+          document.getElementById('approvals-body').innerHTML = approvals.map(approvalCard).join('');
+          document.getElementById('approvals-empty').classList.toggle('hidden', approvals.length>0);
+        }
+        function approvalCard(a){
+          if(a.state!=='pending'){
+            const meta = {
+              approved:{cls:'bg-emerald-50 text-emerald-700 border-emerald-200', icon:'fa-circle-check', lbl:'Approved — day un-booked'},
+              denied:  {cls:'bg-red-50 text-red-700 border-red-200',            icon:'fa-circle-xmark', lbl:'Denied — booking kept'},
+              discuss: {cls:'bg-blue-50 text-blue-700 border-blue-200',          icon:'fa-comments',     lbl:'Flagged to discuss'}
+            }[a.state];
+            return '<div class="px-4 py-3 flex items-center gap-3">'
+              + '<div class="w-9 h-9 rounded-full '+a.avatar+' flex items-center justify-center text-xs font-bold font-sora shrink-0">'+a.initials+'</div>'
+              + '<div class="min-w-0 flex-1"><p class="text-sm font-semibold text-navy truncate">'+a.cand+' <span class="text-gray-400 font-normal">· '+a.day+'</span></p>'
+              +   '<p class="text-xs text-gray-500">'+a.agency+' un-book request</p></div>'
+              + '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border '+meta.cls+'"><i class="fa-solid '+meta.icon+' text-[10px]"></i> '+meta.lbl+'</span>'
+              + '</div>';
+          }
+          return '<div class="px-4 py-3.5">'
+            + '<div class="flex items-start gap-3">'
+            +   '<div class="w-9 h-9 rounded-full '+a.avatar+' flex items-center justify-center text-xs font-bold font-sora shrink-0">'+a.initials+'</div>'
+            +   '<div class="min-w-0 flex-1">'
+            +     '<div class="flex items-center gap-2 flex-wrap"><p class="text-sm font-semibold text-navy">'+a.cand+'</p><span class="text-xs text-gray-400">'+a.role+'</span></div>'
+            +     '<p class="text-xs text-gray-600 mt-0.5"><span class="font-semibold text-amber-700">'+a.agency+'</span> requests to <span class="font-semibold">un-book</span> this candidate on <span class="font-semibold text-navy">'+a.day+'</span>.</p>'
+            +     '<p class="text-xs text-gray-500 mt-1 italic">“'+a.reason+'”</p>'
+            +     '<div class="flex flex-wrap items-center gap-2 mt-3">'
+            +       '<button onclick="decideApproval(\''+a.id+'\',\'approved\')" class="px-3 py-1.5 bg-success text-white rounded-md text-xs font-semibold hover:bg-emerald-700 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-check text-[10px]"></i> Approve</button>'
+            +       '<button onclick="decideApproval(\''+a.id+'\',\'denied\')" class="px-3 py-1.5 bg-white border border-danger/40 text-danger rounded-md text-xs font-semibold hover:bg-danger/5 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-xmark text-[10px]"></i> Deny</button>'
+            +       '<button onclick="decideApproval(\''+a.id+'\',\'discuss\')" class="px-3 py-1.5 bg-white border border-blue/40 text-blue rounded-md text-xs font-semibold hover:bg-blue/5 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-comments text-[10px]"></i> To be discussed</button>'
+            +     '</div>'
+            +   '</div>'
+            + '</div></div>';
+        }
+        function decideApproval(id, decision){
+          const a = approvals.find(x=>x.id===id); if(!a) return;
+          a.state = decision;
+          if(decision==='approved'){   // un-book the affected day in the grid
+            const c = cands.find(x=>x.name===a.cand);
+            const dayIdx = DAYS.indexOf(a.day.split(' ')[0]);
+            if(c && dayIdx>=0) c.days[dayIdx] = nb();
+          }
+          renderApprovals(); render();
         }
 
         // ---- Modals (kept) ----
         function openAbsence(){ document.getElementById('absence-modal').classList.remove('hidden'); }
         function closeAbsence(){ document.getElementById('absence-modal').classList.add('hidden'); }
+        function closeShiftPicker(){ document.getElementById('shift-picker-modal').classList.add('hidden'); }
         function openReturnDraft(){ document.getElementById('return-draft-modal').classList.remove('hidden'); }
         function closeReturnDraft(){ document.getElementById('return-draft-modal').classList.add('hidden'); }
         function shiftWeek(dir){ /* static mockup — week navigation is illustrative */ }
-        document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ cancelEdit(); closeAbsence(); closeReturnDraft(); } });
+        document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ closeAbsence(); closeShiftPicker(); closeReturnDraft(); } });
 
+        document.getElementById('worked-hours').addEventListener('input', updateWorkedCharge);
         render();
+        renderApprovals();
     </script>
 
 </body>

@@ -1,0 +1,23 @@
+# Client Portal mockups — current state
+
+Static HTML UX-flow prototype for the VMS **Client** portal (13 screens: Dashboard, Business Units,
+Users & Permissions, Vacancies, Vacancy Details, Bookings, Timesheets, Invoices, Reports,
+Candidate Directory, Sign In, Notifications). Each `.html` is openable directly; navigation between them via `href` links
+is the demonstrated flow (see `FLOWS.md`).
+
+## Next Steps
+
+- Run `node scripts/check-flow.mjs` to regenerate `FLOWS.md` and see the journey + any dead links/orphans.
+- When adding/editing a screen: use `/new-screen`, wire it into the flow (link to and from it), then note it here.
+
+## Log
+
+- 2026-07-31 — Added the AI UX-flow kit (CLAUDE.md/AGENTS.md, `scripts/check-flow.mjs`, design skills, `FLOWS.md`). No screens changed.
+- 2026-07-31 — **Shift-aware timesheets + booking-change approval loop** (spans 3 portals; see `DECISIONS.md`):
+  - **client** `7-…Timesheets.html`: introduced a **Shift** concept (Morning/Afternoon/Night, each with a per-role charge rate; night pays more). Day cells now show the shift (sun/cloud-sun/moon icon + time; **night = dark cell**). The cell click opens a **day-entry modal** with a shift selector (defaults to the candidate's last shift this week, else Morning) + hours; **Fill week / Fill all** now open a **shift picker** first. Swapped the "Exceptions/Flags" KPI for **"Sick Leave / Holiday this week"**. Added a **Booking-change approvals** panel (Approve / Deny / To-be-discussed) for agency-requested future un-bookings; header bell now links to Notifications.
+  - **client** `12-…Notifications.html` (**new**): booking-change approval requests + absence-justification updates; header bell wired to it across screens 1–10.
+  - **agency (`../agency login`)** `22-…Timesheets.html` (**new**): agency view of client-entered timesheets (read-only hours, pay gated to "after invoice cycle"), **per-day book/unbook**, un-booking a **future engaged day → "Pending client approval"**, and inline **Justify absence** (Requested→Justified). Added a **Timesheets** sidebar link across all agency screens; extended `18-…Notifications.html` with client-response cards.
+  - **admin (`../abstract admin`)** `10-…Client Wee.html`: day grid now shows the **shift** (night dark) + a **Booking-change approvals** monitor strip and stat card. `21-…Onboard Client.html` Step 4 rebuilt as **"Shifts & rate cards"** — shift definitions + a **role × shift pay/charge matrix**.
+  - Also updated the shared BRD (`../BRD-VMS-v3-Complete.md`, **v4.3**): RT-015 shift-based rates, §7.6.7 shift selection (TS-037–041), §7.6.8 agency scheduling & client-approval loop (TS-042–048), BK-018.
+- 2026-08-06 — **Per-shift role change on timesheets** (`7-…Timesheets.html`). A *Worked* day can now be recorded against a **different role** than the worker's assigned one (e.g. a Warehouse Operative covering as an FLT Driver) — the shift's charge follows the covered role via a **role × shift** rate card (`ROLES`, replacing the flat per-candidate `base`). The day-entry modal gained a **"Role for this shift"** block: the assigned role shows in a **disabled dropdown** with a **Change role** button that unlocks it (→ **Reset**); shift tiles + est. day charge re-price live, and a purple "Role changed" note explains the cover. Grid cells with a changed role are **highlighted** (purple ring + swap badge + short role name) with a new legend entry. Editing is gated to **Abstract admin + client** (`VIEWER`/`CAN_EDIT_ROLE`); the agency admin is view-only. Seeded Marcus Johnson's Wednesday as an FLT cover to demo it. See `DECISIONS.md` (2026-08-06). **Propagated cross-portal:** the Abstract-admin drill-down grid (`../abstract admin/10-…Client Wee.html`) is now editable with per-role charge+pay and a "Mixed · role change" summary; the agency view (`../agency login/22-…Timesheets.html`) shows the role-change highlight read-only. Shared docs updated: BRD **v4.4** (TS-049–051) and `../DESIGN-SPEC-v4.md` §6.5.
+- 2026-07-31 — **Time-of-day shift styling.** Gave the shift tiles/cells real time-of-day backgrounds via CSS gradients (`.shift-morning/.afternoon/.night` bold tiles + `.cell-*` subtle grid variants): morning = sky-blue with a rising sun, afternoon = brighter warm daylight, **night = deep-navy with stars + a glowing moon**. Applied to the client day-entry **shift selector** and **Fill-week picker** tiles + grid worked cells (`7-…Timesheets.html`), the agency grid cells (`22-…Timesheets.html`), and the admin oversight worked-card header banners (`10-…Client Wee.html`).

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#F3F4F6]">
+<head>
+    <script>
+        window.FontAwesomeConfig = { autoReplaceSvg: 'nest' };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Abstractvms Client Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sora: ['Sora', 'sans-serif'],
+                        manrope: ['Manrope', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: '#172554',
+                        blue: '#1D4ED8',
+                        purple: '#5B2E91',
+                        lightgrey: '#F3F4F6',
+                        success: '#16A34A',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Sora', sans-serif; }
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800 flex bg-[#F3F4F6]">
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="w-64 bg-navy h-screen flex-shrink-0 flex flex-col border-r border-navy/20">
+        <div class="h-16 flex items-center px-6 border-b border-white/10 shrink-0">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded bg-blue flex items-center justify-center text-white font-sora font-bold text-xl">A</div>
+                <span class="text-xl font-sora font-bold text-white tracking-tight">Abstract<span class="text-blue-300">vms</span></span>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-6 px-3">
+            <nav class="space-y-1">
+                <a href="1-Abstractvms - Dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-chart-pie w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Dashboard</span>
+                </a>
+                <a href="2-Abstractvms - Business Units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-building w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Business Units</span>
+                </a>
+                <a href="3-Abstractvms - Users & Permissi.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-users-gear w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Users & Permissions</span>
+                </a>
+                <div class="pt-4 pb-1">
+                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Recruitment</p>
+                </div>
+                <a href="4-Abstractvms - Vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-briefcase w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Vacancies</span>
+                </a>
+                <a href="6-Abstractvms - Bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-clipboard-list w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Bookings</span>
+                </a>
+                <a href="10-Abstractvms - Candidate Direct.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-address-card w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Candidate Directory</span>
+                </a>
+                <div class="pt-4 pb-1">
+                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Finance</p>
+                </div>
+                <a href="7-Abstractvms - Timesheets.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-clock w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Timesheets</span>
+                </a>
+                <a href="8-Abstractvms - Invoices.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-file-invoice-dollar w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Invoices</span>
+                </a>
+                <div class="pt-4 pb-1">
+                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Analytics</p>
+                </div>
+                <a href="9-Abstractvms - Reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-chart-line w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Reports</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="border-t border-white/10 p-4 shrink-0">
+            <div class="flex items-center gap-3 w-full">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="User Avatar" class="h-9 w-9 rounded-full object-cover border border-gray-600">
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-white truncate font-sora">Sarah Jenkins</p>
+                    <p class="text-xs text-gray-400 truncate">Client Admin</p>
+                </div>
+                <a href="11-Abstractvms - Sign In.html" class="text-gray-400 hover:text-white transition-colors" title="Sign Out">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+
+        <!-- Header -->
+        <header id="header" class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 shrink-0 shadow-sm z-10">
+            <div class="flex items-center gap-4">
+                <h1 class="text-xl font-sora font-semibold text-navy">Notifications</h1>
+                <span id="unread-chip" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-danger/10 text-danger border border-danger/20">5 unread</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="markAllRead()" class="px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-check-double text-gray-400 text-xs"></i> Mark all as read
+                </button>
+                <a href="7-Abstractvms - Timesheets.html" class="px-4 py-2 bg-blue text-white rounded-md text-sm font-semibold hover:bg-navy transition-colors shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-clock text-xs"></i> Go to Timesheets
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Content -->
+        <main id="main-content" class="flex-1 overflow-y-auto p-6 bg-[#F3F4F6]">
+            <div class="max-w-3xl mx-auto space-y-5">
+
+                <!-- Filter tabs -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="setTab('all', this)" class="tab-btn px-3.5 py-1.5 rounded-full text-sm font-semibold bg-navy text-white transition-colors">All</button>
+                    <button onclick="setTab('unread', this)" class="tab-btn px-3.5 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:border-blue/40 transition-colors">Unread (5)</button>
+                    <button onclick="setTab('booking', this)" class="tab-btn px-3.5 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:border-blue/40 transition-colors"><i class="fa-solid fa-calendar-xmark text-amber-500 mr-1"></i> Booking changes</button>
+                    <button onclick="setTab('absence', this)" class="tab-btn px-3.5 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:border-blue/40 transition-colors"><i class="fa-solid fa-notes-medical text-amber-500 mr-1"></i> Absences</button>
+                </div>
+
+                <!-- Approval action banner -->
+                <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-exclamation text-amber-600"></i>
+                    <p class="text-sm text-amber-800 font-medium"><span id="pending-count" class="font-bold">2</span> booking-change requests need your decision. Approve, deny, or flag to discuss below.</p>
+                </div>
+
+                <!-- Notification list -->
+                <div id="notif-list" class="space-y-3"></div>
+
+                <div id="notif-empty" class="hidden bg-white rounded-xl border border-gray-200 px-4 py-10 text-center text-sm text-gray-400">
+                    <i class="fa-solid fa-inbox text-2xl text-gray-300 mb-2 block"></i> Nothing here right now.
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ---- Notification data ----
+        const notifs = [
+          {id:'n1', type:'booking', unread:true, when:'12m ago', group:'Today',
+            cand:'Grace Owusu', initials:'GO', avatar:'bg-navy text-white', role:'Forklift Operative · North Hub',
+            agency:'Prime Staffing', day:'Thu 11 Jun',
+            body:'requests to un-book this candidate on', reason:'Candidate requested the day off for a family commitment — we can cover Friday instead.', state:'pending'},
+          {id:'n2', type:'booking', unread:true, when:'40m ago', group:'Today',
+            cand:'Aisha Khan', initials:'AK', avatar:'bg-navy text-white', role:'Warehouse Operative · South Depot',
+            agency:'Blue Arrow', day:'Fri 12 Jun',
+            body:'requests to un-book this candidate on', reason:'Re-allocating this worker to another site for the Friday night shift — proposing to un-book.', state:'pending'},
+          {id:'n3', type:'absence', unread:true, when:'2h ago', group:'Today',
+            cand:'Sarah Williams', initials:'SW', avatar:'bg-purple/20 text-purple', role:'FLT Driver · Midlands Distribution',
+            agency:'Meridian Recruitment', day:'Tue 9 Jun', status:'Sick Leave',
+            justified:'Justification (Meridian Recruitment): “Worker provided a GP fit note; expected back Wednesday.”'},
+          {id:'n4', type:'absence', unread:true, when:'Yesterday 16:20', group:'Earlier',
+            cand:'Aisha Khan', initials:'AK', avatar:'bg-navy text-white', role:'Warehouse Operative · South Depot',
+            agency:'Blue Arrow', day:'Wed 10 Jun', status:'No-show', awaiting:true},
+          {id:'n5', type:'system', unread:true, when:'Yesterday 09:00', group:'Earlier',
+            title:'Timesheet submission deadline', body:'Week 24 (Mon 8 – Sun 14 Jun) is due by Sunday 23:59. 14 timesheets are still awaiting your approval.'},
+        ];
+
+        let activeTab = 'all';
+
+        function statusPill(status){
+          const m = {
+            'Sick Leave':{cls:'bg-amber-50 text-amber-700 border-amber-200', icon:'fa-notes-medical'},
+            'Holiday':{cls:'bg-blue-50 text-blue-700 border-blue-200', icon:'fa-umbrella-beach'},
+            'No-show':{cls:'bg-red-50 text-red-700 border-red-200', icon:'fa-user-xmark'}
+          }[status] || {cls:'bg-slate-50 text-slate-600 border-slate-200', icon:'fa-circle'};
+          return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border '+m.cls+'"><i class="fa-solid '+m.icon+' text-[9px]"></i> '+status+'</span>';
+        }
+
+        function bookingCard(n){
+          const dot = n.unread ? '<span class="absolute top-4 right-4 w-2 h-2 rounded-full bg-danger"></span>' : '';
+          if(n.state!=='pending'){
+            const meta = {
+              approved:{cls:'bg-emerald-50 text-emerald-700 border-emerald-200', icon:'fa-circle-check', lbl:'Approved — day un-booked'},
+              denied:  {cls:'bg-red-50 text-red-700 border-red-200',            icon:'fa-circle-xmark', lbl:'Denied — booking kept'},
+              discuss: {cls:'bg-blue-50 text-blue-700 border-blue-200',          icon:'fa-comments',     lbl:'Flagged to discuss'}
+            }[n.state];
+            return '<div class="relative bg-white rounded-xl border border-gray-200 px-4 py-3.5 flex items-center gap-3">'
+              + '<div class="w-10 h-10 rounded-full '+n.avatar+' flex items-center justify-center text-xs font-bold font-sora shrink-0">'+n.initials+'</div>'
+              + '<div class="min-w-0 flex-1"><p class="text-sm font-semibold text-navy">'+n.cand+' <span class="text-gray-400 font-normal">· '+n.day+'</span></p>'
+              +   '<p class="text-xs text-gray-500">'+n.agency+' un-book request · '+n.when+'</p></div>'
+              + '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border '+meta.cls+'"><i class="fa-solid '+meta.icon+' text-[10px]"></i> '+meta.lbl+'</span>'
+              + '</div>';
+          }
+          return '<div class="relative bg-white rounded-xl border-l-4 border-amber-400 border border-amber-100 px-4 py-3.5">'
+            + dot
+            + '<div class="flex items-start gap-3">'
+            +   '<div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-calendar-xmark"></i></div>'
+            +   '<div class="min-w-0 flex-1">'
+            +     '<div class="flex items-center gap-2 flex-wrap"><h4 class="text-sm font-semibold text-navy">Booking change requested</h4><span class="text-xs text-gray-400">'+n.when+'</span></div>'
+            +     '<p class="text-xs text-gray-600 mt-0.5"><span class="font-semibold text-amber-700">'+n.agency+'</span> '+n.body+' <span class="font-semibold text-navy">'+n.cand+'</span> ('+n.role+') on <span class="font-semibold text-navy">'+n.day+'</span>.</p>'
+            +     '<p class="text-xs text-gray-500 mt-1 italic">“'+n.reason+'”</p>'
+            +     '<div class="flex flex-wrap items-center gap-2 mt-3">'
+            +       '<button onclick="decide(\''+n.id+'\',\'approved\')" class="px-3 py-1.5 bg-success text-white rounded-md text-xs font-semibold hover:bg-emerald-700 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-check text-[10px]"></i> Approve</button>'
+            +       '<button onclick="decide(\''+n.id+'\',\'denied\')" class="px-3 py-1.5 bg-white border border-danger/40 text-danger rounded-md text-xs font-semibold hover:bg-danger/5 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-xmark text-[10px]"></i> Deny</button>'
+            +       '<button onclick="decide(\''+n.id+'\',\'discuss\')" class="px-3 py-1.5 bg-white border border-blue/40 text-blue rounded-md text-xs font-semibold hover:bg-blue/5 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-comments text-[10px]"></i> To be discussed</button>'
+            +     '</div>'
+            +   '</div>'
+            + '</div></div>';
+        }
+
+        function absenceCard(n){
+          const dot = n.unread ? '<span class="absolute top-4 right-4 w-2 h-2 rounded-full bg-danger"></span>' : '';
+          const tail = n.justified
+            ? '<p class="text-xs text-emerald-700 mt-1.5 flex items-start gap-1.5"><i class="fa-solid fa-circle-check mt-0.5"></i><span>'+n.justified+'</span></p>'
+            : (n.awaiting ? '<span class="inline-flex items-center gap-1 mt-2 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200"><i class="fa-solid fa-hourglass-half text-[9px]"></i> Awaiting agency justification</span>' : '');
+          const accent = n.justified ? 'border-emerald-400' : 'border-amber-400';
+          return '<div class="relative bg-white rounded-xl border-l-4 '+accent+' border border-gray-100 px-4 py-3.5">'
+            + dot
+            + '<div class="flex items-start gap-3">'
+            +   '<div class="w-10 h-10 rounded-full '+n.avatar+' flex items-center justify-center text-xs font-bold font-sora shrink-0">'+n.initials+'</div>'
+            +   '<div class="min-w-0 flex-1">'
+            +     '<div class="flex items-center gap-2 flex-wrap"><h4 class="text-sm font-semibold text-navy">Absence update</h4>'+statusPill(n.status)+'<span class="text-xs text-gray-400">'+n.when+'</span></div>'
+            +     '<p class="text-xs text-gray-600 mt-0.5"><span class="font-semibold text-navy">'+n.cand+'</span> ('+n.role+') · '+n.day+' — supplied by <span class="font-semibold">'+n.agency+'</span>.</p>'
+            +     tail
+            +     '<a href="7-Abstractvms - Timesheets.html" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue mt-2 hover:underline">View on timesheet <i class="fa-solid fa-arrow-right text-[10px]"></i></a>'
+            +   '</div>'
+            + '</div></div>';
+        }
+
+        function systemCard(n){
+          const dot = n.unread ? '<span class="absolute top-4 right-4 w-2 h-2 rounded-full bg-danger"></span>' : '';
+          return '<div class="relative bg-white rounded-xl border-l-4 border-blue border border-gray-100 px-4 py-3.5">'
+            + dot
+            + '<div class="flex items-start gap-3">'
+            +   '<div class="w-10 h-10 rounded-full bg-blue/10 text-blue flex items-center justify-center shrink-0"><i class="fa-solid fa-hourglass-half"></i></div>'
+            +   '<div class="min-w-0 flex-1">'
+            +     '<div class="flex items-center gap-2 flex-wrap"><h4 class="text-sm font-semibold text-navy">'+n.title+'</h4><span class="text-xs text-gray-400">'+n.when+'</span></div>'
+            +     '<p class="text-xs text-gray-600 mt-0.5">'+n.body+'</p>'
+            +     '<a href="7-Abstractvms - Timesheets.html" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue mt-2 hover:underline">Open Timesheets <i class="fa-solid fa-arrow-right text-[10px]"></i></a>'
+            +   '</div>'
+            + '</div></div>';
+        }
+
+        function cardFor(n){
+          if(n.type==='booking') return bookingCard(n);
+          if(n.type==='absence') return absenceCard(n);
+          return systemCard(n);
+        }
+
+        function visible(n){
+          if(activeTab==='all') return true;
+          if(activeTab==='unread') return n.unread;
+          if(activeTab==='booking') return n.type==='booking';
+          if(activeTab==='absence') return n.type==='absence';
+          return true;
+        }
+
+        function render(){
+          const list = notifs.filter(visible);
+          const groups = ['Today','Earlier'];
+          let html = '';
+          groups.forEach(g=>{
+            const inG = list.filter(n => (n.group || 'Earlier') === g);
+            if(!inG.length) return;
+            html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-1 pt-1">'+g+'</p>';
+            html += inG.map(cardFor).join('');
+          });
+          document.getElementById('notif-list').innerHTML = html;
+          document.getElementById('notif-empty').classList.toggle('hidden', list.length>0);
+
+          const unread = notifs.filter(n=>n.unread).length;
+          const pending = notifs.filter(n=>n.type==='booking' && n.state==='pending').length;
+          document.getElementById('unread-chip').textContent = unread + ' unread';
+          document.getElementById('pending-count').textContent = pending;
+        }
+
+        function setTab(tab, el){
+          activeTab = tab;
+          document.querySelectorAll('.tab-btn').forEach(b=>{
+            b.className = 'tab-btn px-3.5 py-1.5 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-600 hover:border-blue/40 transition-colors';
+          });
+          el.className = 'tab-btn px-3.5 py-1.5 rounded-full text-sm font-semibold bg-navy text-white transition-colors';
+          render();
+        }
+
+        function decide(id, decision){
+          const n = notifs.find(x=>x.id===id); if(!n) return;
+          n.state = decision; n.unread = false;
+          render();
+        }
+
+        function markAllRead(){
+          notifs.forEach(n=> n.unread = false);
+          render();
+        }
+
+        render();
+    </script>
+
+</body>
+</html>
