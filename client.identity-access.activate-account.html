@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Account · Client Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;} * { scrollbar-width: none; } .tabular { font-variant-numeric: tabular-nums; }</style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { inter: ['Inter', 'sans-serif'], },
+                    colors: {
+                        navy: { DEFAULT: '#172554', 50: '#EEF1FB', 100: '#D4DCF5', 200: '#A9B9EB', 300: '#7E96E1', 400: '#5373D7', 500: '#2850CD', 600: '#1D3FA4', 700: '#162F7B', 800: '#0F1F52', 900: '#172554', },
+                        brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554', }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-inter bg-slate-100 text-slate-600 min-h-screen" data-s1-page data-s1-states="default loading validation expired used deactivated success">
+<div class="flex min-h-screen">
+
+    <!-- Left: the form -->
+    <div class="flex w-full flex-col justify-center px-4 py-10 sm:px-6 lg:flex-none lg:w-1/2 xl:w-5/12 bg-white">
+        <div class="mx-auto w-full max-w-sm lg:w-[400px]">
+            <div class="mb-8 flex items-center justify-between">
+                <img src="logo.png" alt="Abstract VMS" class="h-10 w-auto -ml-[5px] rounded" style="background:#172554;padding:4px 8px">
+                <span class="text-xs font-semibold uppercase tracking-widest text-slate-400">Client Portal</span>
+            </div>
+
+            <!-- Loading: checking the link -->
+            <div data-s1-show="loading" class="flex flex-col gap-4 animate-pulse" aria-busy="true" aria-label="Checking your link">
+                <div class="h-7 w-3/4 bg-slate-200 rounded"></div><div class="h-4 w-full bg-slate-200 rounded"></div>
+                <div class="h-11 w-full bg-slate-200 rounded-lg mt-4"></div><div class="h-11 w-full bg-slate-200 rounded-lg"></div><div class="h-24 w-full bg-slate-200 rounded-lg"></div><div class="h-11 w-full bg-slate-200 rounded-lg"></div>
+                <p class="text-xs text-slate-500 text-center">Checking your link…</p>
+            </div>
+
+            <!-- Form (default / validation) -->
+            <div data-s1-hide="loading expired used deactivated success">
+                <div data-mode="activate"><h1 class="text-2xl font-bold text-slate-900 tracking-tight">Activate your account</h1><p class="text-sm text-slate-600 mt-2 leading-relaxed font-semibold text-slate-800">Welcome to Abstract VMS, Acme Logistics has invited you.</p><p class="text-sm text-slate-600 mt-2 leading-relaxed ">Set a password to finish setting up your account. Nobody else, including your administrator, ever sees it.</p></div>
+                <div data-mode="reset" class="hidden"><h1 class="text-2xl font-bold text-slate-900 tracking-tight">Set a new password</h1><p class="text-sm text-slate-600 mt-2 leading-relaxed ">Choose a new password for your account. This link works for 30 minutes from when it was sent.</p></div>
+
+                <div data-s1-show="validation" class="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 gap-3 items-start" role="alert" data-s1-display="flex">
+                    <i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>
+                    <p>Your password wasn't set. <span id="val-summary">Fix the items marked in red and try again.</span></p>
+                </div>
+
+                <form id="pw-form" class="mt-6 flex flex-col gap-5" novalidate>
+                    <div>
+                        <p class="block text-xs font-semibold text-slate-700 mb-1.5" id="email-l">Email address</p>
+                        <p class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-700 break-all" aria-labelledby="email-l"><i class="fa-regular fa-envelope text-slate-400 text-xs" aria-hidden="true"></i><span id="email">daniel.hughes@acme-logistics.co.uk</span></p>
+                        <p class="text-xs text-slate-500 mt-1.5">This is your sign-in. Only an administrator can change it.</p>
+                    </div>
+
+                    <div>
+                        <label for="new-password" class="block text-xs font-semibold text-slate-700 mb-1.5"><span data-mode="activate">Password</span><span data-mode="reset" class="hidden">New password</span></label>
+                        <div class="relative">
+                            <i class="fa-solid fa-lock text-slate-400 text-xs absolute left-3.5 top-1/2 -translate-y-1/2" aria-hidden="true"></i>
+                            <input type="password" id="new-password" autocomplete="new-password" aria-describedby="policy" class="w-full pl-10 pr-12 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 placeholder-slate-400 outline-none focus:bg-white focus:border-blue-300 focus:ring-2 focus:ring-blue-600/20">
+                            <button type="button" data-eye="new-password" aria-label="Show password" class="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"><i class="fa-regular fa-eye text-sm" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Live policy checklist: rendered from the security policy (SYS-010), not fixed copy -->
+                    <div id="policy" class="bg-slate-50 border border-slate-200 rounded-lg p-4 -mt-2">
+                        <p class="text-xs font-semibold text-slate-700 mb-2">Your password must contain:</p>
+                        <ul id="policy-list" class="text-sm space-y-1.5" aria-live="polite"></ul>
+                    </div>
+
+                    <div>
+                        <label for="confirm-password" class="block text-xs font-semibold text-slate-700 mb-1.5">Confirm password</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-lock text-slate-400 text-xs absolute left-3.5 top-1/2 -translate-y-1/2" aria-hidden="true"></i>
+                            <input type="password" id="confirm-password" autocomplete="new-password" aria-describedby="match-error" class="w-full pl-10 pr-12 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 placeholder-slate-400 outline-none focus:bg-white focus:border-blue-300 focus:ring-2 focus:ring-blue-600/20">
+                            <button type="button" data-eye="confirm-password" aria-label="Show password" class="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"><i class="fa-regular fa-eye text-sm" aria-hidden="true"></i></button>
+                        </div>
+                        <p id="match-error" class="hidden text-xs text-red-600 mt-1.5"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> The passwords don't match.</p>
+                    </div>
+
+                    <button type="submit" id="submit-btn" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold text-white hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-600 w-full py-3" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);">
+                        <i class="fa-solid fa-check text-xs" aria-hidden="true"></i> <span data-mode="activate">Activate account</span><span data-mode="reset" class="hidden">Set new password</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Link expired -->
+
+                <div data-s1-show="expired" class="text-center sm:text-left">
+                    <div class="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center mb-4 mx-auto sm:mx-0"><i class="fa-solid fa-hourglass-end text-lg" aria-hidden="true"></i></div>
+<div data-mode="activate"><h1 class="text-2xl font-bold text-slate-900 tracking-tight">This link has expired</h1><p class="text-sm text-slate-600 mt-2 leading-relaxed ">This activation link has expired. Ask your administrator to send a new one.</p><p class="text-sm text-slate-600 mt-2 leading-relaxed text-xs text-slate-500">Activation links work for 72 hours.</p></div><div data-mode="reset" class="hidden"><h1 class="text-2xl font-bold text-slate-900 tracking-tight">This link has expired</h1><p class="text-sm text-slate-600 mt-2 leading-relaxed ">This password reset link has expired. Reset links work for 30 minutes. Request a new one from the sign-in page with “Forgot password?”.</p><a href="client.identity-access.sign-in.html" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 mt-6 w-full sm:w-auto"><i class="fa-solid fa-right-to-bracket text-xs" aria-hidden="true"></i> Go to sign in</a></div>
+                </div>
+
+            <!-- Link already used -->
+
+                <div data-s1-show="used" class="text-center sm:text-left">
+                    <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mb-4 mx-auto sm:mx-0"><i class="fa-solid fa-link-slash text-lg" aria-hidden="true"></i></div>
+<div data-mode="activate"><h1 class="text-2xl font-bold text-slate-900 tracking-tight">This link has already been used</h1><p class="text-sm text-slate-600 mt-2 leading-relaxed ">Your account is already active. Sign in with your email address and password.</p><p class="text-sm text-slate-600 mt-2 leading-relaxed text-xs text-slate-500">Forgotten your password? Use “Forgot password?” on the sign-in page.</p></div><div data-mode="reset" class="hidden"><h1 class="text-2xl font-bold text-slate-900 tracking-tight">This link has already been used</h1><p class="text-sm text-slate-600 mt-2 leading-relaxed ">Your password has already been changed with this link. Sign in with it, or use “Forgot password?” on the sign-in page to get a new link.</p></div><a href="client.identity-access.sign-in.html" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 mt-6 w-full sm:w-auto"><i class="fa-solid fa-right-to-bracket text-xs" aria-hidden="true"></i> Go to sign in</a>
+                </div>
+
+            <!-- Account deactivated -->
+
+                <div data-s1-show="deactivated" class="text-center sm:text-left">
+                    <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mb-4 mx-auto sm:mx-0"><i class="fa-solid fa-user-slash text-lg" aria-hidden="true"></i></div>
+<div data-mode="activate"><h1 class="text-2xl font-bold text-slate-900 tracking-tight">This account has been deactivated</h1><p class="text-sm text-slate-600 mt-2 leading-relaxed ">An administrator deactivated this account before it was activated, so the link no longer works. Ask your administrator if you need access.</p></div><div data-mode="reset" class="hidden"><h1 class="text-2xl font-bold text-slate-900 tracking-tight">This account has been deactivated</h1><p class="text-sm text-slate-600 mt-2 leading-relaxed ">This account has been deactivated, so its password can’t be changed. Ask your administrator if you need access.</p></div>
+                </div>
+
+            <!-- Success -->
+
+                <div data-s1-show="success" class="text-center sm:text-left" role="status">
+                    <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4 mx-auto sm:mx-0"><i class="fa-solid fa-circle-check text-lg" aria-hidden="true"></i></div>
+<div data-mode="activate"><h1 class="text-2xl font-bold text-slate-900 tracking-tight">Your account is active</h1><p class="text-sm text-slate-600 mt-2 leading-relaxed ">You’re signed in. Taking you to your dashboard…</p><a href="client.shell.dashboard.html" data-s1-home class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold text-white hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-600 mt-6 w-full sm:w-auto" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);"><i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i> Go to your dashboard</a></div><div data-mode="reset" class="hidden"><h1 class="text-2xl font-bold text-slate-900 tracking-tight">Your password has been changed</h1><p class="text-sm text-slate-600 mt-2 leading-relaxed ">Sign in with your new password.</p><a href="client.identity-access.sign-in.html" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold text-white hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-600 mt-6 w-full sm:w-auto" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);"><i class="fa-solid fa-right-to-bracket text-xs" aria-hidden="true"></i> Go to sign in</a></div>
+                </div>
+
+            <p class="mt-12 text-center text-xs text-slate-400"><i class="fa-solid fa-shield-halved text-emerald-600" aria-hidden="true"></i> We never send passwords by email.</p>
+        </div>
+    </div>
+
+    <!-- Right: brand panel -->
+    <div class="relative hidden lg:flex flex-1 flex-col justify-center px-12 xl:px-24 overflow-hidden" style="background:#172554;">
+        <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, #1D4ED8 0%, transparent 70%);" aria-hidden="true"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, #5B2E91 0%, transparent 70%);" aria-hidden="true"></div>
+        <div class="relative max-w-xl text-white">
+            <img src="logo.png" alt="" class="h-16 w-auto mb-10">
+            <p class="text-3xl xl:text-4xl font-bold tracking-tight leading-tight">One place for your contingent workforce.</p>
+            <p class="text-base text-white/70 mt-5 leading-relaxed">Abstract VMS brings your people, roles and permissions together, with every change recorded.</p>
+        </div>
+    </div>
+</div>
+<script>
+/* Security policy (SYS-010): Abstract sets it in System Configuration; the checklist is built from it. */
+var POLICY = [
+  { id: 'len', label: 'at least 10 characters', test: function (v) { return v.length >= 10; } },
+  { id: 'up', label: 'an uppercase letter', test: function (v) { return /[A-Z]/.test(v); } },
+  { id: 'lo', label: 'a lowercase letter', test: function (v) { return /[a-z]/.test(v); } },
+  { id: 'num', label: 'a number', test: function (v) { return /[0-9]/.test(v); } },
+  { id: 'sym', label: 'a symbol, such as ! or #', test: function (v) { return /[^A-Za-z0-9]/.test(v); } }
+];
+var RESET = new URLSearchParams(location.search).get('mode') === 'reset', tried = false, flow = false;
+function $(id) { return document.getElementById(id); }
+function paintPolicy() {
+  var v = $('new-password').value;
+  $('policy-list').innerHTML = POLICY.map(function (r) {
+    var ok = r.test(v), bad = !ok && tried;
+    var cls = ok ? 'text-emerald-700' : (bad ? 'text-red-600' : 'text-slate-500');
+    var ic = ok ? 'fa-circle-check' : 'fa-circle-xmark';
+    return '<li class="flex items-center gap-2 ' + cls + '"><i class="fa-solid ' + ic + ' text-xs w-3 text-center ' + (ok ? '' : (bad ? '' : 'text-slate-300')) + '" aria-hidden="true"></i> ' + r.label + '<span class="sr-only">' + (ok ? ' (met)' : ' (not met)') + '</span></li>';
+  }).join('');
+  var np = $('new-password'), fails = POLICY.some(function (r) { return !r.test(v); }) && tried;
+  np.classList.toggle('border-red-600', fails); np.classList.toggle('border-slate-200', !fails);
+  np.setAttribute('aria-invalid', fails ? 'true' : 'false');
+}
+function paintMatch() {
+  var a = $('new-password').value, b = $('confirm-password').value;
+  var bad = b.length > 0 && a !== b || (tried && !b);
+  $('match-error').classList.toggle('hidden', !bad);
+  $('confirm-password').classList.toggle('border-red-600', bad); $('confirm-password').classList.toggle('border-slate-200', !bad);
+  $('confirm-password').setAttribute('aria-invalid', bad ? 'true' : 'false');
+  return !bad && b.length > 0;
+}
+function valid() { var v = $('new-password').value; return POLICY.every(function (r) { return r.test(v); }) && v === $('confirm-password').value && v.length > 0; }
+
+if (RESET) {
+  document.querySelectorAll('[data-mode="activate"]').forEach(function (e) { e.classList.add('hidden'); });
+  document.querySelectorAll('[data-mode="reset"]').forEach(function (e) { e.classList.remove('hidden'); });
+  $('email').textContent = 'emma.clarke@acme-logistics.co.uk';
+  document.title = 'Set a New Password · Client Portal';
+}
+paintPolicy();
+
+document.addEventListener('s1:ready', function () {
+  $('new-password').addEventListener('input', function () { paintPolicy(); paintMatch(); });
+  $('confirm-password').addEventListener('input', paintMatch);
+  document.querySelectorAll('[data-eye]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var i = $(b.dataset.eye), show = i.type === 'password'; i.type = show ? 'text' : 'password';
+      b.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      b.innerHTML = '<i class="fa-regular ' + (show ? 'fa-eye-slash' : 'fa-eye') + ' text-sm" aria-hidden="true"></i>';
+    });
+  });
+  $('pw-form').addEventListener('submit', function (e) {
+    e.preventDefault(); tried = true; paintPolicy(); var m = paintMatch();
+    if (!valid()) {
+      var policyBad = POLICY.some(function (r) { return !r.test($('new-password').value); });
+      $('val-summary').textContent = policyBad && !m ? 'It doesn\'t meet the password rules yet, and the two passwords don\'t match.' : policyBad ? 'It doesn\'t meet the password rules yet — see the items in red.' : 'The two passwords don\'t match.';
+      S1.setState('validation'); (policyBad ? $('new-password') : $('confirm-password')).focus(); return;
+    }
+    var b = $('submit-btn'); b.disabled = true;
+    b.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xs" aria-hidden="true"></i> ' + (RESET ? 'Saving…' : 'Activating…');
+    setTimeout(function () {
+      flow = true; S1.setState('success');
+      if (!RESET) setTimeout(function () { location.href = S1.home(); }, 2500);
+    }, 1000);
+  });
+});
+document.addEventListener('s1:state', function (e) {
+  if (e.detail.state === 'validation' && !$('new-password').value) {
+    $('new-password').value = 'acme2026'; $('confirm-password').value = 'acme2025'; tried = true;
+    $('val-summary').textContent = 'It doesn\'t meet the password rules yet, and the two passwords don\'t match.';
+  }
+  if (e.detail.state === 'default') { tried = false; }
+  paintPolicy(); paintMatch();
+});
+</script>
+
+<script src="slice1-kit.js"></script>
+</body>
+</html>

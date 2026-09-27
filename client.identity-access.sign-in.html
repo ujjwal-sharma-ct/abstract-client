@@ -43,7 +43,7 @@
         }
     </style>
 </head>
-<body class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800">
+<body class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800" data-s1-page>
 
     <div class="flex min-h-screen">
         
@@ -57,6 +57,7 @@
                 </div>
 
                 <div class="mt-10">
+                    <div id="s1-signout-banner" class="mb-5"></div>
                     <div>
                         <form action="#" method="POST" class="space-y-5">
                             
@@ -81,19 +82,14 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-center justify-between pt-2">
-                                <div class="flex items-center">
-                                    <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue focus:ring-blue">
-                                    <label for="remember-me" class="ml-3 block text-sm leading-6 text-gray-700">Keep me signed in</label>
-                                </div>
-
+                            <div class="flex items-center justify-end pt-2">
                                 <div class="text-sm leading-6">
                                     <a href="#" class="font-medium text-blue hover:text-navy transition-colors duration-200">Forgot password?</a>
                                 </div>
                             </div>
 
                             <div class="pt-2">
-                                <button type="button" onclick="window.location.href='1-Abstractvms - Dashboard.html';" class="flex w-full justify-center rounded-md bg-blue px-3 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue transition-all duration-200">
+                                <button type="button" onclick="window.location.href = (window.S1 ? S1.home() : 'client.shell.dashboard.html');" class="flex w-full justify-center rounded-md bg-blue px-3 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue transition-all duration-200">
                                     Sign in
                                 </button>
                             </div>
@@ -157,5 +153,6 @@
 
     </div>
 
+<script src="slice1-kit.js"></script>
 </body>
 </html>

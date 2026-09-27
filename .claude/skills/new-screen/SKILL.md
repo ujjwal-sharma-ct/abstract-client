@@ -18,12 +18,15 @@ and don't omit what it requires.
 ## 1. Filename convention
 
 ```
-N-<Portal> - <Screen>.html
+<portal>.<module>.<page>.html
 ```
-- `N` = next sequential number (check the current highest in the repo).
-- `<Portal>` = the portal/persona (e.g. `Client`, `Agency`, `Admin`).
-- Example: `12-Client - Vacancy Detail.html`
-- Keep the ` - ` separator (space-hyphen-space) exactly.
+- `<portal>` = `client` in this repo (`abstract` | `agency` | `client` across the three).
+- `<module>` = the feature module the screen belongs to — the first segment of the feature-ledger
+  capability id (`identity-access`, `demand`, `timesheets`, …; `shell` for chrome-only pages). Full list: `../NAMING.md`.
+- `<page>` = kebab-case slug of the screen (`vacancy-detail`, `create-proposal`); a slice-scoped variant
+  of an existing page takes the suffix `-slice-<N>`.
+- Example: `client.demand.vacancy-detail.html`
+- Lower-case, dots between the three segments, hyphens inside a segment, no spaces or numbers.
 
 ## 2. Start from the shared boilerplate
 - Paste the canonical `<head>` from `design-system` (Tailwind config, fonts, Font Awesome, Plotly-if-charting).
@@ -51,7 +54,7 @@ N-<Portal> - <Screen>.html
 - Add a one-line entry to `PROGRESS.md` (what screen, why). `FLOWS.md` is regenerated, not hand-edited.
 
 ## Definition of done
-- [ ] filename follows `N-<Portal> - <Screen>.html`
+- [ ] filename follows `<portal>.<module>.<page>.html` (`../NAMING.md`)
 - [ ] canonical `<head>` + layout shell present
 - [ ] statuses/badges canonical (no forbidden terms)
 - [ ] linked to/from the flow; `node scripts/check-flow.mjs` shows no dead links/orphans

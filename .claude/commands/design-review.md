@@ -36,10 +36,10 @@ A short findings list grouped by screen (flow issues first):
 
 ```
 FLOW
-  ❌ dead link: 5-Abstractvms - Vacancy Details.html → booking-detail.html (no such screen)
-  ⚠️ orphan: 10-Abstractvms - Candidate Directory.html (nothing links here)
+  ❌ dead link: client.demand.vacancy-detail.html → booking-detail.html (no such screen)
+  ⚠️ orphan: client.candidates.candidate-directory.html (nothing links here)
 
-11-Abstractvms - Sign In.html
+client.identity-access.sign-in.html
   ⚠ icon-only button missing aria-label (line 40)
 ```
 

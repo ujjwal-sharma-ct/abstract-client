@@ -28,7 +28,8 @@ Run it whenever you add, remove, or re-link a screen.
 
 ## Adding or changing a screen
 
-1. `/new-screen Client - <Screen name>` (or edit an existing `.html`).
+1. `/new-screen <module> - <Screen name>` (or edit an existing `.html`). Files are named
+   `client.<module>.<page>.html` — see `../NAMING.md` for the module list.
 2. **Wire it into the flow** — link *to* it from where the user arrives, and *from* it to the next steps + a way back. This is the point of the repo.
 3. `node scripts/check-flow.mjs` → confirm no dead links / orphans; `FLOWS.md` updates.
 4. Keep it visually consistent — reuse the shared `<head>` + sidebar/header shell and canonical status badges (the skills show how; `../DESIGN-SPEC-v4.md` is the reference).

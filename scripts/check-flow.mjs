@@ -22,7 +22,9 @@ const check = process.argv.includes('--check')
 const files = readdirSync('.').filter((f) => f.endsWith('.html'))
 const fileSet = new Set(files)
 
-const ENTRY_RE = /^(index|.*sign.?in.*|.*log.?in.*)\.html$/i
+// Entry points: index, sign-in / login, the activation-email landing (reached only from
+// an email link) and the slice 1 screen index.
+const ENTRY_RE = /^(index|.*sign.?in.*|.*log.?in.*|.*activate.?account.*|.*slice.?1.?index.*)\.html$/i
 const isEntry = (f) => ENTRY_RE.test(f)
 
 function titleOf(body, fallback) {
@@ -59,6 +61,8 @@ for (const file of files.sort(byScreenNumber)) {
 
 const orphans = files.filter((f) => !isEntry(f) && (incoming.get(f) ?? 0) === 0).sort(byScreenNumber)
 
+// Screens are named <portal>.<module>.<page>.html (see ../NAMING.md), so the default order
+// is by portal, then feature module, then page; a legacy numeric prefix still sorts first.
 function byScreenNumber(a, b) {
   const na = +(a.match(/^(\d+)/)?.[1] ?? 1e9)
   const nb = +(b.match(/^(\d+)/)?.[1] ?? 1e9)

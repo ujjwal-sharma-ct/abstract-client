@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications · Client Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;} * { scrollbar-width: none; } .tabular { font-variant-numeric: tabular-nums; }</style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { inter: ['Inter', 'sans-serif'], },
+                    colors: {
+                        navy: { DEFAULT: '#172554', 50: '#EEF1FB', 100: '#D4DCF5', 200: '#A9B9EB', 300: '#7E96E1', 400: '#5373D7', 500: '#2850CD', 600: '#1D3FA4', 700: '#162F7B', 800: '#0F1F52', 900: '#172554', },
+                        brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554', }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s1-page data-s1-states="default loading error large">
+
+<div id="app-root" class="flex w-full" style="height: 100vh;">
+
+    <!-- Sidebar (client portal navigation; the kit's slice 1 mode hides later-slice links) -->
+    <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
+        <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
+            <img src="logo.png" alt="Abstract VMS" class="h-12 w-auto block -ml-[5px]"/>
+            <p class="text-white/40 text-sm mt-2">Client Portal</p>
+        </div>
+
+        <nav id="sidebar-nav" class="flex-1 px-3 py-4 flex flex-col gap-1" aria-label="Main">
+            <a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-chart-pie text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-building text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Business Units</span>
+            </a>
+            <a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-users-gear text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Users & Permissions</span>
+            </a>
+            <p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Recruitment</p>
+            <a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-briefcase text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Vacancies</span>
+            </a>
+            <a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-clipboard-list text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="client.candidates.candidate-directory.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-address-card text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Candidate Directory</span>
+            </a>
+            <p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Finance</p>
+            <a href="client.timesheets.timesheets.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-clock text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Timesheets</span>
+            </a>
+            <a href="client.money.invoices.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-file-invoice-dollar text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Invoices</span>
+            </a>
+            <p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Analytics</p>
+            <a href="client.reporting.reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-chart-line text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Reports</span>
+            </a>
+        </nav>
+
+        <div id="sidebar-footer" class="px-4 py-4 border-t border-white/10">
+            <div class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-white/5 transition-all">
+                <span class="w-8 h-8 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold flex items-center justify-center flex-shrink-0" aria-hidden="true">EC</span>
+                <div class="flex-1 min-w-0">
+                    <a href="client.identity-access.profile.html" class="block text-white text-xs font-semibold truncate hover:underline" title="Your profile" data-user-name>Emma Clarke</a>
+                    <p class="text-white/40 text-xs truncate">Acme Logistics</p>
+                </div>
+                <a href="client.identity-access.sign-in.html?reason=signed-out" class="w-9 h-9 flex items-center justify-center rounded-lg text-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400" aria-label="Sign out" title="Sign out"><i class="fa-solid fa-arrow-right-from-bracket text-xs" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header id="header" class="flex items-center justify-between gap-3 px-4 sm:px-6 xl:px-8 py-4 bg-white border-b border-slate-200 flex-shrink-0">
+            <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+                <button id="mobile-menu-btn" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600" aria-label="Open navigation"><i class="fa-solid fa-bars text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <div class="min-w-0">
+                    <h1 class="text-lg font-bold text-slate-900 truncate">Notifications</h1>
+                    <p class="text-xs text-slate-500 hidden sm:block truncate">Everything the portal has told you</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+
+                <button data-s1-bell aria-label="Notifications" class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"><i class="fa-regular fa-bell text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <a href="client.identity-access.profile.html" class="flex items-center gap-2 pl-3 border-l border-slate-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600" aria-label="Your profile" title="Your profile">
+                    <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 border-2 border-blue-100 text-xs font-bold flex items-center justify-center" aria-hidden="true">EC</span>
+                    <span class="hidden xl:block"><span class="block text-xs font-semibold text-slate-700" data-user-name>Emma Clarke</span><span class="block text-xs text-slate-400">Acme Logistics</span></span>
+                </a>
+            </div>
+        </header>
+
+        <main id="main" class="flex-1 overflow-y-auto px-4 sm:px-6 xl:px-8 py-6 bg-slate-100">
+
+            <div class="max-w-3xl mx-auto flex flex-col gap-4">
+                <div class="flex flex-col sm:flex-row sm:items-end gap-3" data-s1-hide="loading error">
+                    <div role="tablist" aria-label="Filter notifications" class="flex gap-1 border-b border-slate-200 flex-1">
+                        <button role="tab" id="tab-all" aria-selected="true" aria-controls="list" class="tab px-3.5 py-2.5 text-sm font-semibold border-b-2 -mb-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded-t">All</button>
+                        <button role="tab" id="tab-unread" aria-selected="false" aria-controls="list" tabindex="-1" class="tab px-3.5 py-2.5 text-sm font-semibold border-b-2 -mb-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded-t">Unread <span id="unread-n" class="tabular"></span></button>
+                    </div>
+                    <button type="button" id="mark-all" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 self-start sm:self-auto"><i class="fa-solid fa-check-double text-xs" aria-hidden="true"></i> Mark all as read</button>
+                </div>
+
+                <div data-s1-show="large" class="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800 gap-3 items-start" data-s1-display="flex">
+                    <i class="fa-solid fa-circle-info mt-0.5" aria-hidden="true"></i>
+                    <p>Sample notifications, to show a long list and the <strong>critical</strong> treatment. Slice 1 sends none to client users; critical notifications arrive in slice 6.</p>
+                </div>
+
+                <div data-s1-show="loading" class="bg-white rounded-2xl border border-slate-200 shadow-sm divide-y divide-slate-100 animate-pulse" aria-busy="true" aria-label="Loading notifications">
+                    <div class="p-5 flex gap-3"><div class="w-8 h-8 rounded-full bg-slate-200"></div><div class="flex-1 flex flex-col gap-2"><div class="h-3 w-1/2 bg-slate-200 rounded"></div><div class="h-3 w-5/6 bg-slate-200 rounded"></div></div></div>
+                    <div class="p-5 flex gap-3"><div class="w-8 h-8 rounded-full bg-slate-200"></div><div class="flex-1 flex flex-col gap-2"><div class="h-3 w-2/5 bg-slate-200 rounded"></div><div class="h-3 w-4/6 bg-slate-200 rounded"></div></div></div>
+                    <div class="p-5 flex gap-3"><div class="w-8 h-8 rounded-full bg-slate-200"></div><div class="flex-1 flex flex-col gap-2"><div class="h-3 w-3/5 bg-slate-200 rounded"></div><div class="h-3 w-3/6 bg-slate-200 rounded"></div></div></div>
+                </div>
+
+            <!-- ErrorState -->
+            <div data-s1-show="error" class="max-w-lg mx-auto mt-10 bg-white rounded-2xl border border-slate-200 shadow-sm p-8 text-center" role="alert">
+                <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-triangle-exclamation text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">We couldn't load your notifications.</h2>
+                <p class="text-sm text-slate-600 mt-1.5">Something went wrong on our side. Try again, and if it keeps happening, quote the reference below to Abstract.</p>
+                <p class="text-xs text-slate-500 mt-3">Reference <span class="font-mono font-semibold text-slate-700">REF-5C1R-8YVE</span></p>
+                <button type="button" onclick="S1.setState('default'); S1.toast('Loaded again.', 'success');" class="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"><i class="fa-solid fa-rotate-right text-xs" aria-hidden="true"></i> Retry</button>
+            </div>
+
+                <div data-s1-hide="loading error" id="list-wrap">
+                    <div id="list" role="tabpanel" aria-labelledby="tab-all" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"></div>
+                    <div id="pager" class="hidden mt-3 flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm text-slate-600">
+                        <p id="pager-text" class="tabular"></p>
+                        <nav aria-label="Pagination" class="flex items-center gap-1">
+                            <button type="button" class="w-9 h-9 rounded-lg border border-slate-200 bg-white text-slate-400" disabled aria-label="Previous page"><i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i></button>
+                            <button type="button" aria-current="page" class="w-9 h-9 rounded-lg text-white text-sm font-semibold bg-blue-700">1</button>
+                            <button type="button" class="w-9 h-9 rounded-lg border border-slate-200 bg-white text-sm hover:bg-slate-50" onclick="S1.toast('Page 2 would load here.', 'info')">2</button>
+                            <button type="button" class="w-9 h-9 rounded-lg border border-slate-200 bg-white text-sm hover:bg-slate-50" onclick="S1.toast('Page 3 would load here.', 'info')">3</button>
+                            <button type="button" class="w-9 h-9 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50" aria-label="Next page" onclick="S1.toast('Page 2 would load here.', 'info')"><i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i></button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+/* Mobile navigation (sidebar is hidden below lg; this is the only way to reveal it) */
+(function () {
+  var btn = document.getElementById('mobile-menu-btn'),
+      sb  = document.getElementById('sidebar');
+  if (!btn || !sb) return;
+  btn.setAttribute('aria-controls', 'sidebar');
+  btn.setAttribute('aria-expanded', 'false');
+  var bd = document.createElement('div');
+  bd.setAttribute('aria-hidden', 'true');
+  bd.style.cssText = 'position:fixed;inset:0;background:rgba(15,26,62,.55);z-index:40;display:none';
+  document.body.appendChild(bd);
+  function open() {
+    sb.style.display = 'flex'; sb.style.position = 'fixed'; sb.style.top = '0';
+    sb.style.bottom = '0'; sb.style.left = '0'; sb.style.zIndex = '50'; sb.style.maxWidth = '85vw';
+    bd.style.display = 'block'; btn.setAttribute('aria-expanded', 'true');
+  }
+  function close() {
+    ['display','position','top','bottom','left','zIndex','maxWidth'].forEach(function (p) { sb.style[p] = ''; });
+    bd.style.display = 'none'; btn.setAttribute('aria-expanded', 'false');
+  }
+  btn.addEventListener('click', function () { bd.style.display === 'block' ? close() : open(); });
+  bd.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && bd.style.display === 'block') close(); });
+  window.addEventListener('resize', function () { if (window.innerWidth >= 1024) close(); });
+})();
+
+var tab = 'all', state = 'default', sample = null;
+function makeSample() {
+  var s = [{ severity: 'critical', title: 'Action needed: example critical notification', body: 'A critical notification uses the red dot and icon and links straight to the record that needs you. They arrive in slice 6.', when: '5 min ago', read: false, href: '#' },
+           { severity: 'warning', title: 'Example warning notification', body: 'Something may need your attention soon.', when: '1 hour ago', read: false, href: '#' }];
+  var names = ['Sample update about your organisation', 'Sample reminder with a longer title that has to truncate neatly on a narrow phone screen without breaking the layout', 'Sample information notice'];
+  for (var i = 0; i < 23; i++) s.push({ severity: 'info', title: names[i % 3] + ' ' + (i + 1), body: 'Each notification links to its record.', when: (i + 2) + ' days ago', read: i > 2, href: '#' });
+  return s;
+}
+function items() { return state === 'large' ? (sample = sample || makeSample()) : S1.notifications(); }
+function paint() {
+  var all = items(), list = document.getElementById('list');
+  var shown = all.map(function (n, i) { return { n: n, i: i }; }).filter(function (x) { return tab === 'all' || !x.n.read; });
+  var unread = all.filter(function (n) { return !n.read; }).length;
+  document.getElementById('unread-n').textContent = unread ? '(' + unread + ')' : '';
+  document.querySelectorAll('.tab').forEach(function (t) {
+    var on = (t.id === 'tab-' + tab);
+    t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+    t.classList.toggle('text-blue-700', on); t.classList.toggle('border-blue-700', on);
+    t.classList.toggle('text-slate-500', !on); t.classList.toggle('border-transparent', !on);
+  });
+  list.setAttribute('aria-labelledby', 'tab-' + tab);
+  if (!shown.length) {
+    list.innerHTML = '<div class="px-6 py-14 text-center"><div class="w-14 h-14 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-check text-lg" aria-hidden="true"></i></div>' +
+      '<p class="text-sm font-bold text-slate-900">You\'re all caught up</p><p class="text-sm text-slate-500 mt-1">' + (tab === 'unread' && all.length ? 'You have no unread notifications.' : 'New notifications appear here and on the bell.') + '</p>' +
+      '<a href="client.shell.dashboard.html" data-s1-home class="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">Back to the dashboard</a></div>';
+    list.querySelectorAll('[data-s1-home]').forEach(function (a) { a.href = S1.home(); });
+  } else {
+    list.innerHTML = shown.slice(0, 25).map(function (x) { return S1.renderNotif(x.n, x.i); }).join('');
+    list.querySelectorAll('.s1-ni-t').forEach(function (t) { t.style.overflow = 'hidden'; t.style.textOverflow = 'ellipsis'; t.style.whiteSpace = 'nowrap'; });
+  }
+  var pager = document.getElementById('pager'), big = state === 'large' && tab === 'all';
+  pager.classList.toggle('hidden', !big); pager.classList.toggle('flex', big);
+  document.getElementById('pager-text').textContent = 'Showing 1–25 of 132';
+  document.getElementById('mark-all').disabled = !unread;
+}
+document.addEventListener('s1:ready', function () {
+  document.getElementById('tab-all').onclick = function () { tab = 'all'; paint(); };
+  document.getElementById('tab-unread').onclick = function () { tab = 'unread'; paint(); };
+  document.querySelector('[role=tablist]').addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    tab = tab === 'all' ? 'unread' : 'all'; paint(); document.getElementById('tab-' + tab).focus();
+  });
+  document.getElementById('mark-all').onclick = function () {
+    if (state === 'large') { sample.forEach(function (n) { n.read = true; }); paint(); } else S1.markAllRead();
+    S1.toast('All notifications marked as read.', 'success');
+  };
+  document.getElementById('list').addEventListener('click', function (e) {
+    var a = e.target.closest('.s1-ni'); if (!a) return;
+    var i = +a.dataset.i;
+    if (state === 'large') { e.preventDefault(); sample[i].read = true; paint(); S1.toast('This would open the linked record.', 'info'); }
+    else if (a.getAttribute('href') === '#') { e.preventDefault(); S1.markRead(i); }
+  });
+  state = document.body.getAttribute('data-s1-state') || 'default';
+  paint();
+});
+document.addEventListener('s1:notifs', function () { if (document.getElementById('list') && window.S1 && S1.renderNotif) paint(); });
+document.addEventListener('s1:state', function (e) { state = e.detail.state; if (window.S1 && S1.renderNotif && document.getElementById('list')) paint(); });
+
+</script>
+
+<script src="slice1-kit.js"></script>
+</body>
+</html>

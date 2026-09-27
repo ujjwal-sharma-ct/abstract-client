@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#F3F4F6]">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users & Permissions - Abstractvms Client Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sora: ['Sora', 'sans-serif'],
+                        manrope: ['Manrope', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: '#172554',
+                        blue: '#1D4ED8',
+                        purple: '#5B2E91',
+                        lightgrey: '#F3F4F6',
+                        success: '#16A34A',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Sora', sans-serif; }
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800 flex bg-[#F3F4F6]" data-s1-page data-s1-states="default loading empty error denied large">
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="w-64 bg-navy h-screen flex-shrink-0 flex flex-col border-r border-navy/20">
+        <!-- Logo -->
+        <div class="h-16 flex items-center px-6 border-b border-white/10 shrink-0">
+            <div class="flex items-center gap-2">
+                                <img src="logo.png" alt="Abstract" class="h-12 w-auto">
+
+            </div>
+        </div>
+
+        <!-- Nav Links -->
+        <div class="flex-1 overflow-y-auto py-6 px-3">
+            <nav class="space-y-1">
+                <a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-chart-pie w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Dashboard</span>
+                </a>
+                <a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-building w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Business Units</span>
+                </a>
+                <a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md bg-blue text-white group transition-colors duration-200 border-l-4 border-white">
+                    <i class="fa-solid fa-users-gear w-5 text-center text-white"></i>
+                    <span class="text-sm font-medium">Users & Permissions</span>
+                </a>
+                <div class="pt-4 pb-1">
+                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Recruitment</p>
+                </div>
+                <a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-briefcase w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Vacancies</span>
+                </a>
+                <a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-clipboard-list w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Bookings</span>
+                </a>
+                <a href="client.candidates.candidate-directory.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-address-card w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Candidate Directory</span>
+                </a>
+                <div class="pt-4 pb-1">
+                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Finance</p>
+                </div>
+                <a href="client.timesheets.timesheets.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-clock w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Timesheets</span>
+                </a>
+                <a href="client.money.invoices.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-file-invoice-dollar w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Invoices</span>
+                </a>
+                <div class="pt-4 pb-1">
+                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Analytics</p>
+                </div>
+                <a href="client.reporting.reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
+                    <i class="fa-solid fa-chart-line w-5 text-center text-gray-400 group-hover:text-white"></i>
+                    <span class="text-sm font-medium">Reports</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- User Profile -->
+        <div class="border-t border-white/10 p-4 shrink-0">
+            <div class="flex items-center gap-3 w-full">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="User Avatar" class="h-9 w-9 rounded-full object-cover border border-gray-600">
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-white truncate font-sora">Sarah Jenkins</p>
+                    <p class="text-xs text-gray-400 truncate">Client Admin</p>
+                </div>
+                <a href="client.identity-access.sign-in.html" class="text-gray-400 hover:text-white transition-colors" title="Sign Out">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+        
+        <!-- Header -->
+        <header id="header" class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 shrink-0 shadow-sm z-10">
+            <div class="flex items-center gap-4">
+                <h1 class="text-xl font-sora font-semibold text-navy">Users & Permissions</h1>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <!-- Search -->
+                <div class="relative w-64 hidden md:block">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
+                    </div>
+                    <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue focus:border-blue sm:text-sm transition-all" placeholder="Search users...">
+                </div>
+
+                <!-- Notifications -->
+                <a href="client.notifications.notification-centre.html" class="relative text-gray-500 hover:text-navy transition-colors" title="Notifications" aria-label="Notifications">
+                    <i class="fa-regular fa-bell text-lg"></i>
+                    <span class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-danger text-[10px] font-bold text-white ring-2 ring-white">3</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Content -->
+        <main id="main-content" class="flex-1 overflow-y-auto p-8 bg-[#F3F4F6]">
+            <div class="max-w-7xl mx-auto space-y-6">
+
+                <!-- Page Actions & Filters -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="relative w-64">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
+                            </div>
+                            <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-blue focus:border-blue" placeholder="Search by name or email...">
+                        </div>
+                        
+                        <div class="relative">
+                            <select class="block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md focus:ring-blue focus:border-blue appearance-none bg-white">
+                                <option>All Roles</option>
+                                <option>Client Admin</option>
+                                <option>Client Manager</option>
+                                <option>Client Viewer</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <select class="block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md focus:ring-blue focus:border-blue appearance-none bg-white">
+                                <option>All Statuses</option>
+                                <option>Active</option>
+                                <option>Invited</option>
+                                <option>Inactive</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button data-s1-later class="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-download"></i>
+                            Export
+                        </button>
+                        <button type="button" onclick="S1.openModal('invite-modal')" class="whitespace-nowrap text-white px-4 py-2 rounded-md text-sm font-semibold hover:opacity-95 transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);">
+                            <i class="fa-solid fa-user-plus"></i>
+                            Invite user
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Roles and permissions (slice 1): roles are set per user with "Set roles"; what a role can do lives in the permission matrix -->
+                <div data-s1-hide="loading error denied" class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row md:items-center gap-3">
+                    <div class="flex items-start gap-3 flex-1 min-w-0">
+                        <div class="w-9 h-9 rounded-lg bg-blue/10 text-blue flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-semibold text-navy">Roles decide what people can do</p>
+                            <div class="flex flex-wrap gap-1.5 mt-1.5">
+                                <a href="client.identity-access.permission-matrix.html?role=admin" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 hover:border-blue/40">Client Admin</a>
+                                <a href="client.identity-access.permission-matrix.html?role=manager" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 hover:border-blue/40">Client Manager</a>
+                                <a href="client.identity-access.permission-matrix.html?role=viewer" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 hover:border-blue/40">Client Viewer</a>
+                                <a href="client.identity-access.permission-matrix.html?role=site" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 hover:border-blue/40">Site Supervisor</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="client.identity-access.permission-matrix.html" class="self-start md:self-auto bg-white text-blue border border-blue/30 px-4 py-2 rounded-md text-sm font-semibold hover:bg-blue/5 transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue"><i class="fa-solid fa-table-cells" aria-hidden="true"></i> Open the permission matrix</a>
+                </div>
+
+                <!-- Loading -->
+                <div data-s1-show="loading" class="bg-white rounded-xl shadow-sm border border-gray-200 divide-y divide-slate-100 animate-pulse" aria-busy="true" aria-label="Loading users">
+                    <div class="p-4 flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-slate-200"></div><div class="h-3 w-40 bg-slate-200 rounded"></div><div class="h-3 w-24 bg-slate-200 rounded ml-auto"></div></div>
+                    <div class="p-4 flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-slate-200"></div><div class="h-3 w-52 bg-slate-200 rounded"></div><div class="h-3 w-20 bg-slate-200 rounded ml-auto"></div></div>
+                    <div class="p-4 flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-slate-200"></div><div class="h-3 w-36 bg-slate-200 rounded"></div><div class="h-3 w-24 bg-slate-200 rounded ml-auto"></div></div>
+                    <div class="p-4 flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-slate-200"></div><div class="h-3 w-44 bg-slate-200 rounded"></div><div class="h-3 w-16 bg-slate-200 rounded ml-auto"></div></div>
+                </div>
+
+                <!-- Empty -->
+                <div data-s1-show="empty" class="bg-white rounded-xl shadow-sm border border-gray-200 p-10 text-center">
+                    <div class="w-14 h-14 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-user-plus text-lg" aria-hidden="true"></i></div>
+                    <p class="text-sm font-bold text-slate-900">No other users yet</p>
+                    <p class="text-sm text-slate-500 mt-1">Invite the people who need the portal. You'll set their roles once they're on the list.</p>
+                    <button type="button" onclick="S1.openModal('invite-modal')" class="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-md border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue"><i class="fa-solid fa-user-plus text-xs" aria-hidden="true"></i> Invite user</button>
+                </div>
+
+                <!-- Error -->
+                <div data-s1-show="error" class="bg-white rounded-xl shadow-sm border border-gray-200 p-10 text-center" role="alert">
+                    <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-triangle-exclamation text-lg" aria-hidden="true"></i></div>
+                    <p class="text-sm font-bold text-slate-900">We couldn't load your users.</p>
+                    <p class="text-sm text-slate-500 mt-1">Try again. If it keeps happening, quote reference <span class="font-mono font-semibold text-slate-700">REF-2U7A-9KLC</span> to Abstract.</p>
+                    <button type="button" onclick="S1.setState('default')" class="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-md border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue"><i class="fa-solid fa-rotate-right text-xs" aria-hidden="true"></i> Retry</button>
+                </div>
+
+                <!-- Permission denied -->
+                <div data-s1-show="denied" class="bg-white rounded-xl shadow-sm border border-gray-200 p-10 text-center">
+                    <div class="w-14 h-14 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-lock text-lg" aria-hidden="true"></i></div>
+                    <p class="text-sm font-bold text-slate-900">You don't have access to this page.</p>
+                    <p class="text-sm text-slate-500 mt-1">Ask your administrator if you need it.</p>
+                </div>
+
+                <!-- Users Table -->
+                <div data-s1-hide="loading empty error denied" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500">
+                                    <th class="p-4 font-semibold w-12">
+                                        <input type="checkbox" class="rounded border-gray-300 text-blue focus:ring-blue">
+                                    </th>
+                                    <th class="p-4 font-semibold">User</th>
+                                    <th class="p-4 font-semibold">Role</th>
+                                    <th class="p-4 font-semibold" data-s1-later>Business Units</th>
+                                    <th class="p-4 font-semibold">Status</th>
+                                    <th class="p-4 font-semibold">Last Active</th>
+                                    <th class="p-4 font-semibold text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <!-- Row 1 -->
+                                <tr id="u-sarah" data-name="Sarah Jenkins" data-status="Active" class="hover:bg-gray-50 transition-colors">
+                                    <td class="p-4">
+                                        <input type="checkbox" class="rounded border-gray-300 text-blue focus:ring-blue">
+                                    </td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" class="w-8 h-8 rounded-full border border-gray-200" alt="">
+                                            <div>
+                                                <div class="font-medium text-navy text-sm">Sarah Jenkins</div>
+                                                <div class="text-xs text-gray-500">sarah.j@clientorg.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="inline-flex items-center px-2 py-1 rounded bg-purple/10 text-purple text-xs font-medium border border-purple/20">
+                                            Client Admin
+                                        </span>
+                                    </td>
+                                    <td class="p-4" data-s1-later>
+                                        <div class="text-sm text-gray-700">All Units (Global)</div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Active</span>
+                                    </td>
+                                    <td class="p-4 text-sm text-gray-500">Just now</td>
+                                    <td class="p-4 text-right">
+                                        <span class="row-btns"><button type="button" data-act="deactivate" class="text-danger hover:text-white hover:bg-danger border border-danger/30 text-xs font-medium px-2.5 py-1 rounded-md transition-colors mr-2">Deactivate</button></span>
+                                        <button type="button" data-act="more" aria-label="More actions for Sarah Jenkins" class="text-gray-400 hover:text-blue p-1.5 rounded-md hover:bg-blue/10 transition-colors">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 2 -->
+                                <tr id="u-john" data-name="John Smith" data-status="Active" class="hover:bg-gray-50 transition-colors bg-white">
+                                    <td class="p-4">
+                                        <input type="checkbox" class="rounded border-gray-300 text-blue focus:ring-blue">
+                                    </td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-blue/10 flex items-center justify-center text-blue font-semibold text-xs border border-blue/20">JS</div>
+                                            <div>
+                                                <div class="font-medium text-navy text-sm">John Smith</div>
+                                                <div class="text-xs text-gray-500">john.smith@clientorg.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="inline-flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 text-xs font-medium border border-gray-200">
+                                            Client Manager
+                                        </span>
+                                    </td>
+                                    <td class="p-4" data-s1-later>
+                                        <div class="flex items-center gap-1 flex-wrap">
+                                            <span class="text-xs bg-gray-100 px-2 py-0.5 rounded border border-gray-200 text-gray-600">Midlands › Distribution Centre › Nights</span>
+                                            <span class="text-xs bg-gray-100 px-2 py-0.5 rounded border border-gray-200 text-gray-600">Northern › Hub</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Active</span>
+                                    </td>
+                                    <td class="p-4 text-sm text-gray-500">2 hours ago</td>
+                                    <td class="p-4 text-right">
+                                        <span class="row-btns"><button type="button" data-act="deactivate" class="text-danger hover:text-white hover:bg-danger border border-danger/30 text-xs font-medium px-2.5 py-1 rounded-md transition-colors mr-2">Deactivate</button></span>
+                                        <button type="button" data-act="more" aria-label="More actions for John Smith" class="text-gray-400 hover:text-blue p-1.5 rounded-md hover:bg-blue/10 transition-colors">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 3 -->
+                                <tr id="u-emma" data-name="Emma Thompson" data-status="Invited" class="hover:bg-gray-50 transition-colors">
+                                    <td class="p-4">
+                                        <input type="checkbox" class="rounded border-gray-300 text-blue focus:ring-blue">
+                                    </td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" class="w-8 h-8 rounded-full border border-gray-200" alt="">
+                                            <div>
+                                                <div class="font-medium text-navy text-sm">Emma Thompson</div>
+                                                <div class="text-xs text-gray-500">emma.t@clientorg.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="inline-flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 text-xs font-medium border border-gray-200">
+                                            Client Viewer
+                                        </span>
+                                    </td>
+                                    <td class="p-4" data-s1-later>
+                                        <div class="text-sm text-gray-700">All Units (Global)</div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">Invited</span>
+                                    </td>
+                                    <td class="p-4 text-sm text-gray-500">Never</td>
+                                    <td class="p-4 text-right">
+                                        <span class="row-btns"><button type="button" data-act="resend" class="text-blue hover:text-white hover:bg-blue border border-blue/30 text-xs font-medium px-2.5 py-1 rounded-md transition-colors mr-2">Resend activation</button><button type="button" data-act="deactivate" class="text-danger hover:text-white hover:bg-danger border border-danger/30 text-xs font-medium px-2.5 py-1 rounded-md transition-colors mr-2">Deactivate</button></span>
+                                        <button type="button" data-act="more" aria-label="More actions for Emma Thompson" class="text-gray-400 hover:text-blue p-1.5 rounded-md hover:bg-blue/10 transition-colors">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                 <!-- Row 4 -->
+                                <tr id="u-michael" data-name="Michael Davis" data-status="Inactive" class="hover:bg-gray-50 transition-colors bg-white">
+                                    <td class="p-4">
+                                        <input type="checkbox" class="rounded border-gray-300 text-blue focus:ring-blue">
+                                    </td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-xs border border-gray-300">MD</div>
+                                            <div>
+                                                <div class="font-medium text-gray-500 text-sm">Michael Davis</div>
+                                                <div class="text-xs text-gray-400">m.davis@clientorg.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="inline-flex items-center px-2 py-1 rounded bg-gray-100 text-gray-500 text-xs font-medium border border-gray-200">
+                                            Client Manager
+                                        </span>
+                                    </td>
+                                    <td class="p-4" data-s1-later>
+                                        <div class="flex items-center gap-1">
+                                            <span class="text-xs bg-gray-100 px-2 py-0.5 rounded border border-gray-200 text-gray-500">London › Gateway Site</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500 border border-slate-200">Inactive</span>
+                                    </td>
+                                    <td class="p-4 text-sm text-gray-400">3 months ago</td>
+                                    <td class="p-4 text-right">
+                                        <span class="row-btns"><button type="button" data-act="reactivate" class="text-success hover:text-white hover:bg-success border border-success/30 text-xs font-medium px-2.5 py-1 rounded-md transition-colors mr-2">Reactivate</button></span>
+                                        <button type="button" data-act="more" aria-label="More actions for Michael Davis" class="text-gray-400 hover:text-blue p-1.5 rounded-md hover:bg-blue/10 transition-colors">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Large data: long names truncate -->
+                                <tr data-s1-show="large" data-s1-display="table-row" class="hover:bg-gray-50 transition-colors">
+                                    <td class="p-4"><input type="checkbox" class="rounded border-gray-300 text-blue focus:ring-blue" aria-label="Select row"></td>
+                                    <td class="p-4 max-w-[16rem]"><div class="flex items-center gap-3 min-w-0"><div class="w-8 h-8 rounded-full bg-blue/10 flex items-center justify-center text-blue font-semibold text-xs border border-blue/20 flex-shrink-0">AM</div><div class="min-w-0"><div class="font-medium text-navy text-sm truncate" title="Alexandra Montgomery-Fitzwilliam-Harrington">Alexandra Montgomery-Fitzwilliam-Harrington</div><div class="text-xs text-gray-500 truncate">alexandra.montgomery-fitzwilliam-harrington@clientorg.com</div></div></div></td>
+                                    <td class="p-4"><span class="inline-flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 text-xs font-medium border border-gray-200">Client Viewer</span></td>
+                                    <td class="p-4" data-s1-later><div class="text-sm text-gray-700">All Units (Global)</div></td>
+                                    <td class="p-4"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Active</span></td>
+                                    <td class="p-4 text-sm text-gray-500">26 Sep 2026</td>
+                                    <td class="p-4 text-right"><button type="button" onclick="S1.toast('Sample row in the large-data state.', 'info')" aria-label="More actions for Alexandra Montgomery-Fitzwilliam-Harrington" class="text-gray-400 hover:text-blue p-1.5 rounded-md hover:bg-blue/10 transition-colors"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="bg-gray-50 px-4 py-3 border-t border-gray-200 flex items-center justify-between sm:px-6">
+                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm text-gray-700" data-s1-hide="large">
+                                    Showing <span class="font-medium">1</span> to <span class="font-medium">4</span> of <span class="font-medium">24</span> users
+                                </p>
+                                <p class="text-sm text-gray-700" data-s1-show="large">
+                                    Showing <span class="font-medium">1–25</span> of <span class="font-medium">1,240</span> users
+                                </p>
+                            </div>
+                            <div>
+                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <span class="sr-only">Previous</span>
+                                        <i class="fa-solid fa-chevron-left w-5 h-5 flex items-center justify-center"></i>
+                                    </a>
+                                    <a href="#" aria-current="page" class="z-10 bg-blue border-blue text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
+                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
+                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">3</a>
+                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <span class="sr-only">Next</span>
+                                        <i class="fa-solid fa-chevron-right w-5 h-5 flex items-center justify-center"></i>
+                                    </a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Slice 1 overlays (kernel Modal / ConfirmDialog via slice1-kit.js) -->
+    <div data-s1-modal id="invite-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4" style="background: rgba(15,26,62,.55); backdrop-filter: blur(4px);" role="dialog" aria-modal="true" aria-labelledby="invite-title">
+        <form id="invite-form" novalidate class="bg-white rounded-2xl shadow-2xl w-full max-w-md font-[Inter,sans-serif]">
+            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+                <h2 id="invite-title" class="text-base font-bold text-slate-900">Invite user</h2>
+                <button type="button" onclick="S1.closeModal('invite-modal')" aria-label="Close" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="px-6 py-5 flex flex-col gap-4">
+                <div id="invite-summary" class="hidden rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">Check the highlighted fields.</div>
+                <div>
+                    <label for="inv-name" class="block text-xs font-semibold text-slate-700 mb-1.5">Full name</label>
+                    <input id="inv-name" type="text" autocomplete="off" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:bg-white focus:border-blue focus:ring-2 focus:ring-blue/20">
+                    <p id="inv-name-err" class="hidden text-xs text-red-600 mt-1.5">Enter the person's name.</p>
+                </div>
+                <div>
+                    <label for="inv-email" class="block text-xs font-semibold text-slate-700 mb-1.5">Email address</label>
+                    <input id="inv-email" type="email" autocomplete="off" placeholder="name@clientorg.com" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:bg-white focus:border-blue focus:ring-2 focus:ring-blue/20">
+                    <p id="inv-email-err" class="hidden text-xs text-red-600 mt-1.5"></p>
+                </div>
+                <p class="text-xs text-slate-500 leading-relaxed"><i class="fa-solid fa-circle-info text-blue" aria-hidden="true"></i> They'll get an email with a link to set their own password. The link works for 72 hours. Set their roles with <strong>Set roles</strong> once they're on the list.</p>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 rounded-b-2xl flex justify-end gap-2">
+                <button type="button" onclick="S1.closeModal('invite-modal')" class="px-4 py-2 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+                <button type="submit" id="inv-send" class="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-blue hover:bg-navy flex items-center gap-2"><i class="fa-solid fa-paper-plane text-xs" aria-hidden="true"></i> Send invitation</button>
+            </div>
+        </form>
+    </div>
+
+    <div data-s1-modal id="roles-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4" style="background: rgba(15,26,62,.55); backdrop-filter: blur(4px);" role="dialog" aria-modal="true" aria-labelledby="roles-title">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md font-[Inter,sans-serif]">
+            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+                <h2 id="roles-title" class="text-base font-bold text-slate-900">Set roles</h2>
+                <button type="button" onclick="S1.closeModal('roles-modal')" aria-label="Close" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="px-6 py-5">
+                <p class="text-sm text-slate-600 mb-3">Tick every role <span id="roles-who" class="font-semibold text-slate-900"></span> should hold. The change applies from their next click.</p>
+                <div id="roles-refused" class="hidden mb-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800" role="alert"></div>
+                <fieldset id="roles-list" class="flex flex-col gap-2"><legend class="sr-only">Roles</legend></fieldset>
+                <a href="client.identity-access.permission-matrix.html" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue mt-4 hover:underline"><i class="fa-solid fa-table-cells" aria-hidden="true"></i> See what each role can do in the permission matrix</a>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 rounded-b-2xl flex justify-end gap-2">
+                <button type="button" onclick="S1.closeModal('roles-modal')" class="px-4 py-2 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+                <button type="button" id="roles-save" class="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-blue hover:bg-navy">Save roles</button>
+            </div>
+        </div>
+    </div>
+
+    <div data-s1-modal id="name-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4" style="background: rgba(15,26,62,.55); backdrop-filter: blur(4px);" role="dialog" aria-modal="true" aria-labelledby="name-title">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md font-[Inter,sans-serif]">
+            <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+                <h2 id="name-title" class="text-base font-bold text-slate-900">Edit name</h2>
+                <button type="button" onclick="S1.closeModal('name-modal')" aria-label="Close" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="px-6 py-5">
+                <label for="edit-name" class="block text-xs font-semibold text-slate-700 mb-1.5">Full name</label>
+                <input id="edit-name" type="text" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:bg-white focus:border-blue focus:ring-2 focus:ring-blue/20">
+                <p id="edit-name-err" class="hidden text-xs text-red-600 mt-1.5">Enter the person's name.</p>
+                <p class="text-xs text-slate-500 mt-2">The email address is their sign-in and doesn't change here.</p>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 rounded-b-2xl flex justify-end gap-2">
+                <button type="button" onclick="S1.closeModal('name-modal')" class="px-4 py-2 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</button>
+                <button type="button" id="name-save" class="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-blue hover:bg-navy">Save name</button>
+            </div>
+        </div>
+    </div>
+
+    <div data-s1-modal id="sheet-modal" class="hidden fixed inset-0 z-[60] flex items-end sm:items-center justify-center sm:p-4" style="background: rgba(15,26,62,.55); backdrop-filter: blur(4px);" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+        <div class="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full sm:max-w-sm font-[Inter,sans-serif]">
+            <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+                <h2 id="sheet-title" class="text-sm font-bold text-slate-900 truncate">Actions</h2>
+                <button type="button" onclick="S1.closeModal('sheet-modal')" aria-label="Close" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="sheet-list" class="p-2 flex flex-col"></div>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+      var ROLES = ['Client Admin', 'Client Manager', 'Client Viewer', 'Site Supervisor'];
+      var BADGE = {
+        Active: '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Active</span>',
+        Invited: '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">Invited</span>',
+        Inactive: '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500 border border-slate-200">Inactive</span>'
+      };
+      var BTN = {
+        resend: '<button type="button" data-act="resend" class="text-blue hover:text-white hover:bg-blue border border-blue/30 text-xs font-medium px-2.5 py-1 rounded-md transition-colors mr-2">Resend activation</button>',
+        deactivate: '<button type="button" data-act="deactivate" class="text-danger hover:text-white hover:bg-danger border border-danger/30 text-xs font-medium px-2.5 py-1 rounded-md transition-colors mr-2">Deactivate</button>',
+        reactivate: '<button type="button" data-act="reactivate" class="text-success hover:text-white hover:bg-success border border-success/30 text-xs font-medium px-2.5 py-1 rounded-md transition-colors mr-2">Reactivate</button>'
+      };
+      var current = null;
+      function cells(tr) { return tr.children; }
+      function email(tr) { var e = cells(tr)[1].querySelectorAll('.text-xs'); return e.length ? e[e.length - 1].textContent.trim() : ''; }
+      function rolesOf(tr) { return Array.prototype.map.call(cells(tr)[2].querySelectorAll('span'), function (s) { return s.textContent.trim(); }); }
+      function paint(tr) {
+        var st = tr.dataset.status;
+        cells(tr)[4].innerHTML = BADGE[st];
+        tr.querySelector('.row-btns').innerHTML = (st === 'Invited' ? BTN.resend : '') + (st === 'Inactive' ? BTN.reactivate : BTN.deactivate);
+      }
+      function activeAdmins() {
+        return Array.prototype.filter.call(document.querySelectorAll('tr[id^="u-"]'), function (r) { return r.dataset.status === 'Active' && rolesOf(r).indexOf('Client Admin') >= 0; });
+      }
+      function refuse(tr) {
+        S1.confirm({ tone: 'danger', title: 'You can\'t deactivate ' + tr.dataset.name, body: 'It would leave your organisation with no one who can manage users. Give another active user a role that can manage users first, then try again.', cancel: 'Close' });
+      }
+      var ACTIONS = {
+        edit: function (tr) { document.getElementById('edit-name').value = tr.dataset.name; document.getElementById('edit-name-err').classList.add('hidden'); S1.openModal('name-modal'); },
+        roles: function (tr) {
+          var have = rolesOf(tr);
+          document.getElementById('roles-who').textContent = tr.dataset.name;
+          document.getElementById('roles-refused').classList.add('hidden');
+          document.getElementById('roles-list').innerHTML = '<legend class="sr-only">Roles</legend>' + ROLES.map(function (r, i) {
+            return '<label class="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="checkbox" value="' + r + '" ' + (have.indexOf(r) >= 0 ? 'checked' : '') + ' class="w-4 h-4" style="accent-color:#1D4ED8"><span class="text-sm text-slate-800">' + r + '</span>' + (i < 3 ? '<span class="ml-auto inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">Default</span>' : '') + '</label>';
+          }).join('');
+          S1.openModal('roles-modal');
+        },
+        resend: function (tr) { S1.toast('A new activation link was sent to ' + S1.esc(email(tr)) + '. It works for 72 hours, and the earlier link no longer works.', 'success'); },
+        deactivate: function (tr) {
+          if (tr.dataset.status === 'Active' && rolesOf(tr).indexOf('Client Admin') >= 0 && activeAdmins().length <= 1) { refuse(tr); return; }
+          S1.confirm({ tone: 'danger', title: 'Deactivate ' + tr.dataset.name + '?', body: tr.dataset.name + ' won\'t be able to sign in' + (tr.dataset.status === 'Invited' ? ', and their activation link stops working' : '') + '. Their record and history are kept, and you can reactivate them later.', reason: true, reasonLabel: 'Reason (required)', cta: 'Deactivate user',
+            onConfirm: function () { tr.dataset.status = 'Inactive'; paint(tr); S1.toast(S1.esc(tr.dataset.name) + ' has been deactivated.', 'success'); } });
+        },
+        reactivate: function (tr) {
+          S1.confirm({ title: 'Reactivate ' + tr.dataset.name + '?', body: 'They can sign in again with their existing password and roles.', cta: 'Reactivate user',
+            onConfirm: function () { tr.dataset.status = 'Active'; paint(tr); S1.toast(S1.esc(tr.dataset.name) + ' is active again.', 'success'); } });
+        },
+        more: function (tr) {
+          var st = tr.dataset.status, items = [['edit', 'fa-pen', 'Edit name'], ['roles', 'fa-user-shield', 'Set roles']];
+          if (st === 'Invited') items.push(['resend', 'fa-paper-plane', 'Resend activation']);
+          items.push(st === 'Inactive' ? ['reactivate', 'fa-rotate-left', 'Reactivate'] : ['deactivate', 'fa-user-slash', 'Deactivate']);
+          document.getElementById('sheet-title').textContent = tr.dataset.name;
+          document.getElementById('sheet-list').innerHTML = items.map(function (it) {
+            return '<button type="button" data-sheet="' + it[0] + '" class="flex items-center gap-3 px-3 py-3 rounded-lg text-left text-sm ' + (it[0] === 'deactivate' ? 'text-red-700' : 'text-slate-700') + ' hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue"><i class="fa-solid ' + it[1] + ' w-4 text-center text-xs" aria-hidden="true"></i>' + it[2] + '</button>';
+          }).join('');
+          S1.openModal('sheet-modal');
+        }
+      };
+      document.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-act]');
+        if (b) { var tr = b.closest('tr[id^="u-"]'); if (!tr) return; current = tr; ACTIONS[b.dataset.act](tr); return; }
+        var s = e.target.closest('[data-sheet]');
+        if (s && current) { S1.closeModal('sheet-modal'); ACTIONS[s.dataset.sheet](current); }
+      });
+      document.addEventListener('s1:ready', function () {
+        document.getElementById('name-save').onclick = function () {
+          var v = document.getElementById('edit-name').value.trim();
+          if (!v) { document.getElementById('edit-name-err').classList.remove('hidden'); return; }
+          current.dataset.name = v; cells(current)[1].querySelector('.font-medium').textContent = v;
+          S1.closeModal('name-modal'); S1.toast('Name updated to ' + S1.esc(v) + '.', 'success');
+        };
+        document.getElementById('roles-save').onclick = function () {
+          var picked = Array.prototype.map.call(document.querySelectorAll('#roles-list input:checked'), function (i) { return i.value; });
+          var losing = rolesOf(current).indexOf('Client Admin') >= 0 && picked.indexOf('Client Admin') < 0 && current.dataset.status === 'Active' && activeAdmins().length <= 1;
+          if (losing) { var r = document.getElementById('roles-refused'); r.textContent = 'You can\'t remove Client Admin from ' + current.dataset.name + ' — it would leave your organisation with no one who can manage users.'; r.classList.remove('hidden'); return; }
+          cells(current)[2].innerHTML = picked.length ? picked.map(function (p) { return '<span class="inline-flex items-center px-2 py-1 mr-1 mb-1 rounded bg-gray-100 text-gray-700 text-xs font-medium border border-gray-200">' + p + '</span>'; }).join('') : '<span class="text-xs text-slate-400">No roles yet</span>';
+          S1.closeModal('roles-modal'); S1.toast('Roles saved. They apply from ' + S1.esc(current.dataset.name) + '\'s next click.', 'success');
+        };
+        document.getElementById('invite-form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var n = document.getElementById('inv-name'), m = document.getElementById('inv-email'), ok = true;
+          var ne = document.getElementById('inv-name-err'), me = document.getElementById('inv-email-err');
+          [n, m].forEach(function (i) { i.classList.remove('border-red-600'); i.removeAttribute('aria-invalid'); }); ne.classList.add('hidden'); me.classList.add('hidden');
+          if (!n.value.trim()) { ok = false; ne.classList.remove('hidden'); n.classList.add('border-red-600'); n.setAttribute('aria-invalid', 'true'); }
+          var taken = Array.prototype.some.call(document.querySelectorAll('tr[id^="u-"]'), function (r) { return email(r).toLowerCase() === m.value.trim().toLowerCase(); });
+          if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m.value.trim())) { ok = false; me.textContent = 'Enter an email address like name@clientorg.com.'; }
+          else if (taken) { ok = false; me.textContent = 'This email address already has an account. One email address is one account.'; }
+          if (!ok && me.textContent && (taken || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m.value.trim()))) { me.classList.remove('hidden'); m.classList.add('border-red-600'); m.setAttribute('aria-invalid', 'true'); }
+          document.getElementById('invite-summary').classList.toggle('hidden', ok);
+          if (!ok) return;
+          var tb = document.querySelector('tbody'), id = 'u-new' + Date.now(), name = n.value.trim(), mail = m.value.trim();
+          var ini = name.split(/\s+/).map(function (w) { return w.charAt(0).toUpperCase(); }).slice(0, 2).join('');
+          var tr = document.createElement('tr');
+          tr.id = id; tr.dataset.name = name; tr.dataset.status = 'Invited'; tr.className = 'hover:bg-gray-50 transition-colors';
+          tr.innerHTML = '<td class="p-4"><input type="checkbox" class="rounded border-gray-300 text-blue focus:ring-blue" aria-label="Select row"></td>' +
+            '<td class="p-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-blue/10 flex items-center justify-center text-blue font-semibold text-xs border border-blue/20">' + S1.esc(ini) + '</div><div><div class="font-medium text-navy text-sm">' + S1.esc(name) + '</div><div class="text-xs text-gray-500">' + S1.esc(mail) + '</div></div></div></td>' +
+            '<td class="p-4"><span class="text-xs text-slate-400">No roles yet</span></td>' +
+            '<td class="p-4" data-s1-later><div class="text-sm text-gray-700">—</div></td><td class="p-4"></td><td class="p-4 text-sm text-gray-500">Never</td>' +
+            '<td class="p-4 text-right"><span class="row-btns"></span><button type="button" data-act="more" aria-label="More actions for ' + S1.esc(name) + '" class="text-gray-400 hover:text-blue p-1.5 rounded-md hover:bg-blue/10 transition-colors"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>';
+          tb.insertBefore(tr, tb.firstChild); paint(tr);
+          if (S1.isSlice1Mode()) tr.querySelector('[data-s1-later]').style.setProperty('display', 'none', 'important');
+          S1.closeModal('invite-modal'); n.value = ''; m.value = '';
+          if (document.body.getAttribute('data-s1-state') === 'empty') S1.setState('default');
+          S1.toast('Invitation sent to ' + S1.esc(mail) + '. The link works for 72 hours. Next, set their roles.', 'success');
+        });
+      });
+    })();
+    </script>
+
+<script src="slice1-kit.js"></script>
+</body>
+</html>

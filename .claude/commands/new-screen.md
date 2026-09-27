@@ -13,17 +13,18 @@ Create a new standalone HTML screen mockup, consistent with the existing design 
 ```
 
 Examples:
-- `/new-screen Client - Vacancy Detail`
-- `/new-screen Agency - Candidate Submissions`
+- `/new-screen demand - Vacancy Detail`
+- `/new-screen candidates - Candidate Submissions`
 
 ## What happens
 
-1. Determine the next screen number `N` (highest existing + 1) and create
-   `N-<Portal> - <Screen>.html` in the repo root.
+1. Create `client.<module>.<page>.html` in the repo root — `<module>` is the feature module the
+   screen belongs to and `<page>` a kebab-case slug of the screen name (`../NAMING.md` lists the
+   modules and the rules; this portal's prefix is `client`).
 2. Follow the **new-screen** skill:
    - paste the canonical `<head>` from **design-system**,
    - paste the **layout-shell** (navy sidebar + header + scrollable main),
-   - set `<title>` and header `<h1>` to `<Portal> · <Screen>`,
+   - set `<title>` and header `<h1>` to `<Screen> · <Portal>`,
    - build content from **components**, **status-badges**, **charts**, applying the **accessibility** baseline.
 3. Use only canonical statuses (no FORBIDDEN terms) per `../DESIGN-SPEC-v4.md`.
 4. **Wire it into the flow:** link to the new screen from `index.html` (and the prior screen), and link from it to its next steps + a way back.

@@ -45,7 +45,10 @@ Rules:
 
 5. Reuse the shared `<head>` (Tailwind CDN config + Sora/Manrope) and the sidebar/header **layout shell** — don't invent new chrome per screen. See the `design-system` and `layout-shell` skills.
 6. Use the canonical **status vocabulary** and **status→badge-colour** mapping, and avoid the **forbidden terms** — all defined in `../DESIGN-SPEC-v4.md`. (This is a reference, not a lint gate; the `design-review` command spot-checks it.)
-7. Descriptive `<title>` per screen; filename convention `N-<Portal> - <Screen>.html`.
+7. Descriptive `<title>` per screen; filename convention `<portal>.<module>.<page>.html` — portal is
+   `abstract` | `agency` | `client`, module is the feature module the page belongs to (the first segment of the
+   feature-ledger capability id, `<module>.<capability>`), page is a kebab-case slug of what the page shows.
+   Defined, with the module list and the old→new rename map, in `../NAMING.md`.
 
 ---
 
