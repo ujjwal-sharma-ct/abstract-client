@@ -194,10 +194,15 @@ window.S1_CONFIG = {
   };
 
   // ---------- Notification drawer (A3) ----------
-  var NKEY = 's1-notifs-' + (C.portal || 'x');
+  // v2: the screens were renamed to <portal>.<module>.<page>.html; a list saved under the
+  // v1 key still links to the old file names, so it is dropped rather than reused.
+  var NKEY = 's1-notifs-v2-' + (C.portal || 'x');
+  try { window.localStorage.removeItem('s1-notifs-' + (C.portal || 'x')); } catch (e) { /* storage blocked */ }
   var seed = C.notifications || [];
   var notifs;
   try { notifs = JSON.parse(sget(NKEY) || 'null'); } catch (e) { notifs = null; }
+  // keep a saved list only if every link still names a current screen (or '#')
+  if (Array.isArray(notifs) && notifs.some(function (n) { return n.href && n.href !== '#' && !/^(abstract|agency|client)\.[a-z0-9.-]+\.html/.test(n.href); })) notifs = null;
   if (!Array.isArray(notifs)) notifs = seed.slice();
   function saveN() { sset(NKEY, JSON.stringify(notifs.slice(0, 40))); }
   S1.notifications = function () { return notifs; };
