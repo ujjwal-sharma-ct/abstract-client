@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm your new sign-in email · Abstract VMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;} * { scrollbar-width: none; }
+    .tnum { font-variant-numeric: tabular-nums; }
+    .row-actions { opacity: 0; } tr:hover .row-actions, tr:focus-within .row-actions, li:hover .row-actions, li:focus-within .row-actions, .tree-row:hover .row-actions, .tree-row:focus-within .row-actions { opacity: 1; }
+    @media (hover: none) { .row-actions { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+    
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { inter: ['Inter', 'sans-serif'], },
+                    colors: {
+                        navy: { DEFAULT: '#172554', 50: '#EEF1FB', 100: '#D4DCF5', 200: '#A9B9EB', 300: '#7E96E1', 400: '#5373D7', 500: '#2850CD', 600: '#1D3FA4', 700: '#162F7B', 800: '#0F1F52', 900: '#172554', },
+                        brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554', }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter" data-s2-page data-s1-states="default loading expired" style="background: linear-gradient(160deg, #0f1a3e 0%, #172554 35%, #1e1a4a 65%, #2d1a5e 100%);">
+<main class="min-h-screen flex items-center justify-center px-4 py-10 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full opacity-20" style="background: radial-gradient(circle, #1D4ED8 0%, transparent 70%);"></div>
+        <div class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full opacity-15" style="background: radial-gradient(circle, #5B2E91 0%, transparent 70%);"></div>
+    </div>
+    <div class="w-full max-w-[420px] relative z-10">
+        <div class="flex justify-center mb-6"><img src="logo.png" alt="Abstract VMS" class="h-24 w-auto"/></div>
+        <div class="flex flex-col items-center gap-2 mb-8"><span class="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">Client Portal</span></div>
+        <div class="bg-white border border-white/20 rounded-2xl shadow-2xl overflow-hidden">
+            <div class="px-6 sm:px-8 pt-8 pb-8">
+                <div data-s1-show="loading" aria-busy="true">
+                    <div class="flex items-center gap-3 mb-6"><i class="fa-solid fa-spinner fa-spin text-blue-700" aria-hidden="true"></i><p class="text-sm font-semibold text-slate-700">Checking your link…</p></div>
+                    <div class="space-y-4"><div class="h-5 w-2/3 bg-slate-200 rounded animate-pulse"></div><div class="h-3 w-full bg-slate-200 rounded animate-pulse"></div><div class="h-11 w-full bg-slate-200 rounded-lg animate-pulse"></div></div>
+                </div>
+                <div data-s1-show="default" class="text-center" data-s1-display="block">
+                    <div class="w-14 h-14 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-envelope-circle-check text-xl" aria-hidden="true"></i></div>
+                    <h1 class="text-xl font-bold text-slate-900">Your sign-in email is confirmed</h1>
+                    <p class="text-sm text-slate-600 mt-2">Your sign-in address is now <span class="font-semibold text-slate-900 break-all" id="new-email">r.green@acme-logistics.co.uk</span>. Every session you had open has been signed out; sign in again with the new address and your existing password.</p>
+                    <a href="client.identity-access.sign-in.html?reason=signed-out" class="mt-6 inline-flex items-center justify-center gap-2 w-full text-white rounded-lg px-4 py-3 text-sm font-semibold hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Sign in</a>
+                </div>
+                <div data-s1-show="expired" class="text-center" data-s1-display="block">
+                    <div class="w-14 h-14 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-link-slash text-xl" aria-hidden="true"></i></div>
+                    <h1 class="text-xl font-bold text-slate-900">This link no longer works</h1>
+                    <p class="text-sm text-slate-600 mt-2">It has expired, was already used, or the change was cancelled. Your sign-in address has not changed. Ask an administrator in your organisation to request the change again; they can send a new link that works for 72 hours.</p>
+                    <a href="client.identity-access.sign-in.html" class="mt-6 inline-flex items-center justify-center gap-2 w-full bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-4 py-3 text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2">Back to sign in</a>
+                </div>
+            </div>
+        </div>
+        <p class="text-center text-xs text-white/50 mt-6">Abstract VMS · If you did not ask for this change, tell your administrator.</p>
+    </div>
+</main>
+<script>
+var Q = new URLSearchParams(location.search); if (Q.get('email')) document.getElementById('new-email').textContent = Q.get('email');
+</script>
+<script src="slice1-kit.js"></script>
+</body>
+</html>

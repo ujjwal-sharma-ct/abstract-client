@@ -119,3 +119,11 @@ so deleting that content would lose the later slices' design.
 
 **Consequences:** The full-product flow is unchanged; the slice 1 demo is one toggle away. Older
 agency/client screens look different from the new kernel-styled ones until they are rebuilt.
+
+## 2026-10-10 — Slice 2: the users page redrawn in the slice 1 shell
+
+**Context:** The slice 1 users page kept the older shell (gray ramp, static rows, role titles in copy) and was not laid out for 375 px. Slice 2 adds the Scope column, picker and Change email to it.
+
+**Decision:** Rebuild the page from the Abstract slice 1 users page pattern in the kernel system rather than patch the old shell, keeping Users and Roles tabs and the settings tab strip the TSD gives the client (Users · Roles · Permissions · Business units · Notification preferences).
+
+**Consequences:** The old markup is gone; the page carries its states behind the Prototype menu at both widths.

@@ -24,7 +24,7 @@ const fileSet = new Set(files)
 
 // Entry points: index, sign-in / login, the activation-email landing (reached only from
 // an email link) and the slice 1 screen index.
-const ENTRY_RE = /^(index|.*sign.?in.*|.*log.?in.*|.*activate.?account.*|.*slice.?1.?index.*)\.html$/i
+const ENTRY_RE = /^(index|.*sign.?in.*|.*log.?in.*|.*activate.?account.*|.*confirm.?email.*|.*slice.?[12].?index.*)\.html$/i
 const isEntry = (f) => ENTRY_RE.test(f)
 
 function titleOf(body, fallback) {
