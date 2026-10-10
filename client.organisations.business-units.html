@@ -1,402 +1,564 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-[#F3F4F6]">
+<html lang="en-GB">
 <head>
-    <script>
-        window.FontAwesomeConfig = {
-          autoReplaceSvg: 'nest'
-        };
-      </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Units - Abstractvms Client Portal</title>
+    <title>Business units · Abstract VMS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdn.plot.ly/plotly-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;} * { scrollbar-width: none; }
+    .tnum { font-variant-numeric: tabular-nums; }
+    .row-actions { opacity: 0; } tr:hover .row-actions, tr:focus-within .row-actions, li:hover .row-actions, li:focus-within .row-actions, .tree-row:hover .row-actions, .tree-row:focus-within .row-actions { opacity: 1; }
+    @media (hover: none) { .row-actions { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+    
+    </style>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sora: ['Sora', 'sans-serif'],
-                        manrope: ['Manrope', 'sans-serif'],
-                    },
+                    fontFamily: { inter: ['Inter', 'sans-serif'], },
                     colors: {
-                        navy: '#172554',
-                        blue: '#1D4ED8',
-                        purple: '#5B2E91',
-                        lightgrey: '#F3F4F6',
-                        success: '#16A34A',
-                        warning: '#F59E0B',
-                        danger: '#DC2626',
+                        navy: { DEFAULT: '#172554', 50: '#EEF1FB', 100: '#D4DCF5', 200: '#A9B9EB', 300: '#7E96E1', 400: '#5373D7', 500: '#2850CD', 600: '#1D3FA4', 700: '#162F7B', 800: '#0F1F52', 900: '#172554', },
+                        brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554', }
                     }
                 }
             }
         }
     </script>
-    <style>
-        body { font-family: 'Manrope', sans-serif; }
-        h1, h2, h3, h4, h5, h6 { font-family: 'Sora', sans-serif; }
-        ::-webkit-scrollbar { display: none; }
-    </style>
 </head>
-<body class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800 flex bg-[#F3F4F6]">
-
-    <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="w-64 bg-navy h-screen flex-shrink-0 flex flex-col border-r border-navy/20">
-        <!-- Logo -->
-        <div class="h-16 flex items-center px-6 border-b border-white/10 shrink-0">
-            <div class="flex items-center gap-2">
-                                <img src="logo.png" alt="Abstract" class="h-12 w-auto">
-
-            </div>
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s2-page data-s1-states="default loading empty error validation readonly denied large pending">
+<div id="app-root" class="flex w-full" style="height: 100vh;">
+    <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
+        <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
+            <img src="logo.png" alt="Abstract VMS" class="h-12 w-auto block -ml-[5px]"/>
+            <p class="text-white/40 text-sm mt-2">Client Portal</p>
         </div>
-
-        <!-- Nav Links -->
-        <div class="flex-1 overflow-y-auto py-6 px-3">
-            <nav class="space-y-1">
-                <a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-chart-pie w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Dashboard</span>
-                </a>
-                <a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md bg-blue text-white group transition-colors duration-200 border-l-4 border-white">
-                    <i class="fa-solid fa-building w-5 text-center text-white"></i>
-                    <span class="text-sm font-medium">Business Units</span>
-                </a>
-                <a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-users-gear w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Users & Permissions</span>
-                </a>
-                <div class="pt-4 pb-1">
-                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Recruitment</p>
-                </div>
-                <a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-briefcase w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Vacancies</span>
-                </a>
-                <a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-clipboard-list w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Bookings</span>
-                </a>
-                <a href="client.candidates.candidate-directory.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-address-card w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Candidate Directory</span>
-                </a>
-                <div class="pt-4 pb-1">
-                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Finance</p>
-                </div>
-                <a href="client.timesheets.timesheets.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-clock w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Timesheets</span>
-                </a>
-                <a href="client.money.invoices.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-file-invoice-dollar w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Invoices</span>
-                </a>
-                <div class="pt-4 pb-1">
-                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Analytics</p>
-                </div>
-                <a href="client.reporting.reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-chart-line w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Reports</span>
-                </a>
-            </nav>
-        </div>
-
-        <!-- User Profile -->
-        <div class="border-t border-white/10 p-4 shrink-0">
-            <div class="flex items-center gap-3 w-full">
-                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="User Avatar" class="h-9 w-9 rounded-full object-cover border border-gray-600">
+        <nav id="sidebar-nav" class="flex-1 px-3 py-4 flex flex-col gap-1" aria-label="Main">
+            <a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-gauge-high text-white/40 w-4 text-center" aria-hidden="true"></i><span>Dashboard</span></a><a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-150" style="background: linear-gradient(135deg, rgba(29,78,216,0.5), rgba(91,46,145,0.4)); border: 1px solid rgba(255,255,255,0.15);" aria-current="page"><i class="fa-solid fa-sitemap text-blue-400 w-4 text-center" aria-hidden="true"></i><span>Business Units</span><div class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"></div></a><a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-users text-white/40 w-4 text-center" aria-hidden="true"></i><span>Users & Permissions</span></a><a href="client.notifications.notification-preferences.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-bell text-white/40 w-4 text-center" aria-hidden="true"></i><span>Notification preferences</span></a><p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Recruitment</p><a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-briefcase text-white/40 w-4 text-center" aria-hidden="true"></i><span>Vacancies</span></a><a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-calendar-check text-white/40 w-4 text-center" aria-hidden="true"></i><span>Bookings</span></a><a href="client.candidates.candidate-directory.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-address-book text-white/40 w-4 text-center" aria-hidden="true"></i><span>Candidate Directory</span></a><p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Finance</p><a href="client.timesheets.timesheets.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-clock text-white/40 w-4 text-center" aria-hidden="true"></i><span>Timesheets</span></a><a href="client.money.invoices.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-file-invoice text-white/40 w-4 text-center" aria-hidden="true"></i><span>Invoices</span></a><p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Analytics</p><a href="client.reporting.reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-chart-line text-white/40 w-4 text-center" aria-hidden="true"></i><span>Reports</span></a>
+        </nav>
+        <div id="sidebar-footer" class="px-4 py-4 border-t border-white/10">
+            <div class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-white/5 transition-all">
+                <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 text-xs font-bold flex items-center justify-center flex-shrink-0" aria-hidden="true">RG</span>
                 <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-white truncate font-sora">Sarah Jenkins</p>
-                    <p class="text-xs text-gray-400 truncate">Client Admin</p>
+                    <a href="client.identity-access.profile.html" class="block text-white text-xs font-semibold truncate hover:underline" title="Your profile" data-user-name>Rachel Green</a>
+                    <p class="text-white/40 text-xs truncate">Acme Logistics</p>
                 </div>
-                <a href="client.identity-access.sign-in.html" class="text-gray-400 hover:text-white transition-colors" title="Sign Out">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                </a>
+                <a href="client.identity-access.sign-in.html?reason=signed-out" aria-label="Sign out" title="Sign out"><i class="fa-solid fa-arrow-right-from-bracket text-white/30 text-xs hover:text-white" aria-hidden="true"></i></a>
             </div>
         </div>
     </aside>
-
-    <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col h-screen overflow-hidden">
-        
-        <!-- Header -->
-        <header id="header" class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 shrink-0 shadow-sm z-10">
-            <div class="flex items-center gap-4">
-                <h1 class="text-xl font-sora font-semibold text-navy">Business Units</h1>
-            </div>
-
-            <div class="flex items-center gap-6">
-                <!-- Search -->
-                <div class="relative w-64 hidden md:block">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header id="header" class="flex items-center justify-between gap-3 px-4 sm:px-6 xl:px-8 py-4 bg-white border-b border-slate-200 flex-shrink-0">
+            <div class="flex items-center gap-3 min-w-0">
+                <button id="mobile-menu-btn" class="lg:hidden w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-bars text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <div class="min-w-0">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <h1 class="text-lg font-bold text-slate-900 truncate">Business units</h1>
                     </div>
-                    <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue focus:border-blue sm:text-sm transition-all" placeholder="Search vacancies, candidates...">
+                    <p class="text-xs text-slate-500 hidden sm:block truncate">The structure your users are scoped to.</p>
                 </div>
-
-                <!-- Notifications -->
-                <a href="client.notifications.notification-centre.html" class="relative text-gray-500 hover:text-navy transition-colors" title="Notifications" aria-label="Notifications">
-                    <i class="fa-regular fa-bell text-lg"></i>
-                    <span class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-danger text-[10px] font-bold text-white ring-2 ring-white">3</span>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+                
+                <button data-s1-bell aria-label="Notifications" class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-regular fa-bell text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <a href="client.identity-access.profile.html" aria-label="My account (Rachel Green)" class="flex items-center gap-2 pl-3 border-l border-slate-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">
+                    <span class="w-8 h-8 rounded-full text-white text-xs font-bold flex items-center justify-center" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);" aria-hidden="true">RG</span>
+                    <span class="hidden xl:block"><span class="block text-xs font-semibold text-slate-700">Rachel Green</span><span class="block text-xs text-slate-400">Acme Logistics</span></span>
                 </a>
             </div>
         </header>
+        <main id="main" class="flex-1 overflow-y-auto px-4 sm:px-6 xl:px-8 py-6 bg-slate-100">
+            <div data-s1-show="denied" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-14 text-center">
+                <div class="w-14 h-14 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-lock text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">You don't have access to this page</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Seeing your organisation's structure needs the permission to view users. Ask someone who can manage users and roles if you need it.</p>
+                <a href="client.shell.dashboard.html" data-s1-home class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 mt-5"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to the dashboard</a>
+            </div>
+            <div data-s1-hide="denied">
+            <nav aria-label="Settings" data-embedded-hide class="flex items-center gap-6 border-b border-slate-200 mb-5 overflow-x-auto whitespace-nowrap"><a href="client.identity-access.users.html"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-users text-xs" aria-hidden="true"></i>Users</a><a href="client.identity-access.users.html#roles"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-user-shield text-xs" aria-hidden="true"></i>Roles</a><a href="client.identity-access.permission-matrix.html"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-table-cells text-xs" aria-hidden="true"></i>Permissions</a><a href="client.organisations.business-units.html" aria-current="page" class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-blue-700 text-sm font-semibold text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-sitemap text-xs" aria-hidden="true"></i>Business units</a><a href="client.notifications.notification-preferences.html"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-bell text-xs" aria-hidden="true"></i>Notification preferences</a></nav>
+            <div data-s1-show="readonly" role="status" class="mb-4 text-sm text-slate-600 flex items-start gap-2"><i class="fa-solid fa-eye text-slate-400 mt-0.5" aria-hidden="true"></i><p>You can see your organisation's structure but not change it. Changing it needs permission to manage users and roles.</p></div>
+            <div id="approval-banner" style="display:none" role="status" class="mb-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 flex items-start gap-3 text-sm text-blue-900"><i class="fa-solid fa-circle-info text-blue-600 mt-0.5" aria-hidden="true"></i><p><span class="font-semibold">Abstract approves changes to your structure.</span> A change you make is sent to Abstract and applied once approved. <span id="pending-count-line"></span></p></div>
 
-        <!-- Main Scrollable Content -->
-        <main id="main-content" class="flex-1 overflow-y-auto p-8 bg-[#F3F4F6]">
-            <div class="max-w-7xl mx-auto space-y-6">
+            <div data-s1-show="loading" class="bg-white rounded-2xl border border-slate-200 shadow-sm" aria-busy="true" aria-label="Loading the structure">
+              <div class="flex items-center gap-3 px-4 py-3 border-b border-slate-100" style="padding-left:16px"><div class="w-5 h-5 rounded bg-slate-200 animate-pulse"></div><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:30%"></div><div class="ml-auto w-16 h-3 bg-slate-200 rounded animate-pulse hidden md:block"></div></div><div class="flex items-center gap-3 px-4 py-3 border-b border-slate-100" style="padding-left:36px"><div class="w-5 h-5 rounded bg-slate-200 animate-pulse"></div><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:28%"></div><div class="ml-auto w-16 h-3 bg-slate-200 rounded animate-pulse hidden md:block"></div></div><div class="flex items-center gap-3 px-4 py-3 border-b border-slate-100" style="padding-left:56px"><div class="w-5 h-5 rounded bg-slate-200 animate-pulse"></div><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:24%"></div><div class="ml-auto w-16 h-3 bg-slate-200 rounded animate-pulse hidden md:block"></div></div><div class="flex items-center gap-3 px-4 py-3 border-b border-slate-100" style="padding-left:56px"><div class="w-5 h-5 rounded bg-slate-200 animate-pulse"></div><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:22%"></div><div class="ml-auto w-16 h-3 bg-slate-200 rounded animate-pulse hidden md:block"></div></div><div class="flex items-center gap-3 px-4 py-3 border-b border-slate-100" style="padding-left:36px"><div class="w-5 h-5 rounded bg-slate-200 animate-pulse"></div><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:26%"></div><div class="ml-auto w-16 h-3 bg-slate-200 rounded animate-pulse hidden md:block"></div></div><div class="flex items-center gap-3 px-4 py-3 border-b border-slate-100" style="padding-left:16px"><div class="w-5 h-5 rounded bg-slate-200 animate-pulse"></div><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:30%"></div><div class="ml-auto w-16 h-3 bg-slate-200 rounded animate-pulse hidden md:block"></div></div><div class="flex items-center gap-3 px-4 py-3 border-b border-slate-100" style="padding-left:36px"><div class="w-5 h-5 rounded bg-slate-200 animate-pulse"></div><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:24%"></div><div class="ml-auto w-16 h-3 bg-slate-200 rounded animate-pulse hidden md:block"></div></div>
+              <p class="sr-only">Loading…</p>
+            </div>
+            <div data-s1-show="error" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-12 text-center" role="alert">
+                <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-triangle-exclamation text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">We couldn't load the structure</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Something went wrong on our side. Try again — if it keeps happening, quote reference <span class="font-semibold text-slate-800 tnum">ERR-STR-4A10-7733</span> to Abstract support.</p>
+                <button type="button" onclick="S1.setState('loading');setTimeout(function(){S1.setState('default')},700)" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 mt-5"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Retry</button>
+            </div>
 
-                <!-- Page Actions & Filters -->
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-                    <div class="flex items-center gap-3">
-                        <div class="relative w-72">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
-                            </div>
-                            <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-blue focus:border-blue" placeholder="Search business units...">
-                        </div>
-                        <div class="relative">
-                            <select class="block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md focus:ring-blue focus:border-blue appearance-none bg-white">
-                                <option>All Statuses</option>
-                                <option>Active</option>
-                                <option>Inactive</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <div class="relative">
-                            <select class="block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md focus:ring-blue focus:border-blue appearance-none bg-white" title="Parent business unit">
-                                <option>Parent: Nexus Logistics (Client Root)</option>
-                                <option>— Midlands Region</option>
-                                <option>—— Midlands Distribution Centre</option>
-                                <option>——— Nights Department</option>
-                                <option>— Northern Region</option>
-                                <option>—— Northern Hub</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-                        <button class="bg-blue text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-navy transition-colors flex items-center gap-2 whitespace-nowrap">
-                            <i class="fa-solid fa-plus"></i>
-                            Add Business Unit
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Business Unit Hierarchy (Tree View) -->
-                <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                        <div>
-                            <h3 class="text-lg font-sora font-semibold text-navy">Organisation Hierarchy</h3>
-                            <p class="text-xs text-gray-500 mt-0.5">Client → Region → Site → Department</p>
-                        </div>
-                        <div class="flex items-center gap-3 text-xs text-gray-500">
-                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-hashtag text-gray-400"></i> Cost Centre</span>
-                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-users text-gray-400"></i> Active Workers</span>
-                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-briefcase text-gray-400"></i> Open Vacancies</span>
-                        </div>
-                    </div>
-
-                    <div class="p-4 overflow-x-auto">
-                        <!-- Level 1: Client Root -->
-                        <div class="tree-node">
-                            <div class="flex items-center justify-between gap-4 px-3 py-3 rounded-lg hover:bg-gray-50 transition-colors">
-                                <div class="flex items-center gap-3 min-w-0">
-                                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs w-4"></i>
-                                    <div class="h-9 w-9 rounded-lg bg-navy/10 flex items-center justify-center text-navy shrink-0"><i class="fa-solid fa-sitemap"></i></div>
-                                    <div class="min-w-0">
-                                        <p class="text-sm font-sora font-semibold text-navy truncate">Nexus Logistics <span class="ml-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">Client Root</span></p>
-                                        <p class="text-xs text-gray-500 truncate"><span class="font-mono">CC-ROOT</span> · United Kingdom · Admin: Sarah Jenkins</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-5 shrink-0">
-                                    <span class="text-sm text-gray-700"><i class="fa-solid fa-users text-gray-400 mr-1"></i>156</span>
-                                    <span class="text-sm text-gray-700"><i class="fa-solid fa-briefcase text-gray-400 mr-1"></i>42</span>
-                                    <div class="flex gap-1">
-                                        <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Add child unit"><i class="fa-solid fa-plus"></i></button>
-                                        <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Level 2..4 wrapper with connector line -->
-                            <div class="ml-6 border-l border-gray-200 pl-4 space-y-1 mt-1">
-
-                                <!-- Level 2: Region -->
-                                <div>
-                                    <div class="flex items-center justify-between gap-4 px-3 py-3 rounded-lg hover:bg-gray-50 transition-colors">
-                                        <div class="flex items-center gap-3 min-w-0">
-                                            <i class="fa-solid fa-chevron-down text-gray-400 text-xs w-4"></i>
-                                            <div class="h-9 w-9 rounded-lg bg-blue/10 flex items-center justify-center text-blue shrink-0"><i class="fa-solid fa-map-location-dot"></i></div>
-                                            <div class="min-w-0">
-                                                <p class="text-sm font-sora font-semibold text-navy truncate">Midlands Region <span class="ml-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">Region</span></p>
-                                                <p class="text-xs text-gray-500 truncate"><span class="font-mono">CC-MID</span> · Central England · Manager: John Smith</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center gap-5 shrink-0">
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20 mr-1">Active</span>
-                                            <span class="text-sm text-gray-700"><i class="fa-solid fa-users text-gray-400 mr-1"></i>85</span>
-                                            <span class="text-sm text-gray-700"><i class="fa-solid fa-briefcase text-gray-400 mr-1"></i>12</span>
-                                            <div class="flex gap-1">
-                                                <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Add child unit"><i class="fa-solid fa-plus"></i></button>
-                                                <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Level 3: Site -->
-                                    <div class="ml-6 border-l border-gray-200 pl-4 space-y-1 mt-1">
-                                        <div>
-                                            <div class="flex items-center justify-between gap-4 px-3 py-3 rounded-lg hover:bg-gray-50 transition-colors">
-                                                <div class="flex items-center gap-3 min-w-0">
-                                                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs w-4"></i>
-                                                    <div class="h-9 w-9 rounded-lg bg-purple/10 flex items-center justify-center text-purple shrink-0"><i class="fa-solid fa-warehouse"></i></div>
-                                                    <div class="min-w-0">
-                                                        <p class="text-sm font-sora font-semibold text-navy truncate">Midlands Distribution Centre <span class="ml-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">Site</span></p>
-                                                        <p class="text-xs text-gray-500 truncate"><span class="font-mono">CC-MDC-01</span> · Birmingham, UK · Manager: John Smith</p>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center gap-5 shrink-0">
-                                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20 mr-1">Active</span>
-                                                    <span class="text-sm text-gray-700"><i class="fa-solid fa-users text-gray-400 mr-1"></i>85</span>
-                                                    <span class="text-sm text-gray-700"><i class="fa-solid fa-briefcase text-gray-400 mr-1"></i>12</span>
-                                                    <div class="flex gap-1">
-                                                        <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Add child unit"><i class="fa-solid fa-plus"></i></button>
-                                                        <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Level 4: Department -->
-                                            <div class="ml-6 border-l border-gray-200 pl-4 space-y-1 mt-1">
-                                                <div class="flex items-center justify-between gap-4 px-3 py-3 rounded-lg hover:bg-gray-50 transition-colors">
-                                                    <div class="flex items-center gap-3 min-w-0">
-                                                        <i class="fa-solid fa-minus text-gray-300 text-xs w-4"></i>
-                                                        <div class="h-9 w-9 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 shrink-0"><i class="fa-solid fa-moon"></i></div>
-                                                        <div class="min-w-0">
-                                                            <p class="text-sm font-sora font-semibold text-navy truncate">Nights Department <span class="ml-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">Department</span></p>
-                                                            <p class="text-xs text-gray-500 truncate"><span class="font-mono">CC-MDC-01-N</span> · Birmingham, UK · Supervisor: Rebecca Smith</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex items-center gap-5 shrink-0">
-                                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20 mr-1">Active</span>
-                                                        <span class="text-sm text-gray-700"><i class="fa-solid fa-users text-gray-400 mr-1"></i>48</span>
-                                                        <span class="text-sm text-gray-700"><i class="fa-solid fa-briefcase text-gray-400 mr-1"></i>3</span>
-                                                        <div class="flex gap-1">
-                                                            <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Add child unit"><i class="fa-solid fa-plus"></i></button>
-                                                            <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center justify-between gap-4 px-3 py-3 rounded-lg hover:bg-gray-50 transition-colors">
-                                                    <div class="flex items-center gap-3 min-w-0">
-                                                        <i class="fa-solid fa-minus text-gray-300 text-xs w-4"></i>
-                                                        <div class="h-9 w-9 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 shrink-0"><i class="fa-solid fa-sun"></i></div>
-                                                        <div class="min-w-0">
-                                                            <p class="text-sm font-sora font-semibold text-navy truncate">Days Department <span class="ml-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">Department</span></p>
-                                                            <p class="text-xs text-gray-500 truncate"><span class="font-mono">CC-MDC-01-D</span> · Birmingham, UK · Supervisor: Tom Clarke</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex items-center gap-5 shrink-0">
-                                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20 mr-1">Active</span>
-                                                        <span class="text-sm text-gray-700"><i class="fa-solid fa-users text-gray-400 mr-1"></i>37</span>
-                                                        <span class="text-sm text-gray-700"><i class="fa-solid fa-briefcase text-gray-400 mr-1"></i>9</span>
-                                                        <div class="flex gap-1">
-                                                            <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Add child unit"><i class="fa-solid fa-plus"></i></button>
-                                                            <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Level 2: Northern Region -->
-                                <div>
-                                    <div class="flex items-center justify-between gap-4 px-3 py-3 rounded-lg hover:bg-gray-50 transition-colors">
-                                        <div class="flex items-center gap-3 min-w-0">
-                                            <i class="fa-solid fa-chevron-down text-gray-400 text-xs w-4"></i>
-                                            <div class="h-9 w-9 rounded-lg bg-blue/10 flex items-center justify-center text-blue shrink-0"><i class="fa-solid fa-map-location-dot"></i></div>
-                                            <div class="min-w-0">
-                                                <p class="text-sm font-sora font-semibold text-navy truncate">Northern Region <span class="ml-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">Region</span></p>
-                                                <p class="text-xs text-gray-500 truncate"><span class="font-mono">CC-NTH</span> · North England · Manager: Sarah Jones</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center gap-5 shrink-0">
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20 mr-1">Active</span>
-                                            <span class="text-sm text-gray-700"><i class="fa-solid fa-users text-gray-400 mr-1"></i>42</span>
-                                            <span class="text-sm text-gray-700"><i class="fa-solid fa-briefcase text-gray-400 mr-1"></i>8</span>
-                                            <div class="flex gap-1">
-                                                <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Add child unit"><i class="fa-solid fa-plus"></i></button>
-                                                <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Level 3: Site -->
-                                    <div class="ml-6 border-l border-gray-200 pl-4 space-y-1 mt-1">
-                                        <div class="flex items-center justify-between gap-4 px-3 py-3 rounded-lg hover:bg-gray-50 transition-colors">
-                                            <div class="flex items-center gap-3 min-w-0">
-                                                <i class="fa-solid fa-minus text-gray-300 text-xs w-4"></i>
-                                                <div class="h-9 w-9 rounded-lg bg-purple/10 flex items-center justify-center text-purple shrink-0"><i class="fa-solid fa-warehouse"></i></div>
-                                                <div class="min-w-0">
-                                                    <p class="text-sm font-sora font-semibold text-navy truncate">Northern Hub <span class="ml-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">Site</span></p>
-                                                    <p class="text-xs text-gray-500 truncate"><span class="font-mono">CC-NH-02</span> · Manchester, UK · Manager: Sarah Jones</p>
-                                                </div>
-                                            </div>
-                                            <div class="flex items-center gap-5 shrink-0">
-                                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20 mr-1">Active</span>
-                                                <span class="text-sm text-gray-700"><i class="fa-solid fa-users text-gray-400 mr-1"></i>42</span>
-                                                <span class="text-sm text-gray-700"><i class="fa-solid fa-briefcase text-gray-400 mr-1"></i>8</span>
-                                                <div class="flex gap-1">
-                                                    <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Add child unit"><i class="fa-solid fa-plus"></i></button>
-                                                    <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Level 2: London Region (Inactive) -->
-                                <div>
-                                    <div class="flex items-center justify-between gap-4 px-3 py-3 rounded-lg hover:bg-gray-50 transition-colors opacity-75">
-                                        <div class="flex items-center gap-3 min-w-0">
-                                            <i class="fa-solid fa-minus text-gray-300 text-xs w-4"></i>
-                                            <div class="h-9 w-9 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 shrink-0"><i class="fa-solid fa-map-location-dot"></i></div>
-                                            <div class="min-w-0">
-                                                <p class="text-sm font-sora font-semibold text-navy truncate">London Gateway <span class="ml-1 text-[10px] font-medium uppercase tracking-wide text-gray-400">Site</span></p>
-                                                <p class="text-xs text-gray-500 truncate"><span class="font-mono">CC-LG-03</span> · Essex, UK · Manager: Michael Davis</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center gap-5 shrink-0">
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200 mr-1">Inactive</span>
-                                            <span class="text-sm text-gray-500"><i class="fa-solid fa-users text-gray-400 mr-1"></i>0</span>
-                                            <span class="text-sm text-gray-500"><i class="fa-solid fa-briefcase text-gray-400 mr-1"></i>0</span>
-                                            <div class="flex gap-1">
-                                                <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Add child unit"><i class="fa-solid fa-plus"></i></button>
-                                                <button class="text-gray-400 hover:text-blue p-1.5 rounded hover:bg-blue/10 transition-colors" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
+            <div data-s1-hide="loading error">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="flex flex-wrap items-center gap-3 px-4 py-3 border-b border-slate-200">
+                <label class="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 min-h-[38px] focus-within:border-blue-300 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-600/20 flex-1 min-w-[180px]"><i class="fa-solid fa-magnifying-glass text-slate-400 text-xs" aria-hidden="true"></i><span class="sr-only">Search nodes</span><input id="tree-search" type="search" placeholder="Search nodes" class="bg-transparent text-sm text-slate-700 placeholder-slate-400 outline-none w-full"/></label>
+                <div class="hidden sm:flex items-center gap-1"><button type="button" id="btn-expand" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 hover:text-blue-900 hover:underline rounded px-1 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Expand all</button><span class="text-slate-300" aria-hidden="true">·</span><button type="button" id="btn-collapse" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 hover:text-blue-900 hover:underline rounded px-1 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Collapse to level 2</button></div>
+                <button type="button" id="btn-add" data-edit class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed hidden sm:inline-flex" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add node</button>
+              </div>
+              <div class="hidden md:flex items-center gap-2 px-3 py-2 bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider" aria-hidden="true">
+                <span class="flex-1 pl-9">Name</span><span class="w-28 flex-shrink-0">Type</span><span class="w-28 flex-shrink-0" id="col-cc">Cost centre</span><span class="w-14 flex-shrink-0 text-right">Users</span><span class="w-44 flex-shrink-0" id="col-actions"></span>
+              </div>
+              <div id="tree"></div>
+              <div id="tree-empty" style="display:none" class="px-6 py-10 text-center border-t border-slate-100">
+                <div class="w-14 h-14 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-sitemap text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">No structure yet</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto" id="tree-empty-copy"></p>
+                <button type="button" data-edit class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 mt-5" onclick="openAdd('__root')"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add node</button>
+              </div>
+              <p id="tree-foot" class="px-4 py-3 text-xs text-slate-500 border-t border-slate-200 bg-slate-50"></p>
+            </div>
+            <div class="sm:hidden sticky bottom-0 -mx-4 px-4 py-3 bg-white border-t border-slate-200 mt-4" data-edit><button type="button" id="btn-add-m" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed w-full" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add node</button></div>
+            </div>
             </div>
         </main>
     </div>
+</div>
+<script>
+/* Mobile navigation (sidebar is hidden below lg — this is the only way to reveal it) */
+(function () {
+  var btn = document.getElementById('mobile-menu-btn'),
+      sb  = document.getElementById('sidebar');
+  if (!btn || !sb) return;
+  btn.setAttribute('aria-controls', 'sidebar');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.setAttribute('aria-label', 'Open navigation');
+  var bd = document.createElement('div');
+  bd.setAttribute('aria-hidden', 'true');
+  bd.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:40;display:none';
+  document.body.appendChild(bd);
+  function open() {
+    sb.style.display = 'flex'; sb.style.position = 'fixed'; sb.style.top = '0';
+    sb.style.bottom = '0'; sb.style.left = '0'; sb.style.zIndex = '50';
+    bd.style.display = 'block'; btn.setAttribute('aria-expanded', 'true');
+  }
+  function close() {
+    ['display','position','top','bottom','left','zIndex'].forEach(function (p) { sb.style[p] = ''; });
+    bd.style.display = 'none'; btn.setAttribute('aria-expanded', 'false');
+  }
+  btn.addEventListener('click', function () { bd.style.display === 'block' ? close() : open(); });
+  bd.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && bd.style.display === 'block') close(); });
+  window.addEventListener('resize', function () { if (window.innerWidth >= 1024) close(); });
+})();
+</script>
+<script>
+var BADGE = {
+  'Draft': ['bg-slate-100 text-slate-700 border border-slate-200', 'fa-file-pen'],
+  'In Setup': ['bg-blue-50 text-blue-700 border border-blue-200', 'fa-screwdriver-wrench'],
+  'Pending Activation': ['bg-amber-50 text-amber-700 border border-amber-200', 'fa-hourglass-half'],
+  'Active': ['bg-emerald-50 text-emerald-700 border border-emerald-200', 'fa-circle-check'],
+  'Suspended': ['bg-red-50 text-red-700 border border-red-200', 'fa-ban'],
+  'Invited': ['bg-amber-50 text-amber-700 border border-amber-200', 'fa-envelope'],
+  'Inactive': ['bg-slate-100 text-slate-500 border border-slate-200', 'fa-circle-minus'],
+  'Pending approval': ['bg-amber-50 text-amber-700 border border-amber-200', 'fa-hourglass-half'],
+  'Approved': ['bg-emerald-50 text-emerald-700 border border-emerald-200', 'fa-circle-check'],
+  'Rejected': ['bg-red-50 text-red-700 border border-red-200', 'fa-circle-xmark'],
+  'Compliant': ['bg-emerald-50 text-emerald-700 border border-emerald-200', 'fa-circle-check'],
+  'Pending': ['bg-amber-50 text-amber-700 border border-amber-200', 'fa-hourglass-half'],
+  'Expired': ['bg-red-50 text-red-700 border border-red-200', 'fa-circle-xmark'],
+  'Not Applicable': ['bg-slate-100 text-slate-700 border border-slate-200', 'fa-minus']
+};
+function badge(s, small) {
+  var b = BADGE[s] || BADGE['Draft'];
+  return '<span class="inline-flex items-center gap-1.5 ' + (small ? 'px-2 py-0.5 text-[11px]' : 'px-2.5 py-1 text-xs') + ' rounded-full font-semibold whitespace-nowrap ' + b[0] + '"><i class="fa-solid ' + b[1] + ' text-[10px]" aria-hidden="true"></i>' + s + '</span>';
+}
+/* Markers are not statuses (design-tokens §5): default neutral, success, warning, info */
+var MARK = { 'default': 'bg-slate-100 text-slate-700 border-slate-200', success: 'bg-emerald-50 text-emerald-700 border-emerald-200', warning: 'bg-amber-50 text-amber-700 border-amber-200', info: 'bg-blue-50 text-blue-700 border-blue-200' };
+function marker(text, variant, title) {
+  return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border whitespace-nowrap ' + MARK[variant || 'default'] + '"' + (title ? ' title="' + esc(title) + '"' : '') + '>' + text + '</span>';
+}
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+function initials(n) { return String(n).split(/\s+/).map(function (p) { return p[0]; }).slice(0, 2).join('').toUpperCase(); }
+var GBP = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' });
+function money(s) { return GBP.format(Number(s)); }
+function pct(s) { return Number(s).toFixed(2) + ' %'; }
+function fmtDate(iso) { if (!iso) return '—'; var d = new Date(iso + (iso.length === 10 ? 'T00:00:00' : '')); return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
+function fmtDateTime(iso) { var d = new Date(iso); return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); }
+var BTN_SEC = 'inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1';
+var BTN_PRI = 'inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed';
+var BTN_PRI_STYLE = 'background:linear-gradient(135deg,#1D4ED8,#5B2E91)';
+var BTN_DANGER = 'inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white rounded-lg px-4 py-2.5 text-xs font-semibold min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-1 disabled:opacity-50';
+var BTN_GHOST = 'inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 hover:text-blue-900 hover:underline rounded px-1 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1';
+var INPUT = 'w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20';
+var INPUT_ERR = 'border-red-400 bg-red-50/40 focus:border-red-400 focus:ring-red-600/20';
+var Q = new URLSearchParams(location.search);
+function setErr(id, msg) { var i = document.getElementById(id), e = document.getElementById(id + '-err'); if (!i) return; if (msg) { i.classList.add.apply(i.classList, INPUT_ERR.split(' ')); i.setAttribute('aria-invalid', 'true'); if (e) { e.textContent = msg; e.style.display = ''; } } else { i.classList.remove.apply(i.classList, INPUT_ERR.split(' ')); i.removeAttribute('aria-invalid'); if (e) e.style.display = 'none'; } }
+</script>
 
+<div data-s1-modal id="m-add" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-add-t">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+            <div class="min-w-0"><h2 id="m-add-t" class="text-base font-bold text-slate-900">Add node</h2></div>
+            <button type="button" onclick="S1.closeModal('m-add')" aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-4">
+        <p class="text-sm text-slate-600">Under: <span id="add-under" class="font-semibold text-slate-900"></span></p>
+        <div>
+      <label for="n-name" class="block text-xs font-semibold text-slate-700 mb-1.5">Name <span class="text-red-600" aria-hidden="true">*</span><span class="sr-only"> (required)</span></label>
+      <input id="n-name" type="text" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20" placeholder="e.g. Coventry DC" aria-describedby="n-name-err n-name-hint" />
+      <p id="n-name-err" class="text-xs text-red-600 mt-1.5" style="display:none" role="alert"></p>
+      
+    </div>
+        <div><label for="n-type" class="block text-xs font-semibold text-slate-700 mb-1.5">Type <span class="text-red-600" aria-hidden="true">*</span></label><select id="n-type" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20"></select><p class="text-xs text-slate-500 mt-1.5">The types Abstract seeded for your organisation.</p></div>
+        <div id="add-cc-wrap"><div>
+      <label for="n-cc" class="block text-xs font-semibold text-slate-700 mb-1.5">Cost-centre reference</label>
+      <input id="n-cc" type="text" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20" placeholder="e.g. CC-COV-03" aria-describedby="n-cc-err n-cc-hint" />
+      <p id="n-cc-err" class="text-xs text-red-600 mt-1.5" style="display:none" role="alert"></p>
+      <p id="n-cc-hint" class="text-xs text-slate-500 mt-1.5">Optional. Free text; it need not be unique.</p>
+    </div></div>
+        <div id="add-err" style="display:none" role="alert" class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"></div></div>
+        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-add')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Cancel</button><button type="button" id="add-save" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"></button></div>
+    </div>
+</div>
+<div data-s1-modal id="m-rename" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-rename-t">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+            <div class="min-w-0"><h2 id="m-rename-t" class="text-base font-bold text-slate-900">Rename</h2></div>
+            <button type="button" onclick="S1.closeModal('m-rename')" aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-4"><div>
+      <label for="r-name" class="block text-xs font-semibold text-slate-700 mb-1.5">Name <span class="text-red-600" aria-hidden="true">*</span><span class="sr-only"> (required)</span></label>
+      <input id="r-name" type="text" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20" placeholder="" aria-describedby="r-name-err r-name-hint" />
+      <p id="r-name-err" class="text-xs text-red-600 mt-1.5" style="display:none" role="alert"></p>
+      
+    </div><div id="rename-err" style="display:none" role="alert" class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"></div></div>
+        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-rename')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Cancel</button><button type="button" id="rename-save" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"></button></div>
+    </div>
+</div>
+<div data-s1-modal id="m-move" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-move-t">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+            <div class="min-w-0"><h2 id="m-move-t" class="text-base font-bold text-slate-900">Move</h2></div>
+            <button type="button" onclick="S1.closeModal('m-move')" aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-4">
+        <p class="text-sm text-slate-600" id="move-copy"></p>
+        <label class="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 min-h-[38px] focus-within:border-blue-300 focus-within:bg-white"><i class="fa-solid fa-magnifying-glass text-slate-400 text-xs" aria-hidden="true"></i><span class="sr-only">Search nodes</span><input id="move-search" type="search" placeholder="Search nodes" class="bg-transparent text-sm text-slate-700 placeholder-slate-400 outline-none w-full"/></label>
+        <div id="move-tree" class="rounded-xl border border-slate-200 max-h-72 overflow-y-auto"></div>
+        <div id="move-err" style="display:none" role="alert" class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"></div></div>
+        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-move')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Cancel</button><button type="button" id="move-save" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)" disabled></button></div>
+    </div>
+</div>
+<div data-s1-modal id="m-cant" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-cant-t">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+            <div class="min-w-0"><h2 id="m-cant-t" class="text-base font-bold text-slate-900">Can't remove</h2></div>
+            <button type="button" onclick="S1.closeModal('m-cant')" aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-4"><div id="cant-body" class="text-sm text-slate-700"></div></div>
+        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-cant')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Close</button></div>
+    </div>
+</div>
+<div data-s1-modal id="m-sheet" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-sheet-t">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+            <div class="min-w-0"><h2 id="m-sheet-t" class="text-base font-bold text-slate-900">Actions</h2></div>
+            <button type="button" onclick="S1.closeModal('m-sheet')" aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-4"><div id="sheet-body" class="flex flex-col gap-2"></div></div>
+        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-sheet')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Cancel</button></div>
+    </div>
+</div>
+<script>
+var ORGS = {"acme": {"name": "Acme Logistics", "party": "client", "status": "Active", "users": 5, "pct": null, "approval": true, "activatedAt": "2026-03-14T10:12:00Z", "activatedBy": "Sarah Mitchell", "accessEnabledAt": "2026-03-15T09:02:00Z", "accessEnabledBy": "Sarah Mitchell", "address": {"line1": "Acme House", "line2": "12 Fenton Way", "town": "Birmingham", "postcode": "B6 7QD", "country": "GB"}, "contacts": [{"name": "Rachel Green", "role": "Procurement lead", "email": "rachel.green@acmelogistics.co.uk", "tel": "0121 496 0102"}, {"name": "Priya Natarajan", "role": "Accounts payable", "email": "priya.natarajan@acmelogistics.co.uk", "tel": "0121 496 0110"}], "contract": {"ref": "ABS-CL-2026-004", "start": "2026-02-01", "end": "2028-01-31", "renewal": "Notice period 90 days; review in Q4 2027."}}, "northgate": {"name": "Northgate Foods", "party": "client", "status": "Active", "users": 4, "pct": null, "approval": false, "activatedAt": "2026-04-02T14:40:00Z", "activatedBy": "James Okafor", "accessEnabledAt": "2026-04-02T15:05:00Z", "accessEnabledBy": "James Okafor", "address": {"line1": "Unit 4, Northgate Business Park", "line2": null, "town": "Leeds", "postcode": "LS9 8AQ", "country": "GB"}, "contacts": [{"name": "Hannah Price", "role": "HR director", "email": "h.price@northgatefoods.co.uk", "tel": "0113 496 0220"}], "contract": {"ref": "ABS-CL-2026-007", "start": "2026-04-01", "end": null, "renewal": null}}, "harbour": {"name": "Harbour Retail Group", "party": "client", "status": "In Setup", "users": 2, "pct": 30, "approval": false, "address": {"line1": "Harbour Point", "line2": "1 Quay Street", "town": "Southampton", "postcode": "SO14 2AQ", "country": "GB"}, "contacts": [{"name": "Marcus Lee", "role": "Operations director", "email": "marcus.lee@harbourretail.co.uk", "tel": "023 8049 0310"}], "contract": {"ref": "ABS-CL-2026-011", "start": "2026-11-01", "end": "2028-10-31", "renewal": "Review six months before the end date."}}, "meridian": {"name": "Meridian Healthcare Services", "party": "client", "status": "Pending Activation", "users": 3, "pct": 90, "approval": false, "address": {"line1": "Meridian House", "line2": "30 Castle Street", "town": "Reading", "postcode": "RG1 7SN", "country": "GB"}, "contacts": [{"name": "Dr Anita Rao", "role": "Director of nursing", "email": "a.rao@meridianhealth.org.uk", "tel": "0118 496 0415"}], "contract": {"ref": "ABS-CL-2026-012", "start": "2026-10-01", "end": "2027-09-30", "renewal": null}}, "coastline": {"name": "Coastline Manufacturing", "party": "client", "status": "Draft", "users": 0, "pct": 0, "approval": false, "address": null, "contacts": [], "contract": {"ref": "", "start": null, "end": null, "renewal": null}}, "pennine": {"name": "Pennine Distribution", "party": "client", "status": "Suspended", "users": 3, "pct": null, "approval": false, "activatedAt": "2026-01-20T11:00:00Z", "activatedBy": "Sarah Mitchell", "accessEnabledAt": "2026-01-21T08:30:00Z", "accessEnabledBy": "Sarah Mitchell", "suspension": {"reason": "Contract dispute: invoices unpaid since July 2026. Reinstate once the finance team confirms settlement.", "at": "2026-09-02T16:20:00Z", "by": "Sarah Mitchell"}, "address": {"line1": "Pennine Way Depot", "line2": null, "town": "Huddersfield", "postcode": "HD2 1UA", "country": "GB"}, "contacts": [{"name": "Gary Holmes", "role": "Site director", "email": "g.holmes@penninedist.co.uk", "tel": "01484 496 0501"}], "contract": {"ref": "ABS-CL-2025-019", "start": "2025-11-01", "end": "2026-10-31", "renewal": "Not renewing while suspended."}}, "techforce": {"name": "TechForce Recruitment", "party": "agency", "status": "Active", "users": 4, "pct": null, "approval": false, "activatedAt": "2026-03-10T09:45:00Z", "activatedBy": "Sarah Mitchell", "accessEnabledAt": "2026-03-10T10:00:00Z", "accessEnabledBy": "Sarah Mitchell", "address": {"line1": "14 Kingsway House", "line2": null, "town": "Coventry", "postcode": "CV1 2LH", "country": "GB"}, "contacts": [{"name": "Daniel Wright", "role": "Operations director", "email": "daniel.wright@techforce-recruitment.co.uk", "tel": "024 7649 0210"}, {"name": "Aisha Khan", "role": "Payroll", "email": "aisha.khan@techforce-recruitment.co.uk", "tel": null}], "paymentTermsDays": 30, "marginBasis": "percentage_of_charge", "marginValue": "12.50", "sba": {"ref": "SBA-2026-0417", "signed": "2026-07-03", "expiry": "2027-07-02", "doc": "SBA_TechForce_signed.pdf"}}, "nexus": {"name": "Nexus Talent", "party": "agency", "status": "Active", "users": 4, "pct": null, "approval": true, "activatedAt": "2026-03-18T13:00:00Z", "activatedBy": "James Okafor", "accessEnabledAt": "2026-03-19T09:00:00Z", "accessEnabledBy": "James Okafor", "address": {"line1": "2nd Floor, Nexus Court", "line2": "8 Wellington Street", "town": "Sheffield", "postcode": "S1 4HG", "country": "GB"}, "contacts": [{"name": "Aisha Rahman", "role": "Managing director", "email": "a.rahman@nexustalent.co.uk", "tel": "0114 496 0330"}], "paymentTermsDays": 14, "marginBasis": "fixed_per_hour", "marginValue": "2.40", "sba": {"ref": "SBA-2026-0391", "signed": "2026-03-12", "expiry": "2027-03-11", "doc": "SBA_Nexus_signed.pdf"}}, "peoplebridge": {"name": "PeopleBridge", "party": "agency", "status": "Pending Activation", "users": 2, "pct": 88, "approval": false, "address": {"line1": "Bridge House", "line2": "5 Canal Street", "town": "Manchester", "postcode": "M1 3HE", "country": "GB"}, "contacts": [{"name": "Leo Marsh", "role": "Director", "email": "leo@peoplebridge.co.uk", "tel": "0161 496 0180"}], "paymentTermsDays": 30, "marginBasis": "percentage_of_charge", "marginValue": "11.00", "sba": {"ref": "SBA-2026-0442", "signed": "2026-09-28", "expiry": "2027-09-27", "doc": "SBA_PeopleBridge_signed.pdf"}}, "summit": {"name": "Summit Staffing Solutions", "party": "agency", "status": "In Setup", "users": 1, "pct": 33, "approval": false, "address": {"line1": "Summit House", "line2": "22 Peak Road", "town": "Derby", "postcode": "DE1 2QR", "country": "GB"}, "contacts": [{"name": "Fiona Wallace", "role": "Owner", "email": "fiona@summitstaffing.co.uk", "tel": "01332 496 0290"}], "paymentTermsDays": null, "marginBasis": "percentage_of_charge", "marginValue": null, "sba": null}, "rapid": {"name": "Rapid Resource", "party": "agency", "status": "Suspended", "users": 3, "pct": null, "approval": false, "activatedAt": "2026-02-11T10:00:00Z", "activatedBy": "Sarah Mitchell", "accessEnabledAt": "2026-02-11T10:30:00Z", "accessEnabledBy": "Sarah Mitchell", "suspension": {"reason": "Employer's liability insurance lapsed on 31 Aug 2026 and no renewal has been received.", "at": "2026-09-01T09:10:00Z", "by": "Hannah Clarke"}, "address": {"line1": "9 Station Approach", "line2": null, "town": "Nottingham", "postcode": "NG1 7AB", "country": "GB"}, "contacts": [{"name": "Kim Barrow", "role": "Director", "email": "kim@rapidresource.co.uk", "tel": "0115 496 0770"}], "paymentTermsDays": 30, "marginBasis": "percentage_of_charge", "marginValue": "12.00", "sba": {"ref": "SBA-2026-0360", "signed": "2026-02-05", "expiry": "2027-02-04", "doc": "SBA_Rapid_signed.pdf"}}};
+var TREES = {"acme": [{"id": "mid", "parentId": null, "name": "Midlands", "nodeType": "region", "cc": "CC-MID", "userCount": 0}, {"id": "bhx", "parentId": "mid", "name": "Birmingham DC", "nodeType": "site", "cc": "CC-BHX-01", "userCount": 1}, {"id": "bhx-n", "parentId": "bhx", "name": "Nights", "nodeType": "department", "cc": "CC-BHX-01-N", "userCount": 1}, {"id": "bhx-d", "parentId": "bhx", "name": "Days", "nodeType": "department", "cc": "CC-BHX-01-D", "userCount": 0}, {"id": "lei", "parentId": "mid", "name": "Leicester DC", "nodeType": "site", "cc": "CC-LEI-02", "userCount": 1}, {"id": "nth", "parentId": null, "name": "Northern", "nodeType": "region", "cc": "CC-NTH", "userCount": 1}, {"id": "lds", "parentId": "nth", "name": "Leeds Hub", "nodeType": "site", "cc": "CC-LDS-01", "userCount": 0}, {"id": "lgw", "parentId": null, "name": "London Gateway", "nodeType": "site", "cc": "CC-LGW-03", "userCount": 0}], "northgate": [{"id": "ng-hq", "parentId": null, "name": "Head office", "nodeType": "business_unit", "cc": "NG-100", "userCount": 2}, {"id": "ng-prod", "parentId": null, "name": "Production", "nodeType": "business_unit", "cc": "NG-200", "userCount": 1}, {"id": "ng-leeds", "parentId": "ng-prod", "name": "Leeds bakery", "nodeType": "site", "cc": "NG-210", "userCount": 1}], "harbour": [{"id": "hb-south", "parentId": null, "name": "South coast", "nodeType": "region", "cc": "HB-S", "userCount": 0}, {"id": "hb-soton", "parentId": "hb-south", "name": "Southampton store", "nodeType": "site", "cc": "HB-S-01", "userCount": 1}], "meridian": [{"id": "md-rdg", "parentId": null, "name": "Reading hospital", "nodeType": "site", "cc": "MH-RDG", "userCount": 2}, {"id": "md-rdg-w", "parentId": "md-rdg", "name": "Wards", "nodeType": "department", "cc": "MH-RDG-W", "userCount": 0}], "coastline": [], "pennine": [{"id": "pn-hud", "parentId": null, "name": "Huddersfield depot", "nodeType": "site", "cc": "PN-HUD", "userCount": 2}], "techforce": [{"id": "tf-cov", "parentId": null, "name": "Coventry", "nodeType": "branch", "userCount": 1}, {"id": "tf-mk", "parentId": null, "name": "Milton Keynes", "nodeType": "branch", "userCount": 0}, {"id": "tf-north", "parentId": null, "name": "North Division", "nodeType": "division", "userCount": 1}, {"id": "tf-shf", "parentId": "tf-north", "name": "Sheffield Hub", "nodeType": "branch", "userCount": 0}, {"id": "tf-lds", "parentId": "tf-north", "name": "Leeds Branch", "nodeType": "branch", "userCount": 0}], "nexus": [{"id": "nx-north", "parentId": null, "name": "North Division", "nodeType": "division", "userCount": 1}, {"id": "nx-shf", "parentId": "nx-north", "name": "Sheffield", "nodeType": "branch", "userCount": 1}, {"id": "nx-south", "parentId": null, "name": "South Division", "nodeType": "division", "userCount": 0}, {"id": "nx-hub", "parentId": "nx-south", "name": "Hub", "nodeType": "branch", "userCount": 1}], "peoplebridge": [{"id": "pb-man", "parentId": null, "name": "Manchester", "nodeType": "branch", "userCount": 1}], "summit": [], "rapid": [{"id": "rr-not", "parentId": null, "name": "Nottingham", "nodeType": "branch", "userCount": 2}]};
+var CHANGES = [{"id": "scr-1041", "org": "acme", "requestedBy": "Rachel Green", "requestedAt": "2026-10-06T14:20:00Z", "status": "Pending approval", "change": {"kind": "add", "nodeId": null, "parentId": "mid", "name": "Coventry DC", "nodeType": "site", "cc": "CC-COV-03"}, "summary": "Add site \"Coventry DC\" under Midlands", "applicable": true}, {"id": "scr-1042", "org": "acme", "requestedBy": "Rachel Green", "requestedAt": "2026-10-06T14:22:00Z", "status": "Pending approval", "change": {"kind": "rename", "nodeId": "lds", "parentId": null, "name": "Leeds Distribution Hub", "nodeType": null, "cc": null}, "summary": "Rename \"Leeds Hub\" to \"Leeds Distribution Hub\"", "applicable": true}, {"id": "scr-1043", "org": "acme", "requestedBy": "Mark Davies", "requestedAt": "2026-10-07T09:05:00Z", "status": "Pending approval", "change": {"kind": "remove", "nodeId": "lgw", "parentId": null, "name": null, "nodeType": null, "cc": null}, "summary": "Remove \"London Gateway\"", "applicable": true}, {"id": "scr-1044", "org": "nexus", "requestedBy": "Aisha Rahman", "requestedAt": "2026-10-05T09:05:00Z", "status": "Pending approval", "change": {"kind": "move", "nodeId": "nx-hub", "parentId": "nx-north", "name": null, "nodeType": null, "cc": null}, "summary": "Move \"Hub\" under North Division", "applicable": true}, {"id": "scr-1038", "org": "acme", "requestedBy": "Rachel Green", "requestedAt": "2026-10-02T11:40:00Z", "status": "Rejected", "change": {"kind": "add", "nodeId": null, "parentId": "bhx", "name": "Twilight", "nodeType": "department", "cc": "CC-BHX-01-T"}, "summary": "Add department \"Twilight\" under Birmingham DC", "applicable": true, "decidedBy": "Sarah Mitchell", "decidedAt": "2026-10-03T08:12:00Z", "reason": "Twilight is a working-time window, not a department. Ask Abstract to record it as a Shift in your configuration instead."}, {"id": "scr-1035", "org": "nexus", "requestedBy": "Aisha Rahman", "requestedAt": "2026-09-29T16:02:00Z", "status": "Approved", "change": {"kind": "rename", "nodeId": "nx-shf", "parentId": null, "name": "Sheffield", "nodeType": null, "cc": null}, "summary": "Rename \"Sheffield Branch\" to \"Sheffield\"", "applicable": true, "decidedBy": "James Okafor", "decidedAt": "2026-09-30T09:48:00Z", "reason": null}, {"id": "scr-1039", "org": "acme", "requestedBy": "Mark Davies", "requestedAt": "2026-10-04T10:15:00Z", "status": "Pending approval", "change": {"kind": "add", "nodeId": null, "parentId": "lgw-old", "name": "Gateway Nights", "nodeType": "department", "cc": "CC-LGW-03-N"}, "summary": "Add department \"Gateway Nights\" under Thames Gateway", "applicable": false, "notApplicable": "\"Thames Gateway\" was removed on 5 Oct by Sarah Mitchell, so \"Gateway Nights\" has nowhere to go."}];
+var USERS = {"acme": [{"name": "Rachel Green", "email": "rachel.green@acmelogistics.co.uk", "roles": ["Administrator"], "status": "Active", "scope": [], "last": "2026-10-09T08:02:00Z"}, {"name": "Mark Davies", "email": "mark.davies@acmelogistics.co.uk", "roles": ["Hiring manager"], "status": "Active", "scope": ["bhx"], "last": "2026-10-08T14:18:00Z"}, {"name": "Priya Natarajan", "email": "priya.natarajan@acmelogistics.co.uk", "roles": ["Finance approver"], "status": "Active", "scope": [], "last": "2026-10-07T10:47:00Z"}, {"name": "Olivia Brown", "email": "olivia.brown@acmelogistics.co.uk", "roles": ["Hiring manager"], "status": "Invited", "scope": ["lei", "nth"], "last": null}, {"name": "Ben Taylor", "email": "ben.taylor@acmelogistics.co.uk", "roles": ["Hiring manager", "Seasonal supervisors"], "status": "Inactive", "scope": ["bhx-n"], "last": "2026-08-02T16:20:00Z"}], "techforce": [{"name": "Daniel Wright", "email": "daniel.wright@techforce-recruitment.co.uk", "roles": ["Administrator"], "status": "Active", "scope": [], "last": "2026-10-09T07:55:00Z"}, {"name": "Sophie Turner", "email": "sophie.turner@techforce-recruitment.co.uk", "roles": ["Recruiter"], "status": "Active", "scope": ["tf-cov"], "last": "2026-10-08T12:09:00Z"}, {"name": "Aisha Khan", "email": "aisha.khan@techforce-recruitment.co.uk", "roles": ["Payroll"], "status": "Active", "scope": [], "last": "2026-10-06T09:30:00Z"}, {"name": "Ryan Hughes", "email": "ryan.hughes@techforce-recruitment.co.uk", "roles": ["Recruiter"], "status": "Invited", "scope": ["tf-north"], "last": null}], "harbour": [{"name": "Marcus Lee", "email": "marcus.lee@harbourretail.co.uk", "roles": ["Administrator"], "status": "Invited", "scope": [], "last": null}, {"name": "Jo Patel", "email": "jo.patel@harbourretail.co.uk", "roles": ["Hiring manager"], "status": "Invited", "scope": ["hb-soton"], "last": null}], "summit": [{"name": "Fiona Wallace", "email": "fiona@summitstaffing.co.uk", "roles": ["Administrator"], "status": "Invited", "scope": [], "last": null}]};
+var TYPE_LABEL = {"business_unit": "Business unit", "region": "Region", "site": "Site", "department": "Department", "branch": "Branch", "division": "Division"};
+var CLIENT_TYPES = ["business_unit", "region", "site", "department"];
+var AGENCY_TYPES = ["branch", "region", "division"];
+var TODAY = "2026-10-10";
+
+
+/* ---------- Tree (kernel K13) ---------- */
+function Tree(host, props) {
+  var self = this;
+  host = typeof host === 'string' ? document.getElementById(host) : host;
+  this.host = host; this.p = Object.assign({ selection: 'none', value: [], disabledIds: [], defaultExpandedDepth: 99, search: false, root: null, columns: [], decorate: null, renderRow: null, ghosts: [], readOnly: false, compact: false }, props || {});
+  this.expanded = {}; this.focusId = null; this.query = ''; this.value = (this.p.value || []).slice();
+  this.setNodes(this.p.nodes || []);
+  host.classList.add('s2-tree');
+  host.addEventListener('keydown', function (e) { self.onKey(e); });
+  this.render();
+}
+Tree.prototype.setNodes = function (nodes) {
+  var self = this;
+  this.nodes = nodes.map(function (n) { return Object.assign({}, n); });
+  this.byId = {}; this.children = {}; this.nodes.forEach(function (n) { self.byId[n.id] = n; });
+  this.nodes.forEach(function (n) { var p = n.parentId && self.byId[n.parentId] ? n.parentId : '__root'; n._p = p; (self.children[p] = self.children[p] || []).push(n); });
+  this.nodes.forEach(function (n) { n.depth = self.depthOf(n.id); n.path = self.pathOf(n.id); });
+  var self2 = this; if (!Object.keys(this.expanded).length) this.nodes.forEach(function (n) { self2.expanded[n.id] = n.depth < self2.p.defaultExpandedDepth; });
+};
+Tree.prototype.depthOf = function (id) { var d = 0, n = this.byId[id]; while (n && n._p !== '__root') { d++; n = this.byId[n._p]; } return d; };
+Tree.prototype.pathOf = function (id) { var out = [], n = this.byId[id]; while (n) { out.unshift(n.name); n = n._p === '__root' ? null : this.byId[n._p]; } return out; };
+Tree.prototype.descendants = function (id) { var out = [], self = this; (function walk(x) { (self.children[x] || []).forEach(function (c) { out.push(c.id); walk(c.id); }); })(id); return out; };
+Tree.prototype.ancestors = function (id) { var out = [], n = this.byId[id]; while (n && n._p !== '__root') { out.push(n._p); n = this.byId[n._p]; } return out; };
+Tree.prototype.matches = function (n) { return !this.query || n.name.toLowerCase().indexOf(this.query) >= 0; };
+Tree.prototype.visible = function () {
+  // depth-first list of rows to draw: with a query, every match plus its ancestors (expanded)
+  var self = this, out = [], keep = null;
+  if (this.query) { keep = {}; this.nodes.forEach(function (n) { if (self.matches(n)) { keep[n.id] = 1; self.ancestors(n.id).forEach(function (a) { keep[a] = 1; }); } }); }
+  (function walk(p) {
+    (self.children[p] || []).forEach(function (n) {
+      if (keep && !keep[n.id]) return;
+      out.push(n);
+      var open = keep ? true : self.expanded[n.id];
+      if (open) walk(n.id);
+      (self.p.ghosts || []).filter(function (g) { return g.parentId === n.id && (open || keep); }).forEach(function (g) { out.push(Object.assign({ _ghost: true, _p: n.id, depth: n.depth + 1 }, g)); });
+    });
+  })('__root');
+  (self.p.ghosts || []).filter(function (g) { return !g.parentId; }).forEach(function (g) { out.push(Object.assign({ _ghost: true, _p: '__root', depth: 0 }, g)); });
+  return out;
+};
+Tree.prototype.covered = function (id) { var self = this; return this.ancestors(id).some(function (a) { return self.value.indexOf(a) >= 0; }); };
+Tree.prototype.isDisabled = function (id) { return (this.p.disabledIds || []).indexOf(id) >= 0 || (this.p.selection === 'multi' && this.covered(id)); };
+Tree.prototype.toggle = function (id, open) { this.expanded[id] = open == null ? !this.expanded[id] : open; if (this.p.onExpandedChange) this.p.onExpandedChange(this.expanded); this.render(); };
+Tree.prototype.expandAll = function () { var self = this; this.nodes.forEach(function (n) { self.expanded[n.id] = true; }); this.render(); };
+Tree.prototype.collapseTo = function (depth) { var self = this; this.nodes.forEach(function (n) { self.expanded[n.id] = n.depth < depth; }); this.render(); };
+Tree.prototype.setQuery = function (q) { this.query = (q || '').trim().toLowerCase(); this.render(); };
+Tree.prototype.select = function (id) {
+  if (this.p.selection === 'none' || this.isDisabled(id)) return;
+  if (this.p.selection === 'single') this.value = this.value[0] === id ? [] : [id];
+  else { var i = this.value.indexOf(id); if (i >= 0) this.value.splice(i, 1); else { var self = this; this.value = this.value.filter(function (v) { return self.ancestors(v).indexOf(id) < 0; }); this.value.push(id); } }
+  if (this.p.onChange) this.p.onChange(this.value.slice());
+  this.render();
+};
+Tree.prototype.render = function () {
+  var self = this, rows = this.visible(), ro = this.p.readOnly, sel = this.p.selection, hasRoot = !!this.p.root;
+  var html = '';
+  if (hasRoot) html += this.rowHtml(Object.assign({ id: '__root', depth: -1, name: this.p.root.name, nodeType: 'Organisation', _root: true, userCount: this.p.root.userCount }, {}), true, rows.length > 0);
+  rows.forEach(function (n) { html += self.rowHtml(n, false, (self.children[n.id] || []).length > 0 || (self.p.ghosts || []).some(function (g) { return g.parentId === n.id; })); });
+  this.host.innerHTML = '<ul role="tree" aria-label="' + esc(this.p.label || 'Structure') + '" class="divide-y divide-slate-100">' + html + '</ul>';
+  if (this.query) {
+    var m = this.nodes.filter(function (n) { return self.matches(n); }).length;
+    this.host.insertAdjacentHTML('beforeend', '<p class="px-4 py-2 text-xs text-slate-500 border-t border-slate-100" role="status">' + m + ' of ' + this.nodes.length + ' nodes match</p>');
+  }
+  this.host.querySelectorAll('[data-toggle]').forEach(function (b) { b.onclick = function (e) { e.stopPropagation(); self.toggle(b.dataset.toggle); }; });
+  this.host.querySelectorAll('[role="treeitem"]').forEach(function (li) {
+    li.onfocus = function () { self.focusId = li.dataset.id; self.host.querySelectorAll('[role="treeitem"]').forEach(function (x) { x.tabIndex = -1; }); li.tabIndex = 0; };
+    li.onclick = function (e) { if (e.target.closest('button,a,input,label')) return; self.focusId = li.dataset.id; if (sel !== 'none' && !li.dataset.ghost && li.dataset.id !== '__root') self.select(li.dataset.id); if (sel === 'none' && self.p.onPick && !li.dataset.ghost) { self.p.onPick(li.dataset.id); self.render(); } };
+  });
+  this.host.querySelectorAll('input[type="checkbox"][data-check]').forEach(function (c) { c.onchange = function () { self.select(c.dataset.check); }; });
+  var first = this.host.querySelector('[role="treeitem"][data-id="' + (this.focusId || '') + '"]') || this.host.querySelector('[role="treeitem"]');
+  if (first) first.tabIndex = 0;
+  if (this.p.afterRender) this.p.afterRender();
+};
+Tree.prototype.rowHtml = function (n, isRoot, hasKids) {
+  var sel = this.p.selection, open = isRoot ? true : !!this.expanded[n.id], ghost = !!n._ghost, depth = isRoot ? 0 : n.depth + 1;
+  var disabled = !isRoot && !ghost && this.isDisabled(n.id), covered = !isRoot && !ghost && sel === 'multi' && this.covered(n.id);
+  var selected = !isRoot && !ghost && this.value.indexOf(n.id) >= 0;
+  var picked = this.p.picked === n.id;
+  var indent = '<span class="flex-shrink-0 flex" style="width:' + (depth * 20) + 'px" aria-hidden="true">' + (depth ? Array.apply(null, Array(depth)).map(function () { return '<span class="block w-5 border-l border-slate-200 h-full"></span>'; }).join('') : '') + '</span>';
+  var chevron = (hasKids && !isRoot) ? '<button type="button" data-toggle="' + esc(n.id) + '" class="w-6 h-6 rounded flex items-center justify-center text-slate-500 hover:bg-slate-100 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600" aria-label="' + (open ? 'Collapse' : 'Expand') + ' ' + esc(n.name) + '" tabindex="-1"><i class="fa-solid fa-chevron-' + (open ? 'down' : 'right') + ' text-[10px]" aria-hidden="true"></i></button>' : '<span class="w-6 h-6 flex-shrink-0 flex items-center justify-center text-slate-300" aria-hidden="true">' + (isRoot ? '<i class="fa-solid fa-building text-xs text-slate-500"></i>' : ghost ? '<i class="fa-regular fa-circle-dot text-[10px] text-amber-500"></i>' : '<i class="fa-solid fa-circle text-[5px]"></i>') + '</span>';
+  var check = '';
+  if (sel === 'multi' && !isRoot && !ghost) check = '<input type="checkbox" data-check="' + esc(n.id) + '" ' + (selected || covered ? 'checked' : '') + ' ' + (disabled ? 'disabled' : '') + ' class="w-4 h-4 rounded border-slate-300 text-blue-700 focus:ring-blue-600 flex-shrink-0" aria-label="' + esc(n.name) + (covered ? ' (covered)' : '') + '" tabindex="-1"/>';
+  if (sel === 'single' && !ghost) check = '<span class="w-4 h-4 rounded-full border flex-shrink-0 flex items-center justify-center ' + (selected || picked ? 'border-blue-700' : 'border-slate-300') + (disabled ? ' opacity-40' : '') + '" aria-hidden="true">' + (selected || picked ? '<span class="w-2 h-2 rounded-full bg-blue-700"></span>' : '') + '</span>';
+  var typeLabel = isRoot ? 'Organisation' : (TYPE_LABEL[n.nodeType] || n.nodeType);
+  var name = '<span class="text-sm ' + (isRoot ? 'font-bold text-slate-900' : ghost ? 'font-medium text-slate-500 italic' : 'font-medium text-slate-900') + ' truncate">' + esc(n.name) + (n.marker ? ' ' + n.marker : '') + '</span>';
+  var meta = '<span class="text-xs text-slate-500 md:hidden block truncate">' + esc(typeLabel) + (this.p.showCost && n.cc ? ' · ' + esc(n.cc) : '') + (covered ? ' · covered' : '') + '</span>';
+  var cols = '';
+  if (!this.p.compact) {
+    cols += '<span class="hidden md:block w-28 flex-shrink-0 text-xs text-slate-600 truncate">' + esc(typeLabel) + (covered ? '<span class="text-slate-400"> · covered</span>' : '') + '</span>';
+    if (this.p.showCost) cols += '<span class="hidden md:block w-28 flex-shrink-0 text-xs text-slate-600 tnum truncate">' + esc(n.cc || (isRoot ? '—' : '')) + '</span>';
+    if (this.p.showUsers) cols += '<span class="hidden md:block w-14 flex-shrink-0 text-xs text-slate-700 tnum text-right">' + (ghost ? '' : (this.p.userLink && !isRoot && n.userCount ? '<a href="' + this.p.userLink(n) + '" class="text-blue-700 hover:underline" title="Users scoped at this node">' + n.userCount + '</a>' : (n.userCount == null ? '' : n.userCount))) + '</span>';
+  } else if (covered) { cols += '<span class="hidden md:inline text-xs text-slate-400">covered</span>'; }
+  var deco = this.p.decorate && !isRoot ? (this.p.decorate(n) || '') : '';
+  var actions = this.p.renderRow && !ghost ? (this.p.renderRow(n, isRoot) || '') : '';
+  var cls = 'tree-row group flex items-start gap-2 px-3 py-2 min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600 ' + (selected || picked ? 'bg-blue-50 ' : 'hover:bg-slate-50 ') + (ghost ? 'bg-amber-50/40 ' : '') + (disabled && sel !== 'none' ? 'opacity-60 ' : '') + (sel !== 'none' && !disabled && !isRoot && !ghost ? 'cursor-pointer ' : '');
+  return '<li role="treeitem" data-id="' + esc(n.id) + '" ' + (ghost ? 'data-ghost="1" ' : '') + 'aria-level="' + (depth + 1) + '" ' + (hasKids || isRoot ? 'aria-expanded="' + open + '" ' : '') + (sel !== 'none' ? 'aria-selected="' + selected + '" ' : '') + (disabled ? 'aria-disabled="true" ' : '') + 'tabindex="-1" class="' + cls + '"' + (disabled && this.p.disabledTitle ? ' title="' + esc(this.p.disabledTitle) + '"' : '') + '>' +
+    indent + chevron + (check ? '<span class="flex items-center h-5 flex-shrink-0">' + check + '</span>' : '') +
+    '<span class="flex-1 min-w-0"><span class="flex items-center gap-2 min-w-0">' + name + (this.p.showUsers && !ghost && !this.p.compact ? '<span class="md:hidden text-xs text-slate-500 tnum ml-auto flex-shrink-0">' + (n.userCount == null ? '' : n.userCount + ' <i class="fa-regular fa-user text-[10px]" aria-hidden="true"></i>') + '</span>' : '') + '</span>' + meta + deco + '</span>' +
+    cols + (actions ? '<span class="flex-shrink-0 flex items-center">' + actions + '</span>' : '') + '</li>';
+};
+Tree.prototype.onKey = function (e) {
+  var items = Array.prototype.slice.call(this.host.querySelectorAll('[role="treeitem"]'));
+  var cur = document.activeElement.closest ? document.activeElement.closest('[role="treeitem"]') : null;
+  var i = items.indexOf(cur); if (i < 0) return;
+  var n = this.byId[cur.dataset.id], go = null;
+  if (e.key === 'ArrowDown') go = items[i + 1];
+  else if (e.key === 'ArrowUp') go = items[i - 1];
+  else if (e.key === 'Home') go = items[0];
+  else if (e.key === 'End') go = items[items.length - 1];
+  else if (e.key === 'ArrowRight') { if (cur.getAttribute('aria-expanded') === 'false') { this.toggle(cur.dataset.id, true); this.focusAfter(cur.dataset.id); e.preventDefault(); return; } go = items[i + 1]; }
+  else if (e.key === 'ArrowLeft') { if (cur.getAttribute('aria-expanded') === 'true' && cur.dataset.id !== '__root') { this.toggle(cur.dataset.id, false); this.focusAfter(cur.dataset.id); e.preventDefault(); return; } var p = n ? n._p : null; go = p && p !== '__root' ? this.host.querySelector('[data-id="' + p + '"]') : (this.p.root ? this.host.querySelector('[data-id="__root"]') : null); }
+  else if (e.key === 'Enter' || e.key === ' ') { if (cur.dataset.id !== '__root' && !cur.dataset.ghost) { if (this.p.selection !== 'none') this.select(cur.dataset.id); else if (this.p.onPick) { this.p.onPick(cur.dataset.id); this.render(); } this.focusAfter(cur.dataset.id); } e.preventDefault(); return; }
+  else if (e.key.length === 1 && /\S/.test(e.key)) { var k = e.key.toLowerCase(); for (var j = 1; j <= items.length; j++) { var it = items[(i + j) % items.length], nn = this.byId[it.dataset.id] || (it.dataset.id === '__root' ? this.p.root : null); if (nn && nn.name.toLowerCase().charAt(0) === k) { go = it; break; } } }
+  if (go) { go.focus(); e.preventDefault(); }
+};
+Tree.prototype.focusAfter = function (id) { var self = this; setTimeout(function () { var el = self.host.querySelector('[data-id="' + id + '"]'); if (el) el.focus(); }, 0); };
+
+var PORTAL = 'client', IS_ABS = false;
+var state = Q.get('state') || 'default', slug = 'acme';
+var ORG, nodes, pending, tree, ro = false, addTarget = '__root';
+function withOrg(href) { return IS_ABS ? href + (href.indexOf('?') >= 0 ? '&' : '?') + 'org=' + slug : href; }
+document.querySelectorAll('a[data-keep-org]').forEach(function (a) { a.setAttribute('href', withOrg(a.getAttribute('href'))); });
+
+function bigTree() {
+  var out = [], regions = ['Midlands', 'Northern', 'Southern', 'Eastern', 'Western', 'Scotland', 'Wales', 'London'];
+  regions.forEach(function (r, i) { out.push({ id: 'r' + i, parentId: null, name: r, nodeType: 'region', cc: 'CC-R' + i, userCount: i % 3 ? 0 : 1 });
+    for (var s = 0; s < 7; s++) { var sid = 'r' + i + 's' + s; out.push({ id: sid, parentId: 'r' + i, name: r + ' site ' + (s + 1), nodeType: 'site', cc: 'CC-R' + i + '-' + (s + 1), userCount: (s + i) % 4 ? 0 : 2 });
+      for (var d = 0; d < 5; d++) out.push({ id: sid + 'd' + d, parentId: sid, name: ['Nights', 'Days', 'Twilight', 'Weekend', 'Inbound'][d], nodeType: 'department', cc: 'CC-R' + i + '-' + (s + 1) + '-' + d, userCount: (d + s) % 5 ? 0 : 1 }); } });
+  return out;
+}
+function load() {
+  if (state === 'pending') slug = 'acme';
+  ORG = ORGS[slug]; nodes = JSON.parse(JSON.stringify(TREES[slug] || []));
+  if (state === 'empty') nodes = [];
+  if (state === 'large') nodes = bigTree();
+  ro = state === 'readonly';
+  var approval = state === 'pending' ? true : state === 'large' || state === 'empty' ? false : !!ORG.approval;
+  pending = (state === 'large' || state === 'empty') ? [] : CHANGES.filter(function (c) { return c.org === slug && c.status === 'Pending approval' && c.applicable; });
+  ORG = Object.assign({}, ORG, { approval: approval });
+  document.querySelectorAll('[data-org-name]').forEach(function (e) { e.textContent = ORG.name; });
+  if (IS_ABS) { document.title = 'Structure · ' + ORG.name + ' · Abstract VMS'; document.getElementById('header').style.borderTop = '4px solid #1D4ED8'; document.getElementById('ctx-party').textContent = (ORG.party === 'client' ? 'Client' : 'Agency') + ' organisation. You see the same screens its own user administrators see.'; document.getElementById('ctx-status').textContent = ORG.status !== 'Active' ? ' Its status is ' + ORG.status + '.' : ''; var sb = document.getElementById('nav-organisations'); if (sb) sb.setAttribute('aria-current', 'page'); }
+  document.getElementById('col-cc').style.display = ORG.party === 'client' ? '' : 'none';
+  document.getElementById('approval-banner').style.display = approval && !IS_ABS ? '' : 'none';
+  if (approval && IS_ABS) { document.getElementById('approval-banner').style.display = ''; document.getElementById('approval-banner').querySelector('p').innerHTML = '<span class="font-semibold">Abstract approves changes to this structure.</span> Its own users\' changes wait in the <a class="underline font-semibold" href="abstract.organisations.structure-changes.html?org=' + slug + '">Structure changes</a> queue; a change you make here applies at once. <span id="pending-count-line"></span>'; }
+  var pc = document.getElementById('pending-count-line'); if (pc) pc.textContent = pending.length ? pending.length + (pending.length === 1 ? ' change is' : ' changes are') + ' waiting.' : '';
+  document.querySelectorAll('[data-edit]').forEach(function (b) { b.style.display = ro ? 'none' : ''; });
+  document.getElementById('tree-empty-copy').textContent = ro ? 'Nothing has been added to ' + ORG.name + "'s structure yet." : 'Add a first node under ' + ORG.name + ' — ' + (ORG.party === 'client' ? 'a region, a site or a department.' : 'a branch, a region or a division.');
+  buildTree();
+}
+function userCountBeneath(id) { var t = 0; tree.descendants(id).forEach(function (d) { t += tree.byId[d].userCount || 0; }); return t; }
+function pendingFor(id) { return pending.find(function (c) { return c.change.nodeId === id; }); }
+function nameOf(id) { return id === '__root' || !id ? ORG.name : (tree && tree.byId[id] ? tree.byId[id].name : id); }
+function buildTree() {
+  var ghosts = pending.filter(function (c) { return c.change.kind === 'add'; }).map(function (c) { return { id: 'ghost-' + c.id, parentId: c.change.parentId, name: c.change.name, nodeType: c.change.nodeType, cc: c.change.cc, userCount: null, _req: c }; });
+  tree = new Tree('tree', {
+    nodes: nodes, root: { name: ORG.name, userCount: (USERS[slug] || []).filter(function (u) { return !u.scope.length; }).length }, selection: 'none', showCost: ORG.party === 'client', showUsers: true, ghosts: ghosts,
+    defaultExpandedDepth: nodes.length >= 50 ? 1 : 99, label: ORG.name + ' structure',
+    userLink: function (n) { return IS_ABS ? 'abstract.identity-access.users.html?org=' + slug + '&scope=' + n.id : (PORTAL + '.identity-access.users.html?scope=' + n.id); },
+    onPick: function (id) { addTarget = id; },
+    decorate: function (n) {
+      var c = n._ghost ? n._req : pendingFor(n.id); if (!c) return '';
+      var what = c.change.kind === 'add' ? 'Add' : c.change.kind === 'rename' ? 'Rename to “' + esc(c.change.name) + '”' : c.change.kind === 'move' ? 'Move under ' + esc(nameOf(c.change.parentId)) : 'Remove';
+      return '<span class="flex items-center gap-2 flex-wrap mt-1">' + badge('Pending approval', true) + '<span class="text-xs text-slate-500">' + what + ' · requested by ' + esc(c.requestedBy) + ' · ' + fmtDateTime(c.requestedAt) + '</span></span>';
+    },
+    renderRow: function (n, isRoot) {
+      if (ro) return '';
+      if (!isRoot && pendingFor(n.id)) return '<span class="text-xs text-slate-500 italic w-44 hidden md:block">Waiting for Abstract</span>';
+      var b = function (act, label, cls) { return '<button type="button" data-act="' + act + '" data-node="' + esc(n.id) + '" class="' + BTN_GHOST + ' ' + (cls || '') + '">' + label + '</button>'; };
+      var desk = '<span class="row-actions hidden md:inline-flex items-center gap-1 w-44 justify-end">' + b('add', 'Add under') + (isRoot ? '' : b('rename', 'Rename') + b('move', 'Move') + b('remove', 'Remove', 'text-red-700 hover:text-red-900')) + '</span>';
+      var mob = '<button type="button" data-sheet="' + esc(n.id) + '" class="md:hidden w-9 h-9 rounded-lg border border-slate-200 bg-white text-slate-500 flex items-center justify-center" aria-label="Actions for ' + esc(n.name) + '"><i class="fa-solid fa-ellipsis" aria-hidden="true"></i></button>';
+      return desk + mob;
+    },
+    afterRender: wire
+  });
+  document.getElementById('tree-empty').style.display = nodes.length || ghosts.length ? 'none' : '';
+  foot();
+}
+function foot() {
+  var users = (USERS[slug] || []).length; if (state === 'large') users = 128;
+  document.getElementById('tree-foot').textContent = nodes.length + (nodes.length === 1 ? ' node' : ' nodes') + ' · ' + users + ' users assigned' + (nodes.length >= 50 ? ' · opened collapsed below level 2' : '');
+}
+function wire() {
+  document.querySelectorAll('[data-act]').forEach(function (b) { b.onclick = function (e) { e.stopPropagation(); act(b.dataset.act, b.dataset.node); }; });
+  document.querySelectorAll('[data-sheet]').forEach(function (b) { b.onclick = function (e) { e.stopPropagation(); openSheet(b.dataset.sheet); }; });
+}
+function openSheet(id) {
+  var isRoot = id === '__root', n = isRoot ? { name: ORG.name } : tree.byId[id];
+  document.getElementById('m-sheet-t').textContent = n.name;
+  var acts = [['add', 'Add under', 'fa-plus']]; if (!isRoot) acts = acts.concat([['rename', 'Rename', 'fa-pen'], ['move', 'Move', 'fa-arrows-up-down'], ['remove', 'Remove', 'fa-xmark']]);
+  document.getElementById('sheet-body').innerHTML = acts.map(function (a) { return '<button type="button" data-sact="' + a[0] + '" class="' + BTN_SEC + ' justify-start w-full ' + (a[0] === 'remove' ? 'text-red-700' : '') + '"><i class="fa-solid ' + a[2] + ' w-4" aria-hidden="true"></i> ' + a[1] + '</button>'; }).join('');
+  document.querySelectorAll('[data-sact]').forEach(function (b) { b.onclick = function () { S1.closeModal('m-sheet'); act(b.dataset.sact, id); }; });
+  S1.openModal('m-sheet');
+}
+var curNode = null;
+function act(kind, id) {
+  curNode = id;
+  if (kind === 'add') openAdd(id);
+  if (kind === 'rename') { var n = tree.byId[id]; document.getElementById('m-rename-t').textContent = 'Rename ' + n.name; document.getElementById('r-name').value = n.name; setErr('r-name', ''); document.getElementById('rename-err').style.display = 'none'; document.getElementById('rename-save').textContent = ORG.approval && !IS_ABS ? 'Send for approval' : 'Rename'; S1.openModal('m-rename'); }
+  if (kind === 'move') openMove(id);
+  if (kind === 'remove') tryRemove(id);
+}
+function openAdd(id) {
+  addTarget = id || '__root';
+  document.getElementById('add-under').textContent = nameOf(addTarget);
+  var types = ORG.party === 'client' ? CLIENT_TYPES : AGENCY_TYPES;
+  document.getElementById('n-type').innerHTML = types.map(function (t) { return '<option value="' + t + '">' + TYPE_LABEL[t] + '</option>'; }).join('');
+  document.getElementById('n-name').value = ''; setErr('n-name', ''); var cc = document.getElementById('n-cc'); if (cc) { cc.value = ''; }
+  document.getElementById('add-err').style.display = 'none';
+  document.getElementById('add-save').textContent = ORG.approval && !IS_ABS ? 'Send for approval' : 'Add node';
+  if (state === 'validation') { document.getElementById('n-name').value = nodes.length ? (tree.children[addTarget] && tree.children[addTarget][0] ? tree.children[addTarget][0].name : 'Midlands') : ''; setTimeout(function () { document.getElementById('add-save').click(); }, 50); }
+  S1.openModal('m-add');
+}
+function siblingTaken(parent, name, exceptId) { return (tree.children[parent] || []).some(function (s) { return s.id !== exceptId && s.name.toLowerCase() === name.toLowerCase(); }); }
+function submitChange(kind, payload, applyFn, toastWord) {
+  if (ORG.approval && !IS_ABS) {
+    var summ = kind === 'add' ? 'Add ' + TYPE_LABEL[payload.nodeType].toLowerCase() + ' “' + payload.name + '” under ' + nameOf(payload.parentId) : kind === 'rename' ? 'Rename “' + nameOf(payload.nodeId) + '” to “' + payload.name + '”' : kind === 'move' ? 'Move “' + nameOf(payload.nodeId) + '” under ' + nameOf(payload.parentId) : 'Remove “' + nameOf(payload.nodeId) + '”';
+    pending.push({ id: 'scr-' + Date.now(), org: slug, requestedBy: 'Rachel Green', requestedAt: new Date().toISOString(), status: 'Pending approval', applicable: true, change: Object.assign({ kind: kind, nodeId: null, parentId: null, name: null, nodeType: null, cc: null }, payload), summary: summ });
+    buildTree(); var pc = document.getElementById('pending-count-line'); if (pc) pc.textContent = pending.length + (pending.length === 1 ? ' change is' : ' changes are') + ' waiting.';
+    S1.toast("Sent to Abstract for approval. You'll be notified of the decision.", 'success');
+  } else { applyFn(); buildTree(); S1.toast(toastWord, 'success'); }
+}
+document.getElementById('add-save').onclick = function () {
+  var name = document.getElementById('n-name').value.trim(), type = document.getElementById('n-type').value, ccEl = document.getElementById('n-cc'), cc = ccEl ? ccEl.value.trim() || null : null;
+  var parent = addTarget === '__root' ? null : addTarget;
+  if (!name) { setErr('n-name', 'Give the node a name.'); return; }
+  if (siblingTaken(parent || '__root', name)) { setErr('n-name', nameOf(addTarget) + ' already has a node called ' + name + '.'); return; }
+  if (pending.some(function (c) { return c.change.kind === 'remove' && c.change.nodeId === parent; })) { var e = document.getElementById('add-err'); e.textContent = 'A removal of ' + nameOf(addTarget) + ' is waiting for approval, so nothing can be added under it yet.'; e.style.display = ''; return; }
+  setErr('n-name', '');
+  S1.closeModal('m-add');
+  submitChange('add', { parentId: parent, name: name, nodeType: type, cc: cc }, function () { nodes.push({ id: 'n' + Date.now(), parentId: parent, name: name, nodeType: type, cc: cc, userCount: 0 }); if (parent) tree.expanded[parent] = true; }, 'Node added.');
+};
+document.getElementById('rename-save').onclick = function () {
+  var n = tree.byId[curNode], name = document.getElementById('r-name').value.trim();
+  if (!name) { setErr('r-name', 'Give the node a name.'); return; }
+  if (siblingTaken(n._p, name, n.id)) { setErr('r-name', nameOf(n._p) + ' already has a node called ' + name + '.'); return; }
+  S1.closeModal('m-rename');
+  if (name === n.name) return;
+  submitChange('rename', { nodeId: n.id, name: name }, function () { n.name = name; nodes.find(function (x) { return x.id === n.id; }).name = name; }, 'Renamed.');
+};
+var moveTree = null, moveTo = null;
+function openMove(id) {
+  var n = tree.byId[id]; moveTo = null;
+  document.getElementById('m-move-t').textContent = 'Move “' + n.name + '” under…';
+  document.getElementById('move-copy').textContent = 'Its nodes beneath move with it; users scoped to it keep their scope, because scope covers the node, not its position.';
+  document.getElementById('move-err').style.display = 'none';
+  var save = document.getElementById('move-save'); save.disabled = true; save.textContent = ORG.approval && !IS_ABS ? 'Send for approval' : 'Move';
+  var disabled = [id].concat(tree.descendants(id));
+  moveTree = new Tree('move-tree', { nodes: nodes, root: { name: ORG.name }, selection: 'single', compact: true, disabledIds: disabled, disabledTitle: 'A node cannot move beneath itself.', defaultExpandedDepth: nodes.length >= 50 ? 1 : 99, label: 'Choose a new parent',
+    onChange: function (v) { moveTo = v[0] || null; save.disabled = !v.length; } });
+  // the root (top level) is a valid target: pick it by clicking the organisation row
+  document.querySelector('#move-tree [data-id="__root"]').addEventListener('click', function () { moveTree.value = []; moveTo = '__root'; moveTree.p.picked = '__root'; moveTree.render(); save.disabled = false; });
+  document.getElementById('move-search').value = ''; document.getElementById('move-search').oninput = function () { moveTree.setQuery(this.value); };
+  S1.openModal('m-move');
+}
+document.getElementById('move-save').onclick = function () {
+  var n = tree.byId[curNode], parent = moveTo === '__root' ? null : moveTo;
+  if ((parent || '__root') === n._p) { S1.closeModal('m-move'); return; }
+  if (siblingTaken(parent || '__root', n.name)) { var e = document.getElementById('move-err'); e.textContent = nameOf(parent || '__root') + ' already has a node called ' + n.name + '. Rename one of them first.'; e.style.display = ''; return; }
+  S1.closeModal('m-move');
+  submitChange('move', { nodeId: n.id, parentId: parent }, function () { nodes.find(function (x) { return x.id === n.id; }).parentId = parent; if (parent) tree.expanded[parent] = true; }, 'Moved.');
+};
+function tryRemove(id) {
+  var n = tree.byId[id], kids = tree.children[id] || [], here = n.userCount || 0, beneath = userCountBeneath(id);
+  if (kids.length || here || beneath) {
+    document.getElementById('m-cant-t').textContent = "Can't remove " + n.name;
+    var parts = [];
+    if (kids.length) parts.push('<p>It still has ' + kids.length + (kids.length === 1 ? ' node' : ' nodes') + ' beneath it: ' + kids.map(function (k) { return '<span class="font-semibold">' + esc(k.name) + '</span>'; }).join(', ') + '. Move or remove them first.</p>');
+    if (here || beneath) { var who = []; if (here) who.push(here + (here === 1 ? ' user is' : ' users are') + ' assigned here'); kids.forEach(function (k) { var c = (k.userCount || 0) + userCountBeneath(k.id); if (c) who.push(c + ' at ' + esc(k.name) + ' beneath it'); }); parts.push('<p class="mt-2">' + who.join(', ') + '. Change their scope on the <a class="text-blue-700 font-semibold underline" href="' + (IS_ABS ? 'abstract.identity-access.users.html?org=' + slug : PORTAL + '.identity-access.users.html') + '">Users page</a> first.</p>'); }
+    document.getElementById('cant-body').innerHTML = parts.join('');
+    S1.openModal('m-cant'); return;
+  }
+  S1.confirm({ title: 'Remove ' + n.name + '?', body: n.name + ' is removed from the tree and from every scope picker. Nothing is assigned to it. The record is kept for the audit log.', cta: ORG.approval && !IS_ABS ? 'Send for approval' : 'Remove', tone: 'danger', onConfirm: function () {
+    submitChange('remove', { nodeId: id }, function () { nodes = nodes.filter(function (x) { return x.id !== id; }); }, 'Removed.');
+  } });
+}
+document.getElementById('btn-add').onclick = function () { openAdd(addTarget); };
+document.getElementById('btn-add-m').onclick = function () { openAdd(addTarget); };
+document.getElementById('btn-expand').onclick = function () { tree.expandAll(); };
+document.getElementById('btn-collapse').onclick = function () { tree.collapseTo(1); };
+document.getElementById('tree-search').addEventListener('input', function () { tree.setQuery(this.value); if (!this.value) foot(); });
+document.addEventListener('s1:state', function (e) { state = e.detail.state; slug = 'acme'; load(); if (state === 'validation') setTimeout(function () { openAdd(nodes.length ? '__root' : '__root'); }, 200); });
+if (window.S1 && S1.embedded) document.addEventListener('s1:ready', function () { document.querySelectorAll('[data-embedded-hide]').forEach(function (e) { e.style.display = 'none'; }); });
+</script>
 <script src="slice1-kit.js"></script>
 </body>
 </html>
