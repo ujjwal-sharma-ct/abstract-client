@@ -19,6 +19,13 @@ window.S1_CONFIG = {
     'client.notifications.notification-centre-slice-1.html', 'client.shell.dashboard-slice-1.html',
     'client.design.slice-1-index.html'
   ],
+  // slice 2 screens (docs/slices/2/design/DESIGN-BRIEF.md); slice 2 mode shows slice 1 + these
+  slice2Hub: 'client.design.slice-2-index.html',
+  slice2Screens: [
+    'client.organisations.business-units.html', 'client.notifications.notification-preferences.html',
+    'client.identity-access.confirm-email.html', 'client.design.slice-2-index.html'
+  ],
+  slice2NavHide: [],
   // slice 1 raises no notification for client users; the centre starts empty
   notifications: []
 };
@@ -38,9 +45,14 @@ window.S1_CONFIG = {
  *   S1.runJob(chip, {...})         background-job chip: queued → running → completed | failed
  *   S1.sessionWarning()            idle-timeout warning dialog (NFR-009)
  *   S1.setState(name)              prototype state switcher (loading, empty, error, …)
- *   S1.slice1Mode(on)              hide every sidebar link that is not a slice 1 screen, and every
- *                                  element marked data-s1-later (a later slice's affordance);
- *                                  links marked data-s1-home point at the slice 1 dashboard
+ *   S1.setMode('full'|'s1'|'s2')   navigation mode: full product; slice 1 only (hides every sidebar link
+ *                                  that is not a slice 1 screen and every element marked data-s1-later);
+ *                                  slices 1 + 2 (slice 1 + slice2Screens; hides data-s2-later — slice 2 brief A3).
+ *                                  S1.slice1Mode(on) / S1.slice2Mode(on) are shorthands; data-s1-home links
+ *                                  point at the slice 1 dashboard in either slice mode
+ *   ?embedded=1                    the page as a wizard step (slice 2 TSD §3.3.8): shell and Prototype menu
+ *                                  hidden, states and actions kept; S1.stepEvent('dirty'|'saved', data)
+ *                                  tells the framing wizard
  *
  * State switcher contract (declare on <body>):
  *   data-s1-states="default loading empty error validation denied large"
@@ -331,7 +343,7 @@ window.S1_CONFIG = {
   };
 
   // ---------- Prototype state switcher ----------
-  var LABELS = { 'default': 'Default', loading: 'Loading', empty: 'Empty', error: 'Error', validation: 'Validation failure', denied: 'Permission denied', large: 'Large data' };
+  var LABELS = { 'default': 'Default', loading: 'Loading', empty: 'Empty', error: 'Error', validation: 'Validation failure', denied: 'Permission denied', large: 'Large data', conflict: 'Edit conflict (412)', pending: 'Pending', refused: 'Activation refused', ready: 'Every gate met', readonly: 'View only', floor: 'Under the margin floor', notapplicable: 'Cannot be applied', expired: 'Expired link', success: 'Success', decided: 'Decided' };
   S1.setState = function (name) {
     document.body.setAttribute('data-s1-state', name);
     document.querySelectorAll('[data-s1-show]').forEach(function (e) {
@@ -348,33 +360,42 @@ window.S1_CONFIG = {
   function buildSwitcher(states) {
     var wrap = el('div', { 'class': 's1-sw' });
     var extra = (C.signIn ? '<button data-act="timeout"><i class="fa-solid fa-hourglass-half" style="width:14px"></i> Session timeout warning</button>' : '') +
-      '<button data-act="mode"><i class="fa-solid fa-filter" style="width:14px"></i> <span class="s1-mode-l"></span></button>' +
-      (C.hub ? '<a href="' + esc(C.hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 1 screen index</a>' : '');
+      (C.hub ? '<a href="' + esc(C.hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 1 screen index</a>' : '') +
+      (C.slice2Hub ? '<a href="' + esc(C.slice2Hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 2 screen index</a>' : '');
+    var modes = '<p>Navigation</p>' +
+      '<button data-mode="full" aria-pressed="false"><i class="fa-solid fa-layer-group" style="width:14px"></i> Full product</button>' +
+      '<button data-mode="s1" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slice 1 only</button>' +
+      (C.slice2Screens ? '<button data-mode="s2" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slices 1 + 2</button>' : '');
     wrap.innerHTML = '<div class="s1-sw-panel" role="menu">' +
       (states.length > 1 ? '<p>Screen state</p>' + states.map(function (s) { return '<button data-state="' + s + '" aria-pressed="false">' + (LABELS[s] || s) + '</button>'; }).join('') : '') +
-      '<p>Prototype</p>' + extra + '</div><button aria-haspopup="true" aria-label="Prototype controls"><i class="fa-solid fa-layer-group"></i> <span class="s1-sw-cur">Prototype</span></button>';
+      modes + '<p>Prototype</p>' + extra + '</div><button aria-haspopup="true" aria-label="Prototype controls"><i class="fa-solid fa-layer-group"></i> <span class="s1-sw-cur">Prototype</span></button>';
     document.body.appendChild(wrap);
     var toggle = wrap.lastChild;
     toggle.onclick = function () { wrap.classList.toggle('open'); };
     document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) wrap.classList.remove('open'); });
     wrap.querySelectorAll('[data-state]').forEach(function (b) { b.onclick = function () { S1.setState(b.dataset.state); wrap.querySelector('.s1-sw-cur').textContent = LABELS[b.dataset.state] || b.dataset.state; wrap.classList.remove('open'); }; });
     var t = wrap.querySelector('[data-act="timeout"]'); if (t) t.onclick = function () { wrap.classList.remove('open'); S1.sessionWarning(); };
-    var m = wrap.querySelector('[data-act="mode"]');
-    function lab() { wrap.querySelector('.s1-mode-l').textContent = S1.isSlice1Mode() ? 'Show full-product nav' : 'Show slice 1 nav only'; }
-    m.onclick = function () { S1.slice1Mode(!S1.isSlice1Mode()); lab(); };
-    lab();
+    function paintModes() { wrap.querySelectorAll('[data-mode]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.mode === S1.mode())); }); }
+    wrap.querySelectorAll('[data-mode]').forEach(function (b) { b.onclick = function () { S1.setMode(b.dataset.mode); paintModes(); }; });
+    document.addEventListener('s1:mode', paintModes);
+    paintModes();
   }
 
-  // ---------- Slice 1 mode: nav shows only what slice 1 ships ----------
+  // ---------- Slice modes: full product · slice 1 only · slices 1 + 2 (slice 2 brief A3) ----------
+  // Stored under one key: 'on' = slice 1 only (the slice 1 value, kept), 's2' = slices 1 + 2, 'off' = full product.
   var MKEY = 's1-mode';
-  S1.isSlice1Mode = function () { return sget(MKEY) === 'on'; };
+  S1.mode = function () { var m = sget(MKEY); return m === 'on' ? 's1' : m === 's2' ? 's2' : 'full'; };
+  S1.isSlice1Mode = function () { return S1.mode() === 's1'; };
+  S1.isSlice2Mode = function () { return S1.mode() === 's2'; };
+  S1.setMode = function (m) { sset(MKEY, m === 's1' ? 'on' : m === 's2' ? 's2' : 'off'); applyMode(); };
+  S1.slice1Mode = function (on) { S1.setMode(on ? 's1' : 'full'); };
+  S1.slice2Mode = function (on) { S1.setMode(on ? 's2' : 'full'); };
   function base(h) { try { return decodeURIComponent((h || '').split(/[?#]/)[0].split('/').pop()); } catch (e) { return h; } }
-  S1.slice1Mode = function (on) {
-    sset(MKEY, on ? 'on' : 'off');
-    applyMode();
-  };
   function applyMode() {
-    var on = S1.isSlice1Mode(), keep = C.slice1Screens || [];
+    var mode = S1.mode(), on = mode !== 'full';
+    var keep = (C.slice1Screens || []).slice();
+    if (mode === 's2') keep = keep.concat(C.slice2Screens || []);
+    var navHide = mode === 's2' ? (C.slice2NavHide || []) : [];
     var nav = document.querySelectorAll(C.navSelector || '#sidebar-nav, aside nav');
     nav.forEach(function (n) {
       n.querySelectorAll('a[href]').forEach(function (a) {
@@ -384,7 +405,7 @@ window.S1_CONFIG = {
         if (on && C.dashboard && f === C.dashboard && C.slice1Dashboard) a.setAttribute('href', C.slice1Dashboard);
         else if (on && swap) a.setAttribute('href', swap);
         else a.setAttribute('href', a.dataset.s1Orig);
-        var ok = !on || keep.indexOf(f) >= 0 || f === C.dashboard || !!swap;
+        var ok = !on || (keep.indexOf(f) >= 0 && navHide.indexOf(f) < 0) || f === C.dashboard || !!swap;
         a.style.display = ok ? '' : 'none';
       });
       // group headers: hide when no visible link follows before the next header
@@ -398,23 +419,52 @@ window.S1_CONFIG = {
         p.style.display = (!on || any) ? '' : 'none';
       });
     });
-    // affordances that belong to a later slice: present in the full-product view, absent in slice 1 mode
+    // data-s1-later: a slice 2 (or later) affordance on a slice 1 page — absent in slice 1 mode, present in slice 2 mode.
+    // data-s2-later: a slice 3+ affordance — absent in slice 1 mode and in slice 2 mode. An element may carry both.
     document.querySelectorAll('[data-s1-later]').forEach(function (e) {
+      if (mode === 's1') e.style.setProperty('display', 'none', 'important'); else e.style.removeProperty('display');
+    });
+    document.querySelectorAll('[data-s2-later]').forEach(function (e) {
       if (on) e.style.setProperty('display', 'none', 'important'); else e.style.removeProperty('display');
     });
     document.querySelectorAll('[data-s1-home]').forEach(function (a) {
       if (!a.dataset.s1Orig) a.dataset.s1Orig = a.getAttribute('href');
       a.setAttribute('href', on && C.slice1Dashboard ? C.slice1Dashboard : a.dataset.s1Orig);
     });
+    document.documentElement.setAttribute('data-s1-mode', mode);
+    document.dispatchEvent(new CustomEvent('s1:mode', { detail: { mode: mode } }));
   }
-  S1.home = function () { return S1.isSlice1Mode() && C.slice1Dashboard ? C.slice1Dashboard : (C.dashboard || '#'); };
+  S1.home = function () { return S1.mode() !== 'full' && C.slice1Dashboard ? C.slice1Dashboard : (C.dashboard || '#'); };
+
+  // ---------- Embedded framing (slice 2 TSD §3.3.8: a wizard step is the page with `embedded` on) ----------
+  // ?embedded=1 drops the page's own shell (sidebar, header, anything marked data-embedded-hide) and the
+  // Prototype menu; every state and action stays. The wizard frames the page and listens for step events.
+  var EMBEDDED = new URLSearchParams(location.search).get('embedded') === '1';
+  S1.embedded = EMBEDDED;
+  if (EMBEDDED) {
+    document.documentElement.setAttribute('data-embedded', '');
+    var ecss = document.createElement('style'); ecss.id = 's1-embedded-css';
+    ecss.textContent = '[data-embedded] #sidebar,[data-embedded] #header,[data-embedded] [data-embedded-hide],[data-embedded] .s1-sw{display:none!important}' +
+      '[data-embedded] #main{padding:0!important;background:transparent!important}[data-embedded] body{background:transparent!important}';
+    document.head.appendChild(ecss);
+  }
+  // A page reports to the wizard shell: 'dirty' (with {dirty:true|false}) and 'saved' (StepComponentProps.onDirtyChange / onSaved).
+  S1.stepEvent = function (type, data) {
+    if (!EMBEDDED) return;
+    try { window.parent.postMessage({ s1Step: type, data: data || {}, href: location.href }, '*'); } catch (e) { /* no parent */ }
+  };
 
   // ---------- boot ----------
   function boot() {
     var q = new URLSearchParams(location.search);
     if (q.get('s1') === '1') sset(MKEY, 'on');
     if (q.get('s1') === '0') sset(MKEY, 'off');
-    if (document.body.hasAttribute('data-s1-page') && sget(MKEY) == null) sset(MKEY, 'on');
+    if (q.get('s2') === '1') sset(MKEY, 's2');
+    if (sget(MKEY) == null) {
+      if (document.body.hasAttribute('data-s2-page')) sset(MKEY, 's2');
+      else if (document.body.hasAttribute('data-s1-page')) sset(MKEY, 'on');
+    }
+    if (EMBEDDED) C.noSwitcher = true;
     applyMode();
 
     // wire bells: explicit [data-s1-bell], or (bellDrawer portals) any unwired bell button
