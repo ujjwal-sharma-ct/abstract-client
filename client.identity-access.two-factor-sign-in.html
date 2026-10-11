@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in · Two-step verification · Client Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;} * { scrollbar-width: none; } .tabular { font-variant-numeric: tabular-nums; }</style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { inter: ['Inter', 'sans-serif'], },
+                    colors: {
+                        navy: { DEFAULT: '#172554', 50: '#EEF1FB', 100: '#D4DCF5', 200: '#A9B9EB', 300: '#7E96E1', 400: '#5373D7', 500: '#2850CD', 600: '#1D3FA4', 700: '#162F7B', 800: '#0F1F52', 900: '#172554', },
+                        brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554', }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-inter bg-slate-100 text-slate-600 min-h-screen" data-s1-page data-s1-states="default validation wrongcode backup wrongbackup ratelimited challenge">
+<div class="flex min-h-screen">
+
+    <!-- Left: the form -->
+    <div class="flex w-full flex-col justify-center px-4 py-10 sm:px-6 lg:flex-none lg:w-1/2 xl:w-5/12 bg-white">
+        <div class="mx-auto w-full max-w-sm lg:w-[400px]">
+            <div class="mb-8 flex items-center justify-between">
+                <img src="logo.png" alt="Abstract VMS" class="h-10 w-auto -ml-[5px] rounded" style="background:#172554;padding:4px 8px">
+                <span class="text-xs font-semibold uppercase tracking-widest text-slate-400">Client Portal</span>
+            </div>
+
+            <!-- Two-step sign-in (slice 1 brief A11; TSD §3.1.13): no session exists until this step succeeds. No "trust this device". -->
+            <div data-s1-hide="challenge">
+                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Two-step verification</h1>
+                <p class="text-sm text-slate-600 mt-2 leading-relaxed"><span data-tfm="totp">Enter the 6-digit code from your authenticator app to finish signing in.</span><span data-tfm="backup" style="display:none">Enter one of your backup codes to finish signing in.</span></p>
+                <p class="text-xs text-slate-500 mt-2 break-all">Signing in as <span class="font-semibold text-slate-700">emma.clarke@acme-logistics.co.uk</span></p>
+
+                <!-- 429 (AUTH_TWO_FACTOR_LOCKED / RATE_LIMIT_AUTH, Retry-After): the wait in minutes -->
+                <div data-s1-show="ratelimited" data-s1-display="flex" role="alert" class="mt-5 rounded-lg border border-amber-200 bg-amber-50 px-3.5 py-3 items-start gap-2.5 text-sm text-amber-900 text-left">
+                    <i class="fa-solid fa-hourglass-half mt-0.5" aria-hidden="true"></i><p><span class="font-semibold">Too many attempts.</span> For your security, wait 15 minutes, then try again.</p>
+                </div>
+
+                <form id="v-form" class="mt-6 flex flex-col gap-5 text-left" novalidate>
+                    <div data-tfm="totp">
+                        <label for="v-code" class="block text-xs font-semibold text-slate-700 mb-1.5">6-digit code</label>
+                        <input id="v-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-describedby="v-code-err v-code-hint" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder-slate-400 outline-none focus:bg-white focus:border-blue-300 focus:ring-2 focus:ring-blue-600/20 font-mono text-xl tracking-[0.5em] pl-[calc(1rem+0.5em)] text-center disabled:opacity-60"/>
+                        <p id="v-code-err" class="hidden text-xs font-medium text-red-600 mt-1.5" role="alert"><i class="fa-solid fa-circle-exclamation mr-1" aria-hidden="true"></i><span></span></p>
+                        <p id="v-code-hint" class="text-xs text-slate-500 mt-1.5">The code changes every 30 seconds.</p>
+                    </div>
+                    <div data-tfm="backup" style="display:none">
+                        <label for="v-backup" class="block text-xs font-semibold text-slate-700 mb-1.5">Backup code</label>
+                        <input id="v-backup" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="11" placeholder="xxxxx-xxxxx" aria-describedby="v-backup-err v-backup-hint" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder-slate-400 outline-none focus:bg-white focus:border-blue-300 focus:ring-2 focus:ring-blue-600/20 font-mono text-lg tracking-widest text-center disabled:opacity-60"/>
+                        <p id="v-backup-err" class="hidden text-xs font-medium text-red-600 mt-1.5" role="alert"><i class="fa-solid fa-circle-exclamation mr-1" aria-hidden="true"></i><span></span></p>
+                        <p id="v-backup-hint" class="text-xs text-slate-500 mt-1.5">Each backup code works once.</p>
+                    </div>
+                    <button type="submit" id="v-submit" class="inline-flex items-center justify-center gap-2 px-4 rounded-lg text-sm font-semibold text-white hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-600 w-full py-3" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);"><i class="fa-solid fa-arrow-right-to-bracket text-xs" aria-hidden="true"></i> <span>Verify and sign in</span></button>
+                </form>
+
+                <div class="mt-5 flex flex-col items-center sm:items-start gap-3">
+                    <button type="button" id="v-switch" class="text-sm font-semibold text-blue-700 hover:text-blue-800 hover:underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2">Use a backup code instead</button>
+                    <a href="client.identity-access.sign-in.html" class="text-sm font-semibold text-slate-600 hover:text-slate-900 hover:underline rounded inline-flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"><i class="fa-solid fa-arrow-left text-xs" aria-hidden="true"></i> Back to sign in</a>
+                </div>
+
+                <p class="mt-6 pt-5 border-t border-slate-200 text-xs text-slate-500 leading-relaxed text-left"><span class="font-semibold text-slate-700">Lost your phone and your backup codes?</span> Abstract can reset two-step verification for you. You then set it up again when you sign in.</p>
+            </div>
+
+            <!-- The step ended (401 AUTH_TWO_FACTOR_CHALLENGE_EXPIRED): older than 10 minutes, already used, or five wrong codes -->
+            <div data-s1-show="challenge" class="text-center sm:text-left" role="alert">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto sm:mx-0 bg-amber-50 text-amber-700"><i class="fa-solid fa-clock-rotate-left text-lg" aria-hidden="true"></i></div>
+                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Sign in again to continue</h1>
+                <p class="text-sm text-slate-600 mt-2 leading-relaxed">This step timed out or had too many wrong codes, so we ended it to keep your account safe. Start again with your email and password.</p>
+                <a href="client.identity-access.sign-in.html" class="inline-flex items-center justify-center gap-2 px-4 rounded-lg text-sm font-semibold text-white hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-600 w-full py-3 mt-6" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);"><i class="fa-solid fa-arrow-right-to-bracket text-xs" aria-hidden="true"></i> Back to sign in</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Right: brand panel -->
+    <div class="relative hidden lg:flex flex-1 flex-col justify-center px-12 xl:px-24 overflow-hidden" style="background:#172554;">
+        <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, #1D4ED8 0%, transparent 70%);" aria-hidden="true"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, #5B2E91 0%, transparent 70%);" aria-hidden="true"></div>
+        <div class="relative max-w-xl text-white">
+            <img src="logo.png" alt="" class="h-16 w-auto mb-10">
+            <p class="text-3xl xl:text-4xl font-bold tracking-tight leading-tight">One place for your contingent workforce.</p>
+            <p class="text-base text-white/70 mt-5 leading-relaxed">Abstract VMS brings your people, roles and permissions together, with every change recorded.</p>
+        </div>
+    </div>
+</div>
+<script>
+/* Two-step sign-in (slice 1 brief A11; TSD §3.1.13, 1.8 UI states).
+   Prototype rules: any 6 digits (or any backup code) sign you in; 000000 and 00000-00000 show the wrong-code state. */
+(function () {
+  var mode = 'totp';
+  function $(id) { return document.getElementById(id); }
+  function err(id, msg) {
+    var i = $(id), e = $(id + '-err');
+    e.querySelector('span').textContent = msg || ''; e.classList.toggle('hidden', !msg);
+    i.classList.toggle('border-red-500', !!msg); i.classList.toggle('border-slate-200', !msg);
+    if (msg) i.setAttribute('aria-invalid', 'true'); else i.removeAttribute('aria-invalid');
+  }
+  function setMode(m) {
+    mode = m;
+    document.querySelectorAll('[data-tfm]').forEach(function (e) { e.style.display = e.getAttribute('data-tfm') === m ? '' : 'none'; });
+    $('v-switch').textContent = m === 'totp' ? 'Use a backup code instead' : 'Use your authenticator app instead';
+  }
+  function go(s) {
+    S1.setState(s);
+    var b = document.querySelector('.s1-sw-panel [data-state="' + s + '"]'), c = document.querySelector('.s1-sw-cur');
+    if (b && c) c.textContent = b.textContent;
+  }
+  document.addEventListener('s1:state', function (e) {
+    var s = e.detail.state, keep = s === 'wrongcode' || s === 'wrongbackup';
+    setMode(s === 'backup' || s === 'wrongbackup' ? 'backup' : 'totp');
+    err('v-code', ''); err('v-backup', '');
+    if (!keep) { $('v-code').value = ''; $('v-backup').value = ''; }
+    if (s === 'validation') err('v-code', 'Enter the 6-digit code');
+    if (s === 'wrongcode') { if (!$('v-code').value) $('v-code').value = '482913'; err('v-code', 'That code didn\'t work'); }
+    if (s === 'wrongbackup') { if (!$('v-backup').value) $('v-backup').value = 'k7Qm2-Xp9Ra'; err('v-backup', 'That code didn\'t work'); }
+    var wait = s === 'ratelimited';
+    $('v-code').disabled = wait; $('v-backup').disabled = wait; $('v-submit').disabled = wait;
+    $('v-switch').style.display = wait ? 'none' : '';
+  });
+  $('v-switch').addEventListener('click', function () { go(mode === 'totp' ? 'backup' : 'default'); $(mode === 'totp' ? 'v-code' : 'v-backup').focus(); });
+  $('v-code').addEventListener('input', function () { this.value = this.value.replace(/\D/g, '').slice(0, 6); err('v-code', ''); });
+  $('v-backup').addEventListener('input', function () { err('v-backup', ''); });
+  $('v-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var wrong;
+    if (mode === 'totp') {
+      var v = $('v-code').value.replace(/\D/g, '');
+      if (v.length !== 6) { err('v-code', 'Enter the 6-digit code'); $('v-code').focus(); return; }
+      wrong = v === '000000';
+    } else {
+      var c = $('v-backup').value.trim();
+      if (!c) { err('v-backup', 'Enter a backup code'); $('v-backup').focus(); return; }
+      if (!/^[A-Za-z0-9]{5}-?[A-Za-z0-9]{5}$/.test(c)) { err('v-backup', 'A backup code has 10 characters, like xxxxx-xxxxx'); $('v-backup').focus(); return; }
+      wrong = c.replace('-', '') === '0000000000';
+    }
+    var btn = $('v-submit'), keep = btn.innerHTML; btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xs" aria-hidden="true"></i> <span>Checking…</span>';
+    setTimeout(function () {
+      btn.disabled = false; btn.innerHTML = keep;
+      if (wrong) { go(mode === 'totp' ? 'wrongcode' : 'wrongbackup'); var f = $(mode === 'totp' ? 'v-code' : 'v-backup'); f.focus(); f.select(); return; }
+      location.href = S1.home();
+    }, 800);
+  });
+})();
+</script>
+
+<script src="slice1-kit.js"></script>
+</body>
+</html>

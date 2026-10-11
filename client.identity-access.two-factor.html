@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-step verification · Client Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;} * { scrollbar-width: none; } .tabular { font-variant-numeric: tabular-nums; }</style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { inter: ['Inter', 'sans-serif'], },
+                    colors: {
+                        navy: { DEFAULT: '#172554', 50: '#EEF1FB', 100: '#D4DCF5', 200: '#A9B9EB', 300: '#7E96E1', 400: '#5373D7', 500: '#2850CD', 600: '#1D3FA4', 700: '#162F7B', 800: '#0F1F52', 900: '#172554', },
+                        brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554', }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s1-page data-s1-states="default required password wrongpassword scan wrongcode ratelimited codes enrolled regenerate newcodes loading error">
+
+<div id="app-root" class="flex w-full" style="height: 100vh;">
+
+    <!-- Sidebar (client portal navigation; the kit's slice 1 mode hides later-slice links) -->
+    <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
+        <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
+            <img src="logo.png" alt="Abstract VMS" class="h-12 w-auto block -ml-[5px]"/>
+            <p class="text-white/40 text-sm mt-2">Client Portal</p>
+        </div>
+
+        <nav id="sidebar-nav" class="flex-1 px-3 py-4 flex flex-col gap-1" aria-label="Main">
+            <a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-chart-pie text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-building text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Business Units</span>
+            </a>
+            <a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-users-gear text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Users & Permissions</span>
+            </a>
+            <p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Recruitment</p>
+            <a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-briefcase text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Vacancies</span>
+            </a>
+            <a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-clipboard-list text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="client.candidates.candidate-directory.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-address-card text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Candidate Directory</span>
+            </a>
+            <p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Finance</p>
+            <a href="client.timesheets.timesheets.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-clock text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Timesheets</span>
+            </a>
+            <a href="client.money.invoices.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-file-invoice-dollar text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Invoices</span>
+            </a>
+            <p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Analytics</p>
+            <a href="client.reporting.reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-chart-line text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Reports</span>
+            </a>
+        </nav>
+
+        <div id="sidebar-footer" class="px-4 py-4 border-t border-white/10">
+            <div class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-white/5 transition-all">
+                <span class="w-8 h-8 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold flex items-center justify-center flex-shrink-0" aria-hidden="true">EC</span>
+                <div class="flex-1 min-w-0">
+                    <a href="client.identity-access.profile.html" class="block text-white text-xs font-semibold truncate hover:underline" title="Your profile" data-user-name>Emma Clarke</a>
+                    <p class="text-white/40 text-xs truncate">Acme Logistics</p>
+                </div>
+                <a href="client.identity-access.sign-in.html?reason=signed-out" class="w-9 h-9 flex items-center justify-center rounded-lg text-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400" aria-label="Sign out" title="Sign out"><i class="fa-solid fa-arrow-right-from-bracket text-xs" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header id="header" class="flex items-center justify-between gap-3 px-4 sm:px-6 xl:px-8 py-4 bg-white border-b border-slate-200 flex-shrink-0">
+            <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+                <button id="mobile-menu-btn" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600" aria-label="Open navigation"><i class="fa-solid fa-bars text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <div class="min-w-0">
+                    <h1 class="text-lg font-bold text-slate-900 truncate">Two-step verification</h1>
+                    <p class="text-xs text-slate-500 hidden sm:block truncate">A second step when you sign in</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+
+                <button data-s1-bell aria-label="Notifications" class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"><i class="fa-regular fa-bell text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <a href="client.identity-access.profile.html" class="flex items-center gap-2 pl-3 border-l border-slate-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600" aria-label="Your profile" title="Your profile">
+                    <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 border-2 border-blue-100 text-xs font-bold flex items-center justify-center" aria-hidden="true">EC</span>
+                    <span class="hidden xl:block"><span class="block text-xs font-semibold text-slate-700" data-user-name>Emma Clarke</span><span class="block text-xs text-slate-400">Acme Logistics</span></span>
+                </a>
+            </div>
+        </header>
+
+        <main id="main" class="flex-1 overflow-y-auto px-4 sm:px-6 xl:px-8 py-6 bg-slate-100">
+
+            <style>
+                /* Required by policy and not set up yet: every other route comes back here, so the shell offers nowhere else to go */
+                body[data-tf-locked] #sidebar-nav > *, body[data-tf-locked] [data-s1-bell], body[data-tf-locked] #tf-back { display: none !important; }
+                body[data-tf-locked] #sidebar-nav::before { content: "Set up two-step verification to open the rest of the portal."; display: block; padding: 4px 12px; font-size: 12px; line-height: 1.5; color: rgba(255,255,255,.6); }
+                /* Print only the backup codes */
+                @media print { body.tf-printing * { visibility: hidden !important; } body.tf-printing .tf-print, body.tf-printing .tf-print * { visibility: visible !important; } body.tf-printing .tf-print { position: fixed; left: 24px; top: 24px; right: 24px; } }
+            </style>
+
+            <div class="max-w-2xl mx-auto flex flex-col gap-4" data-s1-hide="loading error">
+
+                <a id="tf-back" href="client.identity-access.profile.html" class="self-start inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-800 hover:underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"><i class="fa-solid fa-arrow-left text-xs" aria-hidden="true"></i> Profile</a>
+
+                <!-- Required by policy (TSD 1.8 TV-14): shown from sign-in until a code is accepted -->
+                <div id="tf-required" class="hidden rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 items-start gap-3 text-sm text-amber-900" role="status">
+                    <i class="fa-solid fa-shield-halved mt-0.5" aria-hidden="true"></i>
+                    <div><p class="font-semibold">Two-step verification is required to use your account</p><p class="mt-0.5">Set it up now to carry on. Until it's on, every other page brings you back here.</p></div>
+                </div>
+
+                <!-- Rate limited (429, Retry-After): the wait in minutes -->
+                <div data-s1-show="ratelimited" data-s1-display="flex" role="alert" class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 items-start gap-3 text-sm text-amber-900">
+                    <i class="fa-solid fa-hourglass-half mt-0.5" aria-hidden="true"></i>
+                    <p><span class="font-semibold">Too many attempts.</span> Wait 1 minute, then enter the newest code from your app.</p>
+                </div>
+
+                <!-- OFF: what it is, and the way in -->
+                <section data-s1-show="default required" class="bg-white rounded-2xl border border-slate-200 shadow-sm" aria-labelledby="tf-off-t">
+                    <div class="p-5 sm:p-6 flex flex-col gap-5">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-blue-700" style="background: rgba(29,78,216,0.1);"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2"><h2 id="tf-off-t" class="text-sm font-bold text-slate-900">Two-step verification</h2><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">Off</span></div>
+                                <p class="text-sm text-slate-600 mt-1 leading-relaxed">After your password, you enter a 6-digit code from an authenticator app on your phone. Your account stays protected even if someone learns your password.</p>
+                            </div>
+                        </div>
+                        <ul class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <li class="rounded-xl bg-slate-50 border border-slate-200 p-4">
+                                <p class="text-xs font-semibold text-slate-900 flex items-center gap-2"><i class="fa-solid fa-mobile-screen-button text-slate-500" aria-hidden="true"></i>You need an authenticator app</p>
+                                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">Any app that shows 6-digit codes works, such as Google Authenticator or Microsoft Authenticator.</p>
+                            </li>
+                            <li class="rounded-xl bg-slate-50 border border-slate-200 p-4">
+                                <p class="text-xs font-semibold text-slate-900 flex items-center gap-2"><i class="fa-solid fa-arrow-right-to-bracket text-slate-500" aria-hidden="true"></i>You're asked at every sign-in</p>
+                                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">There is no way to skip the code on a device you use often.</p>
+                            </li>
+                            <li class="rounded-xl bg-slate-50 border border-slate-200 p-4">
+                                <p class="text-xs font-semibold text-slate-900 flex items-center gap-2"><i class="fa-solid fa-lock text-slate-500" aria-hidden="true"></i>It stays on</p>
+                                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">You can't turn it off yourself. If you lose your phone and your backup codes, Abstract can reset it.</p>
+                            </li>
+                        </ul>
+                        <div class="flex sm:justify-end">
+                            <button type="button" id="tf-start" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg text-white text-sm font-semibold hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 w-full sm:w-auto" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);"><i class="fa-solid fa-shield-halved text-xs" aria-hidden="true"></i> Turn on two-step verification</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ENROLMENT: password, then the authenticator app, then the backup codes (TSD §3.1.13, 1.8 TV-13) -->
+                <section data-s1-show="password wrongpassword scan wrongcode ratelimited codes" class="bg-white rounded-2xl border border-slate-200 shadow-sm" aria-labelledby="tf-enrol-t">
+                    <div class="px-5 sm:px-6 py-4 border-b border-slate-100">
+                        <h2 id="tf-enrol-t" class="text-sm font-bold text-slate-900">Turn on two-step verification</h2>
+                        <ol id="tf-steps" class="mt-3 flex items-center gap-2 sm:gap-3" aria-label="Steps"></ol>
+                    </div>
+
+                    <!-- Step 1: password (POST /auth/two-factor/enable) -->
+                    <form id="tf-f-password" data-s1-show="password wrongpassword" data-s1-display="flex" class="p-5 sm:p-6 flex-col gap-5" novalidate>
+                        <div>
+                            <h3 id="tf-h-1" tabindex="-1" class="text-base font-bold text-slate-900 focus:outline-none">Confirm it's you</h3>
+                            <p class="text-sm text-slate-600 mt-1">Enter your password to start.</p>
+                        </div>
+                        <div class="sm:max-w-sm">
+                            <label for="tf-password" class="block text-xs font-semibold text-slate-700 mb-1.5">Password</label>
+                            <div class="relative">
+                                <input id="tf-password" type="password" autocomplete="current-password" aria-describedby="tf-password-err" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-600/20 text-sm pr-11"/>
+                                <button type="button" data-eye="tf-password" aria-label="Show password" class="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"><i class="fa-regular fa-eye text-sm" aria-hidden="true"></i></button>
+                            </div>
+                            <p id="tf-password-err" class="hidden text-xs font-medium text-red-600 mt-1.5" role="alert"><i class="fa-solid fa-circle-exclamation mr-1" aria-hidden="true"></i><span></span></p>
+                        </div>
+                        <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+                            <button type="button" data-tf-cancel class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg bg-white border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 w-full sm:w-auto">Cancel</button>
+                            <button type="submit" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg text-white text-sm font-semibold hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 w-full sm:w-auto" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);"><span>Continue</span> <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i></button>
+                        </div>
+                    </form>
+
+                    <!-- Step 2: scan the code or type the key, then confirm one code (POST /auth/two-factor/verify-totp) -->
+                    <form id="tf-f-code" data-s1-show="scan wrongcode ratelimited" data-s1-display="flex" class="p-5 sm:p-6 flex-col gap-6" novalidate>
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-52 flex-shrink-0 flex md:block justify-center">
+                                <div class="w-44 md:w-full rounded-xl border border-slate-200 bg-white p-3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 53 53" width="180" height="180" role="img" aria-labelledby="tf-qr-t" shape-rendering="crispEdges" class="block w-full h-auto max-w-[180px]"><title id="tf-qr-t">QR code for your authenticator app</title><rect x="-2" y="-2" width="53" height="53" fill="#fff"/><path fill="#0f172a" d="M0 0h7v1h-7zM12 0h3v1h-3zM19 0h1v1h-1zM23 0h2v1h-2zM30 0h2v1h-2zM33 0h1v1h-1zM35 0h3v1h-3zM40 0h1v1h-1zM42 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM14 1h1v1h-1zM16 1h1v1h-1zM18 1h6v1h-6zM25 1h1v1h-1zM27 1h1v1h-1zM29 1h2v1h-2zM36 1h5v1h-5zM42 1h1v1h-1zM48 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h1v1h-1zM12 2h1v1h-1zM16 2h3v1h-3zM20 2h1v1h-1zM23 2h4v1h-4zM30 2h1v1h-1zM33 2h1v1h-1zM35 2h2v1h-2zM39 2h2v1h-2zM42 2h1v1h-1zM44 2h3v1h-3zM48 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h2v1h-2zM13 3h2v1h-2zM16 3h4v1h-4zM24 3h2v1h-2zM29 3h1v1h-1zM31 3h1v1h-1zM35 3h3v1h-3zM39 3h1v1h-1zM42 3h1v1h-1zM44 3h3v1h-3zM48 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h3v1h-3zM12 4h2v1h-2zM16 4h1v1h-1zM18 4h1v1h-1zM21 4h7v1h-7zM29 4h3v1h-3zM35 4h1v1h-1zM37 4h1v1h-1zM42 4h1v1h-1zM44 4h3v1h-3zM48 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h2v1h-2zM13 5h3v1h-3zM19 5h1v1h-1zM22 5h1v1h-1zM26 5h4v1h-4zM31 5h1v1h-1zM33 5h2v1h-2zM36 5h3v1h-3zM42 5h1v1h-1zM48 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM34 6h1v1h-1zM36 6h1v1h-1zM38 6h1v1h-1zM40 6h1v1h-1zM42 6h7v1h-7zM8 7h1v1h-1zM11 7h1v1h-1zM13 7h2v1h-2zM16 7h3v1h-3zM22 7h1v1h-1zM26 7h1v1h-1zM28 7h1v1h-1zM30 7h1v1h-1zM32 7h2v1h-2zM35 7h1v1h-1zM37 7h1v1h-1zM40 7h1v1h-1zM0 8h1v1h-1zM2 8h5v1h-5zM9 8h1v1h-1zM12 8h6v1h-6zM20 8h1v1h-1zM22 8h5v1h-5zM29 8h1v1h-1zM31 8h1v1h-1zM34 8h4v1h-4zM39 8h1v1h-1zM42 8h5v1h-5zM7 9h1v1h-1zM10 9h3v1h-3zM17 9h3v1h-3zM21 9h1v1h-1zM23 9h3v1h-3zM28 9h3v1h-3zM32 9h1v1h-1zM35 9h2v1h-2zM42 9h1v1h-1zM45 9h2v1h-2zM1 10h6v1h-6zM10 10h1v1h-1zM12 10h2v1h-2zM15 10h1v1h-1zM19 10h1v1h-1zM22 10h1v1h-1zM24 10h2v1h-2zM28 10h1v1h-1zM31 10h2v1h-2zM34 10h1v1h-1zM38 10h3v1h-3zM43 10h1v1h-1zM47 10h2v1h-2zM0 11h2v1h-2zM3 11h1v1h-1zM7 11h3v1h-3zM12 11h5v1h-5zM23 11h1v1h-1zM27 11h1v1h-1zM32 11h1v1h-1zM36 11h1v1h-1zM41 11h2v1h-2zM45 11h1v1h-1zM0 12h3v1h-3zM5 12h2v1h-2zM8 12h1v1h-1zM10 12h2v1h-2zM13 12h1v1h-1zM22 12h5v1h-5zM30 12h2v1h-2zM34 12h3v1h-3zM42 12h2v1h-2zM46 12h1v1h-1zM48 12h1v1h-1zM0 13h2v1h-2zM4 13h2v1h-2zM8 13h1v1h-1zM10 13h2v1h-2zM14 13h2v1h-2zM17 13h1v1h-1zM19 13h2v1h-2zM22 13h2v1h-2zM25 13h1v1h-1zM27 13h5v1h-5zM35 13h1v1h-1zM37 13h1v1h-1zM41 13h3v1h-3zM47 13h1v1h-1zM5 14h2v1h-2zM10 14h2v1h-2zM13 14h2v1h-2zM17 14h2v1h-2zM20 14h3v1h-3zM24 14h1v1h-1zM26 14h1v1h-1zM29 14h2v1h-2zM35 14h1v1h-1zM37 14h1v1h-1zM40 14h1v1h-1zM43 14h1v1h-1zM45 14h1v1h-1zM47 14h2v1h-2zM1 15h1v1h-1zM3 15h1v1h-1zM5 15h1v1h-1zM9 15h3v1h-3zM13 15h4v1h-4zM19 15h2v1h-2zM22 15h1v1h-1zM27 15h1v1h-1zM29 15h1v1h-1zM34 15h1v1h-1zM36 15h4v1h-4zM42 15h3v1h-3zM47 15h1v1h-1zM0 16h2v1h-2zM3 16h1v1h-1zM5 16h7v1h-7zM13 16h3v1h-3zM21 16h1v1h-1zM23 16h2v1h-2zM28 16h1v1h-1zM31 16h5v1h-5zM37 16h1v1h-1zM39 16h2v1h-2zM42 16h1v1h-1zM46 16h2v1h-2zM0 17h1v1h-1zM5 17h1v1h-1zM8 17h2v1h-2zM11 17h2v1h-2zM15 17h2v1h-2zM19 17h1v1h-1zM22 17h1v1h-1zM27 17h3v1h-3zM32 17h1v1h-1zM34 17h1v1h-1zM37 17h1v1h-1zM41 17h2v1h-2zM47 17h1v1h-1zM1 18h4v1h-4zM6 18h2v1h-2zM9 18h1v1h-1zM13 18h3v1h-3zM17 18h3v1h-3zM24 18h1v1h-1zM26 18h1v1h-1zM28 18h1v1h-1zM30 18h4v1h-4zM35 18h1v1h-1zM37 18h1v1h-1zM43 18h1v1h-1zM45 18h1v1h-1zM47 18h2v1h-2zM1 19h2v1h-2zM7 19h2v1h-2zM12 19h2v1h-2zM16 19h1v1h-1zM19 19h2v1h-2zM25 19h2v1h-2zM29 19h2v1h-2zM33 19h1v1h-1zM35 19h3v1h-3zM40 19h1v1h-1zM43 19h2v1h-2zM47 19h1v1h-1zM0 20h1v1h-1zM2 20h1v1h-1zM4 20h1v1h-1zM6 20h1v1h-1zM8 20h2v1h-2zM11 20h1v1h-1zM13 20h1v1h-1zM16 20h1v1h-1zM18 20h2v1h-2zM21 20h4v1h-4zM26 20h1v1h-1zM30 20h2v1h-2zM33 20h4v1h-4zM39 20h2v1h-2zM42 20h2v1h-2zM46 20h1v1h-1zM48 20h1v1h-1zM1 21h2v1h-2zM7 21h1v1h-1zM9 21h3v1h-3zM13 21h2v1h-2zM18 21h2v1h-2zM23 21h5v1h-5zM30 21h1v1h-1zM37 21h1v1h-1zM39 21h1v1h-1zM41 21h3v1h-3zM45 21h4v1h-4zM0 22h9v1h-9zM14 22h2v1h-2zM18 22h1v1h-1zM20 22h8v1h-8zM34 22h1v1h-1zM36 22h1v1h-1zM38 22h1v1h-1zM40 22h5v1h-5zM46 22h3v1h-3zM0 23h1v1h-1zM2 23h1v1h-1zM4 23h1v1h-1zM8 23h2v1h-2zM11 23h2v1h-2zM16 23h2v1h-2zM21 23h2v1h-2zM26 23h1v1h-1zM28 23h2v1h-2zM32 23h1v1h-1zM37 23h2v1h-2zM40 23h1v1h-1zM44 23h1v1h-1zM47 23h1v1h-1zM0 24h2v1h-2zM3 24h2v1h-2zM6 24h1v1h-1zM8 24h1v1h-1zM10 24h2v1h-2zM13 24h2v1h-2zM18 24h1v1h-1zM20 24h3v1h-3zM24 24h1v1h-1zM26 24h2v1h-2zM29 24h1v1h-1zM33 24h1v1h-1zM35 24h3v1h-3zM40 24h1v1h-1zM42 24h1v1h-1zM44 24h5v1h-5zM1 25h4v1h-4zM8 25h1v1h-1zM15 25h2v1h-2zM19 25h1v1h-1zM21 25h2v1h-2zM26 25h1v1h-1zM28 25h1v1h-1zM30 25h3v1h-3zM35 25h1v1h-1zM37 25h1v1h-1zM40 25h1v1h-1zM44 25h2v1h-2zM47 25h1v1h-1zM1 26h2v1h-2zM4 26h6v1h-6zM13 26h4v1h-4zM18 26h3v1h-3zM22 26h7v1h-7zM33 26h4v1h-4zM38 26h1v1h-1zM40 26h5v1h-5zM46 26h3v1h-3zM0 27h1v1h-1zM2 27h3v1h-3zM7 27h2v1h-2zM10 27h1v1h-1zM12 27h1v1h-1zM16 27h1v1h-1zM21 27h4v1h-4zM30 27h1v1h-1zM32 27h3v1h-3zM38 27h6v1h-6zM47 27h2v1h-2zM0 28h2v1h-2zM3 28h2v1h-2zM6 28h1v1h-1zM12 28h2v1h-2zM19 28h1v1h-1zM21 28h2v1h-2zM24 28h1v1h-1zM30 28h2v1h-2zM36 28h1v1h-1zM39 28h1v1h-1zM41 28h5v1h-5zM48 28h1v1h-1zM0 29h1v1h-1zM3 29h2v1h-2zM7 29h1v1h-1zM9 29h2v1h-2zM16 29h1v1h-1zM18 29h1v1h-1zM21 29h3v1h-3zM25 29h3v1h-3zM29 29h2v1h-2zM32 29h2v1h-2zM36 29h2v1h-2zM39 29h1v1h-1zM41 29h3v1h-3zM45 29h1v1h-1zM4 30h3v1h-3zM8 30h1v1h-1zM13 30h1v1h-1zM16 30h1v1h-1zM18 30h2v1h-2zM22 30h1v1h-1zM27 30h1v1h-1zM30 30h1v1h-1zM34 30h1v1h-1zM36 30h2v1h-2zM39 30h2v1h-2zM42 30h7v1h-7zM3 31h1v1h-1zM9 31h3v1h-3zM13 31h1v1h-1zM16 31h1v1h-1zM18 31h1v1h-1zM21 31h1v1h-1zM23 31h1v1h-1zM25 31h2v1h-2zM30 31h2v1h-2zM33 31h1v1h-1zM35 31h2v1h-2zM41 31h1v1h-1zM2 32h1v1h-1zM6 32h2v1h-2zM9 32h3v1h-3zM14 32h2v1h-2zM18 32h4v1h-4zM23 32h1v1h-1zM25 32h1v1h-1zM27 32h1v1h-1zM29 32h2v1h-2zM36 32h5v1h-5zM45 32h3v1h-3zM0 33h5v1h-5zM10 33h1v1h-1zM13 33h1v1h-1zM15 33h4v1h-4zM21 33h5v1h-5zM30 33h2v1h-2zM33 33h1v1h-1zM35 33h2v1h-2zM42 33h2v1h-2zM45 33h1v1h-1zM47 33h1v1h-1zM4 34h5v1h-5zM10 34h1v1h-1zM13 34h2v1h-2zM17 34h1v1h-1zM20 34h2v1h-2zM23 34h3v1h-3zM27 34h1v1h-1zM29 34h2v1h-2zM36 34h1v1h-1zM42 34h1v1h-1zM45 34h1v1h-1zM47 34h2v1h-2zM4 35h2v1h-2zM9 35h3v1h-3zM14 35h4v1h-4zM21 35h2v1h-2zM26 35h1v1h-1zM29 35h3v1h-3zM33 35h1v1h-1zM36 35h3v1h-3zM40 35h2v1h-2zM2 36h1v1h-1zM5 36h2v1h-2zM8 36h1v1h-1zM13 36h2v1h-2zM18 36h1v1h-1zM21 36h1v1h-1zM23 36h1v1h-1zM25 36h1v1h-1zM29 36h3v1h-3zM34 36h7v1h-7zM42 36h5v1h-5zM48 36h1v1h-1zM1 37h1v1h-1zM3 37h2v1h-2zM8 37h1v1h-1zM10 37h2v1h-2zM16 37h1v1h-1zM18 37h2v1h-2zM21 37h4v1h-4zM26 37h1v1h-1zM28 37h1v1h-1zM30 37h1v1h-1zM37 37h1v1h-1zM41 37h2v1h-2zM47 37h2v1h-2zM1 38h1v1h-1zM5 38h6v1h-6zM13 38h2v1h-2zM18 38h1v1h-1zM20 38h1v1h-1zM23 38h1v1h-1zM25 38h1v1h-1zM27 38h1v1h-1zM29 38h1v1h-1zM31 38h1v1h-1zM34 38h1v1h-1zM37 38h3v1h-3zM41 38h3v1h-3zM47 38h2v1h-2zM1 39h3v1h-3zM9 39h4v1h-4zM18 39h1v1h-1zM20 39h1v1h-1zM24 39h1v1h-1zM26 39h4v1h-4zM31 39h4v1h-4zM37 39h2v1h-2zM43 39h1v1h-1zM45 39h1v1h-1zM47 39h1v1h-1zM0 40h3v1h-3zM6 40h2v1h-2zM9 40h1v1h-1zM11 40h4v1h-4zM16 40h1v1h-1zM18 40h1v1h-1zM20 40h1v1h-1zM22 40h5v1h-5zM31 40h1v1h-1zM35 40h2v1h-2zM39 40h8v1h-8zM48 40h1v1h-1zM8 41h1v1h-1zM11 41h1v1h-1zM13 41h1v1h-1zM16 41h2v1h-2zM19 41h1v1h-1zM21 41h2v1h-2zM26 41h1v1h-1zM29 41h4v1h-4zM35 41h1v1h-1zM37 41h1v1h-1zM39 41h2v1h-2zM44 41h1v1h-1zM0 42h7v1h-7zM9 42h1v1h-1zM12 42h1v1h-1zM14 42h3v1h-3zM18 42h1v1h-1zM20 42h1v1h-1zM22 42h1v1h-1zM24 42h1v1h-1zM26 42h1v1h-1zM29 42h1v1h-1zM33 42h3v1h-3zM38 42h1v1h-1zM40 42h1v1h-1zM42 42h1v1h-1zM44 42h2v1h-2zM47 42h2v1h-2zM0 43h1v1h-1zM6 43h1v1h-1zM8 43h2v1h-2zM11 43h5v1h-5zM17 43h6v1h-6zM26 43h1v1h-1zM28 43h1v1h-1zM31 43h3v1h-3zM35 43h1v1h-1zM39 43h2v1h-2zM44 43h1v1h-1zM48 43h1v1h-1zM0 44h1v1h-1zM2 44h3v1h-3zM6 44h1v1h-1zM8 44h1v1h-1zM10 44h1v1h-1zM13 44h4v1h-4zM18 44h1v1h-1zM22 44h6v1h-6zM29 44h1v1h-1zM31 44h1v1h-1zM34 44h3v1h-3zM40 44h5v1h-5zM47 44h1v1h-1zM0 45h1v1h-1zM2 45h3v1h-3zM6 45h1v1h-1zM8 45h2v1h-2zM11 45h1v1h-1zM13 45h1v1h-1zM15 45h1v1h-1zM18 45h4v1h-4zM27 45h2v1h-2zM30 45h1v1h-1zM36 45h2v1h-2zM40 45h1v1h-1zM42 45h4v1h-4zM47 45h1v1h-1zM0 46h1v1h-1zM2 46h3v1h-3zM6 46h1v1h-1zM8 46h1v1h-1zM10 46h3v1h-3zM15 46h1v1h-1zM20 46h1v1h-1zM23 46h3v1h-3zM27 46h1v1h-1zM29 46h1v1h-1zM31 46h1v1h-1zM33 46h1v1h-1zM35 46h2v1h-2zM39 46h1v1h-1zM42 46h2v1h-2zM47 46h2v1h-2zM0 47h1v1h-1zM6 47h1v1h-1zM10 47h1v1h-1zM13 47h1v1h-1zM19 47h2v1h-2zM27 47h1v1h-1zM29 47h1v1h-1zM34 47h1v1h-1zM36 47h8v1h-8zM48 47h1v1h-1zM0 48h7v1h-7zM8 48h1v1h-1zM10 48h2v1h-2zM16 48h5v1h-5zM25 48h1v1h-1zM28 48h1v1h-1zM31 48h5v1h-5zM38 48h2v1h-2zM42 48h1v1h-1zM45 48h4v1h-4z"/></svg></div>
+                            </div>
+                            <div class="flex-1 min-w-0 flex flex-col gap-5">
+                                <div>
+                                    <h3 id="tf-h-2" tabindex="-1" class="text-base font-bold text-slate-900 focus:outline-none">Scan this code with your authenticator app</h3>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">Open the app, choose to add an account, and point your phone's camera at the code.</p>
+                                </div>
+                                <div class="rounded-xl bg-slate-50 border border-slate-200 p-4">
+                                    <p class="text-xs font-semibold text-slate-700">Can't scan it? Type this key into the app instead</p>
+                                    <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
+                                        <code id="tf-key" class="font-mono text-sm text-slate-900 break-words">JBSW Y3DP EHPK 3PXP JBSW Y3DP EHPK 3PXP</code>
+                                        <button type="button" id="tf-copy-key" class="inline-flex items-center justify-center gap-1.5 px-3 py-2 min-h-[36px] rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-regular fa-copy" aria-hidden="true"></i> Copy key</button>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-2 break-all">Account name: emma.clarke@acme-logistics.co.uk</p>
+                                </div>
+                                <div>
+                                    <label for="tf-code" class="block text-xs font-semibold text-slate-700 mb-1.5">Enter the 6-digit code the app shows</label>
+                                    <input id="tf-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-describedby="tf-code-err tf-code-hint" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-600/20 font-mono text-lg tracking-[0.4em] pl-[calc(0.75rem+0.2em)] !w-44"/>
+                                    <p id="tf-code-err" class="hidden text-xs font-medium text-red-600 mt-1.5" role="alert"><i class="fa-solid fa-circle-exclamation mr-1" aria-hidden="true"></i><span></span></p>
+                                    <p id="tf-code-hint" class="text-xs text-slate-500 mt-1.5">Two-step verification isn't on until this code is accepted.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+                            <button type="button" data-tf-cancel class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg bg-white border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 w-full sm:w-auto">Cancel</button>
+                            <button type="submit" id="tf-code-submit" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg text-white text-sm font-semibold hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 w-full sm:w-auto" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);"><i class="fa-solid fa-check text-xs" aria-hidden="true"></i> <span>Turn on</span></button>
+                        </div>
+                    </form>
+
+                    <!-- Step 3: the ten backup codes, shown once (A10) -->
+                    <div data-s1-show="codes" data-s1-display="flex" class="p-5 sm:p-6 flex-col gap-5">
+                        <div class="flex items-start gap-3">
+                            <span class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-sm" aria-hidden="true"></i></span>
+                            <div>
+                                <h3 id="tf-h-3" tabindex="-1" class="text-base font-bold text-slate-900 focus:outline-none">Two-step verification is on. Now save your backup codes</h3>
+                                <p class="text-sm text-slate-600 mt-1 leading-relaxed">A backup code signs you in when you can't use your authenticator app. Each code works once.</p>
+                            </div>
+                        </div>
+                        <div id="tf-codes-1"></div>
+                        <div class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 flex items-start gap-3 text-sm text-amber-900">
+                            <i class="fa-solid fa-triangle-exclamation mt-0.5" aria-hidden="true"></i>
+                            <p><span class="font-semibold">This is the only time these codes are shown.</span> Keep them somewhere safe and away from your phone, such as a password manager or a printed copy.</p>
+                        </div>
+                        <div class="flex sm:justify-end">
+                            <button type="button" id="tf-saved" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg text-white text-sm font-semibold hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 w-full sm:w-auto" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);"><i class="fa-solid fa-check text-xs" aria-hidden="true"></i> I've saved these</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ON -->
+                <section data-s1-show="enrolled regenerate newcodes" class="bg-white rounded-2xl border border-slate-200 shadow-sm" aria-labelledby="tf-on-t">
+                    <div class="p-5 sm:p-6 flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-emerald-50 text-emerald-700"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-wrap items-center gap-2"><h2 id="tf-on-t" tabindex="-1" class="text-sm font-bold text-slate-900 focus:outline-none">Two-step verification</h2><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"><i class="fa-solid fa-shield-halved text-[10px]" aria-hidden="true"></i>On</span></div>
+                            <p class="text-sm text-slate-600 mt-1 leading-relaxed">Each time you sign in, you enter a 6-digit code from your authenticator app after your password.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- New backup codes, shown once after regenerating (A10) -->
+                <section data-s1-show="newcodes" class="bg-white rounded-2xl border border-slate-200 shadow-sm" aria-labelledby="tf-new-t">
+                    <div class="px-5 sm:px-6 py-4 border-b border-slate-100">
+                        <h2 id="tf-new-t" tabindex="-1" class="text-sm font-bold text-slate-900 focus:outline-none">Your new backup codes</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">The codes you had before no longer work.</p>
+                    </div>
+                    <div class="p-5 sm:p-6 flex flex-col gap-5">
+                        <div id="tf-codes-2"></div>
+                        <div class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 flex items-start gap-3 text-sm text-amber-900">
+                            <i class="fa-solid fa-triangle-exclamation mt-0.5" aria-hidden="true"></i>
+                            <p><span class="font-semibold">This is the only time these codes are shown.</span> Keep them somewhere safe and away from your phone.</p>
+                        </div>
+                        <div class="flex sm:justify-end">
+                            <button type="button" id="tf-saved-2" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg text-white text-sm font-semibold hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 w-full sm:w-auto" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);"><i class="fa-solid fa-check text-xs" aria-hidden="true"></i> I've saved these</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Backup codes: never shown again, only replaced -->
+                <section data-s1-show="enrolled regenerate" class="bg-white rounded-2xl border border-slate-200 shadow-sm" aria-labelledby="tf-bc-t">
+                    <div class="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-blue-700" style="background: rgba(29,78,216,0.1);"><i class="fa-solid fa-life-ring" aria-hidden="true"></i></div>
+                        <div class="flex-1 min-w-0">
+                            <h2 id="tf-bc-t" class="text-sm font-bold text-slate-900">Backup codes</h2>
+                            <p class="text-sm text-slate-600 mt-0.5 leading-relaxed">A backup code signs you in when you can't use your authenticator app. Each works once. They can't be shown again, so if you've lost them or used most of them, create a new set.</p>
+                        </div>
+                        <button type="button" id="tf-regen" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg bg-white border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 w-full sm:w-auto flex-shrink-0">Create new codes</button>
+                    </div>
+                </section>
+
+                <!-- Recovery: users cannot switch it off; the reset is Abstract's (A12) -->
+                <section data-s1-show="enrolled regenerate newcodes" class="rounded-2xl border border-slate-200 bg-slate-50 px-5 sm:px-6 py-4" aria-labelledby="tf-help-t">
+                    <h2 id="tf-help-t" class="text-xs font-semibold text-slate-900">New phone, or lost your phone and your backup codes?</h2>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">Abstract can reset two-step verification. You're signed out everywhere and set it up again the next time you sign in. You can't turn it off yourself.</p>
+                </section>
+            </div>
+
+            <!-- loading -->
+            <div data-s1-show="loading" class="max-w-2xl mx-auto flex flex-col gap-4" aria-busy="true" aria-label="Loading two-step verification">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col gap-4"><div class="flex items-center gap-4"><div class="w-10 h-10 rounded-xl bg-slate-200 animate-pulse"></div><div class="h-4 w-48 rounded bg-slate-200 animate-pulse"></div></div><div class="h-4 w-full rounded bg-slate-200 animate-pulse"></div><div class="h-4 w-2/3 rounded bg-slate-200 animate-pulse"></div><div class="h-10 w-56 rounded-lg bg-slate-200 animate-pulse self-end"></div></div>
+            </div>
+
+            <!-- error (ErrorState) -->
+            <section data-s1-show="error" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 sm:p-12 text-center max-w-xl mx-auto mt-4" role="alert">
+                <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 mx-auto flex items-center justify-center mb-4"><i class="fa-solid fa-triangle-exclamation text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-xl font-bold text-slate-900">We couldn't load two-step verification.</h2>
+                <p class="text-sm text-slate-600 mt-2 leading-relaxed">Nothing has been changed. Try again, and if it keeps happening, quote this reference to Abstract.</p>
+                <p class="mt-3 inline-flex items-center gap-2 rounded-lg bg-slate-50 border border-slate-200 px-3 py-1.5 font-mono text-xs text-slate-700">REF 4T9M-62XC</p>
+                <div class="mt-6"><button type="button" onclick="S1.setState('default')" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[38px] rounded-lg bg-white border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"><i class="fa-solid fa-rotate-right text-xs" aria-hidden="true"></i> Try again</button></div>
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<!-- New backup codes: asks for the password and says the old codes stop working (A10; POST /auth/two-factor/generate-backup-codes) -->
+<div data-s1-modal id="m-regen" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-regen-t">
+    <form id="tf-f-regen" class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto" novalidate>
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+            <h2 id="m-regen-t" class="text-base font-bold text-slate-900">Create new backup codes?</h2>
+            <button type="button" data-regen-close aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-4">
+            <div class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 flex items-start gap-3 text-sm text-amber-900">
+                <i class="fa-solid fa-triangle-exclamation mt-0.5" aria-hidden="true"></i>
+                <p><span class="font-semibold">Your current backup codes stop working</span> as soon as you create new ones. You get ten new codes, shown once.</p>
+            </div>
+            <div>
+                <label for="tf-regen-password" class="block text-xs font-semibold text-slate-700 mb-1.5">Enter your password to continue</label>
+                <div class="relative">
+                    <input id="tf-regen-password" type="password" autocomplete="current-password" aria-describedby="tf-regen-password-err" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-600/20 text-sm pr-11"/>
+                    <button type="button" data-eye="tf-regen-password" aria-label="Show password" class="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"><i class="fa-regular fa-eye text-sm" aria-hidden="true"></i></button>
+                </div>
+                <p id="tf-regen-password-err" class="hidden text-xs font-medium text-red-600 mt-1.5" role="alert"><i class="fa-solid fa-circle-exclamation mr-1" aria-hidden="true"></i><span></span></p>
+            </div>
+        </div>
+        <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 px-6 py-4 border-t border-slate-200 bg-slate-50 sm:rounded-b-2xl">
+            <button type="button" data-regen-close class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg bg-white border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 w-full sm:w-auto">Cancel</button>
+            <button type="submit" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg text-white text-sm font-semibold hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 w-full sm:w-auto" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);"><span>Create new codes</span></button>
+        </div>
+    </form>
+</div>
+
+<script>
+/* Mobile navigation (sidebar is hidden below lg; this is the only way to reveal it) */
+(function () {
+  var btn = document.getElementById('mobile-menu-btn'),
+      sb  = document.getElementById('sidebar');
+  if (!btn || !sb) return;
+  btn.setAttribute('aria-controls', 'sidebar');
+  btn.setAttribute('aria-expanded', 'false');
+  var bd = document.createElement('div');
+  bd.setAttribute('aria-hidden', 'true');
+  bd.style.cssText = 'position:fixed;inset:0;background:rgba(15,26,62,.55);z-index:40;display:none';
+  document.body.appendChild(bd);
+  function open() {
+    sb.style.display = 'flex'; sb.style.position = 'fixed'; sb.style.top = '0';
+    sb.style.bottom = '0'; sb.style.left = '0'; sb.style.zIndex = '50'; sb.style.maxWidth = '85vw';
+    bd.style.display = 'block'; btn.setAttribute('aria-expanded', 'true');
+  }
+  function close() {
+    ['display','position','top','bottom','left','zIndex','maxWidth'].forEach(function (p) { sb.style[p] = ''; });
+    bd.style.display = 'none'; btn.setAttribute('aria-expanded', 'false');
+  }
+  btn.addEventListener('click', function () { bd.style.display === 'block' ? close() : open(); });
+  bd.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && bd.style.display === 'block') close(); });
+  window.addEventListener('resize', function () { if (window.innerWidth >= 1024) close(); });
+})();
+</script>
+<script>
+/* Two-step verification (slice 1 brief A9, A10; TSD §3.1.13, 1.8 TV-13, TV-14, TV-19).
+   Prototype rules: any password and any 6 digits are accepted; 000000 shows the wrong-code state.
+   Whether this viewer has turned it on is remembered in this browser, so My account, this page and Sign in agree. */
+(function () {
+  var KEY = 's1-2fa-client', EMAIL = 'emma.clarke@acme-logistics.co.uk';
+  var ENROL = { password: 1, wrongpassword: 1, scan: 2, wrongcode: 2, ratelimited: 2, codes: 3 };
+  var STEP_NAMES = ['Password', 'Authenticator app', 'Backup codes'];
+  var CODES = [
+    ['k7Qm2-Xp9Ra', 'Tn4vB-8hLw3', 'e9RzY-2uKd6', 'Hc5Js-Qm7Nf', 'w3Gt8-ZbA4x', 'P6yEn-5rVk2', 'd8MuC-Jx3Hq', 'R2fLa-7TgW9', 'b5KsZ-Nq4Ye', 'X9hDv-6cPm3'],
+    ['M4wRt-9bKs2', 'q7ZnE-Xh5La', 'F3cVy-8JdP6', 'u6TgB-2mWr9', 'K9eHs-Qf4Nz', 'a2PxL-7YcD5', 'V5jMk-3RtG8', 'n8BqW-Zs6Hf', 'C3yFd-4KvM7', 't6LgR-9NxA2']
+  ];
+  var Q = new URLSearchParams(location.search);
+  var required = false, state = 'default';
+  function $(id) { return document.getElementById(id); }
+  function enrolled(v) {
+    try { if (v === undefined) return window.localStorage.getItem(KEY) === 'on'; window.localStorage.setItem(KEY, v ? 'on' : 'off'); } catch (e) { /* private window */ }
+    return !!v;
+  }
+  function fieldErr(id, msg) {
+    var i = $(id), e = $(id + '-err');
+    e.querySelector('span').textContent = msg || ''; e.classList.toggle('hidden', !msg);
+    i.classList.toggle('border-red-500', !!msg); i.classList.toggle('border-slate-200', !msg);
+    if (msg) i.setAttribute('aria-invalid', 'true'); else i.removeAttribute('aria-invalid');
+  }
+  function busy(btn, label, then) {
+    var keep = btn.innerHTML; btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xs" aria-hidden="true"></i> ' + label;
+    setTimeout(function () { btn.disabled = false; btn.innerHTML = keep; then(); }, 700);
+  }
+  // move to a state as the person works through the page (the Prototype menu does the same)
+  function go(s, focusId) {
+    S1.setState(s);
+    var b = document.querySelector('.s1-sw-panel [data-state="' + s + '"]'), c = document.querySelector('.s1-sw-cur');
+    if (b && c) c.textContent = b.textContent;
+    var f = focusId && $(focusId); if (f) f.focus();
+    $('main').scrollTop = 0;
+  }
+  function paintSteps(n) {
+    $('tf-steps').innerHTML = STEP_NAMES.map(function (t, i) {
+      var k = i + 1, done = k < n, cur = k === n;
+      var dot = done ? '<span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] flex-shrink-0"><i class="fa-solid fa-check" aria-hidden="true"></i></span>'
+        : '<span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ' + (cur ? 'bg-blue-700 text-white' : 'bg-slate-100 text-slate-600 border border-slate-200') + '" aria-hidden="true">' + k + '</span>';
+      return '<li class="flex items-center gap-2 ' + (i ? 'flex-1' : '') + '"' + (cur ? ' aria-current="step"' : '') + '>' +
+        (i ? '<span class="flex-1 h-px min-w-[12px] ' + (k <= n ? 'bg-emerald-400' : 'bg-slate-200') + '" aria-hidden="true"></span>' : '') + dot +
+        '<span class="text-xs font-semibold whitespace-nowrap ' + (cur ? 'text-slate-900' : 'text-slate-600 hidden sm:inline') + '"><span class="sr-only">Step ' + k + ' of 3: </span>' + t + '<span class="sr-only">' + (done ? ' (done)' : cur ? ' (current)' : '') + '</span></span></li>';
+    }).join('');
+  }
+  function codesHtml(set) {
+    return '<div class="tf-print"><p class="hidden print:block text-sm font-semibold text-slate-900 mb-3">Abstract VMS backup codes for ' + EMAIL + '. Each code works once.</p>' +
+      '<ol class="grid grid-cols-2 gap-px bg-slate-200 border border-slate-200 rounded-xl overflow-hidden font-mono text-sm sm:text-base text-slate-900" aria-label="Backup codes">' +
+      CODES[set].map(function (c) { return '<li class="bg-white px-2 py-2.5 text-center tracking-wider">' + c + '</li>'; }).join('') + '</ol></div>' +
+      '<div class="flex flex-wrap gap-2 mt-3">' +
+      [['copy', 'fa-regular fa-copy', 'Copy'], ['download', 'fa-solid fa-download', 'Download'], ['print', 'fa-solid fa-print', 'Print']].map(function (a) {
+        return '<button type="button" data-codes="' + a[0] + '" data-set="' + set + '" class="inline-flex items-center justify-center gap-1.5 px-3 py-2 min-h-[36px] rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="' + a[1] + '" aria-hidden="true"></i> ' + a[2] + '</button>';
+      }).join('') + '</div>';
+  }
+  function copy(text, msg) {
+    var done = function () { S1.toast(msg, 'success'); };
+    try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, done); return; } } catch (e) { /* no clipboard */ }
+    done();
+  }
+
+  // ---------- state ----------
+  document.addEventListener('s1:state', function (e) {
+    state = e.detail.state;
+    if (state === 'required') required = true;
+    if (state === 'default' || state === 'enrolled' || state === 'regenerate' || state === 'newcodes' || state === 'loading' || state === 'error') required = false;
+    if (state === 'default' || state === 'required') enrolled(false);
+    if (state === 'codes' || state === 'enrolled' || state === 'regenerate' || state === 'newcodes') enrolled(true);
+    var step = ENROL[state], locked = required && (state === 'required' || (step && step < 3));
+    if (locked) document.body.setAttribute('data-tf-locked', ''); else document.body.removeAttribute('data-tf-locked');
+    $('tf-required').classList.toggle('hidden', !locked); $('tf-required').classList.toggle('flex', !!locked);
+    if (step) paintSteps(step);
+    $('tf-codes-1').innerHTML = codesHtml(0); $('tf-codes-2').innerHTML = codesHtml(1);
+    // fields
+    fieldErr('tf-password', ''); fieldErr('tf-code', ''); fieldErr('tf-regen-password', '');
+    $('tf-password').value = ''; $('tf-regen-password').value = '';
+    if (state !== 'wrongcode') $('tf-code').value = '';
+    if (state === 'wrongpassword') { $('tf-password').value = 'summer2026'; fieldErr('tf-password', 'That password isn\'t right. Check it and try again.'); }
+    if (state === 'wrongcode') { if (!$('tf-code').value) $('tf-code').value = '482913'; fieldErr('tf-code', 'That code didn\'t work. Enter the newest code from your app.'); }
+    var wait = state === 'ratelimited';
+    $('tf-code').disabled = wait; $('tf-code-submit').disabled = wait;
+    if (wait) $('tf-code').value = '482913';
+    // the new-codes dialog
+    if (state === 'regenerate') { S1.openModal('m-regen'); $('tf-regen-password').focus(); }
+    else $('m-regen').classList.add('hidden');
+  });
+  document.addEventListener('s1:ready', function () {
+    if (Q.get('state')) return;
+    if (Q.get('required') === '1') go('required'); else if (enrolled()) go('enrolled');
+  });
+
+  // ---------- off, and the three steps ----------
+  $('tf-start').addEventListener('click', function () { go('password', 'tf-password'); });
+  document.querySelectorAll('[data-tf-cancel]').forEach(function (b) { b.addEventListener('click', function () { go(required ? 'required' : 'default', 'tf-start'); }); });
+  $('tf-password').addEventListener('input', function () { fieldErr('tf-password', ''); });
+  $('tf-f-password').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!$('tf-password').value) { fieldErr('tf-password', 'Enter your password.'); $('tf-password').focus(); return; }
+    busy(e.target.querySelector('[type=submit]'), 'Checking…', function () { go('scan', 'tf-h-2'); });
+  });
+  $('tf-code').addEventListener('input', function () { this.value = this.value.replace(/\D/g, '').slice(0, 6); fieldErr('tf-code', ''); });
+  $('tf-f-code').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = $('tf-code').value.replace(/\D/g, '');
+    if (v.length !== 6) { fieldErr('tf-code', 'Enter the 6-digit code.'); $('tf-code').focus(); return; }
+    busy($('tf-code-submit'), 'Checking…', function () {
+      if (v === '000000') { go('wrongcode', 'tf-code'); $('tf-code').select(); return; }
+      go('codes', 'tf-h-3');
+    });
+  });
+  $('tf-copy-key').addEventListener('click', function () { copy($('tf-key').textContent.replace(/\s/g, ''), 'Key copied.'); });
+  $('tf-saved').addEventListener('click', function () {
+    if (required) { location.href = S1.home(); return; }
+    go('enrolled', 'tf-on-t'); S1.toast('Two-step verification is on.', 'success');
+  });
+
+  // ---------- backup codes ----------
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-codes]'); if (!b) return;
+    var list = CODES[+b.dataset.set], text = 'Abstract VMS backup codes for ' + EMAIL + '\nEach code works once.\n\n' + list.join('\n') + '\n';
+    if (b.dataset.codes === 'copy') copy(list.join('\n'), 'Backup codes copied.');
+    if (b.dataset.codes === 'download') {
+      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' })); a.download = 'abstract-vms-backup-codes.txt';
+      document.body.appendChild(a); a.click(); a.remove(); S1.toast('Backup codes downloaded.', 'success');
+    }
+    if (b.dataset.codes === 'print') { document.body.classList.add('tf-printing'); window.print(); setTimeout(function () { document.body.classList.remove('tf-printing'); }, 500); }
+  });
+  $('tf-regen').addEventListener('click', function () { go('regenerate'); });
+  document.querySelectorAll('[data-regen-close]').forEach(function (b) { b.addEventListener('click', function () { go('enrolled', 'tf-regen'); }); });
+  $('m-regen').addEventListener('keydown', function (e) { if (e.key === 'Escape') go('enrolled', 'tf-regen'); });
+  $('tf-regen-password').addEventListener('input', function () { fieldErr('tf-regen-password', ''); });
+  $('tf-f-regen').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!$('tf-regen-password').value) { fieldErr('tf-regen-password', 'Enter your password.'); $('tf-regen-password').focus(); return; }
+    busy(e.target.querySelector('[type=submit]'), 'Creating…', function () { go('newcodes', 'tf-new-t'); });
+  });
+  $('tf-saved-2').addEventListener('click', function () { go('enrolled', 'tf-on-t'); S1.toast('Your new backup codes are in use. The old ones no longer work.', 'success'); });
+
+  document.querySelectorAll('[data-eye]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var i = $(b.dataset.eye), show = i.type === 'password';
+      i.type = show ? 'text' : 'password';
+      b.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      b.innerHTML = '<i class="fa-regular ' + (show ? 'fa-eye-slash' : 'fa-eye') + ' text-sm" aria-hidden="true"></i>';
+    });
+  });
+})();
+</script>
+
+<script src="slice1-kit.js"></script>
+</body>
+</html>

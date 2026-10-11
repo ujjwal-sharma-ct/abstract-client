@@ -89,7 +89,7 @@
                             </div>
 
                             <div class="pt-2">
-                                <button type="button" onclick="window.location.href = (window.S1 ? S1.home() : 'client.shell.dashboard.html');" class="flex w-full justify-center rounded-md bg-blue px-3 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue transition-all duration-200">
+                                <button type="button" onclick="return s1SignIn();" class="flex w-full justify-center rounded-md bg-blue px-3 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue transition-all duration-200">
                                     Sign in
                                 </button>
                             </div>
@@ -152,6 +152,20 @@
         </div>
 
     </div>
+
+<script>
+/* After the password is accepted (TSD §3.1.13): a person with two-step verification on gets the second step before any
+   session exists; a person who must set it up and has not lands on the two-step page; everyone else lands in the portal.
+   The prototype follows what this viewer did on the two-step page; ?twofactor=enrolled|required|off shows each. */
+function s1SignIn() {
+  var q = new URLSearchParams(location.search).get('twofactor'), on = false;
+  try { on = window.localStorage.getItem('s1-2fa-client') === 'on'; } catch (e) { /* private window */ }
+  if (q === 'required') location.href = 'client.identity-access.two-factor.html?state=required';
+  else if (q === 'enrolled' || (on && q !== 'off')) location.href = 'client.identity-access.two-factor-sign-in.html';
+  else location.href = (window.S1 && S1.home) ? S1.home() : 'client.shell.dashboard.html';
+  return false;
+}
+</script>
 
 <script src="slice1-kit.js"></script>
 </body>

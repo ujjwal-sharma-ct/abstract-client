@@ -194,6 +194,15 @@
                         </div>
                         <button type="button" id="pw" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 flex-shrink-0"><i class="fa-solid fa-key text-xs" aria-hidden="true"></i> Change password</button>
                     </section>
+
+                    <!-- Two-step verification (B6, A9): on or off, and the way to the two-step page -->
+                    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col sm:flex-row sm:items-center gap-4" aria-labelledby="tf-row-t">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-wrap items-center gap-2"><h2 id="tf-row-t" class="text-sm font-bold text-slate-900">Two-step verification</h2><span data-tf="off"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">Off</span></span><span data-tf="on" style="display:none"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"><i class="fa-solid fa-shield-halved text-[10px]" aria-hidden="true"></i>On</span></span></div>
+                            <p class="text-sm text-slate-600 mt-1 leading-relaxed"><span data-tf="off">Add a 6-digit code from an authenticator app when you sign in, so your password alone isn't enough.</span><span data-tf="on" style="display:none">You enter a 6-digit code from your authenticator app each time you sign in.</span></p>
+                        </div>
+                        <a href="client.identity-access.two-factor.html" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 flex-shrink-0 w-full sm:w-auto"><i class="fa-solid fa-shield-halved text-xs" aria-hidden="true"></i> <span data-tf="off">Turn on</span><span data-tf="on" style="display:none">Manage</span></a>
+                    </section>
                 </div>
             </div>
         </main>
@@ -267,6 +276,17 @@ document.addEventListener('s1:state', function (e) {
   if (e.detail.state === 'conflict') { $('name').value = 'Emma J. Clarke'; syncBtn(); }
 });
 
+</script>
+
+<script>
+/* Two-step verification row: on or off (Me.twoFactor.enrolled). The prototype remembers what this viewer did on the
+   two-step page; ?twofactor=on|off shows either. */
+(function () {
+  var on = false, q = new URLSearchParams(location.search).get('twofactor');
+  try { on = window.localStorage.getItem('s1-2fa-client') === 'on'; } catch (e) { /* private window */ }
+  if (q === 'on') on = true; if (q === 'off') on = false;
+  document.querySelectorAll('[data-tf]').forEach(function (e) { e.style.display = (e.getAttribute('data-tf') === 'on') === on ? '' : 'none'; });
+})();
 </script>
 
 <script src="slice1-kit.js"></script>
