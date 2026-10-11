@@ -8,7 +8,7 @@ there is no build; correctness means *the flow is coherent and the screens are c
 
 - **Flow map:** `FLOWS.md` — every screen and what it links to (auto-generated from the mockups).
 - **Continuity:** `PROGRESS.md` (what changed, where we are) and `DECISIONS.md` (why).
-- **Scope & requirements (read to understand WHAT a screen must do):** `../BRD-VMS-v3-Complete.md` (the VMS BRD), `../domain-model.md` (entities & relationships), `../BRD-VMS-Competitor-Backlog.md` (feature backlog).
-- **Visual reference (HOW it should look):** `../DESIGN-SPEC-v4.md` (shared across all three portals — status vocabulary, terminology, shared patterns).
+- **Scope & requirements (read to understand WHAT a screen must do):** `../../project-docs/docs/brd/BRD.md` (the VMS BRD), `../../project-docs/docs/tech-architecture/domain-model.md` (entities & relationships), `../../project-docs/docs/brd/BRD-VMS-Competitor-Backlog.md` (feature backlog).
+- **Visual reference (HOW it should look):** `../../project-docs/docs/design/DESIGN-SPEC-v4.md` (shared across all three portals — status vocabulary, terminology, shared patterns).
 - **Recipes:** `.claude/skills/*/SKILL.md` (loaded on demand).
 - Personal, uncommitted notes: `CLAUDE.local.md` (git-ignored).

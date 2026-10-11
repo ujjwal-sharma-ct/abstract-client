@@ -265,10 +265,10 @@ var CATALOGUE = [
 ];
 var ALL = []; CATALOGUE.forEach(function (g) { g.items.forEach(function (i) { ALL.push(i.key); }); });
 var ROLES = [
-  { id: 'admin', name: 'Client Admin', seed: true, users: 2, grants: ALL.slice() },
-  { id: 'manager', name: 'Client Manager', seed: true, users: 9, grants: ['users.view', 'users.lastsignin', 'roles.view'] },
-  { id: 'viewer', name: 'Client Viewer', seed: true, users: 13, grants: ['users.view'] },
-  { id: 'site', name: 'Site Supervisor', seed: false, users: 0, grants: [] }
+  { id: 'administrator', name: 'Administrator', seed: true, status: 'Active', users: 1, grants: ALL.slice() },
+  { id: 'manager', name: 'Manager', seed: true, status: 'Active', users: 3, grants: ['users.view', 'users.lastsignin', 'roles.view'] },
+  { id: 'viewer', name: 'Viewer', seed: true, status: 'Active', users: 1, grants: ['users.view'] },
+  { id: 'seasonal', name: 'Seasonal supervisors', seed: false, status: 'Inactive', users: 1, grants: [] }
 ];
 var KIND = {
   view:   '<span class="kind kind-view" title="View"><i class="fa-regular fa-eye" aria-hidden="true"></i><span class="sr-only">View</span></span>',
@@ -290,7 +290,9 @@ function changes() {
 function renderRoleHeader() {
   $('role-line').textContent = role.users === 0 ? 'Nobody holds this role yet.' : (role.users + (role.users === 1 ? ' person holds' : ' people hold') + ' this role.');
   $('role-badges').innerHTML =
-    '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"><i class="fa-solid fa-circle text-[6px]" aria-hidden="true"></i>Active</span>' +
+    (role.status === 'Inactive'
+      ? '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500 border border-slate-200" title="An inactive role grants nothing until it is reactivated."><i class="fa-solid fa-circle text-[6px]" aria-hidden="true"></i>Inactive</span>'
+      : '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"><i class="fa-solid fa-circle text-[6px]" aria-hidden="true"></i>Active</span>') +
     (role.seed ? '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200" title="Created when this organisation was set up. You can rename it, change its permissions or deactivate it.">Default</span>' : '') +
     '<span class="text-xs text-slate-500 tabular" id="grant-total"></span>';
 }
@@ -359,7 +361,7 @@ function save() {
     btn.disabled = false; $('discard-btn').disabled = false;
     btn.innerHTML = '<i class="fa-solid fa-check text-xs" aria-hidden="true"></i> Save changes';
     // RBAC-016: the only role that can manage users must keep that ability
-    if (role.id === 'admin' && LAST_ADMIN_KEYS.some(function (k) { return !has(k); })) {
+    if (role.id === 'administrator' && LAST_ADMIN_KEYS.some(function (k) { return !has(k); })) {
       $('b-refused').classList.remove('hidden'); $('main').scrollTo({ top: 0, behavior: 'smooth' }); return;
     }
     if (document.body.getAttribute('data-s1-state') === 'conflict') {
@@ -374,7 +376,7 @@ document.addEventListener('s1:ready', function () {
   var sel = $('role-select');
   sel.innerHTML = ROLES.map(function (r) { return '<option value="' + r.id + '">' + r.name + (r.seed ? ' (Default)' : '') + '</option>'; }).join('');
   var q = new URLSearchParams(location.search).get('role');
-  if (!role) selectRole(q || 'admin');
+  if (!role) selectRole(q || 'administrator');
   sel.addEventListener('change', function () {
     var want = sel.value; sel.value = role.id;
     guard(function () { selectRole(want); });
@@ -414,15 +416,15 @@ document.addEventListener('s1:ready', function () {
 function applyState(s) {
   if (!role) return;
   readOnly = s === 'readonly';
-  if (s === 'empty') { selectRole('site'); return; }
+  if (s === 'empty') { selectRole('seasonal'); return; }
   if (s === 'refused') {
-    selectRole('admin'); cur = cur.filter(function (k) { return k !== 'users.edit' && k !== 'roles.configure'; });
+    selectRole('administrator'); cur = cur.filter(function (k) { return k !== 'users.edit' && k !== 'roles.configure'; });
     render(); $('b-refused').classList.remove('hidden'); return;
   }
   if (s === 'conflict') {
     selectRole('manager'); cur = cur.concat(['users.resend', 'roles.assign']); render(); $('b-conflict').classList.remove('hidden'); return;
   }
-  if (s === 'default' || s === 'readonly') { selectRole(new URLSearchParams(location.search).get('role') || 'admin'); }
+  if (s === 'default' || s === 'readonly') { selectRole(new URLSearchParams(location.search).get('role') || 'administrator'); }
 }
 document.addEventListener('s1:state', function (e) { applyState(e.detail.state); });
 

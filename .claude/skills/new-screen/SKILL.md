@@ -10,7 +10,7 @@ One screen per `.html` file, all CSS/JS inline, consistent with existing mockups
 
 ## 0. Understand the scope first (BRD)
 
-Before building, read the relevant section of `../BRD-VMS-v3-Complete.md` (and `../domain-model.md`
+Before building, read the relevant section of `../../project-docs/docs/brd/BRD.md` (and `../../project-docs/docs/tech-architecture/domain-model.md`
 for the entities/fields) to learn **what this screen must support** — the fields, statuses, actions,
 and rules for its area. The screen must reflect that scope; don't invent scope the BRD doesn't have,
 and don't omit what it requires.
@@ -48,7 +48,7 @@ and don't omit what it requires.
   ```
 
 ## 5. Check consistency against the spec
-- Open `../DESIGN-SPEC-v4.md`. Confirm: no FORBIDDEN terms (Commission, Uplift, In Progress, On Hold, Shortlisted, Interviewing, Pending Approval…), all statuses canonical, badge classes match the mapping.
+- Open `../../project-docs/docs/design/DESIGN-SPEC-v4.md`. Confirm: no FORBIDDEN terms (Commission, Uplift, In Progress, On Hold, Shortlisted, Interviewing, Pending Approval…), all statuses canonical, badge classes match the mapping.
 
 ## 6. Note it for continuity
 - Add a one-line entry to `PROGRESS.md` (what screen, why). `FLOWS.md` is regenerated, not hand-edited.

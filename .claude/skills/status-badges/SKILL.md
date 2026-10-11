@@ -7,7 +7,7 @@ paths: ['*.html']
 # Status Badges
 
 Statuses are a **fixed vocabulary**. Use only canonical strings from
-`../DESIGN-SPEC-v4.md`. Never invent states and never use FORBIDDEN terms:
+`../../project-docs/docs/design/DESIGN-SPEC-v4.md`. Never invent states and never use FORBIDDEN terms:
 **Commission, Uplift, In Progress, On Hold, Shortlisted, Interviewing,
 Pending Approval** (and anything else on the spec's forbidden list).
 
@@ -64,6 +64,6 @@ instead of it. An overdue item still has its own lifecycle status.
 ```
 
 ## Checklist
-- String is canonical (verify against `../DESIGN-SPEC-v4.md`) and NOT a forbidden term.
+- String is canonical (verify against `../../project-docs/docs/design/DESIGN-SPEC-v4.md`) and NOT a forbidden term.
 - Colour bucket matches the meaning table, not a guess by vibe.
 - Overdue is additive, never a replacement for the lifecycle status.

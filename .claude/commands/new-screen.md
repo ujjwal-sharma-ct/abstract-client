@@ -26,7 +26,7 @@ Examples:
    - paste the **layout-shell** (navy sidebar + header + scrollable main),
    - set `<title>` and header `<h1>` to `<Screen> · <Portal>`,
    - build content from **components**, **status-badges**, **charts**, applying the **accessibility** baseline.
-3. Use only canonical statuses (no FORBIDDEN terms) per `../DESIGN-SPEC-v4.md`.
+3. Use only canonical statuses (no FORBIDDEN terms) per `../../project-docs/docs/design/DESIGN-SPEC-v4.md`.
 4. **Wire it into the flow:** link to the new screen from `index.html` (and the prior screen), and link from it to its next steps + a way back.
 5. Run `node scripts/check-flow.mjs` to regenerate `FLOWS.md` and confirm no dead links/orphans.
 6. Add a one-line `PROGRESS.md` note. Report the new filename and the flow-check result.

@@ -1,5 +1,5 @@
 ---
-description: Review VMS screen mockups for UX-flow coherence and visual consistency with ../DESIGN-SPEC-v4.md. Produces a short findings list.
+description: Review VMS screen mockups for UX-flow coherence and visual consistency with ../../project-docs/docs/design/DESIGN-SPEC-v4.md. Produces a short findings list.
 ---
 
 # /design-review
@@ -24,7 +24,7 @@ Review screen mockups for **flow coherence** first, then **visual consistency**.
    - **No orphans** — every screen is reachable from an entry point (`index.html` / sign-in).
    - **No dead links** — every `href` to a screen points to a file that exists.
    - **Back-links / next-steps** — from a detail screen you can get back and forward as a real user would.
-3. Spot-check visual consistency against `../DESIGN-SPEC-v4.md` and the skills:
+3. Spot-check visual consistency against `../../project-docs/docs/design/DESIGN-SPEC-v4.md` and the skills:
    - **Forbidden terms** — no Commission, Uplift, In Progress, On Hold, Shortlisted, Interviewing, Pending Approval, etc.
    - **Canonical statuses + badge colours** — status strings and pill classes match the spec (see the **status-badges** skill); `Overdue` is a separate red pill.
    - **Shell consistency** — shared `<head>` (Tailwind config, Sora/Manrope, Font Awesome), navy `w-64` sidebar, `h-16` header.

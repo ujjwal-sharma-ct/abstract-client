@@ -22,7 +22,7 @@ This repo carries a lightweight AI kit tuned for **flow + continuity**, not code
 - `CLAUDE.md` / `AGENTS.md` — the rules the AI follows here.
 - `.claude/` — skills (design-system, layout-shell, status-badges, components, charts, accessibility, new-screen), commands `/new-screen` and `/design-review`, and a `design-reviewer` agent.
 - `PROGRESS.md` / `DECISIONS.md` — keep these current so the next session has context.
-- Visual reference: `../DESIGN-SPEC-v4.md` (shared across all three portals).
+- Visual reference: `../../project-docs/docs/design/DESIGN-SPEC-v4.md` (shared across all three portals).
 
 ## Layout
 

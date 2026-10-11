@@ -20,15 +20,16 @@ The BRD defines **WHAT** the product must do; it is the source of truth for a sc
 fields, states, actions, and rules. `DESIGN-SPEC-v4.md` only governs how it looks. Before you create
 or review a screen, consult the relevant sections of:
 
-- `../BRD-VMS-v3-Complete.md` — the VMS Business Requirements (features, rules, acceptance criteria).
-- `../domain-model.md` — the entities, fields, and relationships the screens visualize.
-- `../BRD-VMS-Competitor-Backlog.md` — competitor/feature backlog and gaps.
+- `../../project-docs/docs/brd/BRD.md` — the VMS Business Requirements (features, rules, acceptance criteria).
+- `../../project-docs/docs/tech-architecture/domain-model.md` — the entities, fields, and relationships the screens visualize.
+- `../../project-docs/docs/brd/BRD-VMS-Competitor-Backlog.md` — competitor/feature backlog and gaps.
 
 Rules:
 - A screen **must reflect the BRD scope** for its area — don't omit required fields/actions.
 - A screen **must not invent scope** that contradicts the BRD or domain model.
-- These docs live in the workspace root (one level up, shared by all three portals). Read the `.md`
-  versions; the `.docx` is a fallback only. If a repo is ever used standalone, copy the BRD in.
+- These docs live in the `project-docs` repository, beside the `Design/` folder (two levels up,
+  shared by all three portals). They are read-only from here. If that checkout is behind, read
+  them from its `origin/main`: `git -C ../../project-docs show origin/main:<path>`.
 
 ---
 
@@ -44,7 +45,7 @@ Rules:
 ## Consistency rules (so the flow reads as one product)
 
 5. Reuse the shared `<head>` (Tailwind CDN config + Sora/Manrope) and the sidebar/header **layout shell** — don't invent new chrome per screen. See the `design-system` and `layout-shell` skills.
-6. Use the canonical **status vocabulary** and **status→badge-colour** mapping, and avoid the **forbidden terms** — all defined in `../DESIGN-SPEC-v4.md`. (This is a reference, not a lint gate; the `design-review` command spot-checks it.)
+6. Use the canonical **status vocabulary** and **status→badge-colour** mapping, and avoid the **forbidden terms** — all defined in `../../project-docs/docs/design/DESIGN-SPEC-v4.md`. (This is a reference, not a lint gate; the `design-review` command spot-checks it.)
 7. Descriptive `<title>` per screen; filename convention `<portal>.<module>.<page>.html` — portal is
    `abstract` | `agency` | `client`, module is the feature module the page belongs to (the first segment of the
    feature-ledger capability id, `<module>.<capability>`), page is a kebab-case slug of what the page shows.
@@ -63,7 +64,7 @@ Rules:
 ## Ask a human before
 
 - Changing the shared journey structure (reordering major steps, removing screens).
-- Editing `../DESIGN-SPEC-v4.md` (it governs all three portals).
+- Editing `../../project-docs/docs/design/DESIGN-SPEC-v4.md` (it governs all three portals).
 - Introducing a new navigation pattern or page chrome.
 
 ---
@@ -71,7 +72,7 @@ Rules:
 ## Pointers
 
 - Flow map: `FLOWS.md` · Flow checker: `scripts/check-flow.mjs`
-- Scope/requirements: `../BRD-VMS-v3-Complete.md` · `../domain-model.md` · `../BRD-VMS-Competitor-Backlog.md`
-- Visual reference: `../DESIGN-SPEC-v4.md`
+- Scope/requirements: `../../project-docs/docs/brd/BRD.md` · `../../project-docs/docs/tech-architecture/domain-model.md` · `../../project-docs/docs/brd/BRD-VMS-Competitor-Backlog.md`
+- Visual reference: `../../project-docs/docs/design/DESIGN-SPEC-v4.md`
 - Recipes: `.claude/skills/` · Commands: `/new-screen`, `/design-review`
 - Guide: `docs/UX_FLOW.md` · State: `PROGRESS.md` · `DECISIONS.md`

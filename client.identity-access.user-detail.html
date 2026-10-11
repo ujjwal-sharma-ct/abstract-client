@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User · Users and roles · Abstract VMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;} * { scrollbar-width: none; }
+    .tnum { font-variant-numeric: tabular-nums; }
+    .row-actions { opacity: 0; } tr:hover .row-actions, tr:focus-within .row-actions, li:hover .row-actions, li:focus-within .row-actions, .tree-row:hover .row-actions, .tree-row:focus-within .row-actions { opacity: 1; }
+    @media (hover: none) { .row-actions { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+    
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { inter: ['Inter', 'sans-serif'], },
+                    colors: {
+                        navy: { DEFAULT: '#172554', 50: '#EEF1FB', 100: '#D4DCF5', 200: '#A9B9EB', 300: '#7E96E1', 400: '#5373D7', 500: '#2850CD', 600: '#1D3FA4', 700: '#162F7B', 800: '#0F1F52', 900: '#172554', },
+                        brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554', }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s2-page data-s1-states="default invited inactive self loading error validation readonly denied notfound resetconflict">
+<div id="app-root" class="flex w-full" style="height: 100vh;">
+    <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
+        <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
+            <img src="logo.png" alt="Abstract VMS" class="h-12 w-auto block -ml-[5px]"/>
+            <p class="text-white/40 text-sm mt-2">Client Portal</p>
+        </div>
+        <nav id="sidebar-nav" class="flex-1 px-3 py-4 flex flex-col gap-1" aria-label="Main">
+            <a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-gauge-high text-white/40 w-4 text-center" aria-hidden="true"></i><span>Dashboard</span></a><a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-sitemap text-white/40 w-4 text-center" aria-hidden="true"></i><span>Business Units</span></a><a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-150" style="background: linear-gradient(135deg, rgba(29,78,216,0.5), rgba(91,46,145,0.4)); border: 1px solid rgba(255,255,255,0.15);" aria-current="page"><i class="fa-solid fa-users text-blue-400 w-4 text-center" aria-hidden="true"></i><span>Users & Permissions</span><div class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"></div></a><a href="client.notifications.notification-preferences.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-bell text-white/40 w-4 text-center" aria-hidden="true"></i><span>Notification preferences</span></a><p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Recruitment</p><a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-briefcase text-white/40 w-4 text-center" aria-hidden="true"></i><span>Vacancies</span></a><a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-calendar-check text-white/40 w-4 text-center" aria-hidden="true"></i><span>Bookings</span></a><a href="client.candidates.candidate-directory.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-address-book text-white/40 w-4 text-center" aria-hidden="true"></i><span>Candidate Directory</span></a><p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Finance</p><a href="client.timesheets.timesheets.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-clock text-white/40 w-4 text-center" aria-hidden="true"></i><span>Timesheets</span></a><a href="client.money.invoices.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-file-invoice text-white/40 w-4 text-center" aria-hidden="true"></i><span>Invoices</span></a><p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Analytics</p><a href="client.reporting.reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-chart-line text-white/40 w-4 text-center" aria-hidden="true"></i><span>Reports</span></a>
+        </nav>
+        <div id="sidebar-footer" class="px-4 py-4 border-t border-white/10">
+            <div class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-white/5 transition-all">
+                <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 text-xs font-bold flex items-center justify-center flex-shrink-0" aria-hidden="true">RG</span>
+                <div class="flex-1 min-w-0">
+                    <a href="client.identity-access.profile.html" class="block text-white text-xs font-semibold truncate hover:underline" title="Your profile" data-user-name>Rachel Green</a>
+                    <p class="text-white/40 text-xs truncate">Acme Logistics</p>
+                </div>
+                <a href="client.identity-access.sign-in.html?reason=signed-out" aria-label="Sign out" title="Sign out"><i class="fa-solid fa-arrow-right-from-bracket text-white/30 text-xs hover:text-white" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </aside>
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header id="header" class="flex items-center justify-between gap-3 px-4 sm:px-6 xl:px-8 py-4 bg-white border-b border-slate-200 flex-shrink-0">
+            <div class="flex items-center gap-3 min-w-0">
+                <button id="mobile-menu-btn" class="lg:hidden w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-bars text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <div class="min-w-0">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <h1 id="ud-h1" class="text-lg font-bold text-slate-900 truncate">User</h1>
+                    </div>
+                    <p class="text-xs text-slate-500 hidden sm:block truncate">A person who can sign in for Acme Logistics: their roles, status and two-step verification</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+                
+                <button data-s1-bell aria-label="Notifications" class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-regular fa-bell text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <a href="client.identity-access.profile.html" aria-label="My account (Rachel Green)" class="flex items-center gap-2 pl-3 border-l border-slate-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">
+                    <span class="w-8 h-8 rounded-full text-white text-xs font-bold flex items-center justify-center" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);" aria-hidden="true">RG</span>
+                    <span class="hidden xl:block"><span class="block text-xs font-semibold text-slate-700">Rachel Green</span><span class="block text-xs text-slate-400">Acme Logistics</span></span>
+                </a>
+            </div>
+        </header>
+        <main id="main" class="flex-1 overflow-y-auto px-4 sm:px-6 xl:px-8 py-6 bg-slate-100">
+            <div data-s1-show="denied" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-14 text-center">
+                <div class="w-14 h-14 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-lock text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">You don't have access to this page</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Seeing your organisation's users needs the permission to view users. Ask someone who can manage users and roles if you need it.</p>
+                <a href="client.shell.dashboard.html" data-s1-home class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 mt-5"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to the dashboard</a>
+            </div>
+            <!-- 404: the address names nobody this viewer may see. The copy never says whether the person exists. -->
+            <div data-s1-show="notfound" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-14 text-center">
+                <div class="w-14 h-14 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-user-large-slash text-xl" aria-hidden="true"></i></div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Error 404</p>
+                <h2 class="text-base font-bold text-slate-900 mt-1">We couldn't find that user</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">The link may be wrong or out of date. Go back to Users and open the person from the list.</p>
+                <a href="client.identity-access.users.html" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 mt-5"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to users</a>
+            </div>
+            <div data-s1-hide="denied notfound">
+            <nav aria-label="Settings" data-embedded-hide class="flex items-center gap-6 border-b border-slate-200 mb-5 overflow-x-auto whitespace-nowrap"><a href="client.identity-access.users.html" aria-current="page" id="tab-users-link" class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-blue-700 text-sm font-semibold text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-users text-xs" aria-hidden="true"></i>Users</a><a href="client.identity-access.users.html#roles"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-user-shield text-xs" aria-hidden="true"></i>Roles</a><a href="client.identity-access.permission-matrix.html"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-table-cells text-xs" aria-hidden="true"></i>Permissions</a><a href="client.organisations.business-units.html" data-s1-later  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-sitemap text-xs" aria-hidden="true"></i>Business units</a><a href="client.notifications.notification-preferences.html" data-s1-later  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-bell text-xs" aria-hidden="true"></i>Notification preferences</a></nav>
+
+                <!-- User detail (/{portal}/settings/users/:id; slice 1 TSD §3.3.11, §5.9 UI states "User detail").
+                     Reached from a Users row. ?user=<email> picks the person; an address outside your organisation shows the 404 state. -->
+                <a href="client.identity-access.users.html" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 hover:text-blue-900 hover:underline rounded px-1 py-1 mb-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All users</a>
+
+                <div data-s1-show="readonly" role="status" class="mb-4 text-sm text-slate-600 flex items-start gap-2"><i class="fa-solid fa-eye text-slate-400 mt-0.5" aria-hidden="true"></i><p>You can see this person's roles and status but not change them. Each action needs its own permission, and you see only the ones you hold.</p></div>
+
+                <div data-s1-show="loading" aria-busy="true" aria-label="Loading user">
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-full bg-slate-200 animate-pulse flex-shrink-0"></div>
+                        <div class="flex-1 space-y-2"><div class="h-4 bg-slate-200 rounded animate-pulse" style="width:38%"></div><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:54%"></div></div>
+                        <div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+                        <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-3"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:22%"></div><div class="h-10 bg-slate-200 rounded-lg animate-pulse"></div><div class="h-10 bg-slate-200 rounded-lg animate-pulse"></div></div>
+                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-3"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:40%"></div><div class="h-9 bg-slate-200 rounded-lg animate-pulse"></div><div class="h-9 bg-slate-200 rounded-lg animate-pulse"></div><div class="h-9 bg-slate-200 rounded-lg animate-pulse"></div></div>
+                    </div>
+                    <p class="sr-only">Loading…</p>
+                </div>
+
+                <div data-s1-show="error" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-12 text-center" role="alert">
+                    <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-triangle-exclamation text-xl" aria-hidden="true"></i></div>
+                    <h2 class="text-base font-bold text-slate-900">We couldn't load this user</h2>
+                    <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Something went wrong on our side. Try again — if it keeps happening, quote reference <span class="font-semibold text-slate-800 tabular-nums">ERR-USR-4D8Q-1173</span> to Abstract support.</p>
+                    <button type="button" onclick="S1.setState('loading');setTimeout(function(){S1.setState('default')},700)" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 mt-5"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Try again</button>
+                </div>
+
+                <div data-s1-hide="loading error">
+                    <!-- Who this is: name, sign-in address, status and two-step status -->
+                    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6" aria-labelledby="ud-name">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                            <span id="ud-avatar" class="w-14 h-14 rounded-full bg-navy-50 text-navy-700 border border-navy-100 flex items-center justify-center text-base font-bold flex-shrink-0" aria-hidden="true"></span>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2"><h2 id="ud-name" class="text-lg font-bold text-slate-900 break-words min-w-0"></h2><span id="ud-you"></span></div>
+                                <p id="ud-email" class="text-sm text-slate-600 break-all mt-0.5"></p>
+                                <!-- slice 2 (A4): an email change waiting for the person to confirm it -->
+                                <div data-s1-later id="ud-pending"></div>
+                            </div>
+                            <div id="ud-badges" class="flex flex-wrap items-center gap-2 sm:justify-end flex-shrink-0"></div>
+                        </div>
+                    </section>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4 items-start">
+                        <div class="flex flex-col gap-4 lg:order-last">
+                            <!-- The same actions as this person's row on Users; each is absent without its permission -->
+                            <section id="ud-actions-card" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-3" aria-labelledby="ud-actions-t">
+                                <h2 id="ud-actions-t" class="text-sm font-bold text-slate-900 px-3 pt-2 pb-1">Actions</h2>
+                                <ul id="ud-actions" class="flex flex-col gap-0.5"></ul>
+                                <p class="text-xs text-slate-500 px-3 pt-2 pb-1">Every change here is recorded in the audit log.</p>
+                            </section>
+                            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5" aria-labelledby="ud-details-t">
+                                <h2 id="ud-details-t" class="text-sm font-bold text-slate-900 mb-3">Details</h2>
+                                <dl id="ud-details" class="flex flex-col gap-3"></dl>
+                            </section>
+                        </div>
+                        <div class="lg:col-span-2 flex flex-col gap-4 min-w-0">
+                            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" aria-labelledby="ud-roles-t">
+                                <div class="px-5 pt-5 pb-3"><h2 id="ud-roles-t" class="text-sm font-bold text-slate-900">Roles</h2><p class="text-xs text-slate-500 mt-0.5">What they can do is everything their roles grant together. A change applies from their next click.</p></div>
+                                <ul id="ud-roles" class="divide-y divide-slate-100 border-t border-slate-200"></ul>
+                            </section>
+                            <!-- slice 2 (B3): the nodes this person's records are limited to -->
+                            <section data-s1-later class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5" aria-labelledby="ud-scope-t">
+                                <h2 id="ud-scope-t" class="text-sm font-bold text-slate-900">Scope</h2>
+                                <div id="ud-scope" class="mt-2"></div>
+                                <p class="text-xs text-slate-500 mt-2">They see records at these nodes and everything beneath them. No nodes means the whole organisation.</p>
+                            </section>
+                            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5" aria-labelledby="ud-2fa-t">
+                                <div class="flex flex-wrap items-center gap-2"><h2 id="ud-2fa-t" class="text-sm font-bold text-slate-900">Two-step verification</h2><span id="ud-2fa-mark"></span></div>
+                                <p id="ud-2fa-text" class="text-sm text-slate-600 mt-1.5 leading-relaxed"></p>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>
+<!-- Change email (slice 2, A4): an administrator-initiated change of an Active user's sign-in address, confirmed by link -->
+<div data-s1-modal id="m-email" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-email-t">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200"><h2 id="m-email-t" class="text-base font-bold text-slate-900">Change sign-in email</h2><button type="button" onclick="S1.closeModal('m-email')" aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+        <div class="px-6 py-5 flex flex-col gap-4">
+            <p class="text-sm text-slate-600"><span id="em-name" class="font-semibold text-slate-800"></span> keeps signing in with the current address until they confirm the new one from a link we email them. The link works for 72 hours; the current address is told.</p>
+            <div><p class="block text-xs font-semibold text-slate-700 mb-1.5">Current email</p><p id="em-current" class="text-sm text-slate-600 bg-slate-100 border border-slate-200 rounded-lg px-3 py-2.5 break-all"></p></div>
+            <div><label for="em-new" class="block text-xs font-semibold text-slate-700 mb-1.5">New email address</label><input id="em-new" type="email" autocomplete="off" placeholder="name@company.co.uk" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20" aria-describedby="em-new-err"/><p id="em-new-err" class="text-xs text-red-600 mt-1.5" style="display:none" role="alert"></p></div>
+        </div>
+        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-email')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold min-h-[38px]">Cancel</button><button type="button" id="em-save" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 min-h-[38px]" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send confirmation link</button></div>
+    </div>
+</div>
+<script>
+/* Mobile navigation (sidebar is hidden below lg — this is the only way to reveal it) */
+(function () {
+  var btn = document.getElementById('mobile-menu-btn'),
+      sb  = document.getElementById('sidebar');
+  if (!btn || !sb) return;
+  btn.setAttribute('aria-controls', 'sidebar');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.setAttribute('aria-label', 'Open navigation');
+  var bd = document.createElement('div');
+  bd.setAttribute('aria-hidden', 'true');
+  bd.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:40;display:none';
+  document.body.appendChild(bd);
+  function open() {
+    sb.style.display = 'flex'; sb.style.position = 'fixed'; sb.style.top = '0';
+    sb.style.bottom = '0'; sb.style.left = '0'; sb.style.zIndex = '50';
+    bd.style.display = 'block'; btn.setAttribute('aria-expanded', 'true');
+  }
+  function close() {
+    ['display','position','top','bottom','left','zIndex'].forEach(function (p) { sb.style[p] = ''; });
+    bd.style.display = 'none'; btn.setAttribute('aria-expanded', 'false');
+  }
+  btn.addEventListener('click', function () { bd.style.display === 'block' ? close() : open(); });
+  bd.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && bd.style.display === 'block') close(); });
+  window.addEventListener('resize', function () { if (window.innerWidth >= 1024) close(); });
+})();
+</script>
+<script>
+var BADGE = {
+  'Draft': ['bg-slate-100 text-slate-700 border border-slate-200', 'fa-file-pen'],
+  'In Setup': ['bg-blue-50 text-blue-700 border border-blue-200', 'fa-screwdriver-wrench'],
+  'Pending Activation': ['bg-amber-50 text-amber-700 border border-amber-200', 'fa-hourglass-half'],
+  'Active': ['bg-emerald-50 text-emerald-700 border border-emerald-200', 'fa-circle-check'],
+  'Suspended': ['bg-red-50 text-red-700 border border-red-200', 'fa-ban'],
+  'Invited': ['bg-amber-50 text-amber-700 border border-amber-200', 'fa-envelope'],
+  'Inactive': ['bg-slate-100 text-slate-500 border border-slate-200', 'fa-circle-minus'],
+  'Pending approval': ['bg-amber-50 text-amber-700 border border-amber-200', 'fa-hourglass-half'],
+  'Approved': ['bg-emerald-50 text-emerald-700 border border-emerald-200', 'fa-circle-check'],
+  'Rejected': ['bg-red-50 text-red-700 border border-red-200', 'fa-circle-xmark'],
+  'Compliant': ['bg-emerald-50 text-emerald-700 border border-emerald-200', 'fa-circle-check'],
+  'Pending': ['bg-amber-50 text-amber-700 border border-amber-200', 'fa-hourglass-half'],
+  'Expired': ['bg-red-50 text-red-700 border border-red-200', 'fa-circle-xmark'],
+  'Not Applicable': ['bg-slate-100 text-slate-700 border border-slate-200', 'fa-minus']
+};
+function badge(s, small) {
+  var b = BADGE[s] || BADGE['Draft'];
+  return '<span class="inline-flex items-center gap-1.5 ' + (small ? 'px-2 py-0.5 text-[11px]' : 'px-2.5 py-1 text-xs') + ' rounded-full font-semibold whitespace-nowrap ' + b[0] + '"><i class="fa-solid ' + b[1] + ' text-[10px]" aria-hidden="true"></i>' + s + '</span>';
+}
+/* Markers are not statuses (design-tokens §5): default neutral, success, warning, info */
+var MARK = { 'default': 'bg-slate-100 text-slate-700 border-slate-200', success: 'bg-emerald-50 text-emerald-700 border-emerald-200', warning: 'bg-amber-50 text-amber-700 border-amber-200', info: 'bg-blue-50 text-blue-700 border-blue-200' };
+function marker(text, variant, title) {
+  return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border whitespace-nowrap ' + MARK[variant || 'default'] + '"' + (title ? ' title="' + esc(title) + '"' : '') + '>' + text + '</span>';
+}
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+function initials(n) { return String(n).split(/\s+/).map(function (p) { return p[0]; }).slice(0, 2).join('').toUpperCase(); }
+var GBP = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' });
+function money(s) { return GBP.format(Number(s)); }
+function pct(s) { return Number(s).toFixed(2) + ' %'; }
+function fmtDate(iso) { if (!iso) return '—'; var d = new Date(iso + (iso.length === 10 ? 'T00:00:00' : '')); return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
+function fmtDateTime(iso) { var d = new Date(iso); return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); }
+var BTN_SEC = 'inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1';
+var BTN_PRI = 'inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed';
+var BTN_PRI_STYLE = 'background:linear-gradient(135deg,#1D4ED8,#5B2E91)';
+var BTN_DANGER = 'inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white rounded-lg px-4 py-2.5 text-xs font-semibold min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-1 disabled:opacity-50';
+var BTN_GHOST = 'inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 hover:text-blue-900 hover:underline rounded px-1 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1';
+var INPUT = 'w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20';
+var INPUT_ERR = 'border-red-400 bg-red-50/40 focus:border-red-400 focus:ring-red-600/20';
+var Q = new URLSearchParams(location.search);
+/* Structure changes: the sidebar item carries the pending count (K13 SidebarNavItem count; polled every 60 s with X-Activity: passive; absent when zero) */
+var S2_PENDING_COUNT = 5;
+document.addEventListener('s1:ready', function () { var c = document.getElementById('nav-sc-count'); if (c && S2_PENDING_COUNT > 0) { c.textContent = S2_PENDING_COUNT; c.classList.remove('hidden'); c.classList.add('inline-block'); c.setAttribute('aria-label', S2_PENDING_COUNT + ' waiting'); } });
+function setErr(id, msg) { var i = document.getElementById(id), e = document.getElementById(id + '-err'); if (!i) return; if (msg) { i.classList.add.apply(i.classList, INPUT_ERR.split(' ')); i.setAttribute('aria-invalid', 'true'); if (e) { e.textContent = msg; e.style.display = ''; } } else { i.classList.remove.apply(i.classList, INPUT_ERR.split(' ')); i.removeAttribute('aria-invalid'); if (e) e.style.display = 'none'; } }
+</script>
+<!-- Correct email (slice 1; PATCH /users/:id takes an email only while the user is Invited): the address is corrected before the
+     person activates, a new activation link goes to the corrected address and the earlier one stops working -->
+<div data-s1-modal id="m-correct" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-correct-t">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200"><h2 id="m-correct-t" class="text-base font-bold text-slate-900">Correct email address</h2><button type="button" onclick="S1.closeModal('m-correct')" aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+        <form novalidate onsubmit="saveCorrect(event)">
+        <div class="px-6 py-5 flex flex-col gap-4">
+            <p class="text-sm text-slate-600"><span id="cx-name" class="font-semibold text-slate-800"></span> hasn't activated their account yet, so the address can still be corrected. We'll email a new activation link to the corrected address; it works for 72 hours. The link sent to <span id="cx-old" class="break-all"></span> stops working.</p>
+            <div><p class="block text-xs font-semibold text-slate-700 mb-1.5">Current email</p><p id="cx-current" class="text-sm text-slate-600 bg-slate-100 border border-slate-200 rounded-lg px-3 py-2.5 break-all"></p></div>
+            <div><label for="cx-new" class="block text-xs font-semibold text-slate-700 mb-1.5">Corrected email address</label><input id="cx-new" type="email" autocomplete="off" placeholder="name@company.co.uk" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20" aria-describedby="cx-new-err"/><p id="cx-new-err" class="text-xs text-red-600 mt-1.5" style="display:none" role="alert"></p></div>
+        </div>
+        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-correct')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Cancel</button><button type="submit" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Save and send link</button></div>
+        </form>
+    </div>
+</div>
+<div data-s1-modal id="m-name" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-name-t">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+            <div class="min-w-0"><h2 id="m-name-t" class="text-base font-bold text-slate-900">Edit name</h2></div>
+            <button type="button" onclick="S1.closeModal('m-name')" aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-4"><div>
+      <label for="ed-name" class="block text-xs font-semibold text-slate-700 mb-1.5">Full name <span class="text-red-600" aria-hidden="true">*</span><span class="sr-only"> (required)</span></label>
+      <input id="ed-name" type="text" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20" placeholder="" aria-describedby="ed-name-err ed-name-hint" />
+      <p id="ed-name-err" class="text-xs text-red-600 mt-1.5" style="display:none" role="alert"></p>
+      
+    </div><div><p class="block text-xs font-semibold text-slate-700 mb-1.5">Email address</p><p id="ed-email" class="text-sm text-slate-600 bg-slate-100 border border-slate-200 rounded-lg px-3 py-2.5 break-all"></p><p class="text-xs text-slate-500 mt-1.5">The email address is their sign-in.<span data-s1-later> An administrator changes it with <span class="font-semibold">Change email</span>, which the user confirms by link.</span></p></div></div>
+        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-name')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Cancel</button><button type="button" id="ed-save" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)">Save name</button></div>
+    </div>
+</div>
+<div data-s1-modal id="m-roles" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-roles-t">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+            <div class="min-w-0"><h2 id="m-roles-t" class="text-base font-bold text-slate-900">Set roles</h2></div>
+            <button type="button" onclick="S1.closeModal('m-roles')" aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-4"><p class="text-sm text-slate-600">Choose every role <span id="sr-name" class="font-semibold text-slate-800"></span> should have. What they can do is everything those roles grant together.</p><div id="sr-error" style="display:none" role="alert" class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 flex items-start gap-3 text-sm text-red-800"><i class="fa-solid fa-user-shield mt-0.5" aria-hidden="true"></i><span id="sr-error-t"></span></div><fieldset><legend class="sr-only">Roles</legend><ul id="sr-list" class="flex flex-col gap-2"></ul></fieldset><p class="text-xs text-slate-500 flex items-start gap-2"><i class="fa-solid fa-circle-info mt-0.5" aria-hidden="true"></i><span>Inactive roles can't be assigned, so they aren't listed. Changes apply from their next click.</span></p></div>
+        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-roles')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Cancel</button><button type="button" id="sr-save" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)">Save roles</button></div>
+    </div>
+</div>
+<!-- Set scope (slice 2, B3): the K13 Tree in multi-select use. Modal at 1024 px, bottom sheet at 375 px. -->
+<div data-s1-modal id="m-scope" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-scope-t">
+    <div class="bg-white w-full sm:max-w-xl rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col font-[Inter,sans-serif]">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 flex-shrink-0">
+            <h2 id="m-scope-t" class="text-base font-bold text-slate-900">Set scope</h2>
+            <button type="button" onclick="S1.closeModal('m-scope')" aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <div class="px-6 pt-4 pb-3 flex-shrink-0">
+            <p class="text-sm text-slate-600" id="scope-rule"></p>
+            <label class="mt-3 flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 min-h-[38px] focus-within:border-blue-300 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-600/20"><i class="fa-solid fa-magnifying-glass text-slate-400 text-xs" aria-hidden="true"></i><span class="sr-only">Search nodes</span><input id="scope-search" type="search" placeholder="Search nodes" class="bg-transparent text-sm text-slate-700 placeholder-slate-400 outline-none w-full"/></label>
+        </div>
+        <div class="px-6 flex-1 overflow-y-auto min-h-[120px]">
+            <div id="scope-tree" class="rounded-xl border border-slate-200"></div>
+            <div id="scope-empty" style="display:none" class="rounded-xl border border-slate-200 px-6 py-10 text-center">
+                <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-sitemap" aria-hidden="true"></i></div>
+                <p class="text-sm font-semibold text-slate-900">This organisation has no structure nodes yet.</p>
+                <p class="text-sm text-slate-600 mt-1">Every user sees the whole organisation. <a id="scope-empty-link" href="#" class="text-blue-700 font-semibold hover:underline">Add nodes on the structure page.</a></p>
+            </div>
+            <div id="scope-error" style="display:none" class="rounded-xl border border-red-200 bg-red-50 px-4 py-6 text-center" role="alert">
+                <p class="text-sm font-semibold text-red-900">We couldn't load the structure.</p>
+                <button type="button" onclick="scopeRetry()" class="mt-3 inline-flex items-center gap-2 bg-white border border-red-300 text-red-900 rounded-lg px-3 py-2 text-xs font-semibold min-h-[38px]"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Try again</button>
+            </div>
+        </div>
+        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center gap-3 sm:rounded-b-2xl flex-shrink-0">
+            <p class="text-xs text-slate-600 flex-1 min-w-0" id="scope-summary" aria-live="polite"></p>
+            <div class="flex justify-end gap-3">
+                <button type="button" onclick="S1.closeModal('m-scope')" class="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Cancel</button>
+                <button type="button" id="scope-save" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"><i class="fa-solid fa-check" aria-hidden="true"></i> Save scope</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var SLUG = 'acme', ORG_NAME = "Acme Logistics", YOU = "Rachel Green";
+var ROLES = [{"id": "administrator", "name": "Administrator", "def": true, "status": "Active", "perms": 11, "admin": true}, {"id": "manager", "name": "Manager", "def": true, "status": "Active", "perms": 3, "admin": false}, {"id": "viewer", "name": "Viewer", "def": true, "status": "Active", "perms": 1, "admin": false}, {"id": "seasonal", "name": "Seasonal supervisors", "def": false, "status": "Inactive", "perms": 0, "admin": false}];
+var USERS = [{"name": "Rachel Green", "email": "rachel.green@acmelogistics.co.uk", "roles": ["administrator"], "status": "Active", "scope": [], "last": "2026-10-09T08:02:00Z"}, {"name": "Mark Davies", "email": "mark.davies@acmelogistics.co.uk", "roles": ["manager"], "status": "Active", "scope": ["bhx"], "last": "2026-10-08T14:18:00Z"}, {"name": "Priya Natarajan", "email": "priya.natarajan@acmelogistics.co.uk", "roles": ["viewer"], "status": "Active", "scope": [], "last": "2026-10-07T10:47:00Z"}, {"name": "Olivia Brown", "email": "olivia.brown@acmelogistics.co.uk", "roles": ["manager"], "status": "Invited", "scope": ["lei", "nth"], "last": null}, {"name": "Ben Taylor", "email": "ben.taylor@acmelogistics.co.uk", "roles": ["manager", "seasonal"], "status": "Inactive", "scope": ["bhx-n"], "last": "2026-08-02T16:20:00Z"}];
+
+/* ---------- Change email (slice 2, A4) ---------- */
+function pendingEmailHtml(u) { return u.pendingEmail ? '<span class="block text-xs text-amber-700 mt-0.5">Pending: <span class="break-all">' + esc(u.pendingEmail) + '</span> · <button type="button" class="font-semibold underline" data-cancel-email="' + esc(u.email) + '">Cancel</button></span>' : ''; }
+function openEmail(u) { current = u; document.getElementById('em-name').textContent = u.name; document.getElementById('em-current').textContent = u.email; document.getElementById('em-new').value = ''; var e = document.getElementById('em-new-err'); e.style.display = 'none'; S1.openModal('m-email'); }
+document.getElementById('em-save').onclick = function () {
+  var v = document.getElementById('em-new').value.trim().toLowerCase(), e = document.getElementById('em-new-err'), msg = '';
+  if (!v) msg = 'Enter the new email address.'; else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) msg = 'Enter an email address like name@company.co.uk.'; else if (v === current.email.toLowerCase()) msg = 'That is already their sign-in address.'; else if (USERS.map(function (x) { return x.email.toLowerCase(); }).indexOf(v) >= 0) msg = 'This email address already has an account. One email address is one account.';
+  if (msg) { e.textContent = msg; e.style.display = ''; return; }
+  current.pendingEmail = v; S1.closeModal('m-email'); render();
+  S1.toast("We've emailed " + esc(v) + ' a confirmation link that works for 72 hours. ' + esc(current.email) + ' has been told.', 'success');
+};
+document.addEventListener('click', function (e) { var b = e.target.closest('[data-cancel-email]'); if (!b) return; var u = USERS.find(function (x) { return x.email === b.dataset.cancelEmail; }); if (!u) return; S1.confirm({ title: 'Cancel the email change for ' + u.name + '?', body: 'The link we sent to ' + u.pendingEmail + ' stops working and their sign-in address stays ' + u.email + '.', cta: 'Cancel the change', tone: 'danger', onConfirm: function () { u.pendingEmail = null; render(); S1.toast('Email change cancelled.', 'success'); } }); });
+
+var ADMIN_KEY = 'user:create_edit';
+function s2on() { return !(window.S1 && S1.isSlice1Mode()); }
+
+/* ---------- Scope (slice 2, B3): breadcrumbs, the picker, My Account line ---------- */
+var S2_TREES = {"acme": [{"id": "mid", "parentId": null, "name": "Midlands", "nodeType": "region", "cc": "CC-MID", "userCount": 0}, {"id": "bhx", "parentId": "mid", "name": "Birmingham DC", "nodeType": "site", "cc": "CC-BHX-01", "userCount": 1}, {"id": "bhx-n", "parentId": "bhx", "name": "Nights", "nodeType": "department", "cc": "CC-BHX-01-N", "userCount": 1}, {"id": "bhx-d", "parentId": "bhx", "name": "Days", "nodeType": "department", "cc": "CC-BHX-01-D", "userCount": 0}, {"id": "lei", "parentId": "mid", "name": "Leicester DC", "nodeType": "site", "cc": "CC-LEI-02", "userCount": 1}, {"id": "nth", "parentId": null, "name": "Northern", "nodeType": "region", "cc": "CC-NTH", "userCount": 1}, {"id": "lds", "parentId": "nth", "name": "Leeds Hub", "nodeType": "site", "cc": "CC-LDS-01", "userCount": 0}, {"id": "lgw", "parentId": null, "name": "London Gateway", "nodeType": "site", "cc": "CC-LGW-03", "userCount": 0}]};
+var S2_TYPE_LABEL = {"business_unit": "Business unit", "region": "Region", "site": "Site", "department": "Department", "branch": "Branch", "division": "Division"};
+var TYPE_LABEL = S2_TYPE_LABEL;
+
+/* ---------- Tree (kernel K13) ---------- */
+function Tree(host, props) {
+  var self = this;
+  host = typeof host === 'string' ? document.getElementById(host) : host;
+  this.host = host; this.p = Object.assign({ selection: 'none', value: [], disabledIds: [], defaultExpandedDepth: 99, search: false, root: null, columns: [], decorate: null, renderRow: null, ghosts: [], readOnly: false, compact: false }, props || {});
+  this.expanded = {}; this.focusId = null; this.query = ''; this.value = (this.p.value || []).slice();
+  this.setNodes(this.p.nodes || []);
+  host.classList.add('s2-tree');
+  host.addEventListener('keydown', function (e) { self.onKey(e); });
+  this.render();
+}
+Tree.prototype.setNodes = function (nodes) {
+  var self = this;
+  this.nodes = nodes.map(function (n) { return Object.assign({}, n); });
+  this.byId = {}; this.children = {}; this.nodes.forEach(function (n) { self.byId[n.id] = n; });
+  this.nodes.forEach(function (n) { var p = n.parentId && self.byId[n.parentId] ? n.parentId : '__root'; n._p = p; (self.children[p] = self.children[p] || []).push(n); });
+  this.nodes.forEach(function (n) { n.depth = self.depthOf(n.id); n.path = self.pathOf(n.id); });
+  var self2 = this; if (!Object.keys(this.expanded).length) this.nodes.forEach(function (n) { self2.expanded[n.id] = n.depth < self2.p.defaultExpandedDepth; });
+};
+Tree.prototype.depthOf = function (id) { var d = 0, n = this.byId[id]; while (n && n._p !== '__root') { d++; n = this.byId[n._p]; } return d; };
+Tree.prototype.pathOf = function (id) { var out = [], n = this.byId[id]; while (n) { out.unshift(n.name); n = n._p === '__root' ? null : this.byId[n._p]; } return out; };
+Tree.prototype.descendants = function (id) { var out = [], self = this; (function walk(x) { (self.children[x] || []).forEach(function (c) { out.push(c.id); walk(c.id); }); })(id); return out; };
+Tree.prototype.ancestors = function (id) { var out = [], n = this.byId[id]; while (n && n._p !== '__root') { out.push(n._p); n = this.byId[n._p]; } return out; };
+Tree.prototype.matches = function (n) { return !this.query || n.name.toLowerCase().indexOf(this.query) >= 0; };
+Tree.prototype.visible = function () {
+  // depth-first list of rows to draw: with a query, every match plus its ancestors (expanded)
+  var self = this, out = [], keep = null;
+  if (this.query) { keep = {}; this.nodes.forEach(function (n) { if (self.matches(n)) { keep[n.id] = 1; self.ancestors(n.id).forEach(function (a) { keep[a] = 1; }); } }); }
+  (function walk(p) {
+    (self.children[p] || []).forEach(function (n) {
+      if (keep && !keep[n.id]) return;
+      out.push(n);
+      var open = keep ? true : self.expanded[n.id];
+      if (open) walk(n.id);
+      (self.p.ghosts || []).filter(function (g) { return g.parentId === n.id && (open || keep); }).forEach(function (g) { out.push(Object.assign({ _ghost: true, _p: n.id, depth: n.depth + 1 }, g)); });
+    });
+  })('__root');
+  (self.p.ghosts || []).filter(function (g) { return !g.parentId; }).forEach(function (g) { out.push(Object.assign({ _ghost: true, _p: '__root', depth: 0 }, g)); });
+  return out;
+};
+Tree.prototype.covered = function (id) { var self = this; return this.ancestors(id).some(function (a) { return self.value.indexOf(a) >= 0; }); };
+Tree.prototype.isDisabled = function (id) { return (this.p.disabledIds || []).indexOf(id) >= 0 || (this.p.selection === 'multi' && this.covered(id)); };
+Tree.prototype.toggle = function (id, open) { this.expanded[id] = open == null ? !this.expanded[id] : open; if (this.p.onExpandedChange) this.p.onExpandedChange(this.expanded); this.render(); };
+Tree.prototype.expandAll = function () { var self = this; this.nodes.forEach(function (n) { self.expanded[n.id] = true; }); this.render(); };
+Tree.prototype.collapseTo = function (depth) { var self = this; this.nodes.forEach(function (n) { self.expanded[n.id] = n.depth < depth; }); this.render(); };
+Tree.prototype.setQuery = function (q) { this.query = (q || '').trim().toLowerCase(); this.render(); };
+Tree.prototype.select = function (id) {
+  if (this.p.selection === 'none' || this.isDisabled(id)) return;
+  if (this.p.selection === 'single') this.value = this.value[0] === id ? [] : [id];
+  else { var i = this.value.indexOf(id); if (i >= 0) this.value.splice(i, 1); else { var self = this; this.value = this.value.filter(function (v) { return self.ancestors(v).indexOf(id) < 0; }); this.value.push(id); } }
+  if (this.p.onChange) this.p.onChange(this.value.slice());
+  this.render();
+};
+Tree.prototype.render = function () {
+  var self = this, rows = this.visible(), ro = this.p.readOnly, sel = this.p.selection, hasRoot = !!this.p.root;
+  var html = '';
+  if (hasRoot) html += this.rowHtml(Object.assign({ id: '__root', depth: -1, name: this.p.root.name, nodeType: 'Organisation', _root: true, userCount: this.p.root.userCount }, {}), true, rows.length > 0);
+  rows.forEach(function (n) { html += self.rowHtml(n, false, (self.children[n.id] || []).length > 0 || (self.p.ghosts || []).some(function (g) { return g.parentId === n.id; })); });
+  this.host.innerHTML = '<ul role="tree" aria-label="' + esc(this.p.label || 'Structure') + '" class="divide-y divide-slate-100">' + html + '</ul>';
+  if (this.query) {
+    var m = this.nodes.filter(function (n) { return self.matches(n); }).length;
+    this.host.insertAdjacentHTML('beforeend', '<p class="px-4 py-2 text-xs text-slate-500 border-t border-slate-100" role="status">' + m + ' of ' + this.nodes.length + ' nodes match</p>');
+  }
+  this.host.querySelectorAll('[data-toggle]').forEach(function (b) { b.onclick = function (e) { e.stopPropagation(); self.toggle(b.dataset.toggle); }; });
+  this.host.querySelectorAll('[role="treeitem"]').forEach(function (li) {
+    li.onfocus = function () { self.focusId = li.dataset.id; self.host.querySelectorAll('[role="treeitem"]').forEach(function (x) { x.tabIndex = -1; }); li.tabIndex = 0; };
+    li.onclick = function (e) { if (e.target.closest('button,a,input,label')) return; self.focusId = li.dataset.id; if (sel !== 'none' && !li.dataset.ghost && li.dataset.id !== '__root') self.select(li.dataset.id); if (sel === 'none' && self.p.onPick && !li.dataset.ghost) { self.p.onPick(li.dataset.id); self.render(); } };
+  });
+  this.host.querySelectorAll('input[type="checkbox"][data-check]').forEach(function (c) { c.onchange = function () { self.select(c.dataset.check); }; });
+  var first = this.host.querySelector('[role="treeitem"][data-id="' + (this.focusId || '') + '"]') || this.host.querySelector('[role="treeitem"]');
+  if (first) first.tabIndex = 0;
+  if (this.p.afterRender) this.p.afterRender();
+};
+Tree.prototype.rowHtml = function (n, isRoot, hasKids) {
+  var sel = this.p.selection, open = isRoot ? true : !!this.expanded[n.id], ghost = !!n._ghost, depth = isRoot ? 0 : n.depth + 1;
+  var disabled = !isRoot && !ghost && this.isDisabled(n.id), covered = !isRoot && !ghost && sel === 'multi' && this.covered(n.id);
+  var selected = !isRoot && !ghost && this.value.indexOf(n.id) >= 0;
+  var picked = this.p.picked === n.id;
+  var indent = '<span class="flex-shrink-0 flex" style="width:' + (depth * 20) + 'px" aria-hidden="true">' + (depth ? Array.apply(null, Array(depth)).map(function () { return '<span class="block w-5 border-l border-slate-200 h-full"></span>'; }).join('') : '') + '</span>';
+  var chevron = (hasKids && !isRoot) ? '<button type="button" data-toggle="' + esc(n.id) + '" class="w-6 h-6 rounded flex items-center justify-center text-slate-500 hover:bg-slate-100 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600" aria-label="' + (open ? 'Collapse' : 'Expand') + ' ' + esc(n.name) + '" tabindex="-1"><i class="fa-solid fa-chevron-' + (open ? 'down' : 'right') + ' text-[10px]" aria-hidden="true"></i></button>' : '<span class="w-6 h-6 flex-shrink-0 flex items-center justify-center text-slate-300" aria-hidden="true">' + (isRoot ? '<i class="fa-solid fa-building text-xs text-slate-500"></i>' : ghost ? '<i class="fa-regular fa-circle-dot text-[10px] text-amber-500"></i>' : '<i class="fa-solid fa-circle text-[5px]"></i>') + '</span>';
+  var check = '';
+  if (sel === 'multi' && !isRoot && !ghost) check = '<input type="checkbox" data-check="' + esc(n.id) + '" ' + (selected || covered ? 'checked' : '') + ' ' + (disabled ? 'disabled' : '') + ' class="w-4 h-4 rounded border-slate-300 text-blue-700 focus:ring-blue-600 flex-shrink-0" aria-label="' + esc(n.name) + (covered ? ' (covered)' : '') + '" tabindex="-1"/>';
+  if (sel === 'single' && !ghost) check = '<span class="w-4 h-4 rounded-full border flex-shrink-0 flex items-center justify-center ' + (selected || picked ? 'border-blue-700' : 'border-slate-300') + (disabled ? ' opacity-40' : '') + '" aria-hidden="true">' + (selected || picked ? '<span class="w-2 h-2 rounded-full bg-blue-700"></span>' : '') + '</span>';
+  var typeLabel = isRoot ? 'Organisation' : (TYPE_LABEL[n.nodeType] || n.nodeType);
+  var name = '<span class="text-sm ' + (isRoot ? 'font-bold text-slate-900' : ghost ? 'font-medium text-slate-500 italic' : 'font-medium text-slate-900') + ' truncate">' + esc(n.name) + (n.marker ? ' ' + n.marker : '') + '</span>';
+  var meta = '<span class="text-xs text-slate-500 md:hidden block truncate">' + esc(typeLabel) + (this.p.showCost && n.cc ? ' · ' + esc(n.cc) : '') + (covered ? ' · covered' : '') + '</span>';
+  var cols = '';
+  if (!this.p.compact) {
+    cols += '<span class="hidden md:block w-28 flex-shrink-0 text-xs text-slate-600 truncate">' + esc(typeLabel) + (covered ? '<span class="text-slate-400"> · covered</span>' : '') + '</span>';
+    if (this.p.showCost) cols += '<span class="hidden md:block w-28 flex-shrink-0 text-xs text-slate-600 tnum truncate">' + esc(n.cc || (isRoot ? '—' : '')) + '</span>';
+    if (this.p.showUsers) cols += '<span class="hidden md:block w-14 flex-shrink-0 text-xs text-slate-700 tnum text-right">' + (ghost ? '' : (this.p.userLink && !isRoot && n.userCount ? '<a href="' + this.p.userLink(n) + '" class="text-blue-700 hover:underline" title="Users scoped at this node">' + n.userCount + '</a>' : (n.userCount == null ? '' : n.userCount))) + '</span>';
+  } else if (covered) { cols += '<span class="hidden md:inline text-xs text-slate-400">covered</span>'; }
+  var deco = this.p.decorate && !isRoot ? (this.p.decorate(n) || '') : '';
+  var actions = this.p.renderRow && !ghost ? (this.p.renderRow(n, isRoot) || '') : '';
+  var cls = 'tree-row group flex items-start gap-2 px-3 py-2 min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600 ' + (selected || picked ? 'bg-blue-50 ' : 'hover:bg-slate-50 ') + (ghost ? 'bg-amber-50/40 ' : '') + (disabled && sel !== 'none' ? 'opacity-60 ' : '') + (sel !== 'none' && !disabled && !isRoot && !ghost ? 'cursor-pointer ' : '');
+  return '<li role="treeitem" data-id="' + esc(n.id) + '" ' + (ghost ? 'data-ghost="1" ' : '') + 'aria-level="' + (depth + 1) + '" ' + (hasKids || isRoot ? 'aria-expanded="' + open + '" ' : '') + (sel !== 'none' ? 'aria-selected="' + selected + '" ' : '') + (disabled ? 'aria-disabled="true" ' : '') + 'tabindex="-1" class="' + cls + '"' + (disabled && this.p.disabledTitle ? ' title="' + esc(this.p.disabledTitle) + '"' : '') + '>' +
+    indent + chevron + (check ? '<span class="flex items-center h-5 flex-shrink-0">' + check + '</span>' : '') +
+    '<span class="flex-1 min-w-0"><span class="flex items-center gap-2 min-w-0">' + name + (this.p.showUsers && !ghost && !this.p.compact ? '<span class="md:hidden text-xs text-slate-500 tnum ml-auto flex-shrink-0">' + (n.userCount == null ? '' : n.userCount + ' <i class="fa-regular fa-user text-[10px]" aria-hidden="true"></i>') + '</span>' : '') + '</span>' + meta + deco + '</span>' +
+    cols + (actions ? '<span class="flex-shrink-0 flex items-center">' + actions + '</span>' : '') + '</li>';
+};
+Tree.prototype.onKey = function (e) {
+  var items = Array.prototype.slice.call(this.host.querySelectorAll('[role="treeitem"]'));
+  var cur = document.activeElement.closest ? document.activeElement.closest('[role="treeitem"]') : null;
+  var i = items.indexOf(cur); if (i < 0) return;
+  var n = this.byId[cur.dataset.id], go = null;
+  if (e.key === 'ArrowDown') go = items[i + 1];
+  else if (e.key === 'ArrowUp') go = items[i - 1];
+  else if (e.key === 'Home') go = items[0];
+  else if (e.key === 'End') go = items[items.length - 1];
+  else if (e.key === 'ArrowRight') { if (cur.getAttribute('aria-expanded') === 'false') { this.toggle(cur.dataset.id, true); this.focusAfter(cur.dataset.id); e.preventDefault(); return; } go = items[i + 1]; }
+  else if (e.key === 'ArrowLeft') { if (cur.getAttribute('aria-expanded') === 'true' && cur.dataset.id !== '__root') { this.toggle(cur.dataset.id, false); this.focusAfter(cur.dataset.id); e.preventDefault(); return; } var p = n ? n._p : null; go = p && p !== '__root' ? this.host.querySelector('[data-id="' + p + '"]') : (this.p.root ? this.host.querySelector('[data-id="__root"]') : null); }
+  else if (e.key === 'Enter' || e.key === ' ') { if (cur.dataset.id !== '__root' && !cur.dataset.ghost) { if (this.p.selection !== 'none') this.select(cur.dataset.id); else if (this.p.onPick) { this.p.onPick(cur.dataset.id); this.render(); } this.focusAfter(cur.dataset.id); } e.preventDefault(); return; }
+  else if (e.key.length === 1 && /\S/.test(e.key)) { var k = e.key.toLowerCase(); for (var j = 1; j <= items.length; j++) { var it = items[(i + j) % items.length], nn = this.byId[it.dataset.id] || (it.dataset.id === '__root' ? this.p.root : null); if (nn && nn.name.toLowerCase().charAt(0) === k) { go = it; break; } } }
+  if (go) { go.focus(); e.preventDefault(); }
+};
+Tree.prototype.focusAfter = function (id) { var self = this; setTimeout(function () { var el = self.host.querySelector('[data-id="' + id + '"]'); if (el) el.focus(); }, 0); };
+
+function scopeNodesFor(slug) { return (S2_TREES[slug] || []).map(function (n) { return Object.assign({}, n); }); }
+function scopePath(slug, id) { var by = {}; scopeNodesFor(slug).forEach(function (n) { by[n.id] = n; }); var out = [], n = by[id]; while (n) { out.unshift(n.name); n = n.parentId ? by[n.parentId] : null; } return out; }
+function scopeCrumb(path) {
+  // a deep path truncates its middle; the full path sits in the title (Tooltip)
+  var full = path.join(' › '), shown = path.length > 3 ? [path[0], '…', path[path.length - 1]] : path;
+  return '<span class="inline-flex items-center gap-1 text-xs text-slate-700 whitespace-nowrap" title="' + esc(full) + '">' + shown.map(function (p, i) { return (i ? '<i class="fa-solid fa-chevron-right text-[8px] text-slate-400" aria-hidden="true"></i>' : '') + '<span>' + esc(p) + '</span>'; }).join('') + '</span>';
+}
+function scopeCell(slug, ids, compact) {
+  if (!ids || !ids.length) return '<span class="text-xs text-slate-500">Whole organisation</span>';
+  var paths = ids.map(function (id) { return scopePath(slug, id); }).filter(function (p) { return p.length; });
+  var max = compact ? 1 : 2, shown = paths.slice(0, max), rest = paths.slice(max);
+  return '<span class="flex flex-col gap-0.5 items-start">' + shown.map(scopeCrumb).join('') + (rest.length ? '<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200" title="' + esc(rest.map(function (p) { return p.join(' › '); }).join('\n')) + '">+' + rest.length + '</span>' : '') + '</span>';
+}
+function scopeText(slug, ids) { if (!ids || !ids.length) return 'Whole organisation'; return ids.map(function (id) { return scopePath(slug, id).join(' › '); }).join(' · '); }
+var scopeTree = null, scopeCtx = null;
+function openScopePicker(o) {
+  // o: { slug, orgName, userName, value, onSave(ids), invite }
+  scopeCtx = o;
+  var nodes = scopeNodesFor(o.slug);
+  document.getElementById('m-scope-t').textContent = o.invite ? 'Scope for the invitation' : 'Set scope — ' + o.userName;
+  document.getElementById('scope-rule').textContent = (o.invite ? 'They will see' : o.userName.split(' ')[0] + ' sees') + ' records at the nodes you tick and everything beneath them, including nodes added later. Tick nothing for the whole organisation.';
+  document.getElementById('scope-search').value = '';
+  document.getElementById('scope-error').style.display = 'none';
+  var empty = !nodes.length || o.state === 'empty';
+  document.getElementById('scope-empty').style.display = empty ? '' : 'none';
+  document.getElementById('scope-tree').style.display = empty ? 'none' : '';
+  document.getElementById('scope-empty-link').href = "client.organisations.business-units.html";
+  if (o.state === 'error') { document.getElementById('scope-error').style.display = ''; document.getElementById('scope-tree').style.display = 'none'; document.getElementById('scope-empty').style.display = 'none'; }
+  scopeTree = new Tree('scope-tree', { nodes: nodes, root: { name: o.orgName }, selection: 'multi', compact: false, showUsers: false, showCost: false, value: (o.value || []).slice(), defaultExpandedDepth: nodes.length >= 50 ? 1 : 99, label: 'Nodes of ' + o.orgName, onChange: scopeSummary });
+  // the root row is the organisation and has no checkbox: the whole organisation is expressed by ticking nothing
+  scopeSummary(scopeTree.value);
+  document.getElementById('scope-search').oninput = function () { scopeTree.setQuery(this.value); };
+  document.getElementById('scope-save').disabled = false;
+  S1.openModal('m-scope');
+}
+function scopeSummary(ids) { document.getElementById('scope-summary').innerHTML = '<span class="font-semibold text-slate-800">Assigned:</span> ' + esc(scopeText(scopeCtx.slug, ids)); }
+function scopeRetry() { document.getElementById('scope-error').style.display = 'none'; document.getElementById('scope-tree').style.display = ''; }
+document.getElementById('scope-save').onclick = function () {
+  var ids = scopeTree ? scopeTree.value.slice() : [], had = (scopeCtx.value || []).length;
+  function done() { S1.closeModal('m-scope'); scopeCtx.onSave(ids); }
+  if (had && !ids.length && !scopeCtx.invite) {
+    // clearing every node is a widening: it takes a ConfirmDialog (TSD §5.8 Decisions)
+    S1.confirm({ title: 'Give ' + scopeCtx.userName + ' the whole organisation?', body: 'Clearing every node widens their scope to every record in ' + scopeCtx.orgName + '. This is recorded in the audit log.', cta: 'Save whole organisation', icon: 'fa-sitemap', onConfirm: done });
+    return;
+  }
+  done();
+};
+
+var state = Q.get('state') || 'default', page = 1, PAGE = 25, ro = false;
+function role(id) { return ROLES.find(function (r) { return r.id === id; }) || null; }
+function isAdminRole(id) { var r = role(id); return r && r.status === 'Active' && r.admin; }
+function isAdmin(u) { return u.status === 'Active' && u.roles.some(isAdminRole); }
+function wouldLeaveNoAdmin(u, newRoles, newStatus) { return USERS.filter(function (x) { if (x === u) return (newStatus || u.status) === 'Active' && (newRoles || u.roles).some(isAdminRole); return isAdmin(x); }).length === 0; }
+function roleChips(u) { if (!u.roles.length) return '<span class="text-xs italic text-slate-500">No roles yet</span>'; return u.roles.map(function (id) { var r = role(id); return '<span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200 whitespace-nowrap' + (r && r.status === 'Inactive' ? ' line-through decoration-slate-400' : '') + '">' + esc(r ? r.name : id) + '</span>'; }).join(' '); }
+function actionsFor(u) {
+  if (ro) return [];
+  var a = [], s2 = s2on();   // Change email and Set scope are slice 2: absent in Slice 1 only
+  if (u.status === 'Invited') { a.push(['resend', 'Resend activation', 'fa-paper-plane']); a.push(['correct', 'Correct email', 'fa-envelope-circle-check']); }
+  a.push(['name', 'Edit name', 'fa-pen']);
+  if (u.status === 'Active' && s2) a.push(['email', 'Change email', 'fa-at']);
+  if (u.status !== 'Inactive') { a.push(['roles', 'Set roles', 'fa-user-shield']); if (s2) a.push(['scope', 'Set scope', 'fa-sitemap']); }
+  if (CAN_RESET_TWO_STEP && u.twoFactor && u.name !== YOU) a.push(['reset2fa', 'Reset two-step verification', 'fa-shield-halved']);
+  if (u.status === 'Inactive') a.push(['reactivate', 'Reactivate', 'fa-rotate-left']); else a.push(['deactivate', 'Deactivate', 'fa-user-slash']);
+  return a;
+}
+function avatar(u) { return '<span class="w-8 h-8 rounded-full bg-navy-50 text-navy-700 border border-navy-100 flex items-center justify-center text-[11px] font-bold flex-shrink-0" aria-hidden="true">' + initials(u.name) + '</span>'; }
+var current = null;
+/* ---------- Correct email (slice 1): only while the user is Invited; a new activation link goes to the corrected address ---------- */
+function cxErr(msg) { var i = document.getElementById('cx-new'), e = document.getElementById('cx-new-err'); e.textContent = msg; e.style.display = msg ? '' : 'none'; i.classList.toggle('border-red-500', !!msg); i.classList.toggle('border-slate-200', !msg); i.setAttribute('aria-invalid', msg ? 'true' : 'false'); }
+function openCorrect(u) { current = u; document.getElementById('cx-name').textContent = u.name; document.getElementById('cx-current').textContent = u.email; document.getElementById('cx-old').textContent = u.email; document.getElementById('cx-new').value = ''; cxErr(''); S1.openModal('m-correct'); document.getElementById('cx-new').focus(); }
+function saveCorrect(e) {
+  if (e) e.preventDefault();
+  var v = document.getElementById('cx-new').value.trim().toLowerCase(), old = current.email, msg = '';
+  var taken = window.ALL_EMAILS ? ALL_EMAILS.indexOf(v) >= 0 : USERS.some(function (x) { return x.email.toLowerCase() === v; });
+  if (!v) msg = 'Enter the corrected email address.';
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) msg = 'Enter an email address like name@company.co.uk.';
+  else if (v === old.toLowerCase()) msg = 'That is the address they already have.';
+  else if (taken) msg = 'This email address already has an account. One email address is one account.';   // 409 USER_EMAIL_TAKEN
+  if (msg) { cxErr(msg); document.getElementById('cx-new').focus(); return; }
+  current.seedEmail = current.seedEmail || old;   // the prototype's detail page still knows this person by the first address
+  current.email = v; S1.closeModal('m-correct'); render();
+  S1.toast('Email corrected. A new 72-hour activation link was sent to ' + esc(v) + '. The link sent to ' + esc(old) + ' no longer works.', 'success', { ms: 7000 });
+}
+function act(a, u) {
+  current = u;
+  if (a === 'name') { document.getElementById('ed-name').value = u.name; document.getElementById('ed-email').textContent = u.email; setErr('ed-name', ''); S1.openModal('m-name'); }
+  if (a === 'roles') openRoles(u);
+  if (a === 'email') openEmail(u);
+  if (a === 'correct') openCorrect(u);
+  if (a === 'scope') openScopePicker({ slug: SLUG, orgName: ORG_NAME, userName: u.name, value: u.scope, state: state === 'empty' ? 'empty' : (state === 'error' ? 'error' : ''), onSave: function (ids) { u.scope = ids; render(); S1.toast('Scope updated for ' + esc(u.name) + '. It applies from their next click.', 'success'); } });
+  if (a === 'resend') S1.confirm({ title: 'Resend the activation link to ' + u.name + '?', bodyHtml: "We'll email <strong>" + esc(u.email) + '</strong> a new link that works for 72 hours. The link we sent before will stop working.', cta: 'Resend link', icon: 'fa-paper-plane', onConfirm: function () { S1.toast('A new 72-hour activation link was emailed to ' + esc(u.email) + '.', 'success'); } });
+  if (a === 'deactivate') {
+    if (wouldLeaveNoAdmin(u, null, 'Inactive')) { S1.confirm({ tone: 'warning', icon: 'fa-user-shield', title: "You can't deactivate " + u.name, body: ORG_NAME + ' would be left with no one who can manage users and roles. First give another active user a role that can, then try again.', cancel: 'Close' }); return; }
+    S1.confirm({ tone: 'danger', title: 'Deactivate ' + u.name + '?', body: "They'll lose access at their next click on every device and can't sign in until someone reactivates them. Their roles" + (s2on() ? ', scope' : '') + " and history are kept.", reason: true, reasonLabel: 'Reason (required — recorded in the audit log)', reasonPlaceholder: 'e.g. Left the company on 09/10/2026', cta: 'Deactivate user', busy: 'Deactivating…', onConfirm: function () { u.status = 'Inactive'; render(); S1.toast(esc(u.name) + ' is now inactive.', 'success'); } });
+  }
+  if (a === 'reset2fa') S1.confirm({ tone: 'warning', icon: 'fa-shield-halved', title: 'Reset two-step verification for ' + u.name + '?',
+    body: 'All of their sessions end now, on every device, and their authenticator app entry and backup codes stop working. ' + (TWO_STEP_REQUIRED
+      ? ORG_NAME + ' requires two-step verification, so they set it up again the next time they sign in.'
+      : ORG_NAME + ' does not require two-step verification, so it stays off until they turn it on again.'),
+    cta: 'Reset two-step verification', busy: 'Resetting…',
+    onConfirm: function () {
+      var already = state === 'resetconflict';   // 409 USER_TWO_FACTOR_NOT_ENABLED: someone else reset it first
+      u.twoFactor = false; render();
+      if (already) S1.toast('Two-step verification was already off for ' + esc(u.name) + '. Someone reset it a moment ago, so nothing changed. This page is up to date.', 'info', { ms: 7000 });
+      else S1.toast('Two-step verification is reset for ' + esc(u.name) + '. Their sessions have ended.', 'success');
+    } });
+  if (a === 'reactivate') S1.confirm({ title: 'Reactivate ' + u.name + '?', body: 'They can sign in again with their existing password and get back the roles' + (s2on() ? ' and scope' : '') + ' they had.', cta: 'Reactivate user', icon: 'fa-rotate-left', onConfirm: function () { u.status = 'Active'; render(); S1.toast(esc(u.name) + ' is active again.', 'success'); } });
+}
+document.getElementById('ed-save').onclick = function () { var v = document.getElementById('ed-name').value.trim(); if (!v) { setErr('ed-name', 'Enter their name.'); return; } current.name = v; S1.closeModal('m-name'); render(); S1.toast('Name updated to ' + esc(v) + '.', 'success'); };
+function openRoles(u) { current = u; document.getElementById('sr-name').textContent = u.name; document.getElementById('sr-error').style.display = 'none'; document.getElementById('sr-list').innerHTML = ROLES.filter(function (r) { return r.status === 'Active'; }).map(function (r) { return '<li><label class="flex items-center gap-3 rounded-lg border border-slate-200 px-3 py-2.5 hover:bg-slate-50 cursor-pointer"><input type="checkbox" value="' + r.id + '" ' + (u.roles.indexOf(r.id) >= 0 ? 'checked' : '') + ' class="w-5 h-5 accent-blue-700 flex-shrink-0"/><span class="flex-1 min-w-0"><span class="text-sm font-semibold text-slate-800">' + esc(r.name) + '</span> ' + (r.def ? marker('Default') : '') + '<span class="block text-xs text-slate-500">' + r.perms + ' permission' + (r.perms === 1 ? '' : 's') + (r.admin ? ' · can manage users and roles' : '') + '</span></span></label></li>'; }).join(''); S1.openModal('m-roles'); }
+document.getElementById('sr-save').onclick = function () { var picked = Array.prototype.map.call(document.querySelectorAll('#sr-list input:checked'), function (c) { return c.value; }); var keep = current.roles.filter(function (id) { var r = role(id); return r && r.status === 'Inactive'; }); var next = picked.concat(keep); if (current.status === 'Active' && wouldLeaveNoAdmin(current, next, null)) { document.getElementById('sr-error-t').textContent = "You can't take this role away from " + current.name + ' — ' + ORG_NAME + ' would be left with no one who can manage users and roles.'; document.getElementById('sr-error').style.display = ''; return; } current.roles = next; S1.closeModal('m-roles'); render(); S1.toast('Roles saved for ' + esc(current.name) + '. They apply from their next click.', 'success'); };
+/* ---------- Two-step verification (slice 1 brief A12 as amended; TSD R-39, 1.9 TV-9) ----------
+   User.twoFactorEnrolled on every row. This organisation's holders of user:reset_two_factor reset its users first; they ask
+   Abstract when they cannot. Nobody resets their own, so the action is absent on the signed-in person's row. */
+var CAN_RESET_TWO_STEP = true;   // the signed-in administrator holds user:reset_two_factor; without it the action is absent
+var TWO_STEP_REQUIRED = true;   // UserSummary.twoFactorRequired: whether this organisation requires two-step verification
+var TWO_STEP_ON = { 'sarah.mitchell@abstract.com': 1, 'j.okafor@abstractrecruitment.co.uk': 1, 'd.chen@abstractrecruitment.co.uk': 1, 'p.shah@abstractrecruitment.co.uk': 1, 'rachel.green@acmelogistics.co.uk': 1, 'priya.natarajan@acmelogistics.co.uk': 1, 'ben.taylor@acmelogistics.co.uk': 1, 'daniel.wright@techforce-recruitment.co.uk': 1, 'aisha.khan@techforce-recruitment.co.uk': 1 };
+USERS.forEach(function (u) { u.twoFactor = u.status !== 'Invited' && !!TWO_STEP_ON[u.email]; });
+function twoStepLine(u, card) {
+  if (u.status === 'Invited') return '';
+  return u.twoFactor
+    ? '<span class="' + (card ? 'mt-2' : 'mt-1.5') + ' flex items-center gap-1 text-[11px] font-semibold text-emerald-700 whitespace-nowrap"><i class="fa-solid fa-shield-halved text-[10px]" aria-hidden="true"></i>Two-step on</span>'
+    : '<span class="' + (card ? 'mt-2' : 'mt-1.5') + ' block text-[11px] text-slate-500 whitespace-nowrap">Two-step off</span>';
+}
+USERS.forEach(function (u, i) { if (u.name === 'Mark Davies' || u.name === 'Sophie Turner' || u.name === 'James Okafor') u.pendingEmail = u.email.replace(/@.*/, '@' + (u.email.indexOf('acme') >= 0 ? 'acme-logistics.co.uk' : u.email.indexOf('techforce') >= 0 ? 'techforce.co.uk' : 'abstractvms.co.uk')); });
+var UD = {
+  isSelf: function (u) { return u.name === YOU; },
+  orgName: ORG_NAME, slug: SLUG, showScope: true,
+  last: function (u) { return u.last ? fmtDateTime(u.last) : ''; },
+  perms: function (r) { return r.perms; },
+  canManage: function (r) { return r.admin; },
+  manageText: 'Can manage users and roles',
+  matrix: function (r) { return 'client.identity-access.permission-matrix.html?role=' + r.id; },
+  account: 'client.identity-access.two-factor.html', accountName: 'your own two-step verification page',
+  submitName: function () { document.getElementById('ed-save').click(); }
+};
+
+/* ---------- User detail: one person's record, with the row's actions (TSD §5.9 UI states "User detail") ----------
+   Prototype rules: ?user=<email> picks the person; the Prototype menu shows an Invited user, an Inactive user and the
+   viewer's own record. An address that is not in this organisation's list shows the 404 state. */
+var U = null;
+function pickUser() {
+  var want = { invited: 'Invited', inactive: 'Inactive' }[state], q = Q.get('user');
+  function first(f) { return USERS.filter(f)[0] || null; }
+  if (state === 'self') return first(UD.isSelf) || USERS[0];
+  if (want) return first(function (x) { return x.status === want; }) || USERS[0];
+  var linked = q ? first(function (x) { return x.email === q; }) : null;
+  var usual = first(function (x) { return x.status === 'Active' && !UD.isSelf(x) && x.twoFactor; }) || first(function (x) { return !UD.isSelf(x); }) || USERS[0];
+  if (state === 'resetconflict' && linked && UD.isSelf(linked)) return usual;
+  return linked || usual;
+}
+function udRow(term, html) { return '<div><dt class="text-xs font-semibold text-slate-500">' + term + '</dt><dd class="text-sm text-slate-800 mt-0.5 min-w-0">' + html + '</dd></div>'; }
+function render() {
+  var loaded = !!U && ['loading', 'error', 'denied', 'notfound'].indexOf(state) < 0;
+  document.getElementById('ud-h1').textContent = loaded ? U.name : 'User';
+  if (!U) return;
+  var self = UD.isSelf(U), acts = actionsFor(U), who = esc(U.name.split(' ')[0]), org = esc(UD.orgName);
+  document.getElementById('ud-avatar').textContent = initials(U.name);
+  document.getElementById('ud-name').textContent = U.name;
+  document.getElementById('ud-you').innerHTML = self ? '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">You</span>' : '';
+  document.getElementById('ud-email').textContent = U.email;
+  document.getElementById('ud-pending').innerHTML = pendingEmailHtml(U);
+  document.getElementById('ud-badges').innerHTML = badge(U.status) + twoStepLine(U).replace('mt-1.5 ', '');
+
+  // Actions: exactly the row's list, in the row's order
+  document.getElementById('ud-actions-card').style.display = acts.length ? '' : 'none';
+  document.getElementById('ud-actions').innerHTML = acts.map(function (a) {
+    return '<li><button type="button" data-a="' + a[0] + '" class="w-full flex items-center gap-3 px-3 py-2.5 min-h-[44px] rounded-lg text-sm font-medium text-left ' + (a[0] === 'deactivate' ? 'text-red-600 hover:bg-red-50' : 'text-slate-700 hover:bg-slate-50') + ' focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid ' + a[2] + ' w-4 text-center" aria-hidden="true"></i>' + a[1] + '</button></li>';
+  }).join('');
+  document.querySelectorAll('#ud-actions [data-a]').forEach(function (b) { b.onclick = function () { act(b.dataset.a, U); }; });
+
+  // Details
+  var statusLine = U.status === 'Invited' ? 'Hasn\'t set a password yet. Activation links work for 72 hours; send a new one if theirs has run out.'
+    : U.status === 'Inactive' ? 'Can\'t sign in. Their roles and history are kept, and reactivating gives them back.'
+    : 'Can sign in.';
+  var last = UD.last(U);
+  document.getElementById('ud-details').innerHTML =
+    udRow('Email address', '<span class="break-all">' + esc(U.email) + '</span><span class="block text-xs text-slate-500 mt-0.5">The address ' + (self ? 'you sign' : 'they sign') + ' in with. One email address is one account.</span>') +
+    udRow('Status', badge(U.status) + '<span class="block text-xs text-slate-500 mt-1">' + statusLine + '</span>') +
+    udRow('Last sign-in', last ? '<span class="tabular-nums">' + esc(last) + '</span>' : '<span class="text-slate-500">Never signed in</span>') +
+    udRow('Organisation', org);
+
+  // Roles
+  document.getElementById('ud-roles').innerHTML = U.roles.length ? U.roles.map(function (id) {
+    var r = role(id), off = r && r.status === 'Inactive', n = r ? UD.perms(r) : 0;
+    return '<li class="px-5 py-3 flex flex-wrap items-center gap-x-3 gap-y-1"><span class="flex-1 min-w-0"><span class="text-sm font-semibold ' + (off ? 'text-slate-500 line-through decoration-slate-400' : 'text-slate-900') + '">' + esc(r ? r.name : id) + '</span> ' +
+      (r && r.def ? '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200" title="Created when this organisation was set up">Default</span> ' : '') + (off ? badge('Inactive') : '') +
+      '<span class="block text-xs text-slate-500 mt-0.5">' + (off ? 'This role is inactive, so it grants nothing.' : (r && UD.canManage(r) ? UD.manageText : 'Grants what its permissions allow')) + '</span></span>' +
+      (r ? '<a href="' + UD.matrix(r) + '" class="text-xs font-semibold text-blue-700 hover:underline whitespace-nowrap rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">' + n + ' permission' + (n === 1 ? '' : 's') + '</a>' : '') + '</li>';
+  }).join('') : '<li class="px-5 py-6 text-center"><p class="text-sm font-semibold text-slate-900">No roles yet</p><p class="text-sm text-slate-600 mt-1">Until they have a role they can sign in but see nothing beyond their own account.</p></li>';
+
+  // Scope (slice 2)
+  document.getElementById('ud-scope').innerHTML = UD.showScope ? scopeCell(UD.slug, U.scope || []) : '';
+
+  // Two-step verification: on or off only. No enrolment date and no count of backup codes (TSD R-39).
+  var mark = U.status === 'Invited' ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">Not set up</span>'
+    : U.twoFactor ? '<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"><i class="fa-solid fa-shield-halved text-[10px]" aria-hidden="true"></i>On</span>'
+    : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">Off</span>';
+  var policy = TWO_STEP_REQUIRED ? org + ' requires two-step verification' : org + ' does not require two-step verification';
+  var text;
+  if (self) text = (U.twoFactor ? 'You enter a 6-digit code from your authenticator app each time you sign in. ' : 'It is off for your account. ') + 'Nobody can reset their own, so there is no reset here. Manage it from <a href="' + UD.account + '" class="font-semibold text-blue-700 hover:underline">' + UD.accountName + '</a>.';
+  else if (U.status === 'Invited') text = who + ' hasn\'t activated their account yet. ' + (TWO_STEP_REQUIRED ? policy + ', so they set it up when they first sign in.' : policy + ', so it stays off until they turn it on.');
+  else if (U.twoFactor) text = (U.status === 'Inactive' ? 'It is still on for this account, so ' + who + ' will need a code again if the account is reactivated. ' : who + ' enters a 6-digit code from an authenticator app at each sign-in. ') + (acts.some(function (a) { return a[0] === 'reset2fa'; }) ? 'If they have lost their phone and their backup codes, reset it: ' + (TWO_STEP_REQUIRED ? policy + ', so they set it up again at their next sign-in.' : policy + ', so it then stays off until they turn it on again.') : 'Only the person themselves can change it; a reset needs the permission to reset two-step verification.');
+  else text = 'It is off for ' + who + '. ' + (TWO_STEP_REQUIRED ? policy + ', so they set it up the next time they sign in.' : policy + '. Only they can turn it on, from their own account.');
+  document.getElementById('ud-2fa-mark').innerHTML = mark;
+  document.getElementById('ud-2fa-text').innerHTML = text;
+}
+document.addEventListener('s1:state', function (e) {
+  state = e.detail.state; ro = state === 'readonly';
+  ['m-name', 'm-roles', 'm-scope', 'm-email', 'm-correct'].forEach(function (id) { document.getElementById(id).classList.add('hidden'); });
+  U = pickUser();
+  if (state === 'resetconflict' && U && U.status !== 'Invited') U.twoFactor = true;
+  render();
+  // validation: as on Users, a name is required
+  if (state === 'validation') { act('name', U); document.getElementById('ed-name').value = ''; UD.submitName(); }
+});
+document.addEventListener('s1:mode', render);   // Change email and Set scope are slice 2: absent in slice 1 mode
+document.addEventListener('s1:ready', function () {
+  var q = Q.get('user');
+  if (q && !Q.get('state') && !USERS.some(function (x) { return x.email === q; })) S1.setState('notfound');
+});
+</script>
+<script src="slice1-kit.js"></script>
+</body>
+</html>

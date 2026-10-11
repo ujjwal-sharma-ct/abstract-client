@@ -59,7 +59,7 @@
                     <div class="flex items-center gap-2 flex-wrap">
                         <h1 class="text-lg font-bold text-slate-900 truncate">Users and roles</h1>
                     </div>
-                    <p class="text-xs text-slate-500 hidden sm:block truncate">People who can sign in for Acme Logistics, their roles, their scope and their status</p>
+                    <p class="text-xs text-slate-500 hidden sm:block truncate">People who can sign in for Acme Logistics, their roles<span data-s1-later>, their scope</span> and their status</p>
                 </div>
             </div>
             <div class="flex items-center gap-3 flex-shrink-0">
@@ -79,14 +79,14 @@
                 <a href="client.shell.dashboard.html" data-s1-home class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 mt-5"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to the dashboard</a>
             </div>
             <div data-s1-hide="denied">
-            <nav aria-label="Settings" data-embedded-hide class="flex items-center gap-6 border-b border-slate-200 mb-5 overflow-x-auto whitespace-nowrap"><a href="client.identity-access.users.html" aria-current="page" id="tab-users-link" class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-blue-700 text-sm font-semibold text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-users text-xs" aria-hidden="true"></i>Users</a><a href="client.identity-access.users.html#roles"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-user-shield text-xs" aria-hidden="true"></i>Roles</a><a href="client.identity-access.permission-matrix.html"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-table-cells text-xs" aria-hidden="true"></i>Permissions</a><a href="client.organisations.business-units.html"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-sitemap text-xs" aria-hidden="true"></i>Business units</a><a href="client.notifications.notification-preferences.html"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-bell text-xs" aria-hidden="true"></i>Notification preferences</a></nav>
+            <nav aria-label="Settings" data-embedded-hide class="flex items-center gap-6 border-b border-slate-200 mb-5 overflow-x-auto whitespace-nowrap"><a href="client.identity-access.users.html" aria-current="page" id="tab-users-link" class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-blue-700 text-sm font-semibold text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-users text-xs" aria-hidden="true"></i>Users</a><a href="client.identity-access.users.html#roles"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-user-shield text-xs" aria-hidden="true"></i>Roles</a><a href="client.identity-access.permission-matrix.html"  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-table-cells text-xs" aria-hidden="true"></i>Permissions</a><a href="client.organisations.business-units.html" data-s1-later  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-sitemap text-xs" aria-hidden="true"></i>Business units</a><a href="client.notifications.notification-preferences.html" data-s1-later  class="inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-bell text-xs" aria-hidden="true"></i>Notification preferences</a></nav>
             <div data-s1-show="readonly" role="status" class="mb-4 text-sm text-slate-600 flex items-start gap-2"><i class="fa-solid fa-eye text-slate-400 mt-0.5" aria-hidden="true"></i><p>You can see your organisation's users and roles but not change them. Changing them needs permission to manage users and roles.</p></div>
             <div id="panel-users">
               <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 mb-4">
                 <div class="flex flex-wrap items-center gap-3">
                   <label class="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 min-h-[38px] focus-within:border-blue-300 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-600/20 flex-1 min-w-[200px]"><i class="fa-solid fa-magnifying-glass text-slate-400 text-xs" aria-hidden="true"></i><span class="sr-only">Search users</span><input id="f-search" type="search" placeholder="Search name or email" class="bg-transparent text-sm text-slate-700 placeholder-slate-400 outline-none w-full"/></label>
                   <label class="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 min-h-[38px] focus-within:border-blue-300 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-600/20"><i class="fa-solid fa-circle-half-stroke text-slate-400 text-xs" aria-hidden="true"></i><span class="sr-only">Status</span><select id="f-status" class="bg-transparent text-xs font-medium text-slate-600 outline-none"><option value="">All statuses</option><option>Invited</option><option>Active</option><option>Inactive</option></select></label>
-                  <label class="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 min-h-[38px] focus-within:border-blue-300 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-600/20"><i class="fa-solid fa-sitemap text-slate-400 text-xs" aria-hidden="true"></i><span class="sr-only">Scope</span><select id="f-scope" class="bg-transparent text-xs font-medium text-slate-600 outline-none"><option value="">Any scope</option></select></label>
+                  <label data-s1-later class="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 min-h-[38px] focus-within:border-blue-300 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-600/20"><i class="fa-solid fa-sitemap text-slate-400 text-xs" aria-hidden="true"></i><span class="sr-only">Scope</span><select id="f-scope" class="bg-transparent text-xs font-medium text-slate-600 outline-none"><option value="">Any scope</option></select></label>
                   <button id="btn-invite" type="button" data-edit class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed ml-auto" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Invite user</button>
                 </div>
                 <div id="chips" class="flex flex-wrap items-center gap-2 mt-3" style="display:none"></div>
@@ -125,14 +125,14 @@
             </div>
               <div data-s1-hide="loading error">
                 <div id="users-table-card" class="hidden md:block bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                  <div class="overflow-x-auto">
+                  <div class="overflow-x-auto relative">
                     <table class="w-full text-left">
                       <caption class="sr-only">Users of Acme Logistics</caption>
                       <thead class="bg-slate-50 border-b border-slate-200"><tr>
                         <th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Name</th>
                         <th scope="col" class="hidden xl:table-cell px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</th>
                         <th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Roles</th>
-                        <th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Scope</th>
+                        <th scope="col" data-s1-later class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Scope</th>
                         <th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
                         <th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap">Last sign-in</th>
                         <th scope="col" class="px-4 py-3"><span class="sr-only">Actions</span></th>
@@ -149,13 +149,13 @@
                   <p class="text-sm text-slate-600 mt-1">Try a different name or email, or clear the filters to see everyone.</p>
                   <button type="button" onclick="clearFilters()" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 mt-5"><i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i> Clear filters</button>
                 </div>
-                <p class="text-xs text-slate-500 mt-4 flex items-start gap-2"><i class="fa-solid fa-circle-info mt-0.5" aria-hidden="true"></i><span>Role and scope changes apply from each person's next click — nobody is signed out. Scope covers the nodes ticked and everything beneath them, including nodes added later. Every change here is recorded in the audit log.</span></p>
+                <p class="text-xs text-slate-500 mt-4 flex items-start gap-2"><i class="fa-solid fa-circle-info mt-0.5" aria-hidden="true"></i><span>Role<span data-s1-later> and scope</span> changes apply from each person's next click — nobody is signed out. <span data-s1-later>Scope covers the nodes ticked and everything beneath them, including nodes added later. </span>Every change here is recorded in the audit log.</span></p>
               </div>
             </div>
             <div id="panel-roles" style="display:none">
               <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="flex items-center justify-between gap-3 px-5 pt-5 pb-3"><div><h2 class="text-sm font-bold text-slate-900">Roles</h2><p class="text-xs text-slate-500 mt-0.5">What each role can do is set in the <a href="client.identity-access.permission-matrix.html" class="text-blue-700 font-semibold hover:underline">permission matrix</a>. Roles are records; rename them to fit your organisation.</p></div><button type="button" data-edit class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1" onclick="S1.toast('New role — the slice 1 roles flow.', 'info')"><i class="fa-solid fa-plus" aria-hidden="true"></i> New role</button></div>
-                <div class="hidden md:block overflow-x-auto"><table class="w-full text-left"><caption class="sr-only">Roles</caption><thead class="bg-slate-50 border-y border-slate-200"><tr><th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Role</th><th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Permissions</th><th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Users</th><th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th scope="col" class="px-4 py-3"><span class="sr-only">Actions</span></th></tr></thead><tbody id="roles-tbody" class="divide-y divide-slate-100"></tbody></table></div>
+                <div class="hidden md:block overflow-x-auto relative"><table class="w-full text-left"><caption class="sr-only">Roles</caption><thead class="bg-slate-50 border-y border-slate-200"><tr><th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Role</th><th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Permissions</th><th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Users</th><th scope="col" class="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th scope="col" class="px-4 py-3"><span class="sr-only">Actions</span></th></tr></thead><tbody id="roles-tbody" class="divide-y divide-slate-100"></tbody></table></div>
                 <ul id="roles-cards" class="md:hidden divide-y divide-slate-100 border-t border-slate-200"></ul>
               </div>
             </div>
@@ -271,13 +271,28 @@ function setErr(id, msg) { var i = document.getElementById(id), e = document.get
       <p id="inv-email-err" class="text-xs text-red-600 mt-1.5" style="display:none" role="alert"></p>
       <p id="inv-email-hint" class="text-xs text-slate-500 mt-1.5">One email address is one account across the whole system.</p>
     </div>
-        <div data-edit>
+        <div data-s1-later>
           <p class="block text-xs font-semibold text-slate-700 mb-1.5">Scope</p>
           <div class="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 min-h-[42px]"><span id="inv-scope" class="text-sm text-slate-700 min-w-0"></span><button type="button" id="inv-scope-btn" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 hover:text-blue-900 hover:underline rounded px-1 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 flex-shrink-0">Choose nodes</button></div>
           <p class="text-xs text-slate-500 mt-1.5">Optional. They see records at the nodes you tick and everything beneath them; tick nothing for the whole organisation. You can change it later with Set scope.</p>
         </div>
         <p class="rounded-lg bg-slate-50 border border-slate-200 px-3 py-2.5 text-xs text-slate-600 flex items-start gap-2"><i class="fa-solid fa-user-shield text-slate-400 mt-0.5" aria-hidden="true"></i><span><span class="font-semibold text-slate-800">You'll set their roles next.</span> Until they have a role they can sign in but see nothing beyond their own account.</span></p></div>
         <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-invite')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Cancel</button><button type="button" id="inv-submit" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send invitation</button></div>
+    </div>
+</div>
+<!-- Correct email (slice 1; PATCH /users/:id takes an email only while the user is Invited): the address is corrected before the
+     person activates, a new activation link goes to the corrected address and the earlier one stops working -->
+<div data-s1-modal id="m-correct" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-correct-t">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200"><h2 id="m-correct-t" class="text-base font-bold text-slate-900">Correct email address</h2><button type="button" onclick="S1.closeModal('m-correct')" aria-label="Close" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 flex items-center justify-center text-slate-500 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+        <form novalidate onsubmit="saveCorrect(event)">
+        <div class="px-6 py-5 flex flex-col gap-4">
+            <p class="text-sm text-slate-600"><span id="cx-name" class="font-semibold text-slate-800"></span> hasn't activated their account yet, so the address can still be corrected. We'll email a new activation link to the corrected address; it works for 72 hours. The link sent to <span id="cx-old" class="break-all"></span> stops working.</p>
+            <div><p class="block text-xs font-semibold text-slate-700 mb-1.5">Current email</p><p id="cx-current" class="text-sm text-slate-600 bg-slate-100 border border-slate-200 rounded-lg px-3 py-2.5 break-all"></p></div>
+            <div><label for="cx-new" class="block text-xs font-semibold text-slate-700 mb-1.5">Corrected email address</label><input id="cx-new" type="email" autocomplete="off" placeholder="name@company.co.uk" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20" aria-describedby="cx-new-err"/><p id="cx-new-err" class="text-xs text-red-600 mt-1.5" style="display:none" role="alert"></p></div>
+        </div>
+        <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-correct')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Cancel</button><button type="submit" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Save and send link</button></div>
+        </form>
     </div>
 </div>
 <div data-s1-modal id="m-name" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style="background:rgba(15,26,62,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)" role="dialog" aria-modal="true" aria-labelledby="m-name-t">
@@ -291,7 +306,7 @@ function setErr(id, msg) { var i = document.getElementById(id), e = document.get
       <input id="ed-name" type="text" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-600/20" placeholder="" aria-describedby="ed-name-err ed-name-hint" />
       <p id="ed-name-err" class="text-xs text-red-600 mt-1.5" style="display:none" role="alert"></p>
       
-    </div><div><p class="block text-xs font-semibold text-slate-700 mb-1.5">Email address</p><p id="ed-email" class="text-sm text-slate-600 bg-slate-100 border border-slate-200 rounded-lg px-3 py-2.5 break-all"></p><p class="text-xs text-slate-500 mt-1.5">The email address is their sign-in. An administrator changes it with <span class="font-semibold">Change email</span>, which the user confirms by link.</p></div></div>
+    </div><div><p class="block text-xs font-semibold text-slate-700 mb-1.5">Email address</p><p id="ed-email" class="text-sm text-slate-600 bg-slate-100 border border-slate-200 rounded-lg px-3 py-2.5 break-all"></p><p class="text-xs text-slate-500 mt-1.5">The email address is their sign-in.<span data-s1-later> An administrator changes it with <span class="font-semibold">Change email</span>, which the user confirms by link.</span></p></div></div>
         <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-end gap-3 sm:rounded-b-2xl"><button type="button" onclick="S1.closeModal('m-name')" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1">Cancel</button><button type="button" id="ed-save" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)">Save name</button></div>
     </div>
 </div>
@@ -349,8 +364,15 @@ function setErr(id, msg) { var i = document.getElementById(id), e = document.get
 </div>
 <script>
 var SLUG = 'acme', ORG_NAME = "Acme Logistics", YOU = "Rachel Green";
-var ROLES = [{"id": "administrator", "name": "Administrator", "def": true, "status": "Active", "perms": 12, "admin": true}, {"id": "hiring", "name": "Hiring manager", "def": true, "status": "Active", "perms": 2, "admin": false}, {"id": "finance", "name": "Finance approver", "def": true, "status": "Active", "perms": 1, "admin": false}, {"id": "seasonal", "name": "Seasonal supervisors", "def": false, "status": "Inactive", "perms": 1, "admin": false}];
-var USERS = [{"name": "Rachel Green", "email": "rachel.green@acmelogistics.co.uk", "roles": ["administrator"], "status": "Active", "scope": [], "last": "2026-10-09T08:02:00Z"}, {"name": "Mark Davies", "email": "mark.davies@acmelogistics.co.uk", "roles": ["hiring"], "status": "Active", "scope": ["bhx"], "last": "2026-10-08T14:18:00Z"}, {"name": "Priya Natarajan", "email": "priya.natarajan@acmelogistics.co.uk", "roles": ["finance"], "status": "Active", "scope": [], "last": "2026-10-07T10:47:00Z"}, {"name": "Olivia Brown", "email": "olivia.brown@acmelogistics.co.uk", "roles": ["hiring"], "status": "Invited", "scope": ["lei", "nth"], "last": null}, {"name": "Ben Taylor", "email": "ben.taylor@acmelogistics.co.uk", "roles": ["hiring", "seasonal"], "status": "Inactive", "scope": ["bhx-n"], "last": "2026-08-02T16:20:00Z"}];
+var ROLES = [{"id": "administrator", "name": "Administrator", "def": true, "status": "Active", "perms": 11, "admin": true}, {"id": "manager", "name": "Manager", "def": true, "status": "Active", "perms": 3, "admin": false}, {"id": "viewer", "name": "Viewer", "def": true, "status": "Active", "perms": 1, "admin": false}, {"id": "seasonal", "name": "Seasonal supervisors", "def": false, "status": "Inactive", "perms": 0, "admin": false}];
+var USERS = [{"name": "Rachel Green", "email": "rachel.green@acmelogistics.co.uk", "roles": ["administrator"], "status": "Active", "scope": [], "last": "2026-10-09T08:02:00Z"}, {"name": "Mark Davies", "email": "mark.davies@acmelogistics.co.uk", "roles": ["manager"], "status": "Active", "scope": ["bhx"], "last": "2026-10-08T14:18:00Z"}, {"name": "Priya Natarajan", "email": "priya.natarajan@acmelogistics.co.uk", "roles": ["viewer"], "status": "Active", "scope": [], "last": "2026-10-07T10:47:00Z"}, {"name": "Olivia Brown", "email": "olivia.brown@acmelogistics.co.uk", "roles": ["manager"], "status": "Invited", "scope": ["lei", "nth"], "last": null}, {"name": "Ben Taylor", "email": "ben.taylor@acmelogistics.co.uk", "roles": ["manager", "seasonal"], "status": "Inactive", "scope": ["bhx-n"], "last": "2026-08-02T16:20:00Z"}];
+/* A row opens the person's detail page (/{portal}/settings/users/:id). In the prototype only the listed people have one,
+   so generated rows (Large data) and someone invited a moment ago stay plain text. */
+var DETAIL = {}; USERS.forEach(function (u) { DETAIL[u.email] = 1; });
+/* Scope, Set scope and Change email are slice 2: absent in Slice 1 only (the static parts carry data-s1-later; the rows ask here). */
+function s2on() { return !(window.S1 && S1.isSlice1Mode()); }
+function nameLink(u) { var key = u.seedEmail || u.email; return DETAIL[key] ? '<a href="client.identity-access.user-detail.html' + '?user=' + encodeURIComponent(key) + '" class="hover:text-blue-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded">' + esc(u.name) + '</a>' : esc(u.name); }
+
 
 /* ---------- Change email (slice 2, A4) ---------- */
 function pendingEmailHtml(u) { return u.pendingEmail ? '<span class="block text-xs text-amber-700 mt-0.5">Pending: <span class="break-all">' + esc(u.pendingEmail) + '</span> · <button type="button" class="font-semibold underline" data-cancel-email="' + esc(u.email) + '">Cancel</button></span>' : ''; }
@@ -554,11 +576,11 @@ function largeUsers(p) {
 function roleChips(u) { if (!u.roles.length) return '<span class="text-xs italic text-slate-500">No roles yet</span>'; return u.roles.map(function (id) { var r = role(id); return '<span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200 whitespace-nowrap' + (r && r.status === 'Inactive' ? ' line-through decoration-slate-400' : '') + '">' + esc(r ? r.name : id) + '</span>'; }).join(' '); }
 function actionsFor(u) {
   if (ro) return [];
-  var a = [];
-  if (u.status === 'Invited') a.push(['resend', 'Resend activation', 'fa-paper-plane']);
+  var a = [], s2 = s2on();
+  if (u.status === 'Invited') { a.push(['resend', 'Resend activation', 'fa-paper-plane']); a.push(['correct', 'Correct email', 'fa-envelope-circle-check']); }
   a.push(['name', 'Edit name', 'fa-pen']);
-  if (u.status === 'Active') a.push(['email', 'Change email', 'fa-at']);
-  if (u.status !== 'Inactive') { a.push(['roles', 'Set roles', 'fa-user-shield']); a.push(['scope', 'Set scope', 'fa-sitemap']); }
+  if (u.status === 'Active' && s2) a.push(['email', 'Change email', 'fa-at']);
+  if (u.status !== 'Inactive') { a.push(['roles', 'Set roles', 'fa-user-shield']); if (s2) a.push(['scope', 'Set scope', 'fa-sitemap']); }
   if (CAN_RESET_TWO_STEP && u.twoFactor && u.name !== YOU) a.push(['reset2fa', 'Reset two-step verification', 'fa-shield-halved']);
   if (u.status === 'Inactive') a.push(['reactivate', 'Reactivate', 'fa-rotate-left']); else a.push(['deactivate', 'Deactivate', 'fa-user-slash']);
   return a;
@@ -567,12 +589,12 @@ function avatar(u) { return '<span class="w-8 h-8 rounded-full bg-navy-50 text-n
 function inSubtree(u, nodeId) { if (!nodeId) return true; var ids = [nodeId], by = {}; scopeNodesFor(SLUG).forEach(function (n) { by[n.id] = n; }); return u.scope.some(function (s) { var n = by[s]; while (n) { if (n.id === nodeId) return true; n = n.parentId ? by[n.parentId] : null; } return false; }); }
 function filtered() {
   var list = state === 'large' ? largeUsers(page) : USERS; if (state === 'large') return list;
-  var q = document.getElementById('f-search').value.trim().toLowerCase(), s = document.getElementById('f-status').value, sc = document.getElementById('f-scope').value;
+  var q = document.getElementById('f-search').value.trim().toLowerCase(), s = document.getElementById('f-status').value, sc = s2on() ? document.getElementById('f-scope').value : '';
   return list.filter(function (u) { return (!q || u.name.toLowerCase().indexOf(q) >= 0 || u.email.toLowerCase().indexOf(q) >= 0) && (!s || u.status === s) && inSubtree(u, sc); });
 }
 function chips() {
   var q = document.getElementById('f-search').value.trim(), s = document.getElementById('f-status').value, sc = document.getElementById('f-scope'), c = [];
-  if (q) c.push(['Search: ' + q, 'f-search']); if (s) c.push(['Status: ' + s, 'f-status']); if (sc.value) c.push(['Scope: ' + sc.options[sc.selectedIndex].text + ' and beneath', 'f-scope']);
+  if (q) c.push(['Search: ' + q, 'f-search']); if (s) c.push(['Status: ' + s, 'f-status']); if (sc.value && s2on()) c.push(['Scope: ' + sc.options[sc.selectedIndex].text + ' and beneath', 'f-scope']);
   var box = document.getElementById('chips'); box.style.display = c.length ? '' : 'none';
   box.innerHTML = c.map(function (x) { return '<span class="inline-flex items-center gap-1.5 pl-2.5 pr-1 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">' + esc(x[0]) + '<button type="button" data-clear="' + x[1] + '" aria-label="Remove filter ' + esc(x[0]) + '" class="w-5 h-5 rounded-full hover:bg-blue-100 flex items-center justify-center"><i class="fa-solid fa-xmark text-[10px]" aria-hidden="true"></i></button></span>'; }).join('') + (c.length ? '<button type="button" onclick="clearFilters()" class="text-xs font-semibold text-slate-500 hover:text-slate-800 ml-1 px-1 min-h-[28px]">Clear all</button>' : '');
   box.querySelectorAll('[data-clear]').forEach(function (b) { b.onclick = function () { document.getElementById(b.dataset.clear).value = ''; render(); }; });
@@ -583,16 +605,16 @@ var VIEW = [];
 function render() {
   chips(); VIEW = filtered();
   document.getElementById('users-tbody').innerHTML = VIEW.map(function (u, i) {
-    return '<tr class="group hover:bg-slate-50/60"><td class="px-4 py-3 max-w-[240px]"><div class="flex items-center gap-3 min-w-0">' + avatar(u) + '<span class="min-w-0"><span class="block text-sm font-semibold text-slate-900 truncate" title="' + esc(u.name) + '">' + esc(u.name) + (u.name === YOU ? ' <span class="text-xs font-normal text-slate-400">(you)</span>' : '') + '</span><span class="xl:hidden block text-xs text-slate-500 truncate">' + esc(u.email) + '</span></span></div></td>' +
+    return '<tr class="group hover:bg-slate-50/60"><td class="px-4 py-3 max-w-[240px]"><div class="flex items-center gap-3 min-w-0">' + avatar(u) + '<span class="min-w-0"><span class="block text-sm font-semibold text-slate-900 truncate" title="' + esc(u.name) + '">' + nameLink(u) + (u.name === YOU ? ' <span class="text-xs font-normal text-slate-400">(you)</span>' : '') + '</span><span class="xl:hidden block text-xs text-slate-500 truncate">' + esc(u.email) + '</span></span></div></td>' +
       '<td class="hidden xl:table-cell px-4 py-3 max-w-[220px]"><span class="block text-sm text-slate-600 truncate" title="' + esc(u.email) + '">' + esc(u.email) + '</span></td>' +
       '<td class="px-4 py-3"><div class="flex flex-wrap gap-1">' + roleChips(u) + '</div></td>' +
-      '<td class="px-4 py-3">' + scopeCell(SLUG, u.scope) + '</td>' +
+      (s2on() ? '<td class="px-4 py-3">' + scopeCell(SLUG, u.scope) + '</td>' : '') +
       '<td class="px-4 py-3">' + badge(u.status) + twoStepLine(u) + '</td>' +
       '<td class="px-4 py-3 text-sm text-slate-600 whitespace-nowrap tnum">' + (u.last ? fmtDateTime(u.last) : '<span class="text-slate-400" aria-label="Never signed in">—</span>') + '</td>' +
       '<td class="px-4 py-3 text-right"><div class="flex justify-end gap-0.5 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">' + actionsFor(u).map(function (a) { return '<button type="button" data-act="' + a[0] + '" data-i="' + i + '" title="' + a[1] + '" aria-label="' + a[1] + ' — ' + esc(u.name) + '" class="w-9 h-9 rounded-lg flex items-center justify-center ' + (a[0] === 'deactivate' ? 'text-red-600 hover:bg-red-50' : 'text-slate-500 hover:text-blue-700 hover:bg-blue-50') + ' focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid ' + a[2] + ' text-sm" aria-hidden="true"></i></button>'; }).join('') + '</div></td></tr>';
   }).join('');
   document.getElementById('users-cards').innerHTML = VIEW.map(function (u, i) {
-    return '<li class="' + 'bg-white rounded-2xl border border-slate-200 shadow-sm p-4' + '"><div class="flex items-start gap-3">' + avatar(u) + '<div class="flex-1 min-w-0"><div class="flex items-start justify-between gap-2"><p class="text-sm font-semibold text-slate-900 truncate">' + esc(u.name) + '</p>' + badge(u.status) + '</div><p class="text-xs text-slate-500 truncate mt-0.5">' + esc(u.email) + '</p>' + pendingEmailHtml(u) + '<div class="flex flex-wrap gap-1 mt-2">' + roleChips(u) + '</div><div class="mt-2">' + scopeCell(SLUG, u.scope, true) + '</div>' + twoStepLine(u, true) + '<div class="flex items-center justify-between mt-3"><p class="text-xs text-slate-500">Last sign-in: <span class="text-slate-700">' + (u.last ? fmtDateTime(u.last) : 'never') + '</span></p>' + (actionsFor(u).length ? '<button type="button" data-sheet="' + i + '" aria-label="Actions for ' + esc(u.name) + '" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 flex items-center justify-center"><i class="fa-solid fa-ellipsis" aria-hidden="true"></i></button>' : '') + '</div></div></div></li>';
+    return '<li class="' + 'bg-white rounded-2xl border border-slate-200 shadow-sm p-4' + '"><div class="flex items-start gap-3">' + avatar(u) + '<div class="flex-1 min-w-0"><div class="flex items-start justify-between gap-2"><p class="text-sm font-semibold text-slate-900 truncate">' + nameLink(u) + '</p>' + badge(u.status) + '</div><p class="text-xs text-slate-500 truncate mt-0.5">' + esc(u.email) + '</p>' + (s2on() ? pendingEmailHtml(u) : '') + '<div class="flex flex-wrap gap-1 mt-2">' + roleChips(u) + '</div>' + (s2on() ? '<div class="mt-2">' + scopeCell(SLUG, u.scope, true) + '</div>' : '') + twoStepLine(u, true) + '<div class="flex items-center justify-between mt-3"><p class="text-xs text-slate-500">Last sign-in: <span class="text-slate-700">' + (u.last ? fmtDateTime(u.last) : 'never') + '</span></p>' + (actionsFor(u).length ? '<button type="button" data-sheet="' + i + '" aria-label="Actions for ' + esc(u.name) + '" class="w-9 h-9 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 flex items-center justify-center"><i class="fa-solid fa-ellipsis" aria-hidden="true"></i></button>' : '') + '</div></div></div></li>';
   }).join('');
   var empty = !VIEW.length;
   document.getElementById('users-empty').style.display = empty ? '' : 'none'; document.getElementById('users-table-card').style.display = empty ? 'none' : ''; document.getElementById('users-cards').parentNode.style.display = empty ? 'none' : '';
@@ -608,16 +630,33 @@ function renderRoles() {
 }
 function sheet(u) { document.getElementById('m-actions-t').textContent = u.name; var ul = document.getElementById('ma-list'); ul.innerHTML = actionsFor(u).map(function (a) { return '<li><button type="button" data-a="' + a[0] + '" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium text-left ' + (a[0] === 'deactivate' ? 'text-red-600 hover:bg-red-50' : 'text-slate-700 hover:bg-slate-50') + '"><i class="fa-solid ' + a[2] + ' w-4 text-center" aria-hidden="true"></i>' + a[1] + '</button></li>'; }).join(''); ul.querySelectorAll('[data-a]').forEach(function (b) { b.onclick = function () { S1.closeModal('m-actions'); act(b.dataset.a, u); }; }); S1.openModal('m-actions'); }
 var current = null;
+/* ---------- Correct email (slice 1): only while the user is Invited; a new activation link goes to the corrected address ---------- */
+function cxErr(msg) { var i = document.getElementById('cx-new'), e = document.getElementById('cx-new-err'); e.textContent = msg; e.style.display = msg ? '' : 'none'; i.classList.toggle('border-red-500', !!msg); i.classList.toggle('border-slate-200', !msg); i.setAttribute('aria-invalid', msg ? 'true' : 'false'); }
+function openCorrect(u) { current = u; document.getElementById('cx-name').textContent = u.name; document.getElementById('cx-current').textContent = u.email; document.getElementById('cx-old').textContent = u.email; document.getElementById('cx-new').value = ''; cxErr(''); S1.openModal('m-correct'); document.getElementById('cx-new').focus(); }
+function saveCorrect(e) {
+  if (e) e.preventDefault();
+  var v = document.getElementById('cx-new').value.trim().toLowerCase(), old = current.email, msg = '';
+  var taken = window.ALL_EMAILS ? ALL_EMAILS.indexOf(v) >= 0 : USERS.some(function (x) { return x.email.toLowerCase() === v; });
+  if (!v) msg = 'Enter the corrected email address.';
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) msg = 'Enter an email address like name@company.co.uk.';
+  else if (v === old.toLowerCase()) msg = 'That is the address they already have.';
+  else if (taken) msg = 'This email address already has an account. One email address is one account.';   // 409 USER_EMAIL_TAKEN
+  if (msg) { cxErr(msg); document.getElementById('cx-new').focus(); return; }
+  current.seedEmail = current.seedEmail || old;   // the prototype's detail page still knows this person by the first address
+  current.email = v; S1.closeModal('m-correct'); render();
+  S1.toast('Email corrected. A new 72-hour activation link was sent to ' + esc(v) + '. The link sent to ' + esc(old) + ' no longer works.', 'success', { ms: 7000 });
+}
 function act(a, u) {
   current = u;
   if (a === 'name') { document.getElementById('ed-name').value = u.name; document.getElementById('ed-email').textContent = u.email; setErr('ed-name', ''); S1.openModal('m-name'); }
   if (a === 'roles') openRoles(u);
   if (a === 'email') openEmail(u);
+  if (a === 'correct') openCorrect(u);
   if (a === 'scope') openScopePicker({ slug: SLUG, orgName: ORG_NAME, userName: u.name, value: u.scope, state: state === 'empty' ? 'empty' : (state === 'error' ? 'error' : ''), onSave: function (ids) { u.scope = ids; render(); S1.toast('Scope updated for ' + esc(u.name) + '. It applies from their next click.', 'success'); } });
   if (a === 'resend') S1.confirm({ title: 'Resend the activation link to ' + u.name + '?', bodyHtml: "We'll email <strong>" + esc(u.email) + '</strong> a new link that works for 72 hours. The link we sent before will stop working.', cta: 'Resend link', icon: 'fa-paper-plane', onConfirm: function () { S1.toast('A new 72-hour activation link was emailed to ' + esc(u.email) + '.', 'success'); } });
   if (a === 'deactivate') {
     if (wouldLeaveNoAdmin(u, null, 'Inactive')) { S1.confirm({ tone: 'warning', icon: 'fa-user-shield', title: "You can't deactivate " + u.name, body: ORG_NAME + ' would be left with no one who can manage users and roles. First give another active user a role that can, then try again.', cancel: 'Close' }); return; }
-    S1.confirm({ tone: 'danger', title: 'Deactivate ' + u.name + '?', body: "They'll lose access at their next click on every device and can't sign in until someone reactivates them. Their roles, scope and history are kept.", reason: true, reasonLabel: 'Reason (required — recorded in the audit log)', reasonPlaceholder: 'e.g. Left the company on 09/10/2026', cta: 'Deactivate user', busy: 'Deactivating…', onConfirm: function () { u.status = 'Inactive'; render(); S1.toast(esc(u.name) + ' is now inactive.', 'success'); } });
+    S1.confirm({ tone: 'danger', title: 'Deactivate ' + u.name + '?', body: "They'll lose access at their next click on every device and can't sign in until someone reactivates them. Their roles" + (s2on() ? ', scope' : '') + " and history are kept.", reason: true, reasonLabel: 'Reason (required — recorded in the audit log)', reasonPlaceholder: 'e.g. Left the company on 09/10/2026', cta: 'Deactivate user', busy: 'Deactivating…', onConfirm: function () { u.status = 'Inactive'; render(); S1.toast(esc(u.name) + ' is now inactive.', 'success'); } });
   }
   if (a === 'reset2fa') S1.confirm({ tone: 'warning', icon: 'fa-shield-halved', title: 'Reset two-step verification for ' + u.name + '?',
     body: 'All of their sessions end now, on every device, and their authenticator app entry and backup codes stop working. ' + (TWO_STEP_REQUIRED
@@ -630,7 +669,7 @@ function act(a, u) {
       if (already) S1.toast('Two-step verification was already off for ' + esc(u.name) + '. Someone reset it a moment ago, so nothing changed. The list is up to date.', 'info', { ms: 7000 });
       else S1.toast('Two-step verification is reset for ' + esc(u.name) + '. Their sessions have ended.', 'success');
     } });
-  if (a === 'reactivate') S1.confirm({ title: 'Reactivate ' + u.name + '?', body: 'They can sign in again with their existing password and get back the roles and scope they had.', cta: 'Reactivate user', icon: 'fa-rotate-left', onConfirm: function () { u.status = 'Active'; render(); S1.toast(esc(u.name) + ' is active again.', 'success'); } });
+  if (a === 'reactivate') S1.confirm({ title: 'Reactivate ' + u.name + '?', body: 'They can sign in again with their existing password and get back the roles' + (s2on() ? ' and scope' : '') + ' they had.', cta: 'Reactivate user', icon: 'fa-rotate-left', onConfirm: function () { u.status = 'Active'; render(); S1.toast(esc(u.name) + ' is active again.', 'success'); } });
 }
 document.getElementById('ed-save').onclick = function () { var v = document.getElementById('ed-name').value.trim(); if (!v) { setErr('ed-name', 'Enter their name.'); return; } current.name = v; S1.closeModal('m-name'); render(); S1.toast('Name updated to ' + esc(v) + '.', 'success'); };
 function openRoles(u) { current = u; document.getElementById('sr-name').textContent = u.name; document.getElementById('sr-error').style.display = 'none'; document.getElementById('sr-list').innerHTML = ROLES.filter(function (r) { return r.status === 'Active'; }).map(function (r) { return '<li><label class="flex items-center gap-3 rounded-lg border border-slate-200 px-3 py-2.5 hover:bg-slate-50 cursor-pointer"><input type="checkbox" value="' + r.id + '" ' + (u.roles.indexOf(r.id) >= 0 ? 'checked' : '') + ' class="w-5 h-5 accent-blue-700 flex-shrink-0"/><span class="flex-1 min-w-0"><span class="text-sm font-semibold text-slate-800">' + esc(r.name) + '</span> ' + (r.def ? marker('Default') : '') + '<span class="block text-xs text-slate-500">' + r.perms + ' permission' + (r.perms === 1 ? '' : 's') + (r.admin ? ' · can manage users and roles' : '') + '</span></span></label></li>'; }).join(''); S1.openModal('m-roles'); }
@@ -658,7 +697,7 @@ document.querySelectorAll('nav[aria-label="Settings"] a').forEach(function (a) {
    Abstract when they cannot. Nobody resets their own, so the action is absent on the signed-in person's row. */
 var CAN_RESET_TWO_STEP = true;   // the signed-in administrator holds user:reset_two_factor; without it the action is absent
 var TWO_STEP_REQUIRED = true;   // UserSummary.twoFactorRequired: whether this organisation requires two-step verification
-var TWO_STEP_ON = { 's.mitchell@abstractrecruitment.co.uk': 1, 'j.okafor@abstractrecruitment.co.uk': 1, 'd.chen@abstractrecruitment.co.uk': 1, 'p.shah@abstractrecruitment.co.uk': 1, 'rachel.green@acmelogistics.co.uk': 1, 'priya.natarajan@acmelogistics.co.uk': 1, 'ben.taylor@acmelogistics.co.uk': 1, 'daniel.wright@techforce-recruitment.co.uk': 1, 'aisha.khan@techforce-recruitment.co.uk': 1 };
+var TWO_STEP_ON = { 'sarah.mitchell@abstract.com': 1, 'j.okafor@abstractrecruitment.co.uk': 1, 'd.chen@abstractrecruitment.co.uk': 1, 'p.shah@abstractrecruitment.co.uk': 1, 'rachel.green@acmelogistics.co.uk': 1, 'priya.natarajan@acmelogistics.co.uk': 1, 'ben.taylor@acmelogistics.co.uk': 1, 'daniel.wright@techforce-recruitment.co.uk': 1, 'aisha.khan@techforce-recruitment.co.uk': 1 };
 USERS.forEach(function (u) { u.twoFactor = u.status !== 'Invited' && !!TWO_STEP_ON[u.email]; });
 function twoStepLine(u, card) {
   if (u.status === 'Invited') return '';
@@ -670,12 +709,14 @@ USERS.forEach(function (u, i) { if (u.name === 'Mark Davies' || u.name === 'Soph
 document.addEventListener('s1:state', function (e) {
   state = e.detail.state; page = 1; ro = state === 'readonly';
   document.querySelectorAll('[data-edit]').forEach(function (b) { b.style.display = ro ? 'none' : ''; });
-  ['m-invite', 'm-name', 'm-roles', 'm-actions', 'm-scope'].forEach(function (id) { document.getElementById(id).classList.add('hidden'); });
+  ['m-invite', 'm-name', 'm-roles', 'm-actions', 'm-scope', 'm-correct'].forEach(function (id) { document.getElementById(id).classList.add('hidden'); });
   document.getElementById('f-search').value = ''; document.getElementById('f-status').value = '';
   render(); showTab(location.hash === '#roles' ? 'roles' : 'users');
   if (state === 'validation') { openInvite(); document.getElementById('inv-name').value = 'Jim Okafor'; document.getElementById('inv-email').value = USERS[1].email; document.getElementById('inv-submit').click(); }
-  if (state === 'empty') { act('scope', USERS[0]); }
+  // Empty: slice 2 shows the scope picker with no nodes; in Slice 1 only it is a search that matches nobody
+  if (state === 'empty') { if (s2on()) act('scope', USERS[0]); else { document.getElementById('f-search').value = 'Kowalski'; render(); } }
 });
+document.addEventListener('s1:mode', function () { if (window.S1 && document.body.getAttribute('data-s1-state')) render(); });
 </script>
 <script src="slice1-kit.js"></script>
 </body>

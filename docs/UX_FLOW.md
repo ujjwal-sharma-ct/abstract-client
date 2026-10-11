@@ -13,7 +13,7 @@ tooling**. Two things matter: the **flow stays coherent**, and **continuity is m
 | `PROGRESS.md` | Current state: what changed, what's next. Update it when you touch screens. |
 | `DECISIONS.md` | Append-only *why* behind design/flow choices. |
 | `scripts/check-flow.mjs` | Regenerates `FLOWS.md`; reports dead links + orphan screens. |
-| `../DESIGN-SPEC-v4.md` | Shared visual reference (status vocabulary, forbidden terms, badge colours). |
+| `../../project-docs/docs/design/DESIGN-SPEC-v4.md` | Shared visual reference (status vocabulary, forbidden terms, badge colours). |
 | `.claude/` | The AI kit: skills (how a screen looks), commands (`/new-screen`, `/design-review`), the `design-reviewer` agent. |
 
 ## The one command you'll run
@@ -32,7 +32,7 @@ Run it whenever you add, remove, or re-link a screen.
    `client.<module>.<page>.html` — see `../NAMING.md` for the module list.
 2. **Wire it into the flow** — link *to* it from where the user arrives, and *from* it to the next steps + a way back. This is the point of the repo.
 3. `node scripts/check-flow.mjs` → confirm no dead links / orphans; `FLOWS.md` updates.
-4. Keep it visually consistent — reuse the shared `<head>` + sidebar/header shell and canonical status badges (the skills show how; `../DESIGN-SPEC-v4.md` is the reference).
+4. Keep it visually consistent — reuse the shared `<head>` + sidebar/header shell and canonical status badges (the skills show how; `../../project-docs/docs/design/DESIGN-SPEC-v4.md` is the reference).
 5. **Continuity:** add a one-line note to `PROGRESS.md` (what + why); log a `DECISIONS.md` entry if you made a real flow/design call.
 
 ## Reviewing
