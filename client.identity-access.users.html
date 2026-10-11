@@ -30,7 +30,7 @@
         }
     </script>
 </head>
-<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s2-page data-s1-states="default loading empty error validation readonly denied large">
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s2-page data-s1-states="default loading empty error validation readonly denied large resetconflict">
 <div id="app-root" class="flex w-full" style="height: 100vh;">
     <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
         <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
@@ -349,7 +349,7 @@ function setErr(id, msg) { var i = document.getElementById(id), e = document.get
 </div>
 <script>
 var SLUG = 'acme', ORG_NAME = "Acme Logistics", YOU = "Rachel Green";
-var ROLES = [{"id": "administrator", "name": "Administrator", "def": true, "status": "Active", "perms": 11, "admin": true}, {"id": "hiring", "name": "Hiring manager", "def": true, "status": "Active", "perms": 2, "admin": false}, {"id": "finance", "name": "Finance approver", "def": true, "status": "Active", "perms": 1, "admin": false}, {"id": "seasonal", "name": "Seasonal supervisors", "def": false, "status": "Inactive", "perms": 1, "admin": false}];
+var ROLES = [{"id": "administrator", "name": "Administrator", "def": true, "status": "Active", "perms": 12, "admin": true}, {"id": "hiring", "name": "Hiring manager", "def": true, "status": "Active", "perms": 2, "admin": false}, {"id": "finance", "name": "Finance approver", "def": true, "status": "Active", "perms": 1, "admin": false}, {"id": "seasonal", "name": "Seasonal supervisors", "def": false, "status": "Inactive", "perms": 1, "admin": false}];
 var USERS = [{"name": "Rachel Green", "email": "rachel.green@acmelogistics.co.uk", "roles": ["administrator"], "status": "Active", "scope": [], "last": "2026-10-09T08:02:00Z"}, {"name": "Mark Davies", "email": "mark.davies@acmelogistics.co.uk", "roles": ["hiring"], "status": "Active", "scope": ["bhx"], "last": "2026-10-08T14:18:00Z"}, {"name": "Priya Natarajan", "email": "priya.natarajan@acmelogistics.co.uk", "roles": ["finance"], "status": "Active", "scope": [], "last": "2026-10-07T10:47:00Z"}, {"name": "Olivia Brown", "email": "olivia.brown@acmelogistics.co.uk", "roles": ["hiring"], "status": "Invited", "scope": ["lei", "nth"], "last": null}, {"name": "Ben Taylor", "email": "ben.taylor@acmelogistics.co.uk", "roles": ["hiring", "seasonal"], "status": "Inactive", "scope": ["bhx-n"], "last": "2026-08-02T16:20:00Z"}];
 
 /* ---------- Change email (slice 2, A4) ---------- */
@@ -559,6 +559,7 @@ function actionsFor(u) {
   a.push(['name', 'Edit name', 'fa-pen']);
   if (u.status === 'Active') a.push(['email', 'Change email', 'fa-at']);
   if (u.status !== 'Inactive') { a.push(['roles', 'Set roles', 'fa-user-shield']); a.push(['scope', 'Set scope', 'fa-sitemap']); }
+  if (CAN_RESET_TWO_STEP && u.twoFactor && u.name !== YOU) a.push(['reset2fa', 'Reset two-step verification', 'fa-shield-halved']);
   if (u.status === 'Inactive') a.push(['reactivate', 'Reactivate', 'fa-rotate-left']); else a.push(['deactivate', 'Deactivate', 'fa-user-slash']);
   return a;
 }
@@ -618,6 +619,17 @@ function act(a, u) {
     if (wouldLeaveNoAdmin(u, null, 'Inactive')) { S1.confirm({ tone: 'warning', icon: 'fa-user-shield', title: "You can't deactivate " + u.name, body: ORG_NAME + ' would be left with no one who can manage users and roles. First give another active user a role that can, then try again.', cancel: 'Close' }); return; }
     S1.confirm({ tone: 'danger', title: 'Deactivate ' + u.name + '?', body: "They'll lose access at their next click on every device and can't sign in until someone reactivates them. Their roles, scope and history are kept.", reason: true, reasonLabel: 'Reason (required — recorded in the audit log)', reasonPlaceholder: 'e.g. Left the company on 09/10/2026', cta: 'Deactivate user', busy: 'Deactivating…', onConfirm: function () { u.status = 'Inactive'; render(); S1.toast(esc(u.name) + ' is now inactive.', 'success'); } });
   }
+  if (a === 'reset2fa') S1.confirm({ tone: 'warning', icon: 'fa-shield-halved', title: 'Reset two-step verification for ' + u.name + '?',
+    body: 'All of their sessions end now, on every device, and their authenticator app entry and backup codes stop working. ' + (TWO_STEP_REQUIRED
+      ? ORG_NAME + ' requires two-step verification, so they set it up again the next time they sign in.'
+      : ORG_NAME + ' does not require two-step verification, so it stays off until they turn it on again.'),
+    cta: 'Reset two-step verification', busy: 'Resetting…',
+    onConfirm: function () {
+      var already = state === 'resetconflict';   // 409 USER_TWO_FACTOR_NOT_ENABLED: someone else reset it first
+      u.twoFactor = false; render();
+      if (already) S1.toast('Two-step verification was already off for ' + esc(u.name) + '. Someone reset it a moment ago, so nothing changed. The list is up to date.', 'info', { ms: 7000 });
+      else S1.toast('Two-step verification is reset for ' + esc(u.name) + '. Their sessions have ended.', 'success');
+    } });
   if (a === 'reactivate') S1.confirm({ title: 'Reactivate ' + u.name + '?', body: 'They can sign in again with their existing password and get back the roles and scope they had.', cta: 'Reactivate user', icon: 'fa-rotate-left', onConfirm: function () { u.status = 'Active'; render(); S1.toast(esc(u.name) + ' is active again.', 'success'); } });
 }
 document.getElementById('ed-save').onclick = function () { var v = document.getElementById('ed-name').value.trim(); if (!v) { setErr('ed-name', 'Enter their name.'); return; } current.name = v; S1.closeModal('m-name'); render(); S1.toast('Name updated to ' + esc(v) + '.', 'success'); };
@@ -641,14 +653,17 @@ document.getElementById('btn-invite').onclick = openInvite;
 (function fillScopeFilter() { var sel = document.getElementById('f-scope'); scopeNodesFor(SLUG).forEach(function (n) { var o = document.createElement('option'); o.value = n.id; o.textContent = scopePath(SLUG, n.id).join(' › '); sel.appendChild(o); }); if (Q.get('scope')) sel.value = Q.get('scope'); })();
 function showTab(t) { document.getElementById('panel-users').style.display = t === 'roles' ? 'none' : ''; document.getElementById('panel-roles').style.display = t === 'roles' ? '' : 'none'; document.querySelectorAll('nav[aria-label="Settings"] a').forEach(function (a) { var on = (a.getAttribute('href').indexOf('#roles') >= 0) === (t === 'roles'); a.className = on ? 'inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-blue-700 text-sm font-semibold text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1' : 'inline-flex items-center gap-2 px-1 pb-3 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1'; if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); }); }
 document.querySelectorAll('nav[aria-label="Settings"] a').forEach(function (a) { if (a.getAttribute('href').indexOf('#') >= 0 || a.getAttribute('href') === 'client.identity-access.users.html') a.addEventListener('click', function (e) { e.preventDefault(); showTab(a.getAttribute('href').indexOf('#roles') >= 0 ? 'roles' : 'users'); }); });
-/* ---------- Two-step verification (slice 1 brief A12; TSD 1.9 TV-9): the status only ----------
-   User.twoFactorEnrolled on every row. The reset is Abstract's alone (user:reset_two_factor is not in this catalogue), so there is no action here. */
+/* ---------- Two-step verification (slice 1 brief A12 as amended; TSD R-39, 1.9 TV-9) ----------
+   User.twoFactorEnrolled on every row. This organisation's holders of user:reset_two_factor reset its users first; they ask
+   Abstract when they cannot. Nobody resets their own, so the action is absent on the signed-in person's row. */
+var CAN_RESET_TWO_STEP = true;   // the signed-in administrator holds user:reset_two_factor; without it the action is absent
+var TWO_STEP_REQUIRED = true;   // UserSummary.twoFactorRequired: whether this organisation requires two-step verification
 var TWO_STEP_ON = { 's.mitchell@abstractrecruitment.co.uk': 1, 'j.okafor@abstractrecruitment.co.uk': 1, 'd.chen@abstractrecruitment.co.uk': 1, 'p.shah@abstractrecruitment.co.uk': 1, 'rachel.green@acmelogistics.co.uk': 1, 'priya.natarajan@acmelogistics.co.uk': 1, 'ben.taylor@acmelogistics.co.uk': 1, 'daniel.wright@techforce-recruitment.co.uk': 1, 'aisha.khan@techforce-recruitment.co.uk': 1 };
 USERS.forEach(function (u) { u.twoFactor = u.status !== 'Invited' && !!TWO_STEP_ON[u.email]; });
 function twoStepLine(u, card) {
   if (u.status === 'Invited') return '';
   return u.twoFactor
-    ? '<span class="' + (card ? 'mt-2' : 'mt-1.5') + ' flex items-center gap-1 text-[11px] font-semibold text-emerald-700 whitespace-nowrap" title="Only Abstract can reset two-step verification"><i class="fa-solid fa-shield-halved text-[10px]" aria-hidden="true"></i>Two-step on</span>'
+    ? '<span class="' + (card ? 'mt-2' : 'mt-1.5') + ' flex items-center gap-1 text-[11px] font-semibold text-emerald-700 whitespace-nowrap"><i class="fa-solid fa-shield-halved text-[10px]" aria-hidden="true"></i>Two-step on</span>'
     : '<span class="' + (card ? 'mt-2' : 'mt-1.5') + ' block text-[11px] text-slate-500 whitespace-nowrap">Two-step off</span>';
 }
 USERS.forEach(function (u, i) { if (u.name === 'Mark Davies' || u.name === 'Sophie Turner' || u.name === 'James Okafor') u.pendingEmail = u.email.replace(/@.*/, '@' + (u.email.indexOf('acme') >= 0 ? 'acme-logistics.co.uk' : u.email.indexOf('techforce') >= 0 ? 'techforce.co.uk' : 'abstractvms.co.uk')); });
