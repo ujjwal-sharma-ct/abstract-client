@@ -79,9 +79,9 @@
 
         <div id="sidebar-footer" class="px-4 py-4 border-t border-white/10">
             <div class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-white/5 transition-all">
-                <span class="w-8 h-8 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold flex items-center justify-center flex-shrink-0" aria-hidden="true">EC</span>
+                <span class="w-8 h-8 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold flex items-center justify-center flex-shrink-0" aria-hidden="true">RG</span>
                 <div class="flex-1 min-w-0">
-                    <a href="client.identity-access.profile.html" class="block text-white text-xs font-semibold truncate hover:underline" title="Your profile" data-user-name>Emma Clarke</a>
+                    <a href="client.identity-access.profile.html" class="block text-white text-xs font-semibold truncate hover:underline" title="Your profile" data-user-name>Rachel Green</a>
                     <p class="text-white/40 text-xs truncate">Acme Logistics</p>
                 </div>
                 <a href="client.identity-access.sign-in.html?reason=signed-out" class="w-9 h-9 flex items-center justify-center rounded-lg text-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400" aria-label="Sign out" title="Sign out"><i class="fa-solid fa-arrow-right-from-bracket text-xs" aria-hidden="true"></i></a>
@@ -103,8 +103,8 @@
 
                 <button data-s1-bell aria-label="Notifications" class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"><i class="fa-regular fa-bell text-slate-600 text-sm" aria-hidden="true"></i></button>
                 <a href="client.identity-access.profile.html" class="flex items-center gap-2 pl-3 border-l border-slate-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600" aria-label="Your profile" title="Your profile">
-                    <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 border-2 border-blue-100 text-xs font-bold flex items-center justify-center" aria-hidden="true">EC</span>
-                    <span class="hidden xl:block"><span class="block text-xs font-semibold text-slate-700" data-user-name>Emma Clarke</span><span class="block text-xs text-slate-400">Acme Logistics</span></span>
+                    <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 border-2 border-blue-100 text-xs font-bold flex items-center justify-center" aria-hidden="true">RG</span>
+                    <span class="hidden xl:block"><span class="block text-xs font-semibold text-slate-700" data-user-name>Rachel Green</span><span class="block text-xs text-slate-400">Acme Logistics</span></span>
                 </a>
             </div>
         </header>
@@ -209,7 +209,7 @@
                                         <code id="tf-key" class="font-mono text-sm text-slate-900 break-words">JBSW Y3DP EHPK 3PXP JBSW Y3DP EHPK 3PXP</code>
                                         <button type="button" id="tf-copy-key" class="inline-flex items-center justify-center gap-1.5 px-3 py-2 min-h-[36px] rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-regular fa-copy" aria-hidden="true"></i> Copy key</button>
                                     </div>
-                                    <p class="text-xs text-slate-500 mt-2 break-all">Account name: emma.clarke@acme-logistics.co.uk</p>
+                                    <p class="text-xs text-slate-500 mt-2 break-all">Account name: rachel.green@acme-logistics.co.uk</p>
                                 </div>
                                 <div>
                                     <label for="tf-code" class="block text-xs font-semibold text-slate-700 mb-1.5">Enter the 6-digit code the app shows</label>
@@ -371,7 +371,7 @@
    Prototype rules: any password and any 6 digits are accepted; 000000 shows the wrong-code state.
    Whether this viewer has turned it on is remembered in this browser, so My account, this page and Sign in agree. */
 (function () {
-  var KEY = 's1-2fa-client', EMAIL = 'emma.clarke@acme-logistics.co.uk';
+  var KEY = 's1-2fa-client', EMAIL = 'rachel.green@acme-logistics.co.uk';
   var ENROL = { password: 1, wrongpassword: 1, scan: 2, wrongcode: 2, ratelimited: 2, codes: 3 };
   var STEP_NAMES = ['Password', 'Authenticator app', 'Backup codes'];
   var CODES = [

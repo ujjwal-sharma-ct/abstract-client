@@ -19,7 +19,7 @@
   'use strict';
   var PORTAL = 'client';
   var TODAY = '2026-10-10';
-  var KEY = 's3-demo-v1';
+  var KEY = 's3-demo-v2';
 
   // ---------- reference data, read from slice 2's records ----------
   var CLIENTS = {
@@ -76,19 +76,19 @@
   // ---------- the seed: facts both portals may hold ----------
   function pos(n, status, bookingId, extra) { return Object.assign({ n: n, status: status, bookingId: bookingId || null, filledAt: null, cancelledAt: null, cancelledReason: null }, extra || {}); }
   function vac(o) {
-    return Object.assign({ description: null, requirements: null, workingTimes: null, closeDate: null, publishedAt: null, publishedBy: null, closedAt: null, closedBy: null, closeReason: null, reopenedAt: null, reopenedByBooking: null, cancelledAt: null, cancelledBy: null, cancellationReason: null, createdBy: 'Sarah Mitchell', createdAt: '2026-09-20T09:00:00', updatedAt: '2026-10-01T09:00:00', documents: [] }, o);
+    return Object.assign({ description: null, requirements: null, workingTimes: null, closeDate: null, publishedAt: null, publishedBy: null, closedAt: null, closedBy: null, closeReason: null, reopenedAt: null, reopenedByBookingReference: null, cancelledAt: null, cancelledBy: null, cancellationReason: null, createdBy: 'Abstract', createdAt: '2026-09-20T09:00:00', updatedAt: '2026-10-01T09:00:00', documents: [] }, o);
   }
   var DESC = 'General warehouse duties at the site: goods in, picking to order, and loading for despatch.';
   var REQ = 'Safety boots and hi-vis provided on site. Able to lift up to 20 kg.';
   function seed() {
     var v = [
-      vac({ id: 'v1041', reference: 'VAC-1041', clientId: 'acme', orgNodeId: 'bhx', jobRoleId: 'jr-wo', jobTitle: 'Warehouse operatives, peak cover', startDate: '2026-10-19', endDate: '2026-12-18', shiftId: 'sh-am', workingTimes: 'Mon to Fri, 06:00 to 14:00', closeDate: '2026-10-16', description: DESC, requirements: REQ, publishedAt: '2026-10-02T10:12:00', publishedBy: 'Sarah Mitchell', positions: [pos(1, 'Open'), pos(2, 'Open'), pos(3, 'Open')], documents: [{ name: 'Site induction pack.pdf', size: '1.2 MB', by: 'Sarah Mitchell', at: '2026-10-02T10:10:00' }] }),
+      vac({ id: 'v1041', reference: 'VAC-1041', clientId: 'acme', orgNodeId: 'bhx', jobRoleId: 'jr-wo', jobTitle: 'Warehouse operatives, peak cover', startDate: '2026-10-19', endDate: '2026-12-18', shiftId: 'sh-am', workingTimes: 'Mon to Fri, 06:00 to 14:00', closeDate: '2026-10-16', description: DESC, requirements: REQ, publishedAt: '2026-10-02T10:12:00', publishedBy: 'Abstract', positions: [pos(1, 'Open'), pos(2, 'Open'), pos(3, 'Open')], documents: [{ name: 'Site induction pack.pdf', size: '1.2 MB', by: 'Abstract', at: '2026-10-02T10:10:00' }] }),
       vac({ id: 'v1042', reference: 'VAC-1042', clientId: 'acme', orgNodeId: 'lds', jobRoleId: 'jr-fd', jobTitle: 'Reach truck drivers', startDate: '2026-09-28', endDate: '2026-11-27', shiftId: 'sh-pm', workingTimes: 'Mon to Fri, 14:00 to 22:00', description: 'Racking and replenishment in the high-bay aisles.', requirements: 'Current reach truck licence.', publishedAt: '2026-09-15T11:00:00', publishedBy: 'Rachel Green', createdBy: 'Rachel Green', positions: [pos(1, 'Filled', 'b2201', { filledAt: '2026-09-22T14:02:00' }), pos(2, 'Open'), pos(3, 'Filled', 'b2202', { filledAt: '2026-09-23T09:30:00' }), pos(4, 'Open')] }),
-      vac({ id: 'v1043', reference: 'VAC-1043', clientId: 'acme', orgNodeId: 'bhx-n', jobRoleId: 'jr-wo', jobTitle: 'Night shift operatives', startDate: '2026-10-12', endDate: '2026-11-13', shiftId: 'sh-nt', workingTimes: 'Sun to Thu, 22:00 to 06:00', publishedAt: '2026-09-29T15:20:00', publishedBy: 'Sarah Mitchell', positions: [pos(1, 'Filled', 'b2203', { filledAt: '2026-10-05T10:00:00' }), pos(2, 'Filled', 'b2204', { filledAt: '2026-10-06T16:30:00' })] }),
+      vac({ id: 'v1043', reference: 'VAC-1043', clientId: 'acme', orgNodeId: 'bhx-n', jobRoleId: 'jr-wo', jobTitle: 'Night shift operatives', startDate: '2026-10-12', endDate: '2026-11-13', shiftId: 'sh-nt', workingTimes: 'Sun to Thu, 22:00 to 06:00', publishedAt: '2026-09-29T15:20:00', publishedBy: 'Abstract', positions: [pos(1, 'Filled', 'b2203', { filledAt: '2026-10-05T10:00:00' }), pos(2, 'Filled', 'b2204', { filledAt: '2026-10-06T16:30:00' })] }),
       vac({ id: 'v1044', reference: 'VAC-1044', clientId: 'acme', orgNodeId: 'lei', jobRoleId: 'jr-wo', jobTitle: 'Christmas temporary operatives', startDate: '2026-11-23', endDate: '2027-01-08', shiftId: 'sh-am', workingTimes: null, createdBy: 'Rachel Green', positions: [pos(1, 'Open'), pos(2, 'Open'), pos(3, 'Open'), pos(4, 'Open'), pos(5, 'Open')] }),
-      vac({ id: 'v1045', reference: 'VAC-1045', clientId: 'acme', orgNodeId: 'lgw', jobRoleId: 'jr-wo', jobTitle: 'Gateway loading team', startDate: '2026-08-03', endDate: '2026-09-25', shiftId: 'sh-am', publishedAt: '2026-07-20T09:00:00', publishedBy: 'Sarah Mitchell', closedAt: '2026-09-26T09:15:00', closedBy: 'Sarah Mitchell', closeReason: 'The contract at this site ended and the last seat is no longer needed.', positions: [pos(1, 'Filled', 'b2205', { filledAt: '2026-07-24T12:00:00' }), pos(2, 'Cancelled', null, { cancelledAt: '2026-09-26T09:15:00', cancelledReason: 'vacancy_closed' })] }),
-      vac({ id: 'v1046', reference: 'VAC-1046', clientId: 'acme', orgNodeId: 'lds', jobRoleId: 'jr-wo', jobTitle: 'Leeds weekend cover', startDate: '2026-10-03', endDate: '2026-11-29', shiftId: 'sh-am', publishedAt: '2026-09-18T13:00:00', publishedBy: 'Sarah Mitchell', cancelledAt: '2026-10-07T11:05:00', cancelledBy: 'Sarah Mitchell', cancellationReason: 'Acme moved this work to its Leicester site.', positions: [pos(1, 'Filled', 'b2206', { filledAt: '2026-09-25T10:00:00' }), pos(2, 'Cancelled', null, { cancelledAt: '2026-10-07T11:05:00', cancelledReason: 'vacancy_cancelled' })] }),
-      vac({ id: 'v1047', reference: 'VAC-1047', clientId: 'acme', orgNodeId: 'bhx-d', jobRoleId: 'jr-wo', jobTitle: 'Days team cover', startDate: '2026-09-14', endDate: '2026-11-06', shiftId: 'sh-am', workingTimes: 'Mon to Fri, 06:00 to 14:00', publishedAt: '2026-09-01T09:00:00', publishedBy: 'Sarah Mitchell', closedAt: '2026-10-01T16:00:00', closedBy: 'Sarah Mitchell', closeReason: 'All seats filled for the period.', reopenedAt: '2026-10-08T10:20:00', reopenedByBooking: 'BK-2207', positions: [pos(1, 'Filled', 'b2208', { filledAt: '2026-09-08T11:00:00' }), pos(2, 'Open')] }),
+      vac({ id: 'v1045', reference: 'VAC-1045', clientId: 'acme', orgNodeId: 'lgw', jobRoleId: 'jr-wo', jobTitle: 'Gateway loading team', startDate: '2026-08-03', endDate: '2026-09-25', shiftId: 'sh-am', publishedAt: '2026-07-20T09:00:00', publishedBy: 'Abstract', closedAt: '2026-09-26T09:15:00', closedBy: 'Abstract', closeReason: 'The contract at this site ended and the last seat is no longer needed.', positions: [pos(1, 'Filled', 'b2205', { filledAt: '2026-07-24T12:00:00' }), pos(2, 'Cancelled', null, { cancelledAt: '2026-09-26T09:15:00', cancelledReason: 'vacancy_closed' })] }),
+      vac({ id: 'v1046', reference: 'VAC-1046', clientId: 'acme', orgNodeId: 'lds', jobRoleId: 'jr-wo', jobTitle: 'Leeds weekend cover', startDate: '2026-10-03', endDate: '2026-11-29', shiftId: 'sh-am', publishedAt: '2026-09-18T13:00:00', publishedBy: 'Abstract', cancelledAt: '2026-10-07T11:05:00', cancelledBy: 'Abstract', cancellationReason: 'Acme moved this work to its Leicester site.', positions: [pos(1, 'Filled', 'b2206', { filledAt: '2026-09-25T10:00:00' }), pos(2, 'Cancelled', null, { cancelledAt: '2026-10-07T11:05:00', cancelledReason: 'vacancy_cancelled' })] }),
+      vac({ id: 'v1047', reference: 'VAC-1047', clientId: 'acme', orgNodeId: 'bhx-d', jobRoleId: 'jr-wo', jobTitle: 'Days team cover', startDate: '2026-09-14', endDate: '2026-11-06', shiftId: 'sh-am', workingTimes: 'Mon to Fri, 06:00 to 14:00', publishedAt: '2026-09-01T09:00:00', publishedBy: 'Abstract', closedAt: '2026-10-01T16:00:00', closedBy: 'Abstract', closeReason: 'All seats filled for the period.', reopenedAt: '2026-10-08T10:20:00', reopenedByBookingReference: 'BK-2207', positions: [pos(1, 'Filled', 'b2208', { filledAt: '2026-09-08T11:00:00' }), pos(2, 'Open')] }),
       vac({ id: 'v1048', reference: 'VAC-1048', clientId: 'northgate', orgNodeId: 'ng-leeds', jobRoleId: 'jr-pp', jobTitle: 'Bakery packers', startDate: '2026-10-26', endDate: '2026-12-23', shiftId: 'ng-d', workingTimes: 'Mon to Sat, 07:00 to 15:00', publishedAt: '2026-10-05T09:40:00', publishedBy: 'James Okafor', positions: [pos(1, 'Open'), pos(2, 'Open')] })
       
     ];
@@ -99,24 +99,24 @@
       bk('b2204', 'BK-2204', 'v1043', 2, 'c-lk', 'Lucy O’Brien', 'acme', 'bhx-n', 'jr-wo', 'sh-nt', '2026-10-12', '2026-11-13', 'Sun to Thu, 22:00 to 06:00', 'Pending Start', {}),
       bk('b2205', 'BK-2205', 'v1045', 1, 'c-ra', 'Ravi Patel', 'acme', 'lgw', 'jr-wo', 'sh-am', '2026-08-03', '2026-09-25', null, 'Completed', { startedAt: '2026-08-03T00:30:00', completedAt: '2026-09-26T00:30:00' }),
       bk('b2206', 'BK-2206', 'v1046', 1, 'c-er', 'Ewa Rybak', 'acme', 'lds', 'jr-wo', 'sh-am', '2026-10-03', '2026-11-29', null, 'Active', { startedAt: '2026-10-03T00:30:00' }),
-      bk('b2207', 'BK-2207', 'v1047', 2, 'c-gh', 'George Hall', 'acme', 'bhx-d', 'jr-wo', 'sh-am', '2026-09-14', '2026-11-06', 'Mon to Fri, 06:00 to 14:00', 'Cancelled', { startedAt: '2026-09-14T00:30:00', cancelledAt: '2026-10-08T10:20:00', cancelledBy: 'Sarah Mitchell', cancellationReason: 'The worker accepted a permanent role elsewhere.' }),
+      bk('b2207', 'BK-2207', 'v1047', 2, 'c-gh', 'George Hall', 'acme', 'bhx-d', 'jr-wo', 'sh-am', '2026-09-14', '2026-11-06', 'Mon to Fri, 06:00 to 14:00', 'Cancelled', { startedAt: '2026-09-14T00:30:00', cancelledAt: '2026-10-08T10:20:00', cancelledBy: 'Abstract', cancellationReason: 'The worker accepted a permanent role elsewhere.' }),
       bk('b2208', 'BK-2208', 'v1047', 1, 'c-mo2', 'Nadia Hussain', 'acme', 'bhx-d', 'jr-wo', 'sh-am', '2026-09-14', '2026-11-06', 'Mon to Fri, 06:00 to 14:00', 'Active', { startedAt: '2026-09-14T00:30:00' })
       
     ];
     var a = [
       { type: 'vacancy', id: 'v1042', at: '2026-09-15T10:40:00', by: 'Rachel Green', label: 'Created', text: 'Vacancy created as a draft' },
       { type: 'vacancy', id: 'v1042', at: '2026-09-15T11:00:00', by: 'Rachel Green', label: 'Updated', text: 'Status: Draft → Open (Abstract Tier)' },
-      { type: 'vacancy', id: 'v1042', at: '2026-09-18T09:12:00', by: 'Sarah Mitchell', label: 'Updated', text: 'Position count: 3 → 4' },
-      { type: 'vacancy', id: 'v1042', at: '2026-09-22T14:02:00', by: 'Sarah Mitchell', label: 'Updated', text: 'Position 1 filled: BK-2201' },
-      { type: 'vacancy', id: 'v1042', at: '2026-09-23T09:30:00', by: 'Sarah Mitchell', label: 'Updated', text: 'Position 3 filled: BK-2202' },
-      { type: 'booking', id: 'b2202', at: '2026-09-23T09:30:00', by: 'Sarah Mitchell', label: 'Created', text: 'Booking created from the worker pool' },
+      { type: 'vacancy', id: 'v1042', at: '2026-09-18T09:12:00', by: 'Abstract', label: 'Updated', text: 'Position count: 3 → 4' },
+      { type: 'vacancy', id: 'v1042', at: '2026-09-22T14:02:00', by: 'Abstract', label: 'Updated', text: 'Position 1 filled: BK-2201' },
+      { type: 'vacancy', id: 'v1042', at: '2026-09-23T09:30:00', by: 'Abstract', label: 'Updated', text: 'Position 3 filled: BK-2202' },
+      { type: 'booking', id: 'b2202', at: '2026-09-23T09:30:00', by: 'Abstract', label: 'Created', text: 'Booking created from the worker pool' },
       { type: 'booking', id: 'b2202', at: '2026-09-28T00:30:00', by: null, label: 'Updated', text: 'Status: Pending Start → Active' },
-      { type: 'booking', id: 'b2202', at: '2026-10-02T10:00:00', by: 'Sarah Mitchell', label: 'Updated', text: 'End date: 27 Nov 2026 → 18 Dec 2026. Status: Active → Extended' }
+      { type: 'booking', id: 'b2202', at: '2026-10-02T10:00:00', by: 'Abstract', label: 'Updated', text: 'End date: 27 Nov 2026 → 18 Dec 2026. Status: Active → Extended' }
     ];
     return { vacancies: v, bookings: b, audit: a, seq: { vac: 1060, bk: 2240 }, extra: [] };
   }
   function bk(id, reference, vacancyId, positionNumber, candidateId, candidateName, clientId, orgNodeId, jobRoleId, shiftId, startDate, endDate, workingTimes, status, extra) {
-    return Object.assign({ id: id, reference: reference, vacancyId: vacancyId, positionNumber: positionNumber, candidateId: candidateId, candidateName: candidateName, clientId: clientId, orgNodeId: orgNodeId, jobRoleId: jobRoleId, shiftId: shiftId, startDate: startDate, endDate: endDate, workingTimes: workingTimes, status: status, supplyingParty: 'Abstract', extendedAt: null, startedAt: null, startedBy: null, completedAt: null, completedBy: null, cancelledAt: null, cancelledBy: null, cancellationReason: null, createdBy: 'Sarah Mitchell', createdAt: '2026-09-20T09:00:00', updatedAt: '2026-10-01T09:00:00' }, extra);
+    return Object.assign({ id: id, reference: reference, vacancyId: vacancyId, positionNumber: positionNumber, candidateId: candidateId, candidateName: candidateName, clientId: clientId, orgNodeId: orgNodeId, jobRoleId: jobRoleId, shiftId: shiftId, startDate: startDate, endDate: endDate, workingTimes: workingTimes, status: status, supplyingParty: 'Abstract', extendedAt: null, startedAt: null, startedBy: null, completedAt: null, completedBy: null, cancelledAt: null, cancelledBy: null, cancellationReason: null, createdBy: 'Abstract', createdAt: '2026-09-20T09:00:00', updatedAt: '2026-10-01T09:00:00' }, extra);
   }
 
   // ---------- store ----------
@@ -127,7 +127,7 @@
 
   var S3 = window.S3 = { PORTAL: PORTAL, TODAY: TODAY, CLIENTS: CLIENTS, JOB_ROLES: JOB_ROLES, SHIFTS: SHIFTS, TREES: TREES, CLIENT_ROLES: CLIENT_ROLES };
   S3.reset = function () { try { window.localStorage.removeItem(KEY); window.localStorage.removeItem(KEY + '-abstract'); } catch (e) { /* nothing stored */ } db = seed(); };
-  S3.me = PORTAL === 'abstract' ? 'Sarah Mitchell' : 'Rachel Green';
+  S3.me = PORTAL === 'abstract' ? 'Abstract' : 'Rachel Green';
   S3.clientId = PORTAL === 'client' ? 'acme' : null;
   function now() { var d = new Date(); return TODAY + 'T' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + ':' + ('0' + d.getSeconds()).slice(-2); }
   S3.now = now;
@@ -171,7 +171,7 @@
     o.chargeRate = o.rate ? o.rate.charge : null;
     o.rosterRows = v.positions.map(function (p) {
       var b = p.bookingId ? rawB(p.bookingId) : null;
-      return Object.assign({}, p, { bookingReference: b ? b.reference : null, candidateName: b ? b.candidateName : null, candidateId: b ? b.candidateId : null, supplyingParty: b ? b.supplyingParty : null, startDate: b ? b.startDate : null });
+      return Object.assign({}, p, { bookingReference: b ? b.reference : null, candidateName: b ? b.candidateName : null, candidateId: b ? b.candidateId : null, supplyingParty: b ? b.supplyingParty : null, bookingStartDate: b ? b.startDate : null });
     });
     return o;
   }
@@ -420,6 +420,17 @@
   };
 
   // ---------- PositionRoster: one component, two variants (kernel pattern; TSD §3.3.9) ----------
+  // The vacancy's bookings in any status, GET /bookings?vacancyId= (TSD R-30).
+  S3.vacancyBookings = function (vacancyId) { return S3.bookings().filter(function (b) { return b.vacancyId === vacancyId; }).sort(function (a, b) { return a.positionNumber - b.positionNumber || (a.startDate < b.startDate ? 1 : -1); }); };
+  S3.bookingsSection = function (rows, o) {
+    var abs = o.variant === 'abstract', page = o.page || 1, PAGE = 50, pages = Math.ceil(rows.length / PAGE) || 1, view = rows.slice((page - 1) * PAGE, page * PAGE);
+    var href = function (b) { return (abs ? 'abstract' : 'client') + '.bookings.booking-detail.html?id=' + b.id + (abs ? '&from=vacancy' : ''); };
+    var name = function (b) { return abs && !o.noCandidateLink ? '<a class="' + C.link + '" href="abstract.candidates.worker-profile.html?id=' + b.candidateId + '">' + esc(b.candidateName) + '</a>' : esc(b.candidateName); };
+    var ref = function (b) { return '<a class="' + C.link + ' tnum" href="' + href(b) + '">' + esc(b.reference) + '</a>'; };
+    var dates = function (b) { return S3.fmtDate(b.startDate) + ' to ' + S3.fmtDate(b.endDate); };
+    if (!rows.length) return '<section class="' + C.card + ' p-5" aria-labelledby="vb-t"><h2 id="vb-t" class="text-sm font-bold text-slate-900 mb-2">Bookings</h2><p class="text-sm text-slate-600">No bookings yet.</p></section>';
+    return '<section aria-labelledby="vb-t"><h2 id="vb-t" class="text-sm font-bold text-slate-900 mb-3">Bookings</h2>' + ui.list({ caption: 'Bookings on this vacancy', rows: view, cols: [{ label: 'Reference', nowrap: true, cell: ref }, { label: 'Position', cell: function (b) { return '<span class="tnum">' + b.positionNumber + '</span>'; } }, { label: 'Candidate', cell: name }, { label: 'Dates', nowrap: true, cell: dates }, { label: 'Status', cell: function (b) { return ui.badge(b.status); } }], card: function (b) { return ui.mobileCard({ title: ref(b), badge: ui.badge(b.status, true), lines: ['Position ' + b.positionNumber, name(b), dates(b)] }); } }) + (pages > 1 ? ui.pager(rows.length, page, pages, 'bookings').replace(/data-pg=/g, 'data-bk-pg=') : '') + '</section>';
+  };
   S3.roster = function (v, o) {
     var abs = o.variant === 'abstract', page = o.page || 1, PAGE = 50, rows = v.rosterRows, pages = Math.ceil(rows.length / PAGE) || 1, view = rows.slice((page - 1) * PAGE, page * PAGE);
     var bookingHref = function (r) { return (abs ? 'abstract' : 'client') + '.bookings.booking-detail.html?id=' + r.bookingId + (abs ? '&from=vacancy' : ''); };
@@ -431,17 +442,17 @@
       [{ label: '#', cell: function (r) { return '<span class="tnum font-semibold text-slate-900">' + r.n + '</span>'; } }, { label: 'Status', cell: function (r) { return ui.badge(r.status); } },
       { label: 'Candidate', cell: function (r) { return r.candidateName ? esc(r.candidateName) : '<span class="text-slate-500">—</span>'; } },
       { label: 'Supplied by', cell: function (r) { return r.supplyingParty ? esc(r.supplyingParty) : '<span class="text-slate-500">—</span>'; } },
-      { label: 'Start date', nowrap: true, cell: function (r) { return r.startDate ? S3.fmtDate(r.startDate) : '<span class="text-slate-500">—</span>'; } },
+      { label: 'Start date', nowrap: true, cell: function (r) { return r.bookingStartDate ? S3.fmtDate(r.bookingStartDate) : '<span class="text-slate-500">—</span>'; } },
       { label: 'Booking ref', cell: function (r) { return r.bookingId ? '<a class="' + C.link + ' tnum" href="' + bookingHref(r) + '">' + esc(r.bookingReference) + '</a>' : '<span class="text-slate-500">—</span>'; } }];
     var table = '<div class="hidden md:block relative overflow-x-auto border-t border-slate-200"><table class="w-full text-left"><caption class="sr-only">Positions on this vacancy</caption><thead class="bg-slate-50"><tr>' + cols.map(function (c) { return '<th scope="col" class="' + C.th + (c.right ? ' text-right' : '') + '">' + (c.sr ? '<span class="sr-only">' + c.sr + '</span>' : c.label) + '</th>'; }).join('') + '</tr></thead><tbody class="divide-y divide-slate-100">' + view.map(function (r) { return '<tr>' + cols.map(function (c) { return '<td class="' + C.td + (c.right ? ' text-right' : '') + '">' + c.cell(r) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
     var cards = '<ul class="md:hidden flex flex-col gap-3 px-4 pb-4 pt-1">' + view.map(function (r) {
       var lines = [];
-      if (r.candidateName) lines.push('Candidate: ' + (abs ? '<a class="' + C.link + '" href="abstract.candidates.worker-profile.html?id=' + r.candidateId + '">' + esc(r.candidateName) + '</a>' : esc(r.candidateName)));
+      if (r.candidateName) lines.push('Candidate: ' + (abs && !o.noCandidateLink ? '<a class="' + C.link + '" href="abstract.candidates.worker-profile.html?id=' + r.candidateId + '">' + esc(r.candidateName) + '</a>' : esc(r.candidateName)));
       else if (r.status === 'Cancelled' && abs) lines.push(cancelWord(r));
       if (r.bookingId) lines.push('Booking: <a class="' + C.link + '" href="' + bookingHref(r) + '">' + esc(r.bookingReference) + '</a>');
       if (r.filledAt && abs) lines.push('Filled on ' + S3.fmtDate(r.filledAt));
       if (!abs && r.supplyingParty) lines.push('Supplied by ' + esc(r.supplyingParty));
-      if (!abs && r.startDate) lines.push('Starts ' + S3.fmtDate(r.startDate));
+      if (!abs && r.bookingStartDate) lines.push('Starts ' + S3.fmtDate(r.bookingStartDate));
       return '<li class="border border-slate-200 rounded-xl p-3"><div class="flex items-center justify-between gap-2"><span class="text-sm font-bold text-slate-900">Position ' + r.n + '</span>' + ui.badge(r.status, true) + '</div>' + lines.map(function (l) { return '<p class="text-xs text-slate-600 mt-1">' + l + '</p>'; }).join('') +  '' + (r.status === 'Open' && canFill ? '<div class="mt-2">' + fillLinks(r) + '</div>' : '') + '</li>';
     }).join('') + '</ul>';
     return '<section class="' + C.card + ' overflow-hidden" aria-label="Positions">' + head + table + cards + (pages > 1 ? '<div class="px-4 border-t border-slate-200">' + ui.pager(rows.length, page, pages, 'positions') + '</div>' : '') + '</section>';

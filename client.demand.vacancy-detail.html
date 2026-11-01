@@ -19,7 +19,7 @@
             brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554' } } } } };
     </script>
 </head>
-<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s3-page data-s1-states="default loading error validation denied large conflict nokeys guard">
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s3-page data-s1-states="default loading error validation denied large conflict nokeys guard nobookings">
 <div id="app-root" class="flex w-full" style="height: 100vh;">
     <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
         <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
@@ -71,13 +71,14 @@
 <script src="slice3-proto.js"></script>
 <script>S3.mobileNav();</script>
 <script>
-var C=S3.C,ui=S3.ui,esc=S3.esc,app=document.getElementById('app'),id=S3.param('id')||'v1042',st='default',rosterPage=1;
+var C=S3.C,ui=S3.ui,esc=S3.esc,app=document.getElementById('app'),id=S3.param('id')||'v1042',st='default',rosterPage=1,bkPage=1;
 var fillOK=false;
-function bigV(v){var o=Object.assign({},v),r=[];for(var i=1;i<=500;i++)r.push({n:i,status:i%7===0?'Filled':'Open',bookingId:i%7===0?'b2201':null,bookingReference:i%7===0?'BK-'+(5000+i):null,candidateName:i%7===0?'Sample worker '+i:null,candidateId:'c-mo',filledAt:i%7===0?'2026-10-01T09:00:00':null,supplyingParty:i%7===0?'Abstract':null,startDate:i%7===0?v.startDate:null});o.rosterRows=r;o.positionCount=500;o.filledCount=71;o.openCount=429;return o;}
+function bigV(v){var o=Object.assign({},v),r=[];for(var i=1;i<=500;i++)r.push({n:i,status:i%7===0?'Filled':'Open',bookingId:i%7===0?'b2201':null,bookingReference:i%7===0?'BK-'+(5000+i):null,candidateName:i%7===0?'Sample worker '+i:null,candidateId:'c-mo',filledAt:i%7===0?'2026-10-01T09:00:00':null,supplyingParty:i%7===0?'Abstract':null,bookingStartDate:i%7===0?v.startDate:null});o.rosterRows=r;o.positionCount=500;o.filledCount=71;o.openCount=429;return o;}
+function bkRows(v){var r=S3.vacancyBookings(v.id);if(st!=='large'||!r.length)return r;var o=[];for(var i=0;i<120;i++)o.push(Object.assign({},r[i%r.length]));return o;}
 function reason(v){
  if(v.status==='Cancelled')return ui.banner('info','<strong>Cancelled</strong> on '+S3.fmtDateTime(v.cancelledAt)+' by '+esc(v.cancelledBy)+'. Reason: '+esc(v.cancellationReason));
  if(v.status==='Closed')return ui.banner('info','<strong>Closed</strong> on '+S3.fmtDateTime(v.closedAt)+' by '+esc(v.closedBy)+'. Reason: '+esc(v.closeReason));
- if(v.reopenedAt)return ui.banner('info','Closed on '+S3.fmtDate(v.closedAt)+' by '+esc(v.closedBy)+'; reopened by the cancellation of '+esc(v.reopenedByBooking)+'.');
+ if(v.reopenedAt)return ui.banner('info','Closed on '+S3.fmtDate(v.closedAt)+' by '+esc(v.closedBy)+'; reopened by the cancellation of '+esc(v.reopenedByBookingReference)+'.');
  return '';
 }
 function draw(){
@@ -101,7 +102,7 @@ function draw(){
   (st==='conflict'?ui.banner('warning','Someone else changed this vacancy while you had it open, so your change wasn’t saved. <button type="button" class="'+C.link+'" onclick="S1.setState(\'default\')">Reload the vacancy</button> and try again.'):'')+
   (st==='guard'?ui.banner('error','Your organisation isn’t active at the moment, so nothing can be changed here. You can still read this vacancy.'):'')+
   '<div class="'+C.card+' p-5"><div class="flex flex-wrap items-start justify-between gap-3"><div class="min-w-0"><div class="flex flex-wrap items-center gap-2"><span class="text-sm font-semibold text-slate-600 tnum">'+esc(v.reference)+'</span>'+ui.badge(v.status)+'</div><h2 class="text-xl font-bold text-slate-900 mt-1">'+esc(v.jobTitle)+'</h2><p class="text-sm text-slate-600 mt-0.5">'+esc(v.orgNodeName)+'</p></div><div class="flex flex-wrap gap-2">'+act+'</div></div></div>'+
-  reason(v)+S3.roster(showV,{variant:'client',canFill:keys,page:rosterPage})+
+  reason(v)+S3.roster(showV,{variant:'client',canFill:keys,page:rosterPage,noCandidateLink:st==='nocandidate'})+(st==='nobookings'?'':S3.bookingsSection(bkRows(v),{variant:'client',page:bkPage,noCandidateLink:st==='nocandidate'}))+
   '<div class="grid grid-cols-1 xl:grid-cols-3 gap-4"><div class="xl:col-span-2 flex flex-col gap-4"><section class="'+C.card+' p-5"><h2 class="text-sm font-bold text-slate-900 mb-3">Details</h2>'+details+'</section>'+
   
   (v.requirements?'<section class="'+C.card+' p-5"><h2 class="text-sm font-bold text-slate-900 mb-2">Requirements</h2><p class="text-sm text-slate-700 whitespace-pre-line">'+esc(v.requirements)+'</p></section>':'')+
@@ -111,6 +112,7 @@ function draw(){
  var up=document.getElementById('upload');if(up)S3.fileUpload(up,{onFile:function(n,s){S3.act.addDocument(v.id,n,s);S1.toast('Document uploaded.','success');draw();}});
  app.querySelectorAll('[data-dl]').forEach(function(b){b.onclick=function(){S1.toast('Downloading '+esc(b.dataset.dl)+'.','success');};});
  app.querySelectorAll('[data-pg]').forEach(function(b){b.onclick=function(){rosterPage=+b.dataset.pg;draw();};});
+ app.querySelectorAll('[data-bk-pg]').forEach(function(b){b.onclick=function(){bkPage=+b.dataset.bkPg;draw();};});
  function on(i,f){var e=document.getElementById(i);if(e)e.onclick=f;}
  on('a-count',function(){countDialog(v);});
  on('a-publish',function(){S1.confirm({title:'Publish this vacancy?',body:'Abstract starts working it, and the client’s users who can see '+v.orgNodeName+' can see it.',cta:'Publish vacancy',onConfirm:function(){try{S3.act.publish(v.id);S1.toast('Vacancy published.','success');draw();}catch(e){if(!e.code)throw e;st='x';draw();app.insertAdjacentHTML('afterbegin','<div class="mb-4">'+ui.banner('error',esc(e.message))+'</div>');}}});});
@@ -118,7 +120,7 @@ function draw(){
  on('a-cancel',function(){S3.dialog({title:'Cancel this vacancy?',body:'Open positions are cancelled. Filled positions keep their bookings, and each booking ends only when it is cancelled itself.',tone:'danger',cta:'Cancel vacancy',cancel:'Keep vacancy',fields:[{id:'d-reason',label:'Reason',type:'textarea',required:true,requiredMessage:'Enter a reason.'}],onOk:function(x){S3.act.cancel(v.id,x['d-reason']);S1.toast('Vacancy cancelled.','success');draw();}});});
 }
 function countDialog(v,preset){return S3.dialog({title:'Change position count',body:v.filledCount+' of '+v.positionCount+' positions filled.',cta:'Save count',fields:[{id:'d-count',label:'Positions',type:'number',min:1,max:500,value:preset||v.positionCount,required:true}],validate:function(x){var n=Number(x['d-count']);return n>=1&&n<=500?{}:{'d-count':'Enter between 1 and 500.'};},onOk:function(x,api){S3.act.changeCount(v.id,Number(x['d-count']));S1.toast('Position count saved.','success');draw();}});}
-S3.onState(function(s){st=s;rosterPage=1;if(['loading','error','denied'].indexOf(s)>=0)return;draw();if(s==='validation'){var v=S3.vacancy(id);var d=countDialog(v,Math.max(0,v.filledCount-1)||1);setTimeout(function(){document.querySelector('.s1-scrim [data-ok]').click();},50);}});
+S3.onState(function(s){st=s;rosterPage=1;bkPage=1;if(['loading','error','denied'].indexOf(s)>=0)return;draw();if(s==='validation'){var v=S3.vacancy(id);var d=countDialog(v,Math.max(0,v.filledCount-1)||1);setTimeout(function(){document.querySelector('.s1-scrim [data-ok]').click();},50);}});
 </script>
 <script src="slice1-kit.js"></script>
 </body>
