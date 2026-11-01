@@ -28,6 +28,12 @@ window.S1_CONFIG = {
     'client.identity-access.confirm-email.html', 'client.design.slice-2-index.html'
   ],
   slice2NavHide: [],
+  // slice 3 screens (docs/slices/3/design/DESIGN-BRIEF.md A6); slice 3 mode shows slices 1 + 2 + these
+  slice3Hub: 'client.design.slice-3-index.html',
+  slice3Screens: [
+    'client.demand.vacancies.html', 'client.demand.create-vacancy.html', 'client.demand.vacancy-detail.html',
+    'client.bookings.bookings.html', 'client.bookings.booking-detail.html', 'client.design.slice-3-index.html'
+  ],
   // slice 1 raises no notification for client users; the centre starts empty
   notifications: []
 };
@@ -47,9 +53,10 @@ window.S1_CONFIG = {
  *   S1.runJob(chip, {...})         background-job chip: queued → running → completed | failed
  *   S1.sessionWarning()            idle-timeout warning dialog (NFR-009)
  *   S1.setState(name)              prototype state switcher (loading, empty, error, …)
- *   S1.setMode('full'|'s1'|'s2')   navigation mode: full product; slice 1 only (hides every sidebar link
+ *   S1.setMode('full'|'s1'|'s2'|'s3') navigation mode: full product; slice 1 only (hides every sidebar link
  *                                  that is not a slice 1 screen and every element marked data-s1-later);
- *                                  slices 1 + 2 (slice 1 + slice2Screens; hides data-s2-later — slice 2 brief A3).
+ *                                  slices 1 + 2 (slice 1 + slice2Screens; hides data-s2-later — slice 2 brief A3);
+ *                                  slices 1 to 3 (those + slice3Screens; hides data-s3-later — slice 3 brief A6).
  *                                  S1.slice1Mode(on) / S1.slice2Mode(on) are shorthands; data-s1-home links
  *                                  point at the slice 1 dashboard in either slice mode
  *   ?embedded=1                    the page as a wizard step (slice 2 TSD §3.3.8): shell and Prototype menu
@@ -345,7 +352,7 @@ window.S1_CONFIG = {
   };
 
   // ---------- Prototype state switcher ----------
-  var LABELS = { 'default': 'Default', loading: 'Loading', empty: 'Empty', error: 'Error', validation: 'Validation failure', denied: 'Permission denied', large: 'Large data', conflict: 'Edit conflict (412)', pending: 'Pending', refused: 'Activation refused', ready: 'Every gate met', readonly: 'View only', floor: 'Under the margin floor', notapplicable: 'Cannot be applied', expired: 'Expired link', success: 'Success', decided: 'Decided',
+  var LABELS = { 'default': 'Default', loading: 'Loading', empty: 'Empty', error: 'Error', validation: 'Validation failure', denied: 'Permission denied', large: 'Large data', conflict: 'Edit conflict (412)', pending: 'Pending', refused: 'Activation refused', ready: 'Every gate met', readonly: 'View only', floor: 'Under the margin floor', notapplicable: 'Cannot be applied', expired: 'Expired link', success: 'Success', decided: 'Decided', nocreate: 'Without the create key', nokeys: 'Actions absent per key', nobreakdown: 'Without the breakdown grant', norate: 'No rate card (publish refused)', suspended: 'Client suspended on save', notactive: 'Client not Active', overlap: 'Overlap warning', mismatch: 'Job role warning', duplicate: 'Duplicate warning', anonymised: 'Anonymised', guard: 'Organisation not active', pickerloading: 'Picker · loading', pickerempty: 'Picker · empty', pickererror: 'Picker · error', pickerlarge: 'Picker · large',
     required: 'Required by policy', password: 'Step 1 · password', wrongpassword: 'Wrong password', scan: 'Step 2 · authenticator app', wrongcode: 'Wrong code', ratelimited: 'Too many attempts', codes: 'Step 3 · backup codes', enrolled: 'On', regenerate: 'New backup codes · confirm', newcodes: 'New backup codes', backup: 'Backup code', wrongbackup: 'Wrong backup code', challenge: 'Sign-in step expired', resetconflict: 'Two-step already reset (409)',
     sent: 'Link sent', passwordexpired: 'Password expired', notfound: 'Not found (404)', invited: 'Invited user', inactive: 'Inactive user', self: 'Your own record' };
   S1.setState = function (name) {
@@ -365,11 +372,13 @@ window.S1_CONFIG = {
     var wrap = el('div', { 'class': 's1-sw' });
     var extra = (C.signIn ? '<button data-act="timeout"><i class="fa-solid fa-hourglass-half" style="width:14px"></i> Session timeout warning</button>' : '') +
       (C.hub ? '<a href="' + esc(C.hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 1 screen index</a>' : '') +
-      (C.slice2Hub ? '<a href="' + esc(C.slice2Hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 2 screen index</a>' : '');
+      (C.slice2Hub ? '<a href="' + esc(C.slice2Hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 2 screen index</a>' : '') +
+      (C.slice3Hub ? '<a href="' + esc(C.slice3Hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 3 screen index</a>' : '');
     var modes = '<p>Navigation</p>' +
       '<button data-mode="full" aria-pressed="false"><i class="fa-solid fa-layer-group" style="width:14px"></i> Full product</button>' +
       '<button data-mode="s1" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slice 1 only</button>' +
-      (C.slice2Screens ? '<button data-mode="s2" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slices 1 + 2</button>' : '');
+      (C.slice2Screens ? '<button data-mode="s2" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slices 1 + 2</button>' : '') +
+      (C.slice3Screens ? '<button data-mode="s3" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slices 1 to 3</button>' : '');
     wrap.innerHTML = '<div class="s1-sw-panel" role="menu">' +
       (states.length > 1 ? '<p>Screen state</p>' + states.map(function (s) { return '<button data-state="' + s + '" aria-pressed="false">' + (LABELS[s] || s) + '</button>'; }).join('') : '') +
       modes + '<p>Prototype</p>' + extra + '</div><button aria-haspopup="true" aria-label="Prototype controls"><i class="fa-solid fa-layer-group"></i> <span class="s1-sw-cur">Prototype</span></button>';
@@ -386,20 +395,23 @@ window.S1_CONFIG = {
   }
 
   // ---------- Slice modes: full product · slice 1 only · slices 1 + 2 (slice 2 brief A3) ----------
-  // Stored under one key: 'on' = slice 1 only (the slice 1 value, kept), 's2' = slices 1 + 2, 'off' = full product.
+  // Stored under one key: 'on' = slice 1 only (the slice 1 value, kept), 's2' = slices 1 + 2, 's3' = slices 1 to 3, 'off' = full product.
   var MKEY = 's1-mode';
-  S1.mode = function () { var m = sget(MKEY); return m === 'on' ? 's1' : m === 's2' ? 's2' : 'full'; };
+  S1.mode = function () { var m = sget(MKEY); return m === 'on' ? 's1' : m === 's2' ? 's2' : m === 's3' ? 's3' : 'full'; };
   S1.isSlice1Mode = function () { return S1.mode() === 's1'; };
   S1.isSlice2Mode = function () { return S1.mode() === 's2'; };
-  S1.setMode = function (m) { sset(MKEY, m === 's1' ? 'on' : m === 's2' ? 's2' : 'off'); applyMode(); };
+  S1.setMode = function (m) { sset(MKEY, m === 's1' ? 'on' : m === 's2' ? 's2' : m === 's3' ? 's3' : 'off'); applyMode(); };
   S1.slice1Mode = function (on) { S1.setMode(on ? 's1' : 'full'); };
   S1.slice2Mode = function (on) { S1.setMode(on ? 's2' : 'full'); };
+  S1.slice3Mode = function (on) { S1.setMode(on ? 's3' : 'full'); };
+  S1.isSlice3Mode = function () { return S1.mode() === 's3'; };
   function base(h) { try { return decodeURIComponent((h || '').split(/[?#]/)[0].split('/').pop()); } catch (e) { return h; } }
   function applyMode() {
     var mode = S1.mode(), on = mode !== 'full';
     var keep = (C.slice1Screens || []).slice();
-    if (mode === 's2') keep = keep.concat(C.slice2Screens || []);
-    var navHide = mode === 's2' ? (C.slice2NavHide || []) : [];
+    if (mode === 's2' || mode === 's3') keep = keep.concat(C.slice2Screens || []);
+    if (mode === 's3') keep = keep.concat(C.slice3Screens || []);
+    var navHide = mode === 's2' || mode === 's3' ? (C.slice2NavHide || []) : [];
     var nav = document.querySelectorAll(C.navSelector || '#sidebar-nav, aside nav');
     nav.forEach(function (n) {
       n.querySelectorAll('a[href]').forEach(function (a) {
@@ -429,6 +441,10 @@ window.S1_CONFIG = {
       if (mode === 's1') e.style.setProperty('display', 'none', 'important'); else e.style.removeProperty('display');
     });
     document.querySelectorAll('[data-s2-later]').forEach(function (e) {
+      if (mode === 's1' || mode === 's2') e.style.setProperty('display', 'none', 'important'); else e.style.removeProperty('display');
+    });
+    // data-s3-later: a slice 4+ affordance — absent in every slice mode.
+    document.querySelectorAll('[data-s3-later]').forEach(function (e) {
       if (on) e.style.setProperty('display', 'none', 'important'); else e.style.removeProperty('display');
     });
     document.querySelectorAll('[data-s1-home]').forEach(function (a) {
@@ -464,6 +480,9 @@ window.S1_CONFIG = {
     if (q.get('s1') === '1') sset(MKEY, 'on');
     if (q.get('s1') === '0') sset(MKEY, 'off');
     if (q.get('s2') === '1') sset(MKEY, 's2');
+    if (q.get('s3') === '1') sset(MKEY, 's3');
+    // a slice 3 page has no place in the earlier modes
+    if (document.body.hasAttribute('data-s3-page') && (sget(MKEY) == null || sget(MKEY) === 'on' || sget(MKEY) === 's2')) sset(MKEY, 's3');
     if (sget(MKEY) == null) {
       if (document.body.hasAttribute('data-s2-page')) sset(MKEY, 's2');
       else if (document.body.hasAttribute('data-s1-page')) sset(MKEY, 'on');

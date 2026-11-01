@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create vacancy · Abstract VMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;} * { scrollbar-width: none; }
+    .tnum { font-variant-numeric: tabular-nums; }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { inter: ['Inter', 'sans-serif'] }, colors: {
+            navy: { DEFAULT: '#172554', 50: '#EEF1FB', 100: '#D4DCF5', 200: '#A9B9EB', 300: '#7E96E1', 400: '#5373D7', 500: '#2850CD', 600: '#1D3FA4', 700: '#162F7B', 800: '#0F1F52', 900: '#172554' },
+            brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554' } } } } };
+    </script>
+</head>
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s3-page data-s1-states="default loading error validation denied large norate">
+<div id="app-root" class="flex w-full" style="height: 100vh;">
+    <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
+        <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
+            <img src="logo.png" alt="Abstract VMS" class="h-12 w-auto block -ml-[5px]"/>
+            <p class="text-white/40 text-sm mt-2">Client Portal</p>
+        </div>
+        <nav id="sidebar-nav" class="flex-1 px-3 py-4 flex flex-col gap-1" aria-label="Main"><a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-gauge-high text-white/40 w-4 text-center" aria-hidden="true"></i><span>Dashboard</span></a><a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-150" style="background: linear-gradient(135deg, rgba(29,78,216,0.5), rgba(91,46,145,0.4)); border: 1px solid rgba(255,255,255,0.15);" aria-current="page"><i class="fa-solid fa-briefcase text-blue-400 w-4 text-center" aria-hidden="true"></i><span>Vacancies</span><div class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"></div></a><a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-calendar-check text-white/40 w-4 text-center" aria-hidden="true"></i><span>Bookings</span></a><a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-sitemap text-white/40 w-4 text-center" aria-hidden="true"></i><span>Business Units</span></a><a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-users text-white/40 w-4 text-center" aria-hidden="true"></i><span>Users & Permissions</span></a><a href="client.notifications.notification-preferences.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-bell text-white/40 w-4 text-center" aria-hidden="true"></i><span>Notification preferences</span></a></nav>
+        <div id="sidebar-footer" class="px-4 py-4 border-t border-white/10">
+            <div class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-white/5 transition-all">
+                <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 text-xs font-bold flex items-center justify-center flex-shrink-0" aria-hidden="true">RG</span>
+                <div class="flex-1 min-w-0">
+                    <a href="client.identity-access.profile.html" class="block text-white text-xs font-semibold truncate hover:underline" title="Your profile" data-user-name>Rachel Green</a>
+                    <p class="text-white/40 text-xs truncate">Acme Logistics</p>
+                </div>
+                <a href="client.identity-access.sign-in.html?reason=signed-out" aria-label="Sign out" title="Sign out"><i class="fa-solid fa-arrow-right-from-bracket text-white/30 text-xs hover:text-white" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </aside>
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header id="header" class="flex items-center justify-between gap-3 px-4 sm:px-6 xl:px-8 py-4 bg-white border-b border-slate-200 flex-shrink-0">
+            <div class="flex items-center gap-3 min-w-0">
+                <button id="mobile-menu-btn" class="lg:hidden w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-bars text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <div class="min-w-0"><h1 id="page-title" class="text-lg font-bold text-slate-900 truncate">Create vacancy</h1></div>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+                
+                <button data-s1-bell aria-label="Notifications" class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-regular fa-bell text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <a href="client.identity-access.profile.html" aria-label="My account (Rachel Green)" class="flex items-center gap-2 pl-3 border-l border-slate-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><span class="w-8 h-8 rounded-full text-white text-xs font-bold flex items-center justify-center" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);" aria-hidden="true">RG</span><span class="hidden xl:block"><span class="block text-xs font-semibold text-slate-700">Rachel Green</span><span class="block text-xs text-slate-500">Acme Logistics</span></span></a>
+            </div>
+        </header>
+        <main id="main" class="flex-1 overflow-y-auto px-4 sm:px-6 xl:px-8 py-6 pb-20 bg-slate-100">
+            <div data-s1-show="denied" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-14 text-center">
+                <div class="w-14 h-14 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-lock text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">You don't have access to this page</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Creating a vacancy needs the permission to create and edit vacancies.</p>
+                <a href="client.shell.dashboard.html" data-s1-home class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] mt-5"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to the dashboard</a>
+            </div>
+            <div data-s1-show="loading" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col gap-4" aria-busy="true" aria-label="Loading"><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:40%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:26%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:66%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:52%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:52%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:38%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:44%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:30%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:60%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:46%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><p class="sr-only">Loading…</p></div>
+            <div data-s1-show="error" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-12 text-center" role="alert">
+                <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-triangle-exclamation text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">We couldn't load the form</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Something went wrong on our side. Try again. If it keeps happening, quote reference <span class="font-semibold text-slate-800 tnum">ERR-S3-VAC-3C11</span> to Abstract.</p>
+                <button type="button" onclick="S1.setState('loading');setTimeout(function(){S1.setState('default')},700)" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold min-h-[38px] mt-5"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Retry</button>
+            </div>
+            <div id="app" data-s1-hide="denied loading error"></div>
+        </main>
+    </div>
+</div>
+<script src="slice3-proto.js"></script>
+<script>S3.mobileNav();</script>
+<script>
+var host=document.getElementById('app'),C=S3.C;
+var id=S3.param('id'),edit=!!id&&!!S3.vacancy(id);
+var preset=null;
+document.getElementById('page-title').textContent=edit?'Edit vacancy':'Create vacancy';
+S3.onState(function(s){
+ if(['loading','error','denied'].indexOf(s)>=0)return;
+ var p={portal:'client',mode:edit?'edit':'create',vacancyId:id,preset:preset,large:s==='large',noRoles:s==='empty',suspendOnSave:s==='suspended',nobreakdown:s==='nobreakdown'};
+ if(s==='validation')p.preset=Object.assign({},preset||{},{clientId:'acme',jobTitle:'',startDate:'2026-11-20',endDate:'2026-11-01',closeDate:'2026-12-01',positionCount:0});
+ if(s==='norate')p.preset={clientId:S3.clientId,jobTitle:'Packers for the Christmas peak',jobRoleId:'jr-pp',orgNodeId:'lds',startDate:'2026-11-23',endDate:'2026-12-23',positionCount:2};
+ if(s==='suspended'||s==='large'||s==='empty')p.preset=Object.assign({clientId:'acme'},p.preset||{});
+ S3.vacancyForm(host,p);
+ if(s==='validation'){p.showErrors={};}
+ if(s==='validation'){var b=document.getElementById(edit?'vf-save':'vf-draft');if(b)b.click();}
+ if(s==='norate'){document.getElementById('vf-publish').click();setTimeout(function(){var ok=document.querySelector('.s1-scrim [data-ok]');if(ok)ok.click();},60);}
+});
+</script>
+<script src="slice1-kit.js"></script>
+</body>
+</html>

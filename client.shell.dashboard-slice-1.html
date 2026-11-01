@@ -24,7 +24,7 @@
         }
     </script>
 </head>
-<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s1-page data-s1-states="default">
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s1-page data-s1-states="default loading empty error denied large">
 
 <div id="app-root" class="flex w-full" style="height: 100vh;">
 
@@ -41,6 +41,14 @@
                 <span>Dashboard</span>
                 <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"></span>
             </a>
+            <a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-briefcase text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Vacancies</span>
+            </a>
+            <a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                <i class="fa-solid fa-clipboard-list text-white/40 w-4 text-center" aria-hidden="true"></i>
+                <span>Bookings</span>
+            </a>
             <a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
                 <i class="fa-solid fa-building text-white/40 w-4 text-center" aria-hidden="true"></i>
                 <span>Business Units</span>
@@ -50,14 +58,6 @@
                 <span>Users & Permissions</span>
             </a>
             <p class="text-white/30 text-xs font-semibold uppercase tracking-widest px-3 mb-2 mt-4">Recruitment</p>
-            <a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
-                <i class="fa-solid fa-briefcase text-white/40 w-4 text-center" aria-hidden="true"></i>
-                <span>Vacancies</span>
-            </a>
-            <a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
-                <i class="fa-solid fa-clipboard-list text-white/40 w-4 text-center" aria-hidden="true"></i>
-                <span>Bookings</span>
-            </a>
             <a href="client.candidates.candidate-directory.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/10 text-sm transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
                 <i class="fa-solid fa-address-card text-white/40 w-4 text-center" aria-hidden="true"></i>
                 <span>Candidate Directory</span>
@@ -117,6 +117,7 @@
                     <h2 class="text-xl font-bold text-slate-900">Welcome, <span data-first-name>Emma</span></h2>
                     <p class="text-sm text-slate-600 mt-1.5 max-w-2xl">This is Acme Logistics's portal on Abstract VMS. For now you can manage who has access and what each role can do. More of the portal opens up as it is delivered.</p>
                 </section>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" data-s2-later><div id="s3-active" class="md:row-span-2"></div><a href="client.demand.vacancies.html" class="group bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-start gap-4 hover:border-blue-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"><span class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-blue-700" style="background: rgba(29,78,216,0.1);"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></span><span class="min-w-0"><span class="block text-sm font-bold text-slate-900 group-hover:text-blue-700">Vacancies</span><span class="block text-sm text-slate-600 mt-0.5 leading-relaxed">Your vacancies, their positions and their charge rates.</span></span></a><a href="client.bookings.bookings.html" class="group bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-start gap-4 hover:border-blue-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"><span class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-blue-700" style="background: rgba(29,78,216,0.1);"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i></span><span class="min-w-0"><span class="block text-sm font-bold text-slate-900 group-hover:text-blue-700">Bookings</span><span class="block text-sm text-slate-600 mt-0.5 leading-relaxed">The people booked into your positions.</span></span></a></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                     <a href="client.identity-access.users.html" class="group bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-start gap-4 hover:border-blue-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
@@ -177,6 +178,8 @@
 
 </script>
 
+<script src="slice3-proto.js"></script>
+<script>document.addEventListener('s1:state',function(e){S3.activeBookingsCard(document.getElementById('s3-active'),e.detail.state);});</script>
 <script src="slice1-kit.js"></script>
 </body>
 </html>

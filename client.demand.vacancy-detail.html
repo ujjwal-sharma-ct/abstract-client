@@ -1,434 +1,125 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-[#F3F4F6]">
+<html lang="en-GB">
 <head>
-    <script>
-        window.FontAwesomeConfig = {
-          autoReplaceSvg: 'nest'
-        };
-      </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vacancy Details - Abstractvms Client Portal</title>
+    <title>Vacancy · Abstract VMS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sora: ['Sora', 'sans-serif'],
-                        manrope: ['Manrope', 'sans-serif'],
-                    },
-                    colors: {
-                        navy: '#172554',
-                        blue: '#1D4ED8',
-                        purple: '#5B2E91',
-                        lightgrey: '#F3F4F6',
-                        success: '#16A34A',
-                        warning: '#F59E0B',
-                        danger: '#DC2626',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: 'Manrope', sans-serif; }
-        h1, h2, h3, h4, h5, h6 { font-family: 'Sora', sans-serif; }
-        ::-webkit-scrollbar { display: none; }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;} * { scrollbar-width: none; }
+    .tnum { font-variant-numeric: tabular-nums; }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
     </style>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { inter: ['Inter', 'sans-serif'] }, colors: {
+            navy: { DEFAULT: '#172554', 50: '#EEF1FB', 100: '#D4DCF5', 200: '#A9B9EB', 300: '#7E96E1', 400: '#5373D7', 500: '#2850CD', 600: '#1D3FA4', 700: '#162F7B', 800: '#0F1F52', 900: '#172554' },
+            brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554' } } } } };
+    </script>
 </head>
-<body class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800 flex bg-[#F3F4F6]">
-
-    <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="w-64 bg-navy h-screen flex-shrink-0 flex flex-col border-r border-navy/20">
-        <!-- Logo -->
-        <div class="h-16 flex items-center px-6 border-b border-white/10 shrink-0">
-            <div class="flex items-center gap-2">
-                                <img src="logo.png" alt="Abstract" class="h-12 w-auto">
-
-            </div>
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s3-page data-s1-states="default loading error validation denied large conflict nokeys guard">
+<div id="app-root" class="flex w-full" style="height: 100vh;">
+    <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
+        <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
+            <img src="logo.png" alt="Abstract VMS" class="h-12 w-auto block -ml-[5px]"/>
+            <p class="text-white/40 text-sm mt-2">Client Portal</p>
         </div>
-
-        <!-- Nav Links -->
-        <div class="flex-1 overflow-y-auto py-6 px-3">
-            <nav class="space-y-1">
-                <a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-chart-pie w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Dashboard</span>
-                </a>
-                <a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-building w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Business Units</span>
-                </a>
-                <a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-users-gear w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Users & Permissions</span>
-                </a>
-                <div class="pt-4 pb-1">
-                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Recruitment</p>
-                </div>
-                <a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md bg-blue text-white group transition-colors duration-200 border-l-4 border-white">
-                    <i class="fa-solid fa-briefcase w-5 text-center text-white"></i>
-                    <span class="text-sm font-medium">Vacancies</span>
-                </a>
-                <a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-clipboard-list w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Bookings</span>
-                </a>
-                <a href="client.candidates.candidate-directory.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-address-card w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Candidate Directory</span>
-                </a>
-                <div class="pt-4 pb-1">
-                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Finance</p>
-                </div>
-                <a href="client.timesheets.timesheets.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-clock w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Timesheets</span>
-                </a>
-                <a href="client.money.invoices.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-file-invoice-dollar w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Invoices</span>
-                </a>
-                <div class="pt-4 pb-1">
-                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Analytics</p>
-                </div>
-                <a href="client.reporting.reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-chart-line w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Reports</span>
-                </a>
-            </nav>
-        </div>
-
-        <!-- User Profile -->
-        <div class="border-t border-white/10 p-4 shrink-0">
-            <div class="flex items-center gap-3 w-full">
-                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="User Avatar" class="h-9 w-9 rounded-full object-cover border border-gray-600">
+        <nav id="sidebar-nav" class="flex-1 px-3 py-4 flex flex-col gap-1" aria-label="Main"><a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-gauge-high text-white/40 w-4 text-center" aria-hidden="true"></i><span>Dashboard</span></a><a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-150" style="background: linear-gradient(135deg, rgba(29,78,216,0.5), rgba(91,46,145,0.4)); border: 1px solid rgba(255,255,255,0.15);" aria-current="page"><i class="fa-solid fa-briefcase text-blue-400 w-4 text-center" aria-hidden="true"></i><span>Vacancies</span><div class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"></div></a><a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-calendar-check text-white/40 w-4 text-center" aria-hidden="true"></i><span>Bookings</span></a><a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-sitemap text-white/40 w-4 text-center" aria-hidden="true"></i><span>Business Units</span></a><a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-users text-white/40 w-4 text-center" aria-hidden="true"></i><span>Users & Permissions</span></a><a href="client.notifications.notification-preferences.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-bell text-white/40 w-4 text-center" aria-hidden="true"></i><span>Notification preferences</span></a></nav>
+        <div id="sidebar-footer" class="px-4 py-4 border-t border-white/10">
+            <div class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-white/5 transition-all">
+                <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 text-xs font-bold flex items-center justify-center flex-shrink-0" aria-hidden="true">RG</span>
                 <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-white truncate font-sora">Rachel Green</p>
-                    <p class="text-xs text-gray-400 truncate">Acme Logistics</p>
+                    <a href="client.identity-access.profile.html" class="block text-white text-xs font-semibold truncate hover:underline" title="Your profile" data-user-name>Rachel Green</a>
+                    <p class="text-white/40 text-xs truncate">Acme Logistics</p>
                 </div>
-                <a href="client.identity-access.sign-in.html" class="text-gray-400 hover:text-white transition-colors" title="Sign Out">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                </a>
+                <a href="client.identity-access.sign-in.html?reason=signed-out" aria-label="Sign out" title="Sign out"><i class="fa-solid fa-arrow-right-from-bracket text-white/30 text-xs hover:text-white" aria-hidden="true"></i></a>
             </div>
         </div>
     </aside>
-
-    <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col h-screen overflow-hidden">
-        
-        <!-- Header -->
-        <header id="header" class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 shrink-0 shadow-sm z-10">
-            <div class="flex items-center gap-4">
-                <h1 class="text-xl font-sora font-semibold text-navy">Vacancy Details</h1>
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header id="header" class="flex items-center justify-between gap-3 px-4 sm:px-6 xl:px-8 py-4 bg-white border-b border-slate-200 flex-shrink-0">
+            <div class="flex items-center gap-3 min-w-0">
+                <button id="mobile-menu-btn" class="lg:hidden w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-bars text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <div class="min-w-0"><h1 id="page-title" class="text-lg font-bold text-slate-900 truncate">Vacancy</h1></div>
             </div>
-
-            <div class="flex items-center gap-6">
-                <!-- Search -->
-                <div class="relative w-64 hidden md:block">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
-                    </div>
-                    <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue focus:border-blue sm:text-sm transition-all" placeholder="Search vacancies...">
-                </div>
-
-                <!-- Notifications -->
-                <a href="client.notifications.notification-centre.html" class="relative text-gray-500 hover:text-navy transition-colors" title="Notifications" aria-label="Notifications">
-                    <i class="fa-regular fa-bell text-lg"></i>
-                    <span class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-danger text-[10px] font-bold text-white ring-2 ring-white">3</span>
-                </a>
+            <div class="flex items-center gap-3 flex-shrink-0">
+                
+                <button data-s1-bell aria-label="Notifications" class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-regular fa-bell text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <a href="client.identity-access.profile.html" aria-label="My account (Rachel Green)" class="flex items-center gap-2 pl-3 border-l border-slate-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><span class="w-8 h-8 rounded-full text-white text-xs font-bold flex items-center justify-center" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);" aria-hidden="true">RG</span><span class="hidden xl:block"><span class="block text-xs font-semibold text-slate-700">Rachel Green</span><span class="block text-xs text-slate-500">Acme Logistics</span></span></a>
             </div>
         </header>
-
-        <!-- Main Scrollable Content -->
-        <main id="main-content" class="flex-1 overflow-y-auto p-8 bg-[#F3F4F6]">
-            <div class="max-w-7xl mx-auto space-y-6">
-
-                <!-- Page Breadcrumbs & Actions -->
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div>
-                        <nav class="flex text-sm text-gray-500 mb-2">
-                            <a href="client.demand.vacancies.html" class="hover:text-blue transition-colors">Vacancies</a>
-                            <span class="mx-2">/</span>
-                            <span class="text-gray-900 font-medium font-mono">VAC-2024-0891</span>
-                        </nav>
-                        <div class="flex items-center gap-3">
-                            <h2 class="text-2xl font-bold text-navy font-sora">Warehouse Operative</h2>
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-                                Partially Filled
-                            </span>
-                        </div>
-                        <div class="flex items-center gap-3 mt-3">
-                            <span class="text-sm font-semibold text-slate-900">2 of 3 positions filled</span>
-                            <div class="w-40 h-2 rounded-full bg-slate-200 overflow-hidden">
-                                <div class="h-full bg-emerald-500" style="width: 66%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <button class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors">
-                            Edit Details
-                        </button>
-                        <button class="px-4 py-2 border border-danger text-danger bg-white rounded-md text-sm font-medium hover:bg-danger/10 transition-colors">
-                            Close Vacancy
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex flex-col lg:flex-row gap-6">
-                    
-                    <!-- Left Column: Details & Proposals -->
-                    <div class="w-full lg:w-2/3 space-y-6">
-                        
-                        <!-- Role Details Card -->
-                        <div id="role-details" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <h3 class="text-lg font-sora font-semibold text-navy mb-4 border-b border-gray-100 pb-3">Role Overview</h3>
-                            
-                            <div class="space-y-6">
-                                <div>
-                                    <h4 class="text-sm font-semibold text-gray-900 mb-2">Job Description</h4>
-                                    <p class="text-sm text-gray-600 leading-relaxed">
-                                        We are seeking reliable and diligent Warehouse Operatives to join our fast-paced distribution centre. The role involves picking and packing orders, loading and unloading delivery vehicles, and maintaining a safe and tidy work environment. You will be required to use handheld RF scanners and operate pallet trucks. Physical fitness is essential as manual handling of goods up to 25kg is required.
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <h4 class="text-sm font-semibold text-gray-900 mb-3">Key Requirements & Compliance</h4>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
-                                            <i class="fa-solid fa-hard-hat text-gray-500"></i> Safety Boots Required
-                                        </span>
-                                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
-                                            <i class="fa-solid fa-vest text-gray-500"></i> Hi-Vis Required
-                                        </span>
-                                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
-                                            <i class="fa-solid fa-file-contract text-gray-500"></i> Site Induction Needed
-                                        </span>
-                                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
-                                            <i class="fa-solid fa-box text-gray-500"></i> Manual Handling
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tiered Model Explainer -->
-                        <div class="bg-blue/5 border border-blue/20 rounded-xl p-4 flex items-start gap-3">
-                            <i class="fa-solid fa-circle-info text-blue mt-0.5"></i>
-                            <p class="text-sm text-gray-700 leading-relaxed">
-                                <span class="font-semibold text-navy">How this vacancy is worked:</span>
-                                Abstract works this vacancy first. If positions remain open, Abstract releases it to its approved agencies.
-                            </p>
-                        </div>
-
-                        <!-- Position Roster -->
-                        <div id="position-roster" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                            <div class="flex items-center justify-between p-5 border-b border-gray-100">
-                                <h3 class="text-lg font-sora font-semibold text-navy">Position Roster</h3>
-                                <span class="text-sm font-semibold text-slate-600">2 / 3 filled</span>
-                            </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-left border-collapse whitespace-nowrap">
-                                    <thead>
-                                        <tr class="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500">
-                                            <th class="p-4 font-semibold">#</th>
-                                            <th class="p-4 font-semibold">Status</th>
-                                            <th class="p-4 font-semibold">Candidate</th>
-                                            <th class="p-4 font-semibold">Supplying Party</th>
-                                            <th class="p-4 font-semibold">Start Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-200 text-sm">
-                                        <tr>
-                                            <td class="p-4 font-mono text-gray-500">1</td>
-                                            <td class="p-4"><span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Filled</span></td>
-                                            <td class="p-4 font-medium text-navy">Marcus Johnson</td>
-                                            <td class="p-4 text-gray-700">Apex Staffing</td>
-                                            <td class="p-4 text-gray-700">24 Oct 2024</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="p-4 font-mono text-gray-500">2</td>
-                                            <td class="p-4"><span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Filled</span></td>
-                                            <td class="p-4 font-medium text-navy">David Patel</td>
-                                            <td class="p-4 text-gray-700">Abstract</td>
-                                            <td class="p-4 text-gray-700">24 Oct 2024</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="p-4 font-mono text-gray-500">3</td>
-                                            <td class="p-4"><span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">Open</span></td>
-                                            <td class="p-4 text-gray-400">—</td>
-                                            <td class="p-4 text-gray-400">—</td>
-                                            <td class="p-4 text-gray-400">—</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Proposals Section (Client Facing) -->
-                        <div id="proposals-section">
-                            <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-lg font-sora font-semibold text-navy">Candidate Proposals</h3>
-                                <span class="bg-blue/10 text-blue px-2.5 py-1 rounded-full text-xs font-bold">1 open position</span>
-                            </div>
-
-                            <div class="space-y-4">
-                                <!-- Proposal Card 1 -->
-                                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:border-blue/30 hover:shadow-md">
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-12 h-12 rounded-full bg-blue/10 flex items-center justify-center text-blue font-bold font-sora shrink-0">
-                                            MJ
-                                        </div>
-                                        <div>
-                                            <h4 class="font-sora font-semibold text-navy text-lg">Marcus Johnson</h4>
-                                            <p class="text-sm text-gray-500 mb-2">Proposed by <span class="font-medium text-gray-700">Apex Staffing</span></p>
-                                            <div class="flex items-center gap-2">
-                                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">Under Review</span>
-                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20">
-                                                    <i class="fa-solid fa-shield-check"></i> Compliant
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-col sm:items-end gap-3 border-t sm:border-t-0 border-gray-100 pt-3 sm:pt-0">
-                                        <div class="text-right">
-                                            <p class="text-xs text-gray-500 mb-0.5">Charge Rate</p>
-                                            <p class="font-mono font-semibold text-navy text-lg">£16.50 <span class="text-sm text-gray-500 font-normal">/ hr</span></p>
-                                        </div>
-                                        <div class="flex items-center gap-2 w-full sm:w-auto">
-                                            <button class="flex-1 sm:flex-none px-4 py-2 border border-danger text-danger bg-white hover:bg-danger/10 rounded-md text-sm font-medium transition-colors">
-                                                Reject
-                                            </button>
-                                            <button class="flex-1 sm:flex-none px-4 py-2 bg-blue text-white rounded-md text-sm font-medium hover:bg-navy transition-colors">
-                                                Accept
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Proposal Card 2 -->
-                                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:border-blue/30 hover:shadow-md">
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-12 h-12 rounded-full bg-purple/10 flex items-center justify-center text-purple font-bold font-sora shrink-0">
-                                            SW
-                                        </div>
-                                        <div>
-                                            <h4 class="font-sora font-semibold text-navy text-lg">Sarah Williams</h4>
-                                            <p class="text-sm text-gray-500 mb-2">Proposed by <span class="font-medium text-gray-700">Rapid Recruit Ltd</span></p>
-                                            <div class="flex items-center gap-2">
-                                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">Under Review</span>
-                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-warning/10 text-warning border border-warning/20">
-                                                    <i class="fa-solid fa-triangle-exclamation"></i> Induction Pending
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-col sm:items-end gap-3 border-t sm:border-t-0 border-gray-100 pt-3 sm:pt-0">
-                                        <div class="text-right">
-                                            <p class="text-xs text-gray-500 mb-0.5">Charge Rate</p>
-                                            <p class="font-mono font-semibold text-navy text-lg">£16.50 <span class="text-sm text-gray-500 font-normal">/ hr</span></p>
-                                        </div>
-                                        <div class="flex items-center gap-2 w-full sm:w-auto">
-                                            <button class="flex-1 sm:flex-none px-4 py-2 border border-danger text-danger bg-white hover:bg-danger/10 rounded-md text-sm font-medium transition-colors">
-                                                Reject
-                                            </button>
-                                            <button class="flex-1 sm:flex-none px-4 py-2 bg-blue text-white rounded-md text-sm font-medium hover:bg-navy transition-colors">
-                                                Accept
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Proposal Card 3 -->
-                                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:border-blue/30 hover:shadow-md">
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-12 h-12 rounded-full bg-navy/10 flex items-center justify-center text-navy font-bold font-sora shrink-0">
-                                            DP
-                                        </div>
-                                        <div>
-                                            <h4 class="font-sora font-semibold text-navy text-lg">David Patel</h4>
-                                            <p class="text-sm text-gray-500 mb-2">Proposed by <span class="font-medium text-gray-700">Apex Staffing</span></p>
-                                            <div class="flex items-center gap-2">
-                                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">Under Review</span>
-                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20">
-                                                    <i class="fa-solid fa-shield-check"></i> Compliant
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-col sm:items-end gap-3 border-t sm:border-t-0 border-gray-100 pt-3 sm:pt-0">
-                                        <div class="text-right">
-                                            <p class="text-xs text-gray-500 mb-0.5">Charge Rate</p>
-                                            <p class="font-mono font-semibold text-navy text-lg">£16.50 <span class="text-sm text-gray-500 font-normal">/ hr</span></p>
-                                        </div>
-                                        <div class="flex items-center gap-2 w-full sm:w-auto">
-                                            <button class="flex-1 sm:flex-none px-4 py-2 border border-danger text-danger bg-white hover:bg-danger/10 rounded-md text-sm font-medium transition-colors">
-                                                Reject
-                                            </button>
-                                            <button class="flex-1 sm:flex-none px-4 py-2 bg-blue text-white rounded-md text-sm font-medium hover:bg-navy transition-colors">
-                                                Accept
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Right Column: Summary Card -->
-                    <div class="w-full lg:w-1/3 space-y-6">
-                        <div id="vacancy-summary" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                            <div class="p-5 border-b border-gray-100 bg-gray-50/50">
-                                <h3 class="text-sm font-sora font-semibold text-navy uppercase tracking-wider">Vacancy Details</h3>
-                            </div>
-                            <div class="p-5 space-y-4">
-                                <div class="flex justify-between items-center py-2 border-b border-gray-50">
-                                    <span class="text-sm text-gray-500">Business Unit</span>
-                                    <span class="text-sm font-medium text-gray-900">Midlands Dist.</span>
-                                </div>
-                                <div class="flex justify-between items-center py-2 border-b border-gray-50">
-                                    <span class="text-sm text-gray-500">Shift Pattern</span>
-                                    <span class="text-sm font-medium text-gray-900">Nights (22:00 - 06:00)</span>
-                                </div>
-                                <div class="flex justify-between items-center py-2 border-b border-gray-50">
-                                    <span class="text-sm text-gray-500">Positions</span>
-                                    <span class="text-sm font-medium text-gray-900">2 / 3 filled</span>
-                                </div>
-                                <div class="flex justify-between items-center py-2 border-b border-gray-50">
-                                    <span class="text-sm text-gray-500">Start Date</span>
-                                    <span class="text-sm font-medium text-gray-900">24 Oct 2024</span>
-                                </div>
-                                <div class="flex justify-between items-center py-2 bg-blue/5 rounded-lg px-3 mt-2">
-                                    <span class="text-sm font-semibold text-navy">Target Charge Rate</span>
-                                    <span class="text-sm font-bold text-navy font-mono">£16.50 / hr</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Hiring Manager Info -->
-                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-                            <h3 class="text-sm font-sora font-semibold text-navy mb-4">Hiring Manager</h3>
-                            <div class="flex items-center gap-3">
-                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Manager Avatar" class="h-10 w-10 rounded-full object-cover border border-gray-200">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900 font-sora">Rebecca Smith</p>
-                                    <p class="text-xs text-gray-500">Operations Manager</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+        <main id="main" class="flex-1 overflow-y-auto px-4 sm:px-6 xl:px-8 py-6 pb-20 bg-slate-100">
+            <div data-s1-show="denied" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-14 text-center">
+                <div class="w-14 h-14 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-lock text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">You don't have access to this page</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Vacancies need the permission to view them.</p>
+                <a href="client.shell.dashboard.html" data-s1-home class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] mt-5"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to the dashboard</a>
             </div>
+            <div data-s1-show="loading" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col gap-4" aria-busy="true" aria-label="Loading"><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:40%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:26%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:66%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:52%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:52%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:38%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:44%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:30%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:60%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:46%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><p class="sr-only">Loading…</p></div>
+            <div data-s1-show="error" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-12 text-center" role="alert">
+                <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-triangle-exclamation text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">We couldn't load this vacancy</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Something went wrong on our side. Try again. If it keeps happening, quote reference <span class="font-semibold text-slate-800 tnum">ERR-S3-VAC-3C12</span> to Abstract.</p>
+                <button type="button" onclick="S1.setState('loading');setTimeout(function(){S1.setState('default')},700)" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold min-h-[38px] mt-5"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Retry</button>
+            </div>
+            <div id="app" data-s1-hide="denied loading error"></div>
         </main>
     </div>
-
+</div>
+<script src="slice3-proto.js"></script>
+<script>S3.mobileNav();</script>
+<script>
+var C=S3.C,ui=S3.ui,esc=S3.esc,app=document.getElementById('app'),id=S3.param('id')||'v1042',st='default',rosterPage=1;
+var fillOK=false;
+function bigV(v){var o=Object.assign({},v),r=[];for(var i=1;i<=500;i++)r.push({n:i,status:i%7===0?'Filled':'Open',bookingId:i%7===0?'b2201':null,bookingReference:i%7===0?'BK-'+(5000+i):null,candidateName:i%7===0?'Sample worker '+i:null,candidateId:'c-mo',filledAt:i%7===0?'2026-10-01T09:00:00':null,supplyingParty:i%7===0?'Abstract':null,startDate:i%7===0?v.startDate:null});o.rosterRows=r;o.positionCount=500;o.filledCount=71;o.openCount=429;return o;}
+function reason(v){
+ if(v.status==='Cancelled')return ui.banner('info','<strong>Cancelled</strong> on '+S3.fmtDateTime(v.cancelledAt)+' by '+esc(v.cancelledBy)+'. Reason: '+esc(v.cancellationReason));
+ if(v.status==='Closed')return ui.banner('info','<strong>Closed</strong> on '+S3.fmtDateTime(v.closedAt)+' by '+esc(v.closedBy)+'. Reason: '+esc(v.closeReason));
+ if(v.reopenedAt)return ui.banner('info','Closed on '+S3.fmtDate(v.closedAt)+' by '+esc(v.closedBy)+'; reopened by the cancellation of '+esc(v.reopenedByBooking)+'.');
+ return '';
+}
+function draw(){
+ var v=S3.vacancy(id);
+ if(!v){app.innerHTML=ui.empty('fa-magnifying-glass','We can’t find that vacancy','It may have been removed from your view.');return;}
+ var keys=st!=='nokeys';
+ var live=['Closed','Cancelled'].indexOf(v.status)<0;
+ var showV=st==='large'?bigV(v):v;
+ document.getElementById('page-title').textContent=v.reference;
+ var act='';
+ if(keys){
+  if(live)act+='<a class="'+C.sec+'" href="client.demand.create-vacancy.html?id='+v.id+'"><i class="fa-solid fa-pen" aria-hidden="true"></i> Edit</a><button type="button" id="a-count" class="'+C.sec+'">Change position count</button>';
+  if(v.status!=='Closed'&&v.status!=='Cancelled')act+='<button type="button" id="a-close" class="'+C.sec+'">Close</button>';
+  if(v.status!=='Cancelled')act+='<button type="button" id="a-cancel" class="'+C.dan+'">Cancel vacancy</button>';
+  if(v.status==='Draft')act+='<button type="button" id="a-publish" class="'+C.pri+'" style="'+C.priStyle+'">Publish</button>';
+ }
+ var details=ui.dl([['Place',esc(v.orgNodePath.join(' › '))],['Job role',esc(v.jobRoleTitle)],['Start date',S3.fmtDate(v.startDate)],['End date',S3.fmtDate(v.endDate)],['Working times',esc(v.workingTimes)],['Positions',String(v.positionCount)],['Close date',S3.fmtDate(v.closeDate)],['Shift',esc(v.shiftName)],['Charge rate',v.chargeRate?'<span class="tnum font-semibold">'+S3.money(v.chargeRate)+'</span> per hour':null]]);
+ var docs=v.documents.length?'<ul class="divide-y divide-slate-100">'+v.documents.map(function(d){return'<li class="py-2 flex items-center justify-between gap-3"><span class="min-w-0"><span class="block text-sm text-slate-800 truncate">'+esc(d.name)+'</span><span class="block text-xs text-slate-500">'+esc(d.size)+' · '+esc(d.by)+' · '+S3.fmtDate(d.at)+'</span></span><button type="button" class="'+C.ghost+'" data-dl="'+esc(d.name)+'"><i class="fa-solid fa-download" aria-hidden="true"></i> Download</button></li>';}).join('')+'</ul>':'<p class="text-sm text-slate-600">No documents yet.</p>';
+ 
+ app.innerHTML='<div class="flex flex-col gap-4">'+ui.crumbs([['Vacancies','client.demand.vacancies.html'],[v.reference]])+
+  (st==='conflict'?ui.banner('warning','Someone else changed this vacancy while you had it open, so your change wasn’t saved. <button type="button" class="'+C.link+'" onclick="S1.setState(\'default\')">Reload the vacancy</button> and try again.'):'')+
+  (st==='guard'?ui.banner('error','Your organisation isn’t active at the moment, so nothing can be changed here. You can still read this vacancy.'):'')+
+  '<div class="'+C.card+' p-5"><div class="flex flex-wrap items-start justify-between gap-3"><div class="min-w-0"><div class="flex flex-wrap items-center gap-2"><span class="text-sm font-semibold text-slate-600 tnum">'+esc(v.reference)+'</span>'+ui.badge(v.status)+'</div><h2 class="text-xl font-bold text-slate-900 mt-1">'+esc(v.jobTitle)+'</h2><p class="text-sm text-slate-600 mt-0.5">'+esc(v.orgNodeName)+'</p></div><div class="flex flex-wrap gap-2">'+act+'</div></div></div>'+
+  reason(v)+S3.roster(showV,{variant:'client',canFill:keys,page:rosterPage})+
+  '<div class="grid grid-cols-1 xl:grid-cols-3 gap-4"><div class="xl:col-span-2 flex flex-col gap-4"><section class="'+C.card+' p-5"><h2 class="text-sm font-bold text-slate-900 mb-3">Details</h2>'+details+'</section>'+
+  
+  (v.requirements?'<section class="'+C.card+' p-5"><h2 class="text-sm font-bold text-slate-900 mb-2">Requirements</h2><p class="text-sm text-slate-700 whitespace-pre-line">'+esc(v.requirements)+'</p></section>':'')+
+  (v.description?'<section class="'+C.card+' p-5"><h2 class="text-sm font-bold text-slate-900 mb-2">Description</h2><p class="text-sm text-slate-700 whitespace-pre-line">'+esc(v.description)+'</p></section>':'')+
+  '</div><div class="flex flex-col gap-4"><section class="'+C.card+' p-5"><h2 class="text-sm font-bold text-slate-900 mb-2">Documents</h2>'+docs+(keys?'<div id="upload" class="mt-3"></div>':'')+'</section>'+'</div></div></div>';
+ 
+ var up=document.getElementById('upload');if(up)S3.fileUpload(up,{onFile:function(n,s){S3.act.addDocument(v.id,n,s);S1.toast('Document uploaded.','success');draw();}});
+ app.querySelectorAll('[data-dl]').forEach(function(b){b.onclick=function(){S1.toast('Downloading '+esc(b.dataset.dl)+'.','success');};});
+ app.querySelectorAll('[data-pg]').forEach(function(b){b.onclick=function(){rosterPage=+b.dataset.pg;draw();};});
+ function on(i,f){var e=document.getElementById(i);if(e)e.onclick=f;}
+ on('a-count',function(){countDialog(v);});
+ on('a-publish',function(){S1.confirm({title:'Publish this vacancy?',body:'Abstract starts working it, and the client’s users who can see '+v.orgNodeName+' can see it.',cta:'Publish vacancy',onConfirm:function(){try{S3.act.publish(v.id);S1.toast('Vacancy published.','success');draw();}catch(e){if(!e.code)throw e;st='x';draw();app.insertAdjacentHTML('afterbegin','<div class="mb-4">'+ui.banner('error',esc(e.message))+'</div>');}}});});
+ on('a-close',function(){S3.dialog({title:'Close this vacancy?',body:'Any open position is cancelled. Filled positions keep their bookings.',tone:'danger',cta:'Close vacancy',fields:[{id:'d-reason',label:'Reason',type:'textarea',required:true,requiredMessage:'Enter a reason.'}],onOk:function(x){S3.act.close(v.id,x['d-reason']);S1.toast('Vacancy closed.','success');draw();}});});
+ on('a-cancel',function(){S3.dialog({title:'Cancel this vacancy?',body:'Open positions are cancelled. Filled positions keep their bookings, and each booking ends only when it is cancelled itself.',tone:'danger',cta:'Cancel vacancy',cancel:'Keep vacancy',fields:[{id:'d-reason',label:'Reason',type:'textarea',required:true,requiredMessage:'Enter a reason.'}],onOk:function(x){S3.act.cancel(v.id,x['d-reason']);S1.toast('Vacancy cancelled.','success');draw();}});});
+}
+function countDialog(v,preset){return S3.dialog({title:'Change position count',body:v.filledCount+' of '+v.positionCount+' positions filled.',cta:'Save count',fields:[{id:'d-count',label:'Positions',type:'number',min:1,max:500,value:preset||v.positionCount,required:true}],validate:function(x){var n=Number(x['d-count']);return n>=1&&n<=500?{}:{'d-count':'Enter between 1 and 500.'};},onOk:function(x,api){S3.act.changeCount(v.id,Number(x['d-count']));S1.toast('Position count saved.','success');draw();}});}
+S3.onState(function(s){st=s;rosterPage=1;if(['loading','error','denied'].indexOf(s)>=0)return;draw();if(s==='validation'){var v=S3.vacancy(id);var d=countDialog(v,Math.max(0,v.filledCount-1)||1);setTimeout(function(){document.querySelector('.s1-scrim [data-ok]').click();},50);}});
+</script>
 <script src="slice1-kit.js"></script>
 </body>
 </html>

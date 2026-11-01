@@ -1,501 +1,107 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-[#F3F4F6]">
+<html lang="en-GB">
 <head>
-    <script>
-        window.FontAwesomeConfig = {
-          autoReplaceSvg: 'nest'
-        };
-      </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vacancies - Abstractvms Client Portal</title>
+    <title>Vacancies · Abstract VMS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sora: ['Sora', 'sans-serif'],
-                        manrope: ['Manrope', 'sans-serif'],
-                    },
-                    colors: {
-                        navy: '#172554',
-                        blue: '#1D4ED8',
-                        purple: '#5B2E91',
-                        lightgrey: '#F3F4F6',
-                        success: '#16A34A',
-                        warning: '#F59E0B',
-                        danger: '#DC2626',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: 'Manrope', sans-serif; }
-        h1, h2, h3, h4, h5, h6 { font-family: 'Sora', sans-serif; }
-        ::-webkit-scrollbar { display: none; }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;} * { scrollbar-width: none; }
+    .tnum { font-variant-numeric: tabular-nums; }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
     </style>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { inter: ['Inter', 'sans-serif'] }, colors: {
+            navy: { DEFAULT: '#172554', 50: '#EEF1FB', 100: '#D4DCF5', 200: '#A9B9EB', 300: '#7E96E1', 400: '#5373D7', 500: '#2850CD', 600: '#1D3FA4', 700: '#162F7B', 800: '#0F1F52', 900: '#172554' },
+            brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554' } } } } };
+    </script>
 </head>
-<body class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800 flex bg-[#F3F4F6]">
-
-    <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="w-64 bg-navy h-screen flex-shrink-0 flex flex-col border-r border-navy/20">
-        <!-- Logo -->
-        <div class="h-16 flex items-center px-6 border-b border-white/10 shrink-0">
-            <div class="flex items-center gap-2">
-                                <img src="logo.png" alt="Abstract" class="h-12 w-auto">
-
-            </div>
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s3-page data-s1-states="default loading empty error denied large nocreate">
+<div id="app-root" class="flex w-full" style="height: 100vh;">
+    <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
+        <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
+            <img src="logo.png" alt="Abstract VMS" class="h-12 w-auto block -ml-[5px]"/>
+            <p class="text-white/40 text-sm mt-2">Client Portal</p>
         </div>
-
-        <!-- Nav Links -->
-        <div class="flex-1 overflow-y-auto py-6 px-3">
-            <nav class="space-y-1">
-                <a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-chart-pie w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Dashboard</span>
-                </a>
-                <a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-building w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Business Units</span>
-                </a>
-                <a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-users-gear w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Users & Permissions</span>
-                </a>
-                <div class="pt-4 pb-1">
-                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Recruitment</p>
-                </div>
-                <a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md bg-blue text-white group transition-colors duration-200 border-l-4 border-white">
-                    <i class="fa-solid fa-briefcase w-5 text-center text-white"></i>
-                    <span class="text-sm font-medium">Vacancies</span>
-                </a>
-                <a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-clipboard-list w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Bookings</span>
-                </a>
-                <a href="client.candidates.candidate-directory.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-address-card w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Candidate Directory</span>
-                </a>
-                <div class="pt-4 pb-1">
-                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Finance</p>
-                </div>
-                <a href="client.timesheets.timesheets.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-clock w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Timesheets</span>
-                </a>
-                <a href="client.money.invoices.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-file-invoice-dollar w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Invoices</span>
-                </a>
-                <div class="pt-4 pb-1">
-                    <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Analytics</p>
-                </div>
-                <a href="client.reporting.reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-300 hover:bg-white/5 hover:text-white group transition-colors duration-200 border-l-4 border-transparent">
-                    <i class="fa-solid fa-chart-line w-5 text-center text-gray-400 group-hover:text-white"></i>
-                    <span class="text-sm font-medium">Reports</span>
-                </a>
-            </nav>
-        </div>
-
-        <!-- User Profile -->
-        <div class="border-t border-white/10 p-4 shrink-0">
-            <div class="flex items-center gap-3 w-full">
-                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="User Avatar" class="h-9 w-9 rounded-full object-cover border border-gray-600">
+        <nav id="sidebar-nav" class="flex-1 px-3 py-4 flex flex-col gap-1" aria-label="Main"><a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-gauge-high text-white/40 w-4 text-center" aria-hidden="true"></i><span>Dashboard</span></a><a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-150" style="background: linear-gradient(135deg, rgba(29,78,216,0.5), rgba(91,46,145,0.4)); border: 1px solid rgba(255,255,255,0.15);" aria-current="page"><i class="fa-solid fa-briefcase text-blue-400 w-4 text-center" aria-hidden="true"></i><span>Vacancies</span><div class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"></div></a><a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-calendar-check text-white/40 w-4 text-center" aria-hidden="true"></i><span>Bookings</span></a><a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-sitemap text-white/40 w-4 text-center" aria-hidden="true"></i><span>Business Units</span></a><a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-users text-white/40 w-4 text-center" aria-hidden="true"></i><span>Users & Permissions</span></a><a href="client.notifications.notification-preferences.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-bell text-white/40 w-4 text-center" aria-hidden="true"></i><span>Notification preferences</span></a></nav>
+        <div id="sidebar-footer" class="px-4 py-4 border-t border-white/10">
+            <div class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-white/5 transition-all">
+                <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 text-xs font-bold flex items-center justify-center flex-shrink-0" aria-hidden="true">RG</span>
                 <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-white truncate font-sora">Rachel Green</p>
-                    <p class="text-xs text-gray-400 truncate">Acme Logistics</p>
+                    <a href="client.identity-access.profile.html" class="block text-white text-xs font-semibold truncate hover:underline" title="Your profile" data-user-name>Rachel Green</a>
+                    <p class="text-white/40 text-xs truncate">Acme Logistics</p>
                 </div>
-                <a href="client.identity-access.sign-in.html" class="text-gray-400 hover:text-white transition-colors" title="Sign Out">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                </a>
+                <a href="client.identity-access.sign-in.html?reason=signed-out" aria-label="Sign out" title="Sign out"><i class="fa-solid fa-arrow-right-from-bracket text-white/30 text-xs hover:text-white" aria-hidden="true"></i></a>
             </div>
         </div>
     </aside>
-
-    <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col h-screen overflow-hidden">
-        
-        <!-- Header -->
-        <header id="header" class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 shrink-0 shadow-sm z-10">
-            <div class="flex items-center gap-4">
-                <h1 class="text-xl font-sora font-semibold text-navy">Vacancies</h1>
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header id="header" class="flex items-center justify-between gap-3 px-4 sm:px-6 xl:px-8 py-4 bg-white border-b border-slate-200 flex-shrink-0">
+            <div class="flex items-center gap-3 min-w-0">
+                <button id="mobile-menu-btn" class="lg:hidden w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-bars text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <div class="min-w-0"><h1 id="page-title" class="text-lg font-bold text-slate-900 truncate">Vacancies</h1></div>
             </div>
-
-            <div class="flex items-center gap-6">
-                <!-- Search -->
-                <div class="relative w-64 hidden md:block">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
-                    </div>
-                    <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue focus:border-blue sm:text-sm transition-all" placeholder="Search vacancies...">
-                </div>
-
-                <!-- Notifications -->
-                <a href="client.notifications.notification-centre.html" class="relative text-gray-500 hover:text-navy transition-colors" title="Notifications" aria-label="Notifications">
-                    <i class="fa-regular fa-bell text-lg"></i>
-                    <span class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-danger text-[10px] font-bold text-white ring-2 ring-white">3</span>
-                </a>
+            <div class="flex items-center gap-3 flex-shrink-0">
+                <a id="head-action" href="client.demand.create-vacancy.html" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-3 sm:px-4 py-2.5 text-xs font-semibold hover:opacity-95 min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)"><i class="fa-solid fa-plus" aria-hidden="true"></i><span class="hidden sm:inline">Create vacancy</span><span class="sr-only sm:hidden">Create vacancy</span></a>
+                <button data-s1-bell aria-label="Notifications" class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-regular fa-bell text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <a href="client.identity-access.profile.html" aria-label="My account (Rachel Green)" class="flex items-center gap-2 pl-3 border-l border-slate-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><span class="w-8 h-8 rounded-full text-white text-xs font-bold flex items-center justify-center" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);" aria-hidden="true">RG</span><span class="hidden xl:block"><span class="block text-xs font-semibold text-slate-700">Rachel Green</span><span class="block text-xs text-slate-500">Acme Logistics</span></span></a>
             </div>
         </header>
-
-        <!-- Main Scrollable Content -->
-        <main id="main-content" class="flex-1 overflow-y-auto p-8 bg-[#F3F4F6]">
-            <div class="max-w-7xl mx-auto space-y-6">
-
-                <!-- KPI Overview Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-sm font-medium text-gray-500 mb-1">Total Active Vacancies</p>
-                                <h3 class="text-2xl font-bold text-navy font-sora">42</h3>
-                            </div>
-                            <div class="w-10 h-10 rounded-lg bg-blue/10 flex items-center justify-center">
-                                <i class="fa-solid fa-briefcase text-blue"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-sm font-medium text-gray-500 mb-1">Pending Proposals</p>
-                                <h3 class="text-2xl font-bold text-navy font-sora">18</h3>
-                            </div>
-                            <div class="w-10 h-10 rounded-lg bg-warning/10 flex items-center justify-center">
-                                <i class="fa-solid fa-file-signature text-warning"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-sm font-medium text-gray-500 mb-1">High Priority</p>
-                                <h3 class="text-2xl font-bold text-navy font-sora">7</h3>
-                            </div>
-                            <div class="w-10 h-10 rounded-lg bg-danger/10 flex items-center justify-center">
-                                <i class="fa-solid fa-fire text-danger"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-sm font-medium text-gray-500 mb-1">Avg Time to Fill</p>
-                                <h3 class="text-2xl font-bold text-navy font-sora">4.2 <span class="text-sm text-gray-500 font-normal">days</span></h3>
-                            </div>
-                            <div class="w-10 h-10 rounded-lg bg-purple/10 flex items-center justify-center">
-                                <i class="fa-solid fa-clock-rotate-left text-purple"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Page Actions & Filters -->
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-                    <div class="flex flex-wrap items-center gap-3">
-                        <div class="relative w-64">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
-                            </div>
-                            <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-blue focus:border-blue" placeholder="Search role or ref...">
-                        </div>
-                        
-                        <div class="relative">
-                            <select class="block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md focus:ring-blue focus:border-blue appearance-none bg-gray-50">
-                                <option>All Business Units</option>
-                                <option>Midlands Dist.</option>
-                                <option>Northern Hub</option>
-                                <option>London Gateway</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-
-                        <div class="relative">
-                            <select class="block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md focus:ring-blue focus:border-blue appearance-none bg-gray-50">
-                                <option>Status: All</option>
-                                <option>Draft</option>
-                                <option>Open (Abstract Tier)</option>
-                                <option>Released to Agencies</option>
-                                <option>Partially Filled</option>
-                                <option>Filled</option>
-                                <option>Closed</option>
-                                <option>Cancelled</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="relative">
-                            <select class="block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md focus:ring-blue focus:border-blue appearance-none bg-gray-50">
-                                <option>Priority: All</option>
-                                <option>High</option>
-                                <option>Medium</option>
-                                <option>Low</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex gap-2">
-                        <button class="bg-blue text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-navy transition-colors flex items-center gap-2">
-                            <i class="fa-solid fa-plus"></i>
-                            Create Vacancy
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Vacancies Table -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse whitespace-nowrap">
-                            <thead>
-                                <tr class="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500">
-                                    <th class="p-4 font-semibold">Ref / Role</th>
-                                    <th class="p-4 font-semibold">Business Unit</th>
-                                    <th class="p-4 font-semibold">Positions</th>
-                                    <th class="p-4 font-semibold">Charge Rate</th>
-                                    <th class="p-4 font-semibold">Proposals</th>
-                                    <th class="p-4 font-semibold">Status / Priority</th>
-                                    <th class="p-4 font-semibold text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <!-- Row 1 -->
-                                <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="window.location.href='client.demand.vacancy-detail.html'">
-                                    <td class="p-4">
-                                        <div class="flex flex-col">
-                                            <span class="font-medium text-navy text-sm font-sora">Warehouse Operative</span>
-                                            <span class="text-xs text-gray-500 font-mono mt-0.5">VAC-2024-0891</span>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="text-sm text-gray-700">Midlands Dist.</div>
-                                        <div class="text-xs text-gray-500 mt-0.5">Shift: Nights (22:00 - 06:00)</div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="flex items-center gap-2">
-                                            <span class="text-sm font-semibold text-slate-900">2 / 3</span>
-                                            <div class="w-16 h-1.5 rounded-full bg-slate-200 overflow-hidden">
-                                                <div class="h-full bg-emerald-500" style="width: 66%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="text-sm font-medium text-gray-900 font-mono">£16.50 / hr</div>
-                                        <div class="text-xs text-gray-500">Standard Charge</div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="flex items-center gap-2">
-                                            <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue text-white text-xs font-bold">4</span>
-                                            <span class="text-xs text-gray-500">Pending</span>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="flex flex-col gap-1.5 items-start">
-                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-                                                Partially Filled
-                                            </span>
-                                            <span class="text-xs text-danger font-medium flex items-center gap-1">
-                                                <i class="fa-solid fa-arrow-up"></i> High Priority
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td class="p-4 text-right">
-                                        <button class="text-blue hover:text-navy text-sm font-medium mr-3 hover:underline">View</button>
-                                        <button class="text-gray-400 hover:text-blue p-1.5 rounded-md hover:bg-blue/10 transition-colors">
-                                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <!-- Row 2 -->
-                                <tr class="hover:bg-gray-50 transition-colors bg-white">
-                                    <td class="p-4">
-                                        <div class="flex flex-col">
-                                            <span class="font-medium text-navy text-sm font-sora">FLT Driver (Counterbalance)</span>
-                                            <span class="text-xs text-gray-500 font-mono mt-0.5">VAC-2024-0890</span>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="text-sm text-gray-700">Northern Hub</div>
-                                        <div class="text-xs text-gray-500 mt-0.5">Shift: Days (06:00 - 14:00)</div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="flex items-center gap-2">
-                                            <span class="text-sm font-semibold text-slate-900">0 / 3</span>
-                                            <div class="w-16 h-1.5 rounded-full bg-slate-200 overflow-hidden">
-                                                <div class="h-full bg-emerald-500" style="width: 0%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="text-sm font-medium text-gray-900 font-mono">£18.20 / hr</div>
-                                        <div class="text-xs text-gray-500">Standard Charge</div>
-                                    </td>
-                                    <td class="p-4">
-                                        <span class="text-sm text-gray-500">0</span>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="flex flex-col gap-1.5 items-start">
-                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
-                                                Open (Abstract Tier)
-                                            </span>
-                                            <span class="text-xs text-gray-500 font-medium">Medium Priority</span>
-                                        </div>
-                                    </td>
-                                    <td class="p-4 text-right">
-                                        <button class="text-blue hover:text-navy text-sm font-medium mr-3 hover:underline">View</button>
-                                        <button class="text-gray-400 hover:text-blue p-1.5 rounded-md hover:bg-blue/10 transition-colors">
-                                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <!-- Row 3 -->
-                                <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="window.location.href='client.demand.vacancy-detail.html'">
-                                    <td class="p-4">
-                                        <div class="flex flex-col">
-                                            <span class="font-medium text-navy text-sm font-sora">Picker/Packer</span>
-                                            <span class="text-xs text-gray-500 font-mono mt-0.5">VAC-2024-0885</span>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="text-sm text-gray-700">London Gateway</div>
-                                        <div class="text-xs text-gray-500 mt-0.5">Shift: Lates (14:00 - 22:00)</div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="flex items-center gap-2">
-                                            <span class="text-sm font-semibold text-slate-900">4 / 20</span>
-                                            <div class="w-16 h-1.5 rounded-full bg-slate-200 overflow-hidden">
-                                                <div class="h-full bg-emerald-500" style="width: 20%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="text-sm font-medium text-gray-900 font-mono">£15.00 / hr</div>
-                                        <div class="text-xs text-gray-500">Standard Charge</div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="flex items-center gap-2">
-                                            <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue text-white text-xs font-bold">12</span>
-                                            <span class="text-xs text-gray-500">Pending</span>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="flex flex-col gap-1.5 items-start">
-                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200">
-                                                Released to Agencies
-                                            </span>
-                                            <span class="text-xs text-danger font-medium flex items-center gap-1">
-                                                <i class="fa-solid fa-arrow-up"></i> High Priority
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td class="p-4 text-right">
-                                        <button class="text-blue hover:text-navy text-sm font-medium mr-3 hover:underline">View</button>
-                                        <button class="text-gray-400 hover:text-blue p-1.5 rounded-md hover:bg-blue/10 transition-colors">
-                                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                 <!-- Row 4 -->
-                                <tr class="hover:bg-gray-50 transition-colors bg-white">
-                                    <td class="p-4">
-                                        <div class="flex flex-col">
-                                            <span class="font-medium text-gray-500 text-sm font-sora">Team Leader</span>
-                                            <span class="text-xs text-gray-400 font-mono mt-0.5">VAC-2024-0880</span>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="text-sm text-gray-500">Midlands Dist.</div>
-                                        <div class="text-xs text-gray-400 mt-0.5">Shift: Days (06:00 - 14:00)</div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="flex items-center gap-2">
-                                            <span class="text-sm font-semibold text-slate-500">0 / 1</span>
-                                            <div class="w-16 h-1.5 rounded-full bg-slate-200 overflow-hidden">
-                                                <div class="h-full bg-emerald-500" style="width: 0%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="text-sm font-medium text-gray-500 font-mono">£21.50 / hr</div>
-                                        <div class="text-xs text-gray-400">Standard Charge</div>
-                                    </td>
-                                    <td class="p-4">
-                                        <span class="text-sm text-gray-400">-</span>
-                                    </td>
-                                    <td class="p-4">
-                                        <div class="flex flex-col gap-1.5 items-start">
-                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-                                                Draft
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td class="p-4 text-right">
-                                        <button class="text-blue hover:text-navy text-sm font-medium mr-3 hover:underline">Edit</button>
-                                        <button class="text-gray-400 hover:text-blue p-1.5 rounded-md hover:bg-blue/10 transition-colors">
-                                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Pagination -->
-                    <div class="bg-gray-50 px-4 py-3 border-t border-gray-200 flex items-center justify-between sm:px-6">
-                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                            <div>
-                                <p class="text-sm text-gray-700">
-                                    Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">42</span> vacancies
-                                </p>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-sm text-gray-500">Rows per page:</span>
-                                    <select class="border-gray-300 rounded text-sm py-1 pl-2 pr-6 focus:ring-blue focus:border-blue bg-white">
-                                        <option>10</option>
-                                        <option>25</option>
-                                        <option>50</option>
-                                    </select>
-                                </div>
-                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                        <span class="sr-only">Previous</span>
-                                        <i class="fa-solid fa-chevron-left w-5 h-5 flex items-center justify-center"></i>
-                                    </a>
-                                    <a href="#" aria-current="page" class="z-10 bg-blue border-blue text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
-                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
-                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">3</a>
-                                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
-                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">5</a>
-                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                        <span class="sr-only">Next</span>
-                                        <i class="fa-solid fa-chevron-right w-5 h-5 flex items-center justify-center"></i>
-                                    </a>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+        <main id="main" class="flex-1 overflow-y-auto px-4 sm:px-6 xl:px-8 py-6 pb-20 bg-slate-100">
+            <div data-s1-show="denied" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-14 text-center">
+                <div class="w-14 h-14 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-lock text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">You don't have access to this page</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Vacancies need the permission to view them. Ask your administrator if you need it.</p>
+                <a href="client.shell.dashboard.html" data-s1-home class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] mt-5"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to the dashboard</a>
             </div>
+            <div data-s1-show="loading" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col gap-4" aria-busy="true" aria-label="Loading"><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:40%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:26%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:66%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:52%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:52%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:38%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:44%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:30%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:60%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:46%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><p class="sr-only">Loading…</p></div>
+            <div data-s1-show="error" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-12 text-center" role="alert">
+                <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-triangle-exclamation text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">We couldn't load vacancies</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Something went wrong on our side. Try again. If it keeps happening, quote reference <span class="font-semibold text-slate-800 tnum">ERR-S3-VAC-3C10</span> to Abstract.</p>
+                <button type="button" onclick="S1.setState('loading');setTimeout(function(){S1.setState('default')},700)" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold min-h-[38px] mt-5"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Retry</button>
+            </div>
+            <div id="app" data-s1-hide="denied loading error"></div>
         </main>
     </div>
-
+</div>
+<script src="slice3-proto.js"></script>
+<script>S3.mobileNav();</script>
+<script>
+var C=S3.C,ui=S3.ui,esc=S3.esc,app=document.getElementById('app'),page=1,PAGE=25,st='default',abs=false;
+var WORDS=['Draft','Open (Abstract Tier)','Released to Agencies','Partially Filled','Filled','Closed','Cancelled'];
+var detail=abs?'abstract.demand.vacancy-detail.html':'client.demand.vacancy-detail.html', form=abs?'abstract.demand.create-vacancy.html':'client.demand.create-vacancy.html';
+function data(){var all=S3.vacancies();if(st==='empty')return[];if(st==='large'){var o=[];for(var i=0;i<612;i++){var b=all[i%all.length];o.push(Object.assign({},b,{id:b.id,reference:'VAC-'+(3000+i)}));}return o;}return all;}
+function nodes(c){var out=[['','All places']];(S3.TREES[c]||[]).forEach(function(n){if(!n.root)out.push([n.id,'\u00a0'.repeat(S3.nodePath(c,n.id).length*2-2)+n.name]);});return out;}
+function shell(){
+ var roles=[['','All job roles']].concat(Object.keys(S3.JOB_ROLES).map(function(k){return[k,S3.JOB_ROLES[k]];}));
+ var f=(abs?ui.select('f-client','Client','fa-building',[['','All clients']].concat(Object.keys(S3.CLIENTS).map(function(k){return[k,S3.CLIENTS[k].name];}))):'')+ui.select('f-node','Place','fa-sitemap',abs?[['','All places']]:nodes('acme'))+ui.select('f-role','Job role','fa-id-badge',roles)+ui.select('f-status','Status','fa-circle-half-stroke',[['','All statuses']].concat(WORDS.map(function(w){return[w,w];})))+ui.dates('f-from','f-to')+ui.search('f-q','Search reference or job title');
+ app.innerHTML=ui.filterBar('f-panel',f)+'<div id="list"></div>';
+ ui.wireFilterToggle(app);
+ ['f-client','f-node','f-role','f-status','f-from','f-to'].forEach(function(id){var e=document.getElementById(id);if(e)e.onchange=function(){if(id==='f-client'){var n=document.getElementById('f-node');n.innerHTML=nodes(e.value).map(function(o){return'<option value="'+o[0]+'">'+o[1]+'</option>';}).join('');}page=1;draw();};});
+ document.getElementById('f-q').oninput=function(){page=1;draw();};
+}
+function val(id){var e=document.getElementById(id);return e?e.value:'';}
+function draw(){
+ var all=data(),c=val('f-client'),n=val('f-node'),r=val('f-role'),s=val('f-status'),a=val('f-from'),b=val('f-to'),q=val('f-q').toLowerCase();
+ var sub=n?S3.subtree(c||'acme',n):null;
+ var rows=all.filter(function(v){return(!c||v.clientId===c)&&(!sub||sub.indexOf(v.orgNodeId)>=0)&&(!r||v.jobRoleId===r)&&(!s||v.status===s)&&(!a||v.startDate>=a)&&(!b||v.startDate<=b)&&(!q||(v.reference+' '+v.jobTitle).toLowerCase().indexOf(q)>=0);}).sort(function(x,y){return x.startDate<y.startDate?1:-1;});
+ 
+ var box=document.getElementById('list');
+ if(!all.length){box.innerHTML=ui.empty('fa-briefcase','No vacancies yet','',st==='nocreate'?'':'<a class="'+C.pri+'" style="'+C.priStyle+'" href="'+form+'"><i class="fa-solid fa-plus" aria-hidden="true"></i> Create vacancy</a>');return;}
+ if(!rows.length){box.innerHTML=ui.empty('fa-filter','No vacancies match these filters','Try another filter, or clear them.');return;}
+ var pages=Math.ceil(rows.length/PAGE),view=rows.slice((page-1)*PAGE,page*PAGE),href=function(v){return detail+'?id='+v.id;};
+ var refCell=function(v){return'<a class="'+C.link+' tnum" href="'+href(v)+'">'+esc(v.reference)+'</a><span class="block text-xs text-slate-600 mt-0.5">'+esc(v.jobTitle)+'</span>';};
+ var charge=function(v){return v.chargeRate?S3.money(v.chargeRate)+'<span class="block text-xs text-slate-500 font-normal">'+esc(v.shiftName)+'</span>':'<span class="text-slate-500">No rate</span>';};
+ var cols=[{label:'Reference',cell:refCell},{label:'Place',cell:function(v){return'<span title="'+esc(v.orgNodePath.join(' › '))+'">'+esc(v.orgNodeName)+'</span>';}},{label:'Job role',cell:function(v){return esc(v.jobRoleTitle);}},{label:'Positions',cell:function(v){return ui.positions(v.filledCount,v.positionCount);}},{label:'Start',nowrap:true,cell:function(v){return S3.fmtDate(v.startDate);}},{label:'Charge rate',right:true,nowrap:true,cell:charge},{label:'Status',cell:function(v){return ui.badge(v.status);}}];
+ box.innerHTML=ui.list({caption:'Vacancies',cols:cols,rows:view,href:href,card:function(v){return ui.mobileCard({title:refCell(v),badge:ui.badge(v.status,true),lines:[esc(v.orgNodeName),esc(v.jobRoleTitle)+' · starts '+S3.fmtDate(v.startDate),ui.positions(v.filledCount,v.positionCount),'Charge rate: '+charge(v)]});}})+ui.pager(rows.length,page,pages,'vacancies');
+ ui.wireRows(box);box.querySelectorAll('[data-pg]').forEach(function(x){x.onclick=function(){page=+x.dataset.pg;draw();document.getElementById('main').scrollTop=0;};});
+}
+S3.onState(function(s){st=s;page=1;var a=document.getElementById('head-action');if(a)a.style.display=s==='nocreate'||s==='denied'?'none':'';if(['loading','error','denied'].indexOf(s)<0){shell();draw();}});
+</script>
 <script src="slice1-kit.js"></script>
 </body>
 </html>
