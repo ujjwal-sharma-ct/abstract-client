@@ -340,15 +340,17 @@
     if (Object.keys(errs).length) refuse('VALIDATION_ERROR', 'Check the highlighted days.', { fields: errs });
     var newlyPending = [];
     inputs.forEach(function (inp) {
-      var prev = t.days[inp.date];
+      var prev = t.days[inp.date], was = before.days.filter(function (y) { return y.date === inp.date; })[0];
+      // TSD §3.3.1 rule 3 (R5 decision O3): re-sending the Shift the day already has keeps its default flag; only another Shift clears it
+      var sameAsDefault = inp.shiftId && was && was.dayStatus === inp.dayStatus && was.shiftDefaulted && was.shiftId === inp.shiftId;
       if (!inp.dayStatus) { delete t.days[inp.date]; ev(t, fmtDay(inp.date) + ': cleared'); return; }
       var e = day(inp.dayStatus, inp.dayStatus === 'Worked' ? (Math.round(Number(inp.hours) * 4) / 4).toFixed(2) : null, null, { updatedAt: NOW() });
       if (inp.dayStatus === 'Worked') {
-        e.shiftId = inp.shiftId || null; e.shiftDefaulted = !inp.shiftId;
+        e.shiftId = inp.shiftId || null; e.shiftDefaulted = !inp.shiftId || !!sameAsDefault;
         if (prev && prev.dayStatus === 'Worked' && prev.coveredJobRoleId) { e.coveredJobRoleId = prev.coveredJobRoleId; e.roleChangedBy = prev.roleChangedBy; e.roleChangedAt = prev.roleChangedAt; }
         if (!e.shiftId) e.shiftId = null;
       } else if (inp.dayStatus !== 'Not Booked') {
-        e.absenceComment = inp.absenceComment || null; e.shiftId = inp.shiftId || null; e.shiftDefaulted = !inp.shiftId;
+        e.absenceComment = inp.absenceComment || null; e.shiftId = inp.shiftId || null; e.shiftDefaulted = !inp.shiftId || !!sameAsDefault;
         if (prev && prev.dayStatus === inp.dayStatus && prev.payOverride) e.payOverride = prev.payOverride;
       }
       t.days[inp.date] = e;
