@@ -159,3 +159,15 @@ agency/client screens look different from the new kernel-styled ones until they 
 **Decision:** (1) Sample roles carry the TSD's seed names (§3.3.4) plus one custom role per party, with one set of ids across Users, User detail and the matrix. (2) Abstract's view of a party's roles and keys is a copy of that party's own matrix; no matrix was redrawn onto the TSD's key list. (3) The older full-product pages show the same signed-in person as the slice 1 pages, with her organisation under her name. (4) A static slice 2 part carries `data-s1-later`; a part drawn by script asks the mode when it draws and is redrawn on the kit's `s1:mode` event, because the kit hides marked elements only at the moment the mode is applied. (5) *Correct email* is its own action and dialog for an `Invited` user, separate from slice 2's *Change email* for an `Active` user: a correction takes effect at once and sends a new activation link, a change waits for the person to confirm it.
 
 **Consequences:** The prototype's key lists still differ from the TSD's twelve slice 1 keys per party; that is a contract gap for a later pass, recorded in `PROGRESS.md`.
+
+## 2026-11-08 — Slice 4: Timesheets in the slice 3 pages' sidebar; no return to Draft for the client (pending Ujjwal's review)
+
+**Context:** Slice 4 TSD §3.3.11 puts *Timesheets* in the client `menu` group behind `timesheet:view`. Ruling 5 of
+2026-11-08: the client never returns a week; only Abstract returns or reopens.
+
+**Decision:** The five slice 3 pages gain *Timesheets* after *Bookings*. The client grid and booking-week have no
+return action; a returned week shows who returned it (*Abstract*) and the reason. The grid is the same
+implementation as Abstract's, from `slice4-proto.js`, whose client copy holds charge figures only. Logged in
+`../SLICE-4-DECISIONS-FOR-REVIEW.md`.
+
+**Consequences:** The old export's *Return to Draft* is gone.
