@@ -162,6 +162,10 @@
   var db = read(KEY) || seed();
   function save() { write(KEY, db); }
   
+  // The simulated server's charge to the client: a paid day off whose cost Abstract bears is charged 0.00. Read from the shared
+  // store; the client copy keeps no bearer field (design review R1 N2).
+  function abstractBears(t, date) { var a = read(KEY + '-abstract'), o = a && a.bearer && a.bearer[t.id + '|' + date]; return !!(o && o.value === 'Abstract'); }
+  
 
   var S4 = window.S4 = { PORTAL: PORTAL, TODAY: TODAY, CURRENT_WEEK: CURRENT_WEEK, PATTERNS: PATTERNS, HOUR_TYPE: HOUR_TYPE, MULT: MULT, fmtDay: fmtDay, fmtWeek: fmtWeek, fmtDeadline: fmtDeadline, addDays: addDays, mondayOf: mondayOf, weekDates: weekDates };
   S4.reset = function () { try { window.localStorage.removeItem(KEY); window.localStorage.removeItem(KEY + '-abstract'); } catch (e) { /* nothing stored */ } db = seed();  };
@@ -253,6 +257,7 @@
       Object.keys(split).forEach(function (k) {
         var m = MULT[k], cr = Math.round(std * m), ln = { kind: worked ? 'worked' : 'absence', hourType: k, hours: hrs(split[k]), multiplier: m.toFixed(4), chargeRate: M(cr), clientCost: M(mul(cr, split[k])) };
         
+        if (!worked && abstractBears(t, x.date)) ln.clientCost = '0.00'; // design review R1 N2: the charge the server answers, no bearer field
         cost.clientCost += P(ln.clientCost);
         x.lines.push(ln);
       });
@@ -321,7 +326,10 @@
   function stamp(t, s) { if (s && s !== t.updatedAt) refuse('TIMESHEET_VERSION_CONFLICT', 'This week was changed elsewhere while you had it open.'); }
   function pendingNotice(t, x, b) {
     if (!window.S1 || !S1.notify) return;
-    S1.notify({ severity: 'critical', title: 'A day is waiting for manual pricing', body: b.candidateName + ', ' + b.reference + ', ' + fmtDay(x.date) + ': ' + S3.JOB_ROLES[x.effectiveJobRoleId || b.jobRoleId] + ' on the ' + x.shiftName + ' Shift has no rate on the card. The week can’t be submitted or approved until Abstract prices it.', href: ABS ? 'abstract.timesheets.pending-pricing.html' : 'client.timesheets.booking-week.html?id=' + t.id });
+    // two event types, one per party (design review R1 D2): Abstract's asks for the price, the client's says Abstract is pricing it
+    var what = b.candidateName + ', ' + b.reference + ', ' + fmtDay(x.date) + ': ' + S3.JOB_ROLES[x.effectiveJobRoleId || b.jobRoleId] + ' on the ' + x.shiftName + ' Shift';
+    
+    S1.notify({ severity: 'critical', title: 'Abstract is pricing a day', body: what + ' has no agreed rate yet, so Abstract is pricing it by hand. The week can be submitted once it is priced.', href: 'client.timesheets.booking-week.html?id=' + t.id });
   }
   var STATUSES = ['Worked', 'Sick Leave', 'Holiday', 'No-show', 'Not Booked'];
   // A future day may be Not Booked or Holiday (planned leave, a closure such as Christmas Day); Worked, Sick Leave and
@@ -347,7 +355,7 @@
     inputs.forEach(function (inp) {
       var prev = t.days[inp.date], was = before.days.filter(function (y) { return y.date === inp.date; })[0];
       // TSD §3.3.1 rule 3 (R5 decision O3): re-sending the Shift the day already has keeps its default flag; only another Shift clears it
-      var sameAsDefault = inp.shiftId && was && was.dayStatus === inp.dayStatus && was.shiftDefaulted && was.shiftId === inp.shiftId;
+      var sameAsDefault = inp.shiftId && was && was.shiftDefaulted && was.shiftId === inp.shiftId; // design review R1 N11: the Shift alone decides, whatever the status
       if (!inp.dayStatus) { delete t.days[inp.date]; ev(t, fmtDay(inp.date) + ': cleared'); return; }
       var e = day(inp.dayStatus, inp.dayStatus === 'Worked' ? (Math.round(Number(inp.hours) * 4) / 4).toFixed(2) : null, null, { updatedAt: NOW() });
       if (inp.dayStatus === 'Worked') {
@@ -411,18 +419,21 @@
 
   // ---------- bulk: fill week / fill all days / copy previous week, PREVIEW THEN CONFIRM (rulings N1, N2) ----------
   // POST /timesheets/bulk-fill { preview: true } answers per timesheet what would be written and each one's version stamp.
+  // The preview token (TSD §3.1.1, slice 4 review R5 S1): a digest of the week's updatedAt and the days the preview would write, so a
+  // change to any input the outcome depends on (the previous week, the pattern, the week itself) refuses the confirm. Design review R1 N1.
+  function previewToken(t, r) { var src = t.updatedAt + '|' + r.outcome + '|' + JSON.stringify(r.would || {}), h = 0; for (var i = 0; i < src.length; i++) h = (h * 31 + src.charCodeAt(i)) | 0; return 'pt-' + (h >>> 0).toString(36); }
   function wouldFill(t, x, req) {
     var b = bookingOf(t), w = {}, filled = [], kept = [], skipped = [];
     if (t.status !== 'Draft') return { outcome: 'refused', code: 'TIMESHEET_STATUS_INVALID', message: 'This week is ' + t.status + ', so it can’t be filled.', filled: [], kept: [], would: {} };
     var prev = null;
-    if (req.mode === 'copy_previous') { prev = db.ts.filter(function (p) { return p.bookingId === t.bookingId && p.weekStart === addDays(t.weekStart, -7); })[0]; if (!prev) return { outcome: 'refused', code: 'TIMESHEET_NO_PREVIOUS_WEEK', message: 'There is no previous week on this booking to copy.', filled: [], kept: [], would: {} }; }
+    if (req.mode === 'copy_previous') { prev = db.ts.filter(function (p) { return p.bookingId === t.bookingId && p.weekStart === addDays(t.weekStart, -7); })[0]; if (!prev) return { outcome: 'skipped', skipReason: 'no_previous_week', message: 'No previous week to copy: this is the booking’s first week.', filled: [], kept: [], future: [], would: {} }; }
     var pat = PATTERNS.filter(function (p) { return p.id === req.shiftPatternId; })[0];
     x.days.forEach(function (y) {
       if (!y.inRange) return;
       var target = null;
       if (req.mode === 'pattern') target = pat.days.indexOf(y.weekday) >= 0 ? { dayStatus: 'Worked', hours: SHIFT_INFO[req.shiftId].hours, shiftId: req.shiftId } : { dayStatus: 'Not Booked' };
       else if (req.mode === 'all_days') target = { dayStatus: 'Worked', hours: SHIFT_INFO[req.shiftId].hours, shiftId: req.shiftId };
-      else { var pe = prev.days[addDays(y.date, -7)]; if (pe) target = { dayStatus: pe.dayStatus, hours: pe.hours, shiftId: pe.shiftId, absenceComment: pe.absenceComment }; }
+      else { var pe = prev.days[addDays(y.date, -7)]; if (pe && pe.dayStatus === 'Worked') target = { dayStatus: 'Worked', hours: pe.hours, shiftId: pe.shiftId || shiftDefaultFor(prev, b, addDays(y.date, -7), prev.days) }; } // design review R1 S1 (4.1 TV-18): Worked days only, with Shift and hours, never the cover; no absence
       if (!target) return;
       if (y.future && !futureOk(target.dayStatus)) { skipped.push(y.date); return; }
       if (y.dayStatus && !req.overwrite) { kept.push(y.date); return; }
@@ -436,15 +447,15 @@
     if ((req.mode === 'pattern' || req.mode === 'all_days') && !req.shiftId) refuse('VALIDATION_ERROR', 'Choose the Shift.', { fields: { shiftId: 'Choose the Shift.' } });
     if (req.mode === 'pattern' && !req.shiftPatternId) refuse('VALIDATION_ERROR', 'Choose the shift pattern.', { fields: { shiftPatternId: 'Choose the shift pattern.' } });
     return req.timesheetIds.map(function (id) {
-      var t = rawT(id), x = dress(t), r = wouldFill(t, x, req); r.timesheetId = id; r.candidateName = x.candidateName; r.bookingReference = x.bookingReference; r.updatedAt = t.updatedAt;
+      var t = rawT(id), x = dress(t), r = wouldFill(t, x, req); r.timesheetId = id; r.candidateName = x.candidateName; r.bookingReference = x.bookingReference; r.updatedAt = t.updatedAt; r.previewToken = previewToken(t, r);
       if (!req.preview) {
-        if (req.stamps && req.stamps[id] && req.stamps[id] !== t.updatedAt) return Object.assign(r, { outcome: 'refused', code: 'TIMESHEET_CHANGED_SINCE_PREVIEW', message: 'Changed since your preview — review again.', filled: [], would: {} });
+        if (req.stamps && req.stamps[id] && req.stamps[id] !== r.previewToken) return Object.assign(r, { outcome: 'refused', code: 'TIMESHEET_CHANGED_SINCE_PREVIEW', message: 'Changed since your preview — review again.', filled: [], would: {} });
         if (r.outcome === 'filled') {
           Object.keys(r.would).forEach(function (dt) { var v = r.would[dt], e = day(v.dayStatus, v.hours, v.shiftId, { updatedAt: NOW(), absenceComment: v.absenceComment || null }); if (v.dayStatus === 'Worked' && t.days[dt] && t.days[dt].coveredJobRoleId && t.days[dt].dayStatus === 'Worked') { e.coveredJobRoleId = t.days[dt].coveredJobRoleId; e.roleChangedBy = t.days[dt].roleChangedBy; e.roleChangedAt = t.days[dt].roleChangedAt; } t.days[dt] = e; });
           ev(t, ({ pattern: 'Filled from a shift pattern', all_days: 'Filled every day', copy_previous: 'Copied the previous week' })[req.mode] + ': ' + r.filled.map(fmtDay).join(', ') + (r.kept.length ? '. Kept: ' + r.kept.map(fmtDay).join(', ') : ''));
           touch(t);
         }
-        r.updatedAt = t.updatedAt;
+        r.updatedAt = t.updatedAt; r.previewToken = previewToken(t, r);
       }
       return r;
     });
@@ -456,9 +467,10 @@
       var t = rawT(id), x = dress(t), y = x.days.filter(function (d2) { return d2.date === req.date; })[0], r = { timesheetId: id, candidateName: x.candidateName, bookingReference: x.bookingReference, updatedAt: t.updatedAt, filled: [], kept: [], would: {} };
       var why = t.status !== 'Draft' ? ['TIMESHEET_STATUS_INVALID', 'This week is ' + t.status + ', so its days can’t be changed.'] : !y.inRange ? ['TIMESHEET_DAY_OUT_OF_RANGE', fmtDay(req.date) + ' is outside the booking.'] : (y.future && !futureOk(req.dayStatus)) ? ['TIMESHEET_DAY_IN_FUTURE', fmtDay(req.date) + ' hasn’t happened yet: only Not Booked or Holiday.'] : null;
       if (why) return Object.assign(r, { outcome: 'refused', code: why[0], message: why[1] });
-      if (!req.preview && req.stamps && req.stamps[id] && req.stamps[id] !== t.updatedAt) return Object.assign(r, { outcome: 'refused', code: 'TIMESHEET_CHANGED_SINCE_PREVIEW', message: 'Changed since your preview — review again.' });
       r.would[req.date] = { dayStatus: req.dayStatus, hours: req.dayStatus === 'Worked' ? Number(req.hours).toFixed(2) : null, shiftId: req.shiftId || null }; r.filled = [req.date]; r.outcome = 'filled';
       if (y.dayStatus) r.replaced = [req.date];
+      r.previewToken = previewToken(t, Object.assign({}, r, { replaced: null, was: y.dayStatus }));
+      if (!req.preview && req.stamps && req.stamps[id] && req.stamps[id] !== r.previewToken) return Object.assign(r, { outcome: 'refused', code: 'TIMESHEET_CHANGED_SINCE_PREVIEW', message: 'Changed since your preview — review again.', filled: [], would: {} });
       if (!req.preview) { S4.act.setDays(id, [{ date: req.date, dayStatus: req.dayStatus, hours: req.hours, shiftId: req.shiftId }]); r.updatedAt = rawT(id).updatedAt; }
       return r;
     });
@@ -520,7 +532,7 @@
       return '<div role="gridcell" aria-label="' + esc(aria + ', outside the booking, locked') + '" class="' + cls + '" style="' + style + '">' + inner + '</div>';
     }
     if (!st) {
-      cls += 'bg-white border-dashed border-slate-300 text-slate-500 ' + (o.editable ? 'hover:border-blue-400 hover:bg-blue-50/40' : '');
+      cls += 'bg-white border-dashed border-slate-300 text-slate-500 ' + (o.editable ? 'hover:border-blue-400 hover:bg-blue-50/40 ' : '');
       inner = '<span class="text-slate-400 font-semibold">—</span><span class="text-[10px]">' + (y.future ? (o.editable ? 'Future: Not Booked or Holiday' : 'Not yet') : (o.editable ? 'Set the day' : 'Not set')) + '</span>';
     } else {
       var c = CELL[st]; cls += c[0] + ' ';
@@ -539,7 +551,7 @@
       if (shown.complianceException) inner += '<span class="absolute bottom-1 right-1 text-amber-600" title="' + esc('Compliance exception: ' + shown.unmetChecks.join(', ') + '. This never blocks.') + '"><i class="fa-solid fa-triangle-exclamation text-[10px]" aria-hidden="true"></i></span>';
     }
     if (p) { cls += 'outline outline-2 outline-dashed outline-blue-500 outline-offset-1 '; inner += '<span class="absolute top-0.5 right-1 text-[9px] font-bold uppercase tracking-wide text-blue-700">unsaved</span>'; aria += ', unsaved preview'; }
-    if (o.error) cls += 'border-red-500 bg-red-50 ';
+    if (o.error) cls = cls.replace(/\b(?:bg-white|bg-slate-\d+|border-slate-\d+|hover:border-blue-400|hover:bg-blue-50\/40) /g, '') + 'border-red-500 bg-red-50 '; // design review R1 N4: a named date reads red, whatever its fill
     var tag = o.editable && !p ? 'button' : 'div';
     return '<' + tag + (tag === 'button' ? ' type="button" data-cell="' + esc(o.tsId) + '|' + y.date + '"' : ' role="gridcell"') + ' aria-label="' + esc(aria) + '" class="' + cls + '" style="' + style + '">' + inner + '</' + tag + '>';
   };
@@ -638,7 +650,7 @@
   S4.fillDialog = function (ids, clientId, onPreview, o) {
     o = o || {}; var mode = o.mode || 'pattern';
     var body = '<p class="text-sm text-slate-600 mt-1">' + ids.length + ' row' + (ids.length === 1 ? '' : 's') + ' selected. Fill shows what would be written on the grid; nothing is saved until you save and confirm.</p>' +
-      '<fieldset class="mt-3"><legend class="' + C.label + '">What to fill</legend><div class="grid gap-2">' + radio('f-m', 'pattern', 'Fill week from a shift pattern', mode === 'pattern', 'The pattern’s days at the Shift you choose; the other booked days Not Booked.') + radio('f-m', 'all_days', 'Fill all days', mode === 'all_days', 'Every booked day up to today at the Shift you choose.') + radio('f-m', 'copy_previous', 'Copy previous week', mode === 'copy_previous', 'Each booking’s last week, day for day.') + '</div></fieldset>' +
+      '<fieldset class="mt-3"><legend class="' + C.label + '">What to fill</legend><div class="grid gap-2">' + radio('f-m', 'pattern', 'Fill week from a shift pattern', mode === 'pattern', 'The pattern’s days at the Shift you choose; the other booked days Not Booked.') + radio('f-m', 'all_days', 'Fill all days', mode === 'all_days', 'Every booked day up to today at the Shift you choose.') + radio('f-m', 'copy_previous', 'Copy previous week', mode === 'copy_previous', 'Each booking’s worked days from last week, at the same Shift and hours. Absences and role covers aren’t copied; a booking’s first week is skipped.') + '</div></fieldset>' +
       '<div id="f-pat" class="mt-3"><label for="f-p" class="' + C.label + '">Shift pattern <span class="text-red-700">*</span></label><select id="f-p" class="' + C.input + '"><option value="">Choose a shift pattern</option>' + PATTERNS.map(function (p) { return '<option value="' + p.id + '">' + esc(p.name) + '</option>'; }).join('') + '</select><p id="f-p-err" class="text-xs font-medium text-red-700 mt-1" style="display:none" role="alert"></p></div>' +
       '<div id="f-sh" class="mt-3"><label for="f-s" class="' + C.label + '">Shift <span class="text-red-700">*</span></label><select id="f-s" class="' + C.input + '"><option value="">Choose the Shift</option>' + shiftOptions(clientId, null) + '</select><p id="f-s-err" class="text-xs font-medium text-red-700 mt-1" style="display:none" role="alert"></p></div>' +
       '<label class="mt-3 flex items-start gap-2.5 p-2.5 rounded-lg border border-slate-200"><input type="checkbox" id="f-ow" class="mt-0.5"/><span><span class="block text-sm font-semibold text-slate-800">Overwrite</span><span class="block text-xs text-slate-600">Also replace days already entered. Off, only empty days are filled.</span></span></label>';
@@ -725,15 +737,16 @@
         (st === 'large' ? '<p class="px-4 py-2 text-xs text-slate-600 border-t border-slate-200 bg-slate-50">' + rendered.length + ' of ' + view.length + ' rows on this page are drawn; the grid renders the rest as you scroll (virtualised past 50 rows).</p>' + ui3.pager(rows.length, pageNo, pages, 'rows') : '') + '</div>'
         : ui3.empty('fa-calendar-xmark', 'No bookings for this week', 'Choose another week. A booking’s week appears here once its dates touch it.', picker);
       host.innerHTML = '<div class="flex flex-col gap-4">' + (p.crumbs ? ui3.crumbs(p.crumbs) : '') +
-        '<div class="flex flex-wrap items-center justify-between gap-3"><div><h2 class="text-xl font-bold text-slate-900">' + title + '</h2><p class="text-xs text-slate-600 mt-0.5">' + (rows.length ? rows.length + ' booking' + (rows.length === 1 ? '' : 's') + ' · ' : '') + 'Deadline ' + fmtDeadline(deadlineFor(clientId, ws)) + ' · days outside a booking are locked; future days take Not Booked only</p></div>' + picker + '</div>' +
+        '<div class="flex flex-wrap items-center justify-between gap-3"><div><h2 class="text-xl font-bold text-slate-900">' + title + '</h2><p class="text-xs text-slate-600 mt-0.5">' + (rows.length ? rows.length + ' booking' + (rows.length === 1 ? '' : 's') + ' · ' : '') + 'Deadline ' + fmtDeadline(deadlineFor(clientId, ws)) + ' · days outside a booking are locked; future days take Not Booked or Holiday only</p></div>' + picker + '</div>' +
         banners + prevBlock +
         (rows.length ? '<div class="' + C.card + ' p-3 flex flex-col gap-3">' + ui.legend() + (bulk ? '<div class="border-t border-slate-100 pt-3">' + bulk + '</div>' : '') + '</div>' : '') + grid +
         (rows.length && st !== 'large' ? ui.summary(rows, { nobreakdown: st === 'nobreakdown' }) : '') + '</div>';
       wire(rows);
     }
     function outcomeList(res) {
-      var word = { filled: ['Filled', 'text-emerald-700', 'fa-circle-check'], skipped: ['Kept', 'text-slate-600', 'fa-circle-minus'], refused: ['Refused', 'text-red-700', 'fa-circle-xmark'] };
-      return '<ul class="mt-3 divide-y divide-slate-100 border border-slate-200 rounded-lg">' + res.map(function (r) { var w = word[r.outcome]; var parts = []; if (r.filled && r.filled.length) parts.push((preview ? 'would fill ' : 'filled ') + r.filled.map(fmtDay).join(', ')); if (r.kept && r.kept.length) parts.push('kept ' + r.kept.map(fmtDay).join(', ') + ' (already entered)'); if (r.future && r.future.length) parts.push('left ' + r.future.map(fmtDay).join(', ') + ' empty: not happened yet, so enter ' + (r.future.length === 1 ? 'it' : 'them') + ' by hand from that day'); if (r.replaced) parts.push('replaces the day already entered'); if (r.message && r.outcome !== 'filled') parts.push(r.message); return '<li class="px-3 py-2 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3"><span class="w-24 flex-shrink-0 text-xs font-bold ' + w[1] + ' flex items-center gap-1.5"><i class="fa-solid ' + w[2] + '" aria-hidden="true"></i>' + w[0] + '</span><span class="text-sm text-slate-800 font-semibold min-w-0">' + esc(r.candidateName) + '</span><span class="text-xs text-slate-600 sm:ml-auto sm:text-right">' + esc(parts.join('; ')) + '</span></li>'; }).join('') + '</ul>';
+      // Ruled 2026-11-08 (Ujjwal Sharma): Filled / Kept / Skipped / Refused. Skipped is keyed on the API's skipReason, never re-derived here.
+      var word = { filled: ['Filled', 'text-emerald-700', 'fa-circle-check'], skipped: ['Kept', 'text-slate-600', 'fa-circle-minus'], skippedReason: ['Skipped', 'text-slate-600', 'fa-forward'], refused: ['Refused', 'text-red-700', 'fa-circle-xmark'] };
+      return '<ul class="mt-3 divide-y divide-slate-100 border border-slate-200 rounded-lg">' + res.map(function (r) { var w = r.outcome === 'skipped' && r.skipReason ? word.skippedReason : word[r.outcome]; var parts = []; if (r.filled && r.filled.length) parts.push((preview ? 'would fill ' : 'filled ') + r.filled.map(fmtDay).join(', ')); if (r.kept && r.kept.length) parts.push('kept ' + r.kept.map(fmtDay).join(', ') + ' (already entered)'); if (r.future && r.future.length) parts.push('left ' + r.future.map(fmtDay).join(', ') + ' empty: not happened yet, so enter ' + (r.future.length === 1 ? 'it' : 'them') + ' by hand from that day'); if (r.replaced) parts.push('replaces the day already entered'); if (r.message && r.outcome !== 'filled') parts.push(r.message); return '<li class="px-3 py-2 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3"><span class="w-24 flex-shrink-0 text-xs font-bold ' + w[1] + ' flex items-center gap-1.5"><i class="fa-solid ' + w[2] + '" aria-hidden="true"></i>' + w[0] + '</span><span class="text-sm text-slate-800 font-semibold min-w-0">' + esc(r.candidateName) + '</span><span class="text-xs text-slate-600 sm:ml-auto sm:text-right">' + esc(parts.join('; ')) + '</span></li>'; }).join('') + '</ul>';
     }
     function rowHtml(x) {
       var pv = preview && preview.byId[x.id] ? preview.byId[x.id].would : null, editable = can.edit && x.status === 'Draft' && !x.synthetic && !(preview && preview.byId[x.id]);   // a previewed row is read-only until it is saved or cancelled
@@ -772,7 +785,7 @@
         var fill = preview.results.filter(function (r) { return r.outcome === 'filled'; }), nDays = fill.reduce(function (m, r) { return m + r.filled.length; }, 0);
         var isDay = preview.kind === 'day', nRep = isDay ? fill.filter(function (r) { return r.replaced; }).length : 0;
         S1.confirm({ title: isDay ? 'Save this day?' : 'Save the fill?', bodyHtml: esc(nDays + ' day' + (nDays === 1 ? '' : 's') + ' will be written on ' + fill.length + ' week' + (fill.length === 1 ? '' : 's') + '. ' + (isDay ? (nRep ? nRep + ' of them replace a day already entered.' : 'None replaces a day already entered.') : (preview.req.overwrite ? 'Days already entered are replaced.' : 'Days already entered are kept.')) + ' A week changed since your preview is refused and left as it is.'), cta: 'Confirm', onConfirm: function () {
-          var stamps = {}; preview.results.forEach(function (r) { stamps[r.timesheetId] = r.updatedAt; });
+          var stamps = {}; preview.results.forEach(function (r) { stamps[r.timesheetId] = r.previewToken; });
           if (st === 'stale') { var victim = fill[fill.length - 1]; if (victim) stamps[victim.timesheetId] = 'changed-elsewhere'; }
           var res = (isDay ? S4.act.bulkDay : S4.act.bulkFill)(Object.assign({}, preview.req, { preview: false, stamps: stamps })), refused = res.filter(function (r) { return r.code === 'TIMESHEET_CHANGED_SINCE_PREVIEW'; });
           var again = { kind: preview.kind, req: preview.req, ids: refused.map(function (r) { return r.timesheetId; }) };
@@ -796,7 +809,7 @@
     if (st === 'preview' || st === 'stale') { var drafts = load().filter(function (x) { return x.status === 'Draft'; }).map(function (x) { return x.id; }); drafts.forEach(function (i2) { sel[i2] = true; }); var req = { timesheetIds: drafts, mode: 'pattern', shiftPatternId: 'sp-wd', shiftId: 'sh-am', overwrite: false, preview: true }; var res0 = S4.act.bulkFill(req), by0 = {}; res0.forEach(function (r) { by0[r.timesheetId] = r; }); preview = { kind: 'fill', req: req, results: res0, byId: by0 }; draw(); if (st === 'stale') setTimeout(function () { var s = host.querySelector('#pv-save'); if (s) s.click(); }, 60); }
     if (st === 'validation') { var x0 = load().filter(function (x) { return x.status === 'Draft' && x.days.some(function (y) { return y.inRange && !y.future; }); })[0]; if (x0) { var y0 = x0.days.filter(function (y) { return y.inRange && !y.future; })[0]; S4.dayDialog(x0, y0, can, after, { forceInvalid: true }); } }
     if (st === 'held') { var h0 = load().filter(function (x) { return x.held && x.status === 'Draft'; })[0]; if (h0) submitFlow(h0, after, st); }
-    if (st === 'incomplete') { var i0 = load().filter(function (x) { return x.status === 'Draft' && x.unsetDates.length && !x.held; })[0]; if (i0) submitFlow(i0, after, st); }
+    if (st === 'incomplete') { var i0 = load().filter(function (x) { return x.status === 'Draft' && x.unsetDates.length && !x.held; })[0]; if (i0) { p.errDates = {}; p.errDates[i0.id] = i0.unsetDates; draw(); submitFlow(i0, after, st); } } // design review R1 N4: the dates the refusal names are highlighted
     if (st === 'conflict') conflictMsg = null;
     return { redraw: draw };
   };
@@ -932,7 +945,12 @@
   document.addEventListener('s1:ready', function () {
     var flag = 's4-notified-' + PORTAL; var done; try { done = window.localStorage.getItem(flag); } catch (e) { done = '1'; }
     if (done) return;
-    S1.notify({ severity: 'critical', title: '2 days are waiting for manual pricing', body: 'Tasha Williams, BK-2202, Thu 8 Oct and Fri 9 Oct: Forklift Driver (Reach) on the Night Shift has no rate on the card. The week can’t be submitted or approved until Abstract prices them.', href: ABS ? 'abstract.timesheets.pending-pricing.html' : 'client.timesheets.booking-week.html?id=ts-132', when: 'Yesterday, 16:12' });
+    // one notice per day (TSD §3.1.6), each party its own wording (design review R1 D2)
+    ['Thu 8 Oct', 'Fri 9 Oct'].forEach(function (dd, i) {
+      var what = 'Tasha Williams, BK-2202, ' + dd + ': Forklift Driver (Reach) on the Night Shift';
+      
+      S1.notify({ severity: 'critical', title: 'Abstract is pricing a day', body: what + ' has no agreed rate yet, so Abstract is pricing it by hand. The week can be submitted once it is priced.', href: 'client.timesheets.booking-week.html?id=ts-132', when: i ? 'Yesterday, 16:12' : 'Yesterday, 16:13' });
+    });
     try { window.localStorage.setItem(flag, '1'); } catch (e) { /* storage blocked */ }
   });
   S4.resetNotified = function () { try { window.localStorage.removeItem('s4-notified-' + PORTAL); } catch (e) { /* none */ } };
