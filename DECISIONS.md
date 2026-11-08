@@ -159,3 +159,29 @@ agency/client screens look different from the new kernel-styled ones until they 
 **Decision:** (1) Sample roles carry the TSD's seed names (§3.3.4) plus one custom role per party, with one set of ids across Users, User detail and the matrix. (2) Abstract's view of a party's roles and keys is a copy of that party's own matrix; no matrix was redrawn onto the TSD's key list. (3) The older full-product pages show the same signed-in person as the slice 1 pages, with her organisation under her name. (4) A static slice 2 part carries `data-s1-later`; a part drawn by script asks the mode when it draws and is redrawn on the kit's `s1:mode` event, because the kit hides marked elements only at the moment the mode is applied. (5) *Correct email* is its own action and dialog for an `Invited` user, separate from slice 2's *Change email* for an `Active` user: a correction takes effect at once and sends a new activation link, a change waits for the person to confirm it.
 
 **Consequences:** The prototype's key lists still differ from the TSD's twelve slice 1 keys per party; that is a contract gap for a later pass, recorded in `PROGRESS.md`.
+
+## 2026-11-08 — Slice 4: Timesheets in the slice 3 pages' sidebar; no return to Draft for the client (pending Ujjwal's review)
+
+**Context:** Slice 4 TSD §3.3.11 puts *Timesheets* in the client `menu` group behind `timesheet:view`. Ruling 5 of
+2026-11-08: the client never returns a week; only Abstract returns or reopens.
+
+**Decision:** The five slice 3 pages gain *Timesheets* after *Bookings*. The client grid and booking-week have no
+return action; a returned week shows who returned it (*Abstract*) and the reason. The grid is the same
+implementation as Abstract's, from `slice4-proto.js`, whose client copy holds charge figures only. Logged in
+`../SLICE-4-DECISIONS-FOR-REVIEW.md`.
+
+**Consequences:** The old export's *Return to Draft* is gone.
+
+## 2026-11-08 — Slice 4: a future Holiday, and the slice 4 rows on earlier pages (ruled by Ujjwal Sharma)
+
+**Context:** The overnight pass left three questions. Ujjwal ruled them on the morning of 2026-11-08.
+
+**Decision:** (1) A covered day keeps the place's required checks. (2) *Fill week* leaves a future day blank. (3) A
+future day may be `Not Booked` or `Holiday`; `Worked`, `Sick Leave` and `No-show` wait until the day — a departure
+from TSD Q4 ("no `Worked` or absence day after today"). (4) The slice 4 changes to earlier pages are drawn: the
+permission matrix rows (§3.3.6), the timesheet templates (§3.1.6, Abstract) and the preference rows, with
+`timesheet.pricing_pending` critical, ticked and locked. Drawn by script, they ask the mode and redraw on `s1:mode`
+(as 2026-10-11 item 4), so slices 1 to 3 read as delivered.
+
+**Consequences:** The TSD owes the future-Holiday change (§1, §3.3.1 rule 3, the `TIMESHEET_DAY_IN_FUTURE` row, 4.1
+TV-4). The rule lives once, in `FUTURE_OK` in the `slice4-proto.js` source.
