@@ -185,3 +185,22 @@ permission matrix rows (§3.3.6), the timesheet templates (§3.1.6, Abstract) an
 
 **Consequences:** The TSD owes the future-Holiday change (§1, §3.3.1 rule 3, the `TIMESHEET_DAY_IN_FUTURE` row, 4.1
 TV-4). The rule lives once, in `FUTURE_OK` in the `slice4-proto.js` source.
+
+## 2026-11-08 — Slice 4: the design review's screen fixes (R1)
+
+**Context:** A fresh-context review of the slice 4 pass (project-docs `review/slices/SLICE-4-DESIGN-REVIEW-R1-RECORD.md`)
+found two blockers and several should-fix screen findings. Ujjwal Sharma ruled (D4) that the pass fixes the screens in
+its own PR, and ruled D2 (the pricing notice is two event types) and D3 (a first-week copy is `skipped`).
+
+**Decision:** The fixes follow the ruled TSD at `aa6861b`: the Security tab drops the admin IP allow-list from slice 4
+mode on; *Copy previous week* copies `Worked` days only and skips a booking's first week; the pricing notice is two
+templates, `timesheet.pricing_pending` (Abstract) and `timesheet.pricing_pending_client` (the client), each party's
+locked preference row its own; notification severity is a dot and icon, never a badge (design-tokens §5); the
+Abstract grid gains *Reopen* and *Price by hand*; pages without the breakdown grant leave worker pay out of the markup;
+the missing six-state cases are drawn. Two states on read-mostly pages were given a meaning: Payroll's *validation* is a
+week range (the API's `from` / `to`), the pay statement's is a malformed link. The bulk confirm compares a preview token
+(a digest of the week's `updatedAt` and the days it would write), as the TSD's token does.
+
+**Consequences:** The delivery notes' *Design review R1 — the screen fixes* lists each finding and what changed. The
+client copy of `slice4-proto.js` reads whether Abstract bears a paid day off (so it charges 0.00) without carrying a
+cost-bearer field.
