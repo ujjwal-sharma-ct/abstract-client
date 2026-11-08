@@ -204,3 +204,21 @@ week range (the API's `from` / `to`), the pay statement's is a malformed link. T
 **Consequences:** The delivery notes' *Design review R1 — the screen fixes* lists each finding and what changed. The
 client copy of `slice4-proto.js` reads whether Abstract bears a paid day off (so it charges 0.00) without carrying a
 cost-bearer field.
+
+## 2026-11-08 — Slice 4: the screen fixes' own decisions, ruled (Ujjwal Sharma)
+
+**Context:** The R1 screen fixes took five small decisions. Ujjwal Sharma ruled them on 2026-11-08 (spec side on
+`tsd/slice-4` at `4cf0e90`).
+
+**Decision:** Approved as drawn: Payroll's *From week* / *To week* validation; the pay statement's malformed link; the
+hidden allow-list key's page answering "We couldn't find that setting"; the client's pricing notice. Changed: a
+first-week *Copy previous week* reads *Skipped*, keyed on the API's `skipReason: "no_previous_week"` (present only on
+that result), never on the page re-deriving the first-week rule; any other skipped row still reads *Kept*, so the fill
+outcomes are *Filled* / *Kept* / *Skipped* / *Refused*. Abstract's own notice (`timesheet.pricing_pending`, not in this portal) is titled "No
+rate for a worked day: week held until priced" in-app, and its email subject is "No rate for {{candidateName}}'s
+{{date}} at {{clientName}}: set a price to release the week"; the bodies are unchanged. The manual-price action reads
+*Set a price* everywhere: the grid's *Set a price for <day>…*, the queue's *Set a price*, the dialog's *Set a price for
+<day>*.
+
+**Consequences:** The TSD's prose "priced by hand" stays; it is not screen copy. The permission's own label
+(*Price days by hand*) and the *priced by hand* source note on a day are unchanged.
