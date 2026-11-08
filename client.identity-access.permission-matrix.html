@@ -271,11 +271,29 @@ var CATALOGUE = [
     { key: 'booking:view', kind: 'view', label: 'View bookings', hint: 'See bookings, and the active bookings count, at the places your scope covers.' }
   ]}
 ];
+/* Slice 4 (TSD §3.3.6): the timesheet keys and shift_pattern:view, granted as the catalogue seeds them; drawn from
+   Slices 1 to 4 on, absent in the earlier slice modes (redrawn on the kit's s1:mode event). No delete: a timesheet is
+   never deleted. */
+var CATALOGUE_ALL = CATALOGUE.concat([
+  { id: 'timesheet', name: 'Timesheets', icon: 'fa-clock', s4: true, items: [
+    { key: 'timesheet:view', kind: 'view', label: 'View timesheets', hint: 'See timesheets at the places your scope covers, and the notice when a day waits for pricing.' },
+    { key: 'timesheet:create_edit', kind: 'edit', label: 'Enter and edit timesheet days', hint: 'Enter days, fill a week and mark days. A timesheet is never deleted.' },
+    { key: 'timesheet:submit', kind: 'action', label: 'Submit timesheets', hint: 'Send a finished week for approval.' },
+    { key: 'timesheet:change_role', kind: 'action', label: 'Record a day worked in another role', hint: 'Mark a day as covering another role at the same place.' }
+  ]},
+  { id: 'shift_pattern', name: 'Shift patterns', icon: 'fa-calendar-days', s4: true, items: [
+    { key: 'shift_pattern:view', kind: 'view', label: 'View shift patterns', hint: 'Fill week offers your shift patterns to copy.' }
+  ]}
+]);
+var S4_KEYS = { manager: ['timesheet:view', 'timesheet:create_edit', 'timesheet:submit', 'timesheet:change_role', 'shift_pattern:view'], viewer: ['timesheet:view'] };
+function s4Shown() { return !(window.S1 && S1.mode && ['s1', 's2', 's3'].indexOf(S1.mode()) >= 0); }
+var ALL_FULL = []; CATALOGUE_ALL.forEach(function (g) { g.items.forEach(function (i) { ALL_FULL.push(i.key); }); });
+CATALOGUE = CATALOGUE_ALL.filter(function (g) { return !g.s4 || s4Shown(); });
 var ALL = []; CATALOGUE.forEach(function (g) { g.items.forEach(function (i) { ALL.push(i.key); }); });
 var ROLES = [
-  { id: 'administrator', name: 'Administrator', seed: true, status: 'Active', users: 1, grants: ALL.slice() },
-  { id: 'manager', name: 'Manager', seed: true, status: 'Active', users: 3, grants: ['users.view', 'users.lastsignin', 'roles.view', 'vacancy:view', 'vacancy:create_edit', 'vacancy:cancel', 'booking:view'] },
-  { id: 'viewer', name: 'Viewer', seed: true, status: 'Active', users: 1, grants: ['users.view', 'vacancy:view', 'booking:view'] },
+  { id: 'administrator', name: 'Administrator', seed: true, status: 'Active', users: 1, grants: ALL_FULL.slice() },
+  { id: 'manager', name: 'Manager', seed: true, status: 'Active', users: 3, grants: ['users.view', 'users.lastsignin', 'roles.view', 'vacancy:view', 'vacancy:create_edit', 'vacancy:cancel', 'booking:view'].concat(S4_KEYS.manager) },
+  { id: 'viewer', name: 'Viewer', seed: true, status: 'Active', users: 1, grants: ['users.view', 'vacancy:view', 'booking:view'].concat(S4_KEYS.viewer) },
   { id: 'seasonal', name: 'Seasonal supervisors', seed: false, status: 'Inactive', users: 1, grants: [] }
 ];
 var KIND = {
@@ -343,7 +361,7 @@ function render() {
   $('change-count').textContent = n + (n === 1 ? ' change' : ' changes');
   $('b-empty').classList.toggle('hidden', cur.length !== 0 || readOnly);
   $('b-readonly').classList.toggle('hidden', !readOnly);
-  var gt = $('grant-total'); if (gt) gt.textContent = cur.length + ' of ' + ALL.length + ' permissions';
+  var gt = $('grant-total'); if (gt) gt.textContent = cur.filter(function (k) { return ALL.indexOf(k) >= 0; }).length + ' of ' + ALL.length + ' permissions';
 }
 
 function selectRole(id) {
@@ -435,6 +453,11 @@ function applyState(s) {
   if (s === 'default' || s === 'readonly') { selectRole(new URLSearchParams(location.search).get('role') || 'administrator'); }
 }
 document.addEventListener('s1:state', function (e) { applyState(e.detail.state); });
+document.addEventListener('s1:mode', function () {
+  CATALOGUE = CATALOGUE_ALL.filter(function (g) { return !g.s4 || s4Shown(); });
+  ALL = []; CATALOGUE.forEach(function (g) { g.items.forEach(function (i) { ALL.push(i.key); }); });
+  if (role) render();
+});
 
 </script>
 

@@ -324,6 +324,11 @@
     S1.notify({ severity: 'critical', title: 'A day is waiting for manual pricing', body: b.candidateName + ', ' + b.reference + ', ' + fmtDay(x.date) + ': ' + S3.JOB_ROLES[x.effectiveJobRoleId || b.jobRoleId] + ' on the ' + x.shiftName + ' Shift has no rate on the card. The week can’t be submitted or approved until Abstract prices it.', href: ABS ? 'abstract.timesheets.pending-pricing.html' : 'client.timesheets.booking-week.html?id=' + t.id });
   }
   var STATUSES = ['Worked', 'Sick Leave', 'Holiday', 'No-show', 'Not Booked'];
+  // A future day may be Not Booked or Holiday (planned leave, a closure such as Christmas Day); Worked, Sick Leave and
+  // No-show wait until the day (Ujjwal Sharma, 2026-11-08, departing from the TSD's "Not Booked only").
+  var FUTURE_OK = ['Not Booked', 'Holiday'];
+  function futureOk(s) { return FUTURE_OK.indexOf(s) >= 0; }
+  S4.FUTURE_OK = FUTURE_OK;
   S4.STATUSES = STATUSES;
   // PUT /timesheets/:id/days
   S4.act = {};
@@ -333,7 +338,7 @@
     inputs.forEach(function (inp) {
       var x = before.days.filter(function (y) { return y.date === inp.date; })[0];
       if (!x || !x.inRange) refuse('TIMESHEET_DAY_OUT_OF_RANGE', fmtDay(inp.date) + ' is outside the booking, so it stays Not Booked.', { date: inp.date });
-      if (inp.dayStatus && inp.dayStatus !== 'Not Booked' && inp.date > TODAY) refuse('TIMESHEET_DAY_IN_FUTURE', fmtDay(inp.date) + ' is in the future. A future day can only be Not Booked.', { date: inp.date });
+      if (inp.dayStatus && !futureOk(inp.dayStatus) && inp.date > TODAY) refuse('TIMESHEET_DAY_IN_FUTURE', fmtDay(inp.date) + ' hasn’t happened yet. A future day can only be Not Booked or Holiday.', { date: inp.date });
       if (inp.dayStatus === 'Worked') { var h = Number(inp.hours); if (!inp.hours || isNaN(h) || h <= 0 || h > 24) errs[inp.date] = 'Enter the hours worked, more than 0 and no more than 24.'; }
       if (inp.absenceComment && inp.absenceComment.length > 500) errs[inp.date] = 'Keep the comment to 500 characters.';
     });
@@ -419,7 +424,7 @@
       else if (req.mode === 'all_days') target = { dayStatus: 'Worked', hours: SHIFT_INFO[req.shiftId].hours, shiftId: req.shiftId };
       else { var pe = prev.days[addDays(y.date, -7)]; if (pe) target = { dayStatus: pe.dayStatus, hours: pe.hours, shiftId: pe.shiftId, absenceComment: pe.absenceComment }; }
       if (!target) return;
-      if (y.future && target.dayStatus !== 'Not Booked') { skipped.push(y.date); return; }
+      if (y.future && !futureOk(target.dayStatus)) { skipped.push(y.date); return; }
       if (y.dayStatus && !req.overwrite) { kept.push(y.date); return; }
       w[y.date] = target; filled.push(y.date);
     });
@@ -449,7 +454,7 @@
     if (req.dayStatus === 'Worked') { var h = Number(req.hours); if (!req.hours || isNaN(h) || h <= 0 || h > 24) refuse('VALIDATION_ERROR', 'Enter the hours worked, more than 0 and no more than 24.', { fields: { hours: 'Enter the hours worked, more than 0 and no more than 24.' } }); }
     return req.timesheetIds.map(function (id) {
       var t = rawT(id), x = dress(t), y = x.days.filter(function (d2) { return d2.date === req.date; })[0], r = { timesheetId: id, candidateName: x.candidateName, bookingReference: x.bookingReference, updatedAt: t.updatedAt, filled: [], kept: [], would: {} };
-      var why = t.status !== 'Draft' ? ['TIMESHEET_STATUS_INVALID', 'This week is ' + t.status + ', so its days can’t be changed.'] : !y.inRange ? ['TIMESHEET_DAY_OUT_OF_RANGE', fmtDay(req.date) + ' is outside the booking.'] : (y.future && req.dayStatus !== 'Not Booked') ? ['TIMESHEET_DAY_IN_FUTURE', fmtDay(req.date) + ' is in the future: only Not Booked.'] : null;
+      var why = t.status !== 'Draft' ? ['TIMESHEET_STATUS_INVALID', 'This week is ' + t.status + ', so its days can’t be changed.'] : !y.inRange ? ['TIMESHEET_DAY_OUT_OF_RANGE', fmtDay(req.date) + ' is outside the booking.'] : (y.future && !futureOk(req.dayStatus)) ? ['TIMESHEET_DAY_IN_FUTURE', fmtDay(req.date) + ' hasn’t happened yet: only Not Booked or Holiday.'] : null;
       if (why) return Object.assign(r, { outcome: 'refused', code: why[0], message: why[1] });
       if (!req.preview && req.stamps && req.stamps[id] && req.stamps[id] !== t.updatedAt) return Object.assign(r, { outcome: 'refused', code: 'TIMESHEET_CHANGED_SINCE_PREVIEW', message: 'Changed since your preview — review again.' });
       r.would[req.date] = { dayStatus: req.dayStatus, hours: req.dayStatus === 'Worked' ? Number(req.hours).toFixed(2) : null, shiftId: req.shiftId || null }; r.filled = [req.date]; r.outcome = 'filled';
@@ -516,7 +521,7 @@
     }
     if (!st) {
       cls += 'bg-white border-dashed border-slate-300 text-slate-500 ' + (o.editable ? 'hover:border-blue-400 hover:bg-blue-50/40' : '');
-      inner = '<span class="text-slate-400 font-semibold">—</span><span class="text-[10px]">' + (y.future ? 'Future: Not Booked only' : (o.editable ? 'Set the day' : 'Not set')) + '</span>';
+      inner = '<span class="text-slate-400 font-semibold">—</span><span class="text-[10px]">' + (y.future ? (o.editable ? 'Future: Not Booked or Holiday' : 'Not yet') : (o.editable ? 'Set the day' : 'Not set')) + '</span>';
     } else {
       var c = CELL[st]; cls += c[0] + ' ';
       if (st === 'Not Booked') style = HATCH;
@@ -560,11 +565,11 @@
   // The day entry: one status per day (TS-014), the absence modal (K28: optional comment, no reason code), the role-change selector.
   S4.dayDialog = function (x, y, can, onDone, o) {
     o = o || {}; var b = S3.booking(x.bookingId), cur = y.dayStatus || (y.future ? 'Not Booked' : 'Worked'), assigned = x.jobRoleTitle;
-    var opts = STATUSES.map(function (s) { var dis = y.future && s !== 'Not Booked'; return radio('d-st', s, ui.chip(s), cur === s, dis ? 'Can be entered from ' + fmtDay(y.date) + ' on.' : null, dis); }).join('');
+    var opts = STATUSES.map(function (s) { var dis = y.future && !futureOk(s); return radio('d-st', s, ui.chip(s), cur === s, dis ? 'Can be entered from ' + fmtDay(y.date) + ' on.' : null, dis); }).join('');
     var dv = function (s) { return derivePay(b, y.date, s); };
     var ovBtn = '';
     
-    var body = '<p class="text-sm text-slate-600 mt-1">' + esc(x.candidateName) + ' · ' + esc(x.bookingReference) + ' · ' + esc(assigned) + '</p>' + (y.future ? ui3.banner('info', fmtDay(y.date) + ' is in the future, so it can only be Not Booked.') : '') +
+    var body = '<p class="text-sm text-slate-600 mt-1">' + esc(x.candidateName) + ' · ' + esc(x.bookingReference) + ' · ' + esc(assigned) + '</p>' + (y.future ? ui3.banner('info', fmtDay(y.date) + ' hasn’t happened yet, so it can only be Not Booked or Holiday. Worked, sick and no-show days are entered from ' + fmtDay(y.date) + ' on.') : '') +
       '<fieldset class="mt-3"><legend class="' + C.label + '">Day status</legend><div class="grid grid-cols-1 sm:grid-cols-2 gap-2">' + opts + '</div></fieldset>' +
       '<div id="d-worked" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3"><div><label for="d-h" class="' + C.label + '">Hours <span class="text-red-700">*</span></label><input id="d-h" type="number" inputmode="decimal" min="0.25" max="24" step="0.25" class="' + C.input + ' tnum" value="' + esc(y.hours || '') + '"/><p id="d-h-err" class="text-xs font-medium text-red-700 mt-1" style="display:none" role="alert"></p></div>' +
       '<div><label for="d-sh" class="' + C.label + '">Shift</label><select id="d-sh" class="' + C.input + '"><option value="">By default (' + esc(S3.shiftName(b.clientId, shiftDefaultFor(rawT(x.id), b, y.date, rawT(x.id).days))) + ')</option>' + shiftOptions(b.clientId, y.dayStatus === 'Worked' && !y.shiftDefaulted ? y.shiftId : null) + '</select><p class="text-xs text-slate-500 mt-1">Left by default, the Shift is the last one worked earlier this week, else the client’s default Shift.</p></div>' +
@@ -728,7 +733,7 @@
     }
     function outcomeList(res) {
       var word = { filled: ['Filled', 'text-emerald-700', 'fa-circle-check'], skipped: ['Kept', 'text-slate-600', 'fa-circle-minus'], refused: ['Refused', 'text-red-700', 'fa-circle-xmark'] };
-      return '<ul class="mt-3 divide-y divide-slate-100 border border-slate-200 rounded-lg">' + res.map(function (r) { var w = word[r.outcome]; var parts = []; if (r.filled && r.filled.length) parts.push((preview ? 'would fill ' : 'filled ') + r.filled.map(fmtDay).join(', ')); if (r.kept && r.kept.length) parts.push('kept ' + r.kept.map(fmtDay).join(', ') + ' (already entered)'); if (r.future && r.future.length) parts.push('left ' + r.future.map(fmtDay).join(', ') + ' empty (future)'); if (r.replaced) parts.push('replaces the day already entered'); if (r.message && r.outcome !== 'filled') parts.push(r.message); return '<li class="px-3 py-2 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3"><span class="w-24 flex-shrink-0 text-xs font-bold ' + w[1] + ' flex items-center gap-1.5"><i class="fa-solid ' + w[2] + '" aria-hidden="true"></i>' + w[0] + '</span><span class="text-sm text-slate-800 font-semibold min-w-0">' + esc(r.candidateName) + '</span><span class="text-xs text-slate-600 sm:ml-auto sm:text-right">' + esc(parts.join('; ')) + '</span></li>'; }).join('') + '</ul>';
+      return '<ul class="mt-3 divide-y divide-slate-100 border border-slate-200 rounded-lg">' + res.map(function (r) { var w = word[r.outcome]; var parts = []; if (r.filled && r.filled.length) parts.push((preview ? 'would fill ' : 'filled ') + r.filled.map(fmtDay).join(', ')); if (r.kept && r.kept.length) parts.push('kept ' + r.kept.map(fmtDay).join(', ') + ' (already entered)'); if (r.future && r.future.length) parts.push('left ' + r.future.map(fmtDay).join(', ') + ' empty: not happened yet, so enter ' + (r.future.length === 1 ? 'it' : 'them') + ' by hand from that day'); if (r.replaced) parts.push('replaces the day already entered'); if (r.message && r.outcome !== 'filled') parts.push(r.message); return '<li class="px-3 py-2 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3"><span class="w-24 flex-shrink-0 text-xs font-bold ' + w[1] + ' flex items-center gap-1.5"><i class="fa-solid ' + w[2] + '" aria-hidden="true"></i>' + w[0] + '</span><span class="text-sm text-slate-800 font-semibold min-w-0">' + esc(r.candidateName) + '</span><span class="text-xs text-slate-600 sm:ml-auto sm:text-right">' + esc(parts.join('; ')) + '</span></li>'; }).join('') + '</ul>';
     }
     function rowHtml(x) {
       var pv = preview && preview.byId[x.id] ? preview.byId[x.id].would : null, editable = can.edit && x.status === 'Draft' && !x.synthetic && !(preview && preview.byId[x.id]);   // a previewed row is read-only until it is saved or cancelled

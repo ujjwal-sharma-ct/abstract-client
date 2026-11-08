@@ -171,3 +171,17 @@ implementation as Abstract's, from `slice4-proto.js`, whose client copy holds ch
 `../SLICE-4-DECISIONS-FOR-REVIEW.md`.
 
 **Consequences:** The old export's *Return to Draft* is gone.
+
+## 2026-11-08 — Slice 4: a future Holiday, and the slice 4 rows on earlier pages (ruled by Ujjwal Sharma)
+
+**Context:** The overnight pass left three questions. Ujjwal ruled them on the morning of 2026-11-08.
+
+**Decision:** (1) A covered day keeps the place's required checks. (2) *Fill week* leaves a future day blank. (3) A
+future day may be `Not Booked` or `Holiday`; `Worked`, `Sick Leave` and `No-show` wait until the day — a departure
+from TSD Q4 ("no `Worked` or absence day after today"). (4) The slice 4 changes to earlier pages are drawn: the
+permission matrix rows (§3.3.6), the timesheet templates (§3.1.6, Abstract) and the preference rows, with
+`timesheet.pricing_pending` critical, ticked and locked. Drawn by script, they ask the mode and redraw on `s1:mode`
+(as 2026-10-11 item 4), so slices 1 to 3 read as delivered.
+
+**Consequences:** The TSD owes the future-Holiday change (§1, §3.3.1 rule 3, the `TIMESHEET_DAY_IN_FUTURE` row, 4.1
+TV-4). The rule lives once, in `FUTURE_OK` in the `slice4-proto.js` source.
