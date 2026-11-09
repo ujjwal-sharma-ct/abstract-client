@@ -501,9 +501,9 @@
     'Sick Leave': ['bg-amber-50 text-amber-800 border-amber-200', 'fa-notes-medical'],
     'Holiday': ['bg-blue-50 text-blue-800 border-blue-200', 'fa-umbrella-beach'],
     'No-show': ['bg-red-50 text-red-800 border-red-200', 'fa-user-xmark'],
-    'Not Booked': ['bg-slate-100 text-slate-500 border-slate-200', 'fa-minus']
+    'Not Booked': ['bg-slate-100 text-slate-600 border-slate-200', 'fa-minus']
   };
-  var CHIP = { 'Worked': 'bg-emerald-50 text-emerald-700 border border-emerald-200', 'Sick Leave': 'bg-amber-50 text-amber-700 border border-amber-200', 'Holiday': 'bg-blue-50 text-blue-700 border border-blue-200', 'No-show': 'bg-red-50 text-red-700 border border-red-200', 'Not Booked': 'bg-slate-100 text-slate-500 border border-slate-200' };
+  var CHIP = { 'Worked': 'bg-emerald-50 text-emerald-700 border border-emerald-200', 'Sick Leave': 'bg-amber-50 text-amber-700 border border-amber-200', 'Holiday': 'bg-blue-50 text-blue-700 border border-blue-200', 'No-show': 'bg-red-50 text-red-700 border border-red-200', 'Not Booked': 'bg-slate-100 text-slate-600 border border-slate-200' };
   ui.chip = function (s) { var c = CELL[s]; return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap ' + CHIP[s] + '">' + (c[1] ? '<i class="fa-solid ' + c[1] + ' text-[9px]" aria-hidden="true"></i>' : '<i class="fa-solid fa-check text-[9px]" aria-hidden="true"></i>') + esc(s) + '</span>'; };
   var HATCH = 'background-image:repeating-linear-gradient(135deg,rgba(148,163,184,.18) 0 4px,transparent 4px 8px)';
   ui.legend = function () {
@@ -527,8 +527,8 @@
     var cls = 'relative w-full h-[64px] rounded-lg border text-left px-1.5 py-1 flex flex-col justify-between text-[11px] leading-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 ';
     var style = '', inner = '', aria = dayLabel(shown);
     if (y.locked) {
-      cls += 'bg-slate-100 text-slate-500 border-slate-200 cursor-not-allowed'; style = HATCH;
-      inner = '<span class="font-semibold flex items-center gap-1"><i class="fa-solid fa-minus text-[9px]" aria-hidden="true"></i>Not Booked</span><span class="text-[10px] text-slate-500 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]" aria-hidden="true"></i>Outside booking</span>';
+      cls += 'bg-slate-100 text-slate-600 border-slate-200 cursor-not-allowed'; style = HATCH;
+      inner = '<span class="font-semibold flex items-center gap-1"><i class="fa-solid fa-minus text-[9px]" aria-hidden="true"></i>Not Booked</span><span class="text-[10px] text-slate-600 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]" aria-hidden="true"></i>Outside booking</span>';
       return '<div role="gridcell" aria-label="' + esc(aria + ', outside the booking, locked') + '" class="' + cls + '" style="' + style + '">' + inner + '</div>';
     }
     if (!st) {
