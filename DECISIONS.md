@@ -222,3 +222,28 @@ rate for a worked day: week held until priced" in-app, and its email subject is 
 
 **Consequences:** The TSD's prose "priced by hand" stays; it is not screen copy. The permission's own label
 (*Price days by hand*) and the *priced by hand* source note on a day are unchanged.
+
+## 2026-11-12 — The original look comes back; design passes restyle, never redraw (ruled by Ujjwal Sharma)
+
+**Context:** The slice 3 pass (2026-11-01; admin `97fa751`, client `dc335d1`) and the slice 4 pass (2026-11-08; admin
+`1c629d9`, client `d88a0b6`) rewrote twelve screens from scratch instead of building on them — admin Booking Detail,
+Vacancy List, Vacancy Detail, Create Vacancy, Fill Position, Worker Pool, Worker Profile and Timesheets; client
+Bookings, Vacancies, Vacancy Detail and Timesheets — each losing 400 to 1,400 lines. Their look went with them: the
+time-of-day shift backgrounds on the timesheet grids, the dark grid header, Booking Detail's placement-terms card and
+margin composition bar, and more. The briefs' "build from the kernel" and "absent, not disabled" were read as licence to
+redraw; design-tokens §6 draws a `Worked` day as a white cell while DESIGN-SPEC-v4 §6.5 says a role-changed cell "keeps
+its shift background", and the conflict was not raised. It broke this log's 2026-09-26 rule (later-slice content is
+tagged, not deleted), was not in either pass's decisions for review, and reached `main` (PRs #1–#3). The agency portal,
+untouched by both passes, kept the original look.
+
+**Decision:** (1) The original look goes back onto the rebuilt screens and every behaviour slices 3 and 4 added stays.
+(2) All twelve screens, timesheets first. (3) The kernel's day-cell rule is amended so a `Worked` day takes its Shift's
+time-of-day background (morning sky, afternoon sun, night sky with a moon); the amendment is drafted in project-docs for
+approval. (4) `AGENTS.md` gains *Keep the existing look*: a pass restyles and never redraws, hides later-slice parts
+instead of deleting them, and lists any big removal with before/after screenshots for approval.
+
+**Consequences:** `slice4-proto.js` (both copies) draws a `Worked` cell in its Shift's look, keyed on the Shift's start
+time (05:00–11:59 morning, 12:00–17:59 afternoon, otherwise night), adds the three Shifts to the legend and restores the
+dark *Weekly day-status grid* header on the week grid and the booking-week. A cell pending manual pricing, or flagged in
+error, keeps its kernel treatment. The pre-pass originals are the reference for the remaining screens: `35e14e7` (admin)
+and `dc335d1^` (client) for the slice 3 pages, `97fa751` / `dc335d1` for the timesheets.

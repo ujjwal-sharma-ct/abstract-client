@@ -61,9 +61,29 @@ Rules:
 
 ---
 
+## Keep the existing look (ruling of 2026-11-12, Ujjwal Sharma)
+
+The slice 3 and slice 4 design passes rewrote twelve admin and client screens from scratch and dropped
+their look — the shift backgrounds on the timesheet grids, Booking Detail's placement-terms card and
+margin bar, and more — without saying so. Every design pass from now on:
+
+- **Restyles, never redraws.** Build new behaviour into the screen as it looks today. A brief's
+  "build from the kernel" or "redraw in the shell" governs words, states and the shell, not the
+  screen's visual design. If a kernel rule would remove a part of the look, ask first; don't apply it.
+- **Hides a later slice's parts, never deletes them.** Mark them `data-sN-later` (the slice mode
+  hides them), as the 2026-09-26 decision says. A brief's "absent, not disabled" is met by the mode.
+- **Shows big removals before they land.** Any page losing more than about 150 lines, or any visual
+  treatment (a background, card, chart, colour scheme or illustration) being removed, is listed in
+  the pass's decisions-for-review with a before/after screenshot of each page at 1024 px, and waits
+  for approval. Check with `git diff --stat` before you finish.
+- **Compares against the last approved look,** not only against the spec, when reviewing a pass.
+
+---
+
 ## Ask a human before
 
 - Changing the shared journey structure (reordering major steps, removing screens).
+- Removing or flattening a screen's existing visual design (see *Keep the existing look*).
 - Editing `../../project-docs/docs/design/DESIGN-SPEC-v4.md` (it governs all three portals).
 - Introducing a new navigation pattern or page chrome.
 
