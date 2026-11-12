@@ -419,7 +419,7 @@
       '<ol class="grid grid-cols-2 gap-px bg-slate-200 border border-slate-200 rounded-xl overflow-hidden font-mono text-sm sm:text-base text-slate-900" aria-label="Backup codes">' +
       CODES[set].map(function (c) { return '<li class="bg-white px-2 py-2.5 text-center tracking-wider">' + c + '</li>'; }).join('') + '</ol></div>' +
       '<div class="flex flex-wrap gap-2 mt-3">' +
-      [['copy', 'fa-regular fa-copy', 'Copy'], ['download', 'fa-solid fa-download', 'Download'], ['print', 'fa-solid fa-print', 'Print']].map(function (a) {
+      [['copy', 'fa-regular fa-copy', 'Copy codes']].map(function (a) {
         return '<button type="button" data-codes="' + a[0] + '" data-set="' + set + '" class="inline-flex items-center justify-center gap-1.5 px-3 py-2 min-h-[36px] rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="' + a[1] + '" aria-hidden="true"></i> ' + a[2] + '</button>';
       }).join('') + '</div>';
   }

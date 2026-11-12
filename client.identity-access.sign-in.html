@@ -43,7 +43,7 @@
         }
     </style>
 </head>
-<body class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800" data-s1-page>
+<body data-s1-states="default validation wrongcredentials accountinactive passwordexpired ratelimited error orgnotactive passwordset" class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800" data-s1-page>
 
     <div class="flex min-h-screen">
         
@@ -58,6 +58,35 @@
 
                 <div class="mt-10">
                     <div id="s1-signout-banner" class="mb-5"></div>
+
+                <!-- Sign-in refusals (TSD 1 §5.8 UI states, Sign-in): one message for an unknown email and a wrong password -->
+                <div data-s1-show="validation" data-s1-display="flex" role="alert" class="rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 mb-5 items-start gap-2 text-sm text-red-800">
+                    <i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i><span>Enter your email and password.</span>
+                </div>
+                <div data-s1-show="wrongcredentials" data-s1-display="flex" role="alert" class="rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 mb-5 items-start gap-2 text-sm text-red-800">
+                    <i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i><span>The email or password is incorrect.</span>
+                </div>
+                <!-- AUTH_ACCOUNT_INACTIVE -->
+                <div data-s1-show="accountinactive" data-s1-display="flex" role="alert" class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2.5 mb-5 items-start gap-2 text-sm text-amber-900">
+                    <i class="fa-solid fa-user-lock mt-0.5" aria-hidden="true"></i><span>Your account is not active. Contact your administrator.</span>
+                </div>
+                <!-- 429 RATE_LIMIT_AUTH (Retry-After in whole minutes) and any other failure -->
+                <div data-s1-show="ratelimited" data-s1-display="flex" role="alert" class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2.5 mb-5 items-start gap-2 text-sm text-amber-900">
+                    <i class="fa-solid fa-hourglass-half mt-0.5" aria-hidden="true"></i><span>Too many attempts. Try again in <span class="font-semibold tabular-nums">12 minutes</span>.</span>
+                </div>
+                <div data-s1-show="error" data-s1-display="flex" role="alert" class="rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 mb-5 items-start gap-2 text-sm text-red-800">
+                    <i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i><span>We couldn't sign you in. Try again.</span>
+                </div>
+                <!-- ORGANISATION_NOT_ACTIVE -->
+                <div data-s1-show="orgnotactive" data-s1-display="flex" role="alert" class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2.5 mb-5 items-start gap-2 text-sm text-amber-900">
+                    <i class="fa-solid fa-building-circle-exclamation mt-0.5" aria-hidden="true"></i><span>Your organisation's access has not been enabled yet. Contact Abstract.</span>
+                </div>
+                <!-- Arriving from Set a new password -->
+                <div data-s1-show="passwordset" data-s1-display="flex" role="status" class="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2.5 mb-5 items-start gap-2 text-sm text-emerald-800">
+                    <i class="fa-solid fa-circle-check mt-0.5" aria-hidden="true"></i><span>Your password is set. Sign in to continue.</span>
+                </div>
+                <!-- AUTH_PASSWORD_EXPIRED: no message here; signing in goes to Forgot password, which shows the notice -->
+                <p data-s1-show="passwordexpired" class="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-3 py-2.5 mb-5 text-xs text-gray-600">Prototype: this password has expired. <span class="font-semibold">Sign in</span> goes to <a href="client.identity-access.forgot-password.html?state=passwordexpired" class="font-semibold text-blue hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue rounded">Forgot password</a>, which says why.</p>
                     <div>
                         <form action="#" method="POST" class="space-y-5">
                             
@@ -158,6 +187,12 @@
    session exists; a person who must set it up and has not lands on the two-step page; everyone else lands in the portal.
    The prototype follows what this viewer did on the two-step page; ?twofactor=enrolled|required|off shows each. */
 function s1SignIn() {
+  /* Sign-in refusals (TSD 1 §5.8, §3.1 sign-in errors). Prototype: the chosen screen state decides the server's answer. */
+  var em = document.getElementById('email'), pw = document.getElementById('password');
+  var st = document.body.getAttribute('data-s1-state') || 'default';
+  if (!em.value.trim() || !pw.value) { S1.setState('validation'); (em.value.trim() ? pw : em).focus(); return false; }
+  if (['wrongcredentials', 'accountinactive', 'ratelimited', 'error', 'orgnotactive'].indexOf(st) >= 0) { S1.setState(st); if (st !== 'ratelimited' && st !== 'error') pw.value = ''; pw.focus(); return false; }
+  if (st === 'passwordexpired') { location.href = 'client.identity-access.forgot-password.html?state=passwordexpired'; return false; }
   var q = new URLSearchParams(location.search).get('twofactor'), on = false;
   try { on = window.localStorage.getItem('s1-2fa-client') === 'on'; } catch (e) { /* private window */ }
   if (q === 'required') location.href = 'client.identity-access.two-factor.html?state=required';
@@ -165,6 +200,22 @@ function s1SignIn() {
   else location.href = (window.S1 && S1.home) ? S1.home() : 'client.shell.dashboard.html';
   return false;
 }
+/* Mark the empty fields in the validation state; a refusal keeps the email and empties the password */
+document.addEventListener('s1:state', function (e) {
+  var st = e.detail.state, em = document.getElementById('email'), pw = document.getElementById('password');
+  [em, pw].forEach(function (i) {
+    var bad = st === 'validation' && !(i.type === 'password' ? i.value : i.value.trim());
+    i.setAttribute('aria-invalid', bad ? 'true' : 'false');
+    i.style.borderColor = bad ? '#dc2626' : '';
+  });
+  if (['wrongcredentials', 'accountinactive', 'ratelimited', 'error', 'orgnotactive'].indexOf(st) >= 0 && !em.value) em.value = 'rachel.green@clientorg.com';
+  if (st === 'wrongcredentials' || st === 'accountinactive') pw.value = '';
+});
+document.addEventListener('input', function (e) {
+  if ((e.target.id === 'email' || e.target.id === 'password') && e.target.getAttribute('aria-invalid') === 'true' && e.target.value) {
+    e.target.setAttribute('aria-invalid', 'false'); e.target.style.borderColor = '';
+  }
+});
 </script>
 
 <script src="slice1-kit.js"></script>

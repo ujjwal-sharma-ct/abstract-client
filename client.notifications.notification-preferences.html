@@ -30,7 +30,7 @@
         }
     </script>
 </head>
-<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s2-page data-s1-states="default loading error">
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s2-page data-s1-states="default loading error conflict">
 <div id="app-root" class="flex w-full" style="height: 100vh;">
     <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
         <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
@@ -84,6 +84,8 @@
                     <div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:53%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:42%"></div></div>
                     <div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div>
                 </div><p class="sr-only">Loading…</p></div>
+            <!-- 412: the preferences changed elsewhere while this page was open (built notificationPreferences.conflict) -->
+            <div data-s1-show="conflict" style="display:none" role="alert" class="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-amber-900"><i class="fa-solid fa-triangle-exclamation text-amber-600" aria-hidden="true"></i><p class="flex-1"><span class="font-semibold">Preferences changed.</span> Your preferences changed somewhere else while you were editing. Reload them, review them and save again.</p><button type="button" onclick="S1.setState('default')" class="inline-flex items-center justify-center gap-2 px-3 py-2 min-h-[36px] rounded-lg bg-white border border-amber-300 text-amber-900 text-xs font-semibold hover:bg-amber-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Reload</button></div>
             <div data-s1-show="error" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-12 text-center" role="alert">
                 <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-triangle-exclamation text-xl" aria-hidden="true"></i></div>
                 <h2 class="text-base font-bold text-slate-900">We couldn't load your preferences</h2>
@@ -110,7 +112,7 @@
               <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5" aria-labelledby="always-t">
                 <h2 id="always-t" class="text-sm font-bold text-slate-900">Always sent to you</h2>
                 <p class="text-xs text-slate-500 mt-0.5">Personal notifications have a fixed recipient and no preference.</p>
-                <ul class="mt-3 text-sm text-slate-700 list-disc pl-5 space-y-1"><li>Account activation and password reset links</li><li>Two-step verification changes to your own account</li><li>A change to your sign-in email, sent to both addresses</li></ul>
+                <ul class="mt-3 text-sm text-slate-700 list-disc pl-5 space-y-1"><li>Account activation and password reset links</li><li>Two-step verification changes to your own account</li><li>Your audit-log export is ready</li><li>A personal-data package you requested is ready</li><!-- the sign-in email change notice is withdrawn with Change email (R-33) --></ul>
               </section>
               <div class="flex items-center justify-end gap-3 sticky bottom-0 bg-slate-100 py-3 -mx-4 px-4 sm:static sm:mx-0 sm:px-0 sm:py-0 sm:bg-transparent"><p id="dirty-note" class="text-xs text-slate-500 flex-1" aria-live="polite"></p><button type="button" id="btn-reset" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1" style="display:none">Back to the organisation default</button><button type="button" id="btn-save" class="inline-flex items-center justify-center gap-2 text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:opacity-95 transition-opacity min-h-[38px] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed" style="background:linear-gradient(135deg,#1D4ED8,#5B2E91)" disabled><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save preferences</button></div>
             </div>
@@ -207,7 +209,7 @@ function paint() {
   document.getElementById('btn-reset').style.display = Object.keys(PREFS).some(function (k) { return PREFS[k].source === 'user'; }) ? '' : 'none';
 }
 document.querySelectorAll('[data-ch]').forEach(function (c) { c.addEventListener('change', function () { var li = c.closest('[data-event]'), p = PREFS[li.dataset.event]; p[c.dataset.ch] = c.checked; p.source = 'user'; dirty = true; paint(); }); });
-document.getElementById('btn-save').onclick = function () { dirty = false; paint(); S1.toast('Preferences saved. They apply from the next notification.', 'success'); };
+document.getElementById('btn-save').onclick = function () { if (document.body.getAttribute('data-s1-state') === 'conflict') { document.getElementById('main').scrollTop = 0; return; } dirty = false; paint(); S1.toast('Preferences saved. They apply from the next notification.', 'success'); };
 document.getElementById('btn-reset').onclick = function () { S1.confirm({ title: "Back to your organisation's default?", body: 'Your own choices are removed and each event follows the organisation default again. You can change them again any time.', cta: 'Use the default', onConfirm: function () { Object.keys(PREFS).forEach(function (k) { if (PREFS[k].critical) return; PREFS[k].source = 'organisation'; PREFS[k].email = true; PREFS[k].inApp = true; }); dirty = false; paint(); S1.toast('Back to the organisation default.', 'success'); } }); };
 document.addEventListener('s1:state', function (e) { state = e.detail.state; dirty = false; paint(); });
 </script>

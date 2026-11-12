@@ -73,7 +73,7 @@
 <script>S3.mobileNav();</script>
 <script>
 var app=document.getElementById('app'),week=S3.param('week')||S4.CURRENT_WEEK;
-S3.onState(function(s){if(['loading','error','denied'].indexOf(s)>=0){app.innerHTML='';return;}S4.weekGridPage(app,{mode:'client',clientId:'acme',weekStart:week,state:s,href:function(w){return 'client.timesheets.timesheets.html?week='+w;}});});
+S3.onState(function(s){if(['loading','error','denied'].indexOf(s)>=0){app.innerHTML='';return;}S4.weekGridPage(app,{mode:'client',clientId:'acme',weekStart:week,state:s,statusFilter:true,href:function(w){return 'client.timesheets.timesheets.html?week='+w;}});});
 </script>
 <script src="slice1-kit.js"></script>
 </body>

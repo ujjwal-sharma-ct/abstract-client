@@ -31,7 +31,7 @@
 .pm-row.changed{background:#fffbeb}
 </style>
 </head>
-<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s1-page data-s1-states="default loading empty error denied readonly refused conflict">
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s1-page data-s1-states="default loading empty error denied readonly refused conflict catalogue">
 
 <div id="app-root" class="flex w-full" style="height: 100vh;">
 
@@ -184,12 +184,19 @@
                     <div id="b-refused" class="hidden rounded-xl border border-red-200 bg-red-50 px-4 py-3 flex items-start gap-3 text-sm text-red-800" role="alert">
                         <i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>
                         <div><p class="font-semibold">Not saved. This would leave Acme Logistics with no one who can manage users.</p>
-                        <p class="mt-0.5">Keep “Invite users and edit their names”, “Assign roles to users” and “Configure role permissions” on this role, or give them to another active role first. Your changes are still here.</p></div>
+                        <p class="mt-0.5">Keep “Invite and edit users”, “Assign roles to users” and “Set role permissions” on this role, or give them to another active role first. Your changes are still here.</p></div>
                     </div>
                     <div id="b-conflict" class="hidden rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-amber-800" role="alert">
                         <div class="flex items-start gap-3 flex-1"><i class="fa-solid fa-code-compare mt-0.5" aria-hidden="true"></i>
                         <p><span class="font-semibold">This role changed while you were editing. Review and save again.</span> Sarah Jenkins changed it at 10:42. Reloading shows their version; your unsaved ticks are highlighted so you can re-apply them.</p></div>
                         <button type="button" id="reload-role" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 !py-2 flex-shrink-0"><i class="fa-solid fa-rotate-right text-xs" aria-hidden="true"></i> Load the latest version</button>
+                    </div>
+
+                    <!-- Stale catalogue: the save named a permission this page doesn't know (PERMISSION_KEY_UNKNOWN; TSD 1 §5.9 UI states) -->
+                    <div id="b-catalogue" class="hidden rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-amber-800" role="alert">
+                        <div class="flex items-start gap-3 flex-1"><i class="fa-solid fa-arrows-rotate mt-0.5" aria-hidden="true"></i>
+                        <p><span class="font-semibold">Permissions list changed.</span> The list of permissions has changed since this page loaded, so nothing was saved. Reload the page and make your changes again.</p></div>
+                        <button type="button" id="reload-cat" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 !py-2 flex-shrink-0"><i class="fa-solid fa-rotate-right text-xs" aria-hidden="true"></i> Reload the page</button>
                     </div>
 
                     <!-- Legend: kinds of grant -->
@@ -248,27 +255,42 @@
 
 /* ---- Client catalogue (slice 1). No agency-pay or other rate item exists in it. ---- */
 var CATALOGUE = [
+  /* Slice 1 keys as the backend catalogue builds them (client.catalogue.json; labels and kinds as filed) */
   { id: 'users', name: 'Users', icon: 'fa-users', items: [
-    { key: 'users.view', kind: 'view', label: 'View users', hint: 'See the Users list and each person\'s roles and status.' },
-    { key: 'users.edit', kind: 'edit', label: 'Invite users and edit their names', hint: 'Send invitations and correct names. Nobody can set another person\'s password.' },
-    { key: 'users.deactivate', kind: 'delete', label: 'Deactivate and reactivate users', hint: 'A deactivated user can no longer sign in. Nothing is deleted.' },
-    { key: 'users.resend', kind: 'action', label: 'Resend activation links', hint: 'Sends a new 72-hour link to someone who is still Invited.' }, { key: 'users.reset2fa', kind: 'action', label: 'Reset two-step verification', hint: 'For people in your organisation, never your own. Ends their sessions; they set it up again if it is required.' },
-    { key: 'users.lastsignin', kind: 'field', label: 'Last sign-in', hint: 'Controls whether this role can see the values in this field, not whether it can open the page.' }
+    { key: 'user:view', kind: 'view', label: 'View users', hint: 'See the organisation\'s users, their status and their roles.' },
+    { key: 'user:create_edit', kind: 'edit', label: 'Invite and edit users', hint: 'Invite a user, edit their details and resend their activation email. Nobody can set another person\'s password.' },
+    { key: 'user:delete', kind: 'delete', label: 'Deactivate users', hint: 'Deactivate a user, which ends their sessions, and reactivate them.' },
+    { key: 'user:reset_two_factor', kind: 'action', label: 'Reset two-factor authentication', hint: 'For people in your organisation, never your own. Ends their sessions; they set it up again if it is required.' }
   ]},
   { id: 'roles', name: 'Roles', icon: 'fa-user-shield', items: [
-    { key: 'roles.view', kind: 'view', label: 'View roles', hint: 'See the roles and what each one allows.' },
-    { key: 'roles.edit', kind: 'edit', label: 'Create and rename roles', hint: '' },
-    { key: 'roles.assign', kind: 'action', label: 'Assign roles to users', hint: 'Set which roles a person holds.' },
-    { key: 'roles.configure', kind: 'action', label: 'Configure role permissions', hint: 'Change the ticks on this page.' },
-    { key: 'roles.deactivate', kind: 'delete', label: 'Deactivate roles', hint: 'Roles are deactivated, never deleted.' }
+    { key: 'role:view', kind: 'view', label: 'View roles', hint: 'See the organisation\'s roles and what each one allows.' },
+    { key: 'role:create_edit', kind: 'edit', label: 'Create and rename roles', hint: 'Create a role and change its name.' },
+    { key: 'role:assign', kind: 'action', label: 'Assign roles to users', hint: 'Choose which roles a user holds.' },
+    { key: 'role:grant', kind: 'action', label: 'Set role permissions', hint: 'Choose which permissions a role allows. Changes the ticks on this page.' },
+    { key: 'role:delete', kind: 'delete', label: 'Deactivate roles', hint: 'Deactivate a role, which stops it counting for the users who hold it, and reactivate it. Roles are deactivated, never deleted.' }
   ]},
-  { id: 'vacancy', name: 'Vacancies', icon: 'fa-briefcase', items: [
+  { id: 'job', name: 'Background jobs', icon: 'fa-gears', items: [
+    { key: 'job:view', kind: 'view', label: 'View own background jobs', hint: 'See the progress and result of the exports and other background jobs you started.' }
+  ]},
+  { id: 'document', name: 'Documents', icon: 'fa-file-lines', items: [
+    { key: 'document:view', kind: 'view', label: 'View documents', hint: 'Open and download documents on the records you can see, and the files you generated.' },
+    { key: 'document:create_edit', kind: 'edit', label: 'Upload documents', hint: 'Attach a document to a record you can see.' }
+  ]},
+  /* Slice 2 (TSD 2 §3.3.3, client.slice-2.catalogue.json): the caller's own organisation's profile, seeded on every default role */
+  { id: 'organisation', name: 'Organisation', icon: 'fa-building', s: 2, items: [
+    { key: 'organisation:view', kind: 'view', label: 'View your organisation', hint: 'See your own organisation\'s profile.' }
+  ]},
+  { id: 'vacancy', name: 'Vacancies', icon: 'fa-briefcase', s: 3, items: [
     { key: 'vacancy:view', kind: 'view', label: 'View vacancies', hint: 'See vacancies and their positions at the places your scope covers.' },
     { key: 'vacancy:create_edit', kind: 'edit', label: 'Create and edit vacancies', hint: 'Create, edit and publish vacancies, and change the position count.' },
     { key: 'vacancy:cancel', kind: 'action', label: 'Close and cancel vacancies', hint: 'Close or cancel a vacancy, with a reason.' }
   ]},
-  { id: 'booking', name: 'Bookings', icon: 'fa-calendar-check', items: [
+  { id: 'booking', name: 'Bookings', icon: 'fa-calendar-check', s: 3, items: [
     { key: 'booking:view', kind: 'view', label: 'View bookings', hint: 'See bookings, and the active bookings count, at the places your scope covers.' }
+  ]},
+  /* Slice 3 (TSD 3 §3.3.5, R-64 2026-11-06; client.slice-3.catalogue.json): seeded to Administrator, Manager and Viewer */
+  { id: 'job_role', name: 'Job roles', icon: 'fa-id-badge', s: 3, items: [
+    { key: 'job_role:view', kind: 'view', label: 'View job roles', hint: 'See the job roles priced for your organisation, each with your organisation\'s rate cards, to choose one for a vacancy or filter a list by it.' }
   ]}
 ];
 /* Slice 4 (TSD §3.3.6): the timesheet keys and shift_pattern:view, granted as the catalogue seeds them; drawn from
@@ -277,23 +299,31 @@ var CATALOGUE = [
 var CATALOGUE_ALL = CATALOGUE.concat([
   { id: 'timesheet', name: 'Timesheets', icon: 'fa-clock', s4: true, items: [
     { key: 'timesheet:view', kind: 'view', label: 'View timesheets', hint: 'See timesheets at the places your scope covers, and the notice when a day waits for pricing.' },
-    { key: 'timesheet:create_edit', kind: 'edit', label: 'Enter and edit timesheet days', hint: 'Enter days, fill a week and mark days. A timesheet is never deleted.' },
+    { key: 'timesheet:create_edit', kind: 'edit', label: 'Enter timesheets', hint: 'Enter days, fill a week and mark days. A timesheet is never deleted.' },
     { key: 'timesheet:submit', kind: 'action', label: 'Submit timesheets', hint: 'Send a finished week for approval.' },
-    { key: 'timesheet:change_role', kind: 'action', label: 'Record a day worked in another role', hint: 'Mark a day as covering another role at the same place.' }
+    { key: 'timesheet:change_role', kind: 'action', label: 'Record cover in another role', hint: 'Mark a day as covering another role at the same place.' }
   ]},
   { id: 'shift_pattern', name: 'Shift patterns', icon: 'fa-calendar-days', s4: true, items: [
     { key: 'shift_pattern:view', kind: 'view', label: 'View shift patterns', hint: 'Fill week offers your shift patterns to copy.' }
+  ]},
+  /* shift:view (TSD 4 §3.3.6, §3.1.5; decisions-review ruling 16, R-25; client.slice-4.catalogue.json): Administrator and Manager */
+  { id: 'shift', name: 'Shifts', icon: 'fa-business-time', s4: true, items: [
+    { key: 'shift:view', kind: 'view', label: 'View shift options', hint: 'See your organisation\'s active Shifts, to choose one for a timesheet day or a vacancy.' }
   ]}
 ]);
-var S4_KEYS = { manager: ['timesheet:view', 'timesheet:create_edit', 'timesheet:submit', 'timesheet:change_role', 'shift_pattern:view'], viewer: ['timesheet:view'] };
+var S4_KEYS = { manager: ['timesheet:view', 'timesheet:create_edit', 'timesheet:submit', 'timesheet:change_role', 'shift_pattern:view', 'shift:view'], viewer: ['timesheet:view'] };
 function s4Shown() { return !(window.S1 && S1.mode && ['s1', 's2', 's3'].indexOf(S1.mode()) >= 0); }
+/* A group is drawn from its slice's mode on (s: 2 or 3; s4: slice 4), absent in the earlier slice modes and present in
+   full product. Decided from S1.mode() when drawn, and again on the kit's s1:mode event (which also fires at load). */
+function modeSlice() { var m = window.S1 && S1.mode ? S1.mode() : 'full'; return { s1: 1, s2: 2, s3: 3, s4: 4 }[m] || 99; }
+function groupShown(g) { return (g.s4 ? 4 : g.s || 1) <= modeSlice(); }
 var ALL_FULL = []; CATALOGUE_ALL.forEach(function (g) { g.items.forEach(function (i) { ALL_FULL.push(i.key); }); });
-CATALOGUE = CATALOGUE_ALL.filter(function (g) { return !g.s4 || s4Shown(); });
+CATALOGUE = CATALOGUE_ALL.filter(groupShown);
 var ALL = []; CATALOGUE.forEach(function (g) { g.items.forEach(function (i) { ALL.push(i.key); }); });
 var ROLES = [
   { id: 'administrator', name: 'Administrator', seed: true, status: 'Active', users: 1, grants: ALL_FULL.slice() },
-  { id: 'manager', name: 'Manager', seed: true, status: 'Active', users: 3, grants: ['users.view', 'users.lastsignin', 'roles.view', 'vacancy:view', 'vacancy:create_edit', 'vacancy:cancel', 'booking:view'].concat(S4_KEYS.manager) },
-  { id: 'viewer', name: 'Viewer', seed: true, status: 'Active', users: 1, grants: ['users.view', 'vacancy:view', 'booking:view'].concat(S4_KEYS.viewer) },
+  { id: 'manager', name: 'Manager', seed: true, status: 'Active', users: 3, grants: ['user:view', 'role:view', 'job:view', 'document:view', 'document:create_edit', 'organisation:view', 'vacancy:view', 'vacancy:create_edit', 'vacancy:cancel', 'booking:view', 'job_role:view'].concat(S4_KEYS.manager) },
+  { id: 'viewer', name: 'Viewer', seed: true, status: 'Active', users: 1, grants: ['job:view', 'document:view', 'organisation:view', 'vacancy:view', 'booking:view', 'job_role:view'].concat(S4_KEYS.viewer) },
   { id: 'seasonal', name: 'Seasonal supervisors', seed: false, status: 'Inactive', users: 1, grants: [] }
 ];
 var KIND = {
@@ -303,7 +333,7 @@ var KIND = {
   action: '<span class="kind kind-action" title="Named action"><i class="fa-solid fa-bolt" aria-hidden="true"></i><span class="sr-only">Named action</span></span>',
   field:  '<span class="kind kind-view" title="Field visibility"><i class="fa-solid fa-table-columns" aria-hidden="true"></i><span class="sr-only">Field visibility</span></span>'
 };
-var LAST_ADMIN_KEYS = ['users.edit', 'roles.assign', 'roles.configure'];
+var LAST_ADMIN_KEYS = ['user:create_edit', 'role:assign', 'role:grant'];
 
 var role, base, cur, readOnly = false, open = { users: true, roles: false };
 
@@ -368,7 +398,7 @@ function selectRole(id) {
   role = ROLES.filter(function (r) { return r.id === id; })[0] || ROLES[0];
   base = role.grants.slice(); cur = role.grants.slice();
   $('role-select').value = role.id;
-  ['b-refused', 'b-conflict'].forEach(function (b) { $(b).classList.add('hidden'); });
+  ['b-refused', 'b-conflict', 'b-catalogue'].forEach(function (b) { $(b).classList.add('hidden'); });
   renderRoleHeader(); render();
 }
 
@@ -389,6 +419,9 @@ function save() {
     // RBAC-016: the only role that can manage users must keep that ability
     if (role.id === 'administrator' && LAST_ADMIN_KEYS.some(function (k) { return !has(k); })) {
       $('b-refused').classList.remove('hidden'); $('main').scrollTo({ top: 0, behavior: 'smooth' }); return;
+    }
+    if (document.body.getAttribute('data-s1-state') === 'catalogue') {
+      $('b-catalogue').classList.remove('hidden'); $('main').scrollTo({ top: 0, behavior: 'smooth' }); return;
     }
     if (document.body.getAttribute('data-s1-state') === 'conflict') {
       $('b-conflict').classList.remove('hidden'); $('main').scrollTo({ top: 0, behavior: 'smooth' }); return;
@@ -422,9 +455,10 @@ document.addEventListener('s1:ready', function () {
   });
   $('discard-btn').onclick = function () { cur = base.slice(); $('b-refused').classList.add('hidden'); render(); S1.toast('Changes discarded.', 'info'); };
   $('save-btn').onclick = save;
+  $('reload-cat').onclick = function () { S1.setState('loading'); setTimeout(function () { S1.setState('default'); }, 700); };
   $('reload-role').onclick = function () {
     var mine = cur.slice();
-    role.grants = role.grants.filter(function (k) { return k !== 'users.lastsignin'; }).concat(['users.resend']).filter(function (k, i, a) { return a.indexOf(k) === i; });
+    role.grants = role.grants.filter(function (k) { return k !== 'document:create_edit'; }).concat(['user:reset_two_factor']).filter(function (k, i, a) { return a.indexOf(k) === i; });
     base = role.grants.slice(); cur = mine; $('b-conflict').classList.add('hidden');
     document.body.setAttribute('data-s1-state', 'default');
     render(); S1.toast('Loaded the latest version. Your unsaved ticks are highlighted.', 'info');
@@ -444,17 +478,21 @@ function applyState(s) {
   readOnly = s === 'readonly';
   if (s === 'empty') { selectRole('seasonal'); return; }
   if (s === 'refused') {
-    selectRole('administrator'); cur = cur.filter(function (k) { return k !== 'users.edit' && k !== 'roles.configure'; });
+    selectRole('administrator'); cur = cur.filter(function (k) { return k !== 'user:create_edit' && k !== 'role:grant'; });
     render(); $('b-refused').classList.remove('hidden'); return;
   }
   if (s === 'conflict') {
-    selectRole('manager'); cur = cur.concat(['users.resend', 'roles.assign']); render(); $('b-conflict').classList.remove('hidden'); return;
+    selectRole('manager'); cur = cur.concat(['user:reset_two_factor', 'role:assign']); render(); $('b-conflict').classList.remove('hidden'); return;
+  }
+  if (s === 'catalogue') {
+    selectRole('manager'); var off = ALL.filter(function (k) { return !has(k); }); if (off[0]) cur.push(off[0]);
+    render(); $('b-catalogue').classList.remove('hidden'); return;
   }
   if (s === 'default' || s === 'readonly') { selectRole(new URLSearchParams(location.search).get('role') || 'administrator'); }
 }
 document.addEventListener('s1:state', function (e) { applyState(e.detail.state); });
 document.addEventListener('s1:mode', function () {
-  CATALOGUE = CATALOGUE_ALL.filter(function (g) { return !g.s4 || s4Shown(); });
+  CATALOGUE = CATALOGUE_ALL.filter(groupShown);
   ALL = []; CATALOGUE.forEach(function (g) { g.items.forEach(function (i) { ALL.push(i.key); }); });
   if (role) render();
 });

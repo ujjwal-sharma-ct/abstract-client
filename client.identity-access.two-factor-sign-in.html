@@ -25,7 +25,7 @@
     </script>
 </head>
 
-<body class="font-inter bg-slate-100 text-slate-600 min-h-screen" data-s1-page data-s1-states="default validation wrongcode backup wrongbackup ratelimited challenge">
+<body class="font-inter bg-slate-100 text-slate-600 min-h-screen" data-s1-page data-s1-states="default validation wrongcode backup wrongbackup ratelimited challenge error">
 <div class="flex min-h-screen">
 
     <!-- Left: the form -->
@@ -45,6 +45,10 @@
                 <!-- 429 (AUTH_TWO_FACTOR_LOCKED / RATE_LIMIT_AUTH, Retry-After): the wait in minutes -->
                 <div data-s1-show="ratelimited" data-s1-display="flex" role="alert" class="mt-5 rounded-lg border border-amber-200 bg-amber-50 px-3.5 py-3 items-start gap-2.5 text-sm text-amber-900 text-left">
                     <i class="fa-solid fa-hourglass-half mt-0.5" aria-hidden="true"></i><p><span class="font-semibold">Too many attempts.</span> For your security, wait 15 minutes, then try again.</p>
+                </div>
+                <!-- Any other failure of the second step -->
+                <div data-s1-show="error" data-s1-display="flex" role="alert" class="mt-5 rounded-lg border border-red-200 bg-red-50 px-3.5 py-3 items-start gap-2.5 text-sm text-red-800 text-left">
+                    <i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i><p>We couldn't sign you in. Try again.</p>
                 </div>
 
                 <form id="v-form" class="mt-6 flex flex-col gap-5 text-left" novalidate>

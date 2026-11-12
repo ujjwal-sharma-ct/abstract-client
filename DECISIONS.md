@@ -247,3 +247,28 @@ time (05:00–11:59 morning, 12:00–17:59 afternoon, otherwise night), adds the
 dark *Weekly day-status grid* header on the week grid and the booking-week. A cell pending manual pricing, or flagged in
 error, keeps its kernel treatment. The pre-pass originals are the reference for the remaining screens: `35e14e7` (admin)
 and `dc335d1^` (client) for the slice 3 pages, `97fa751` / `dc335d1` for the timesheets.
+
+## 2026-11-13 — Four rulings from the design audit (Ujjwal Sharma)
+
+Context: after the original look came back, an audit checked every design page against the slice 1–4 briefs, TSDs and rulings records. Four items had sources that disagreed and went to Ujjwal.
+
+1. **"How this vacancy is worked" (client).** Clients never see this note. It is removed from the client portal, overriding slice 3 brief C9.
+2. **"Released to Agencies" in the client vacancy status filter.** Hidden until agency release exists: `later(4)`, absent in every slice mode.
+3. **Admin IP allow-list on System settings (SYS-010, TSD 1 TV-12).** Hidden on every screen, the full-product view included, until it is enforced (confirmed by Ujjwal in the project-docs session, 2026-11-13). The markup stays in `abstract.configuration.system-settings.html` with `hidden`.
+4. **Client timesheet filters.** Week and status only, as TSD 4 §3.3.11 says. No compliance filter for clients, setting aside the overnight decision that allowed one.
+
+## 2026-11-13 — Rulings from the design audit, second batch (Ujjwal Sharma)
+
+Context: the second fix round (helpers working from the brief-side audit and the project-docs session's built-side gap list) left items where the design, the TSD and the build disagreed.
+
+1. **Abstract's override reason on client screens.** The client sees the *overridden* marker only, never the reason text (TSD 4 contract). The reason stays on Abstract's screens. Client `slice4-proto.js`: the cell tooltip reads "Overridden by Abstract"; the day dialog names who overrode, not why.
+2. **Pay statement markers *priced by hand* and *covered*.** Full-product view only; not in any slice 1–4 contract.
+3. **Client vacancy list layout.** Keeps the restored original layout (View/Edit per row, job role under the reference). The frontend takes it in the restyle after slice 4.
+4. **Client publish confirm.** Client wording in the design; the built client form's Abstract wording ("…worker pool or by a manual fill") is a frontend fix.
+5. **Label "Margin"**, not "Gross margin", on vacancy and booking pages (built glossary term; ruled in the project-docs session).
+6. **Backup codes.** *Copy codes* and *I've saved these* only, as built; Download and Print are dropped on all three portals' two-step pages (ruled in the project-docs session).
+7. **K57 approved** (ruled in the project-docs session): a Worked cell takes its Shift's time-of-day look. The compliance icon on the morning and afternoon looks is amber-700, not amber-600, because amber-600 is below 3:1 on those backgrounds.
+8. **Sample roles (R-36), DR-S12.** The sample keeps Abstract Operations *without* `user:create_edit`, one grant short of the R-36 seed, so the last-administrator refusal stays demonstrable: with a second role able to manage users, "you can't remove the last administrator" could never be reached. The built seed follows R-36; this is a deliberate prototype difference.
+9. **User erasure "retention obligation" refusal, DR-S13.** Full-product view only. No slice mode shows it: the product has no such refusal for a user, only a candidate's legal hold (`abstract.identity-access.data-subject-requests.html`).
+
+The project-docs session records these as DR-S11 to DR-S13 in `delivery/design-restore/PLAN.md` §2.

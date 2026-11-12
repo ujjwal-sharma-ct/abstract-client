@@ -23,8 +23,8 @@ const files = readdirSync('.').filter((f) => f.endsWith('.html'))
 const fileSet = new Set(files)
 
 // Entry points: index, sign-in / login, the activation-email landing (reached only from
-// an email link) and the slice 1 screen index.
-const ENTRY_RE = /^(index|.*sign.?in.*|.*log.?in.*|.*activate.?account.*|.*confirm.?email.*|.*slice.?[12].?index.*)\.html$/i
+// an email link) and the slice screen indexes.
+const ENTRY_RE = /^(index|.*sign.?in.*|.*log.?in.*|.*activate.?account.*|.*confirm.?email.*|.*slice.?[1-9].?index.*)\.html$/i
 const isEntry = (f) => ENTRY_RE.test(f)
 
 function titleOf(body, fallback) {
@@ -35,10 +35,11 @@ function titleOf(body, fallback) {
 // Extract local .html link targets from a screen.
 function linksOf(body) {
   const out = new Set()
-  for (const m of body.matchAll(/href\s*=\s*["']([^"'#?]+)["']/gi)) {
+  for (const m of body.matchAll(/href\s*=\s*["']([^"'#?]+)(?:[?#][^"']*)?["']/gi)) {
     let target = m[1].trim()
     if (!target.toLowerCase().endsWith('.html')) continue
     if (/^https?:\/\//i.test(target)) continue
+    if (target.startsWith('../')) continue // another portal's repo: not checked here
     target = decodeURIComponent(target).split('/').pop() // basename, decode %20
     out.add(target)
   }

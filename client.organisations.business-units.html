@@ -30,7 +30,7 @@
         }
     </script>
 </head>
-<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s2-page data-s1-states="default loading empty error validation readonly denied large pending">
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s2-page data-s1-states="default loading empty error validation readonly denied large pending reach">
 <div id="app-root" class="flex w-full" style="height: 100vh;">
     <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
         <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
@@ -422,7 +422,7 @@ function load() {
   if (IS_ABS) { document.title = 'Structure · ' + ORG.name + ' · Abstract VMS'; document.getElementById('header').style.borderTop = '4px solid #1D4ED8'; document.getElementById('ctx-party').textContent = (ORG.party === 'client' ? 'Client' : 'Agency') + ' organisation. You see the same screens its own user administrators see.'; document.getElementById('ctx-status').textContent = ORG.status !== 'Active' ? ' Its status is ' + ORG.status + '.' : ''; var sb = document.getElementById('nav-organisations'); if (sb) sb.setAttribute('aria-current', 'page'); }
   document.getElementById('col-cc').style.display = ORG.party === 'client' ? '' : 'none';
   document.getElementById('approval-banner').style.display = approval && !IS_ABS ? '' : 'none';
-  if (approval && IS_ABS) { document.getElementById('approval-banner').style.display = ''; document.getElementById('approval-banner').querySelector('p').innerHTML = '<span class="font-semibold">Abstract approves changes to this structure.</span> Its own users\' changes wait in the <a class="underline font-semibold" href="abstract.organisations.structure-changes.html?org=' + slug + '">Structure changes</a> queue; a change you make here applies at once. <span id="pending-count-line"></span>'; }
+  if (approval && IS_ABS) { document.getElementById('approval-banner').style.display = ''; document.getElementById('approval-banner').querySelector('p').innerHTML = '<span class="font-semibold">Abstract approves changes to this structure.</span> Its own users\' changes wait in Abstract\'s <span class="font-semibold">Structure changes</span> queue; a change you make here applies at once. <span id="pending-count-line"></span>'; }
   var pc = document.getElementById('pending-count-line'); if (pc) pc.textContent = pending.length ? pending.length + (pending.length === 1 ? ' change is' : ' changes are') + ' waiting.' : '';
   document.querySelectorAll('[data-edit]').forEach(function (b) { b.style.display = ro ? 'none' : ''; });
   document.getElementById('tree-empty-copy').textContent = ro ? 'Nothing has been added to ' + ORG.name + "'s structure yet." : 'Add a first node under ' + ORG.name + ' — ' + (ORG.party === 'client' ? 'a region, a site or a department.' : 'a branch, a region or a division.');
@@ -540,13 +540,16 @@ document.getElementById('move-save').onclick = function () {
   S1.closeModal('m-move');
   submitChange('move', { nodeId: n.id, parentId: parent }, function () { nodes.find(function (x) { return x.id === n.id; }).parentId = parent; if (parent) tree.expanded[parent] = true; }, 'Moved.');
 };
+/* Rate cards held at a node (ORG_NODE_IN_USE.rateCardCount, R-106): Acme's Birmingham DC card, as on Rate Cards */
+var RATE_CARDS_AT = { acme: { bhx: 1 } };
 function tryRemove(id) {
-  var n = tree.byId[id], kids = tree.children[id] || [], here = n.userCount || 0, beneath = userCountBeneath(id);
-  if (kids.length || here || beneath) {
+  var n = tree.byId[id], kids = tree.children[id] || [], here = n.userCount || 0, beneath = userCountBeneath(id), cards = (RATE_CARDS_AT[slug] || {})[id] || 0;
+  if (kids.length || here || beneath || cards) {
     document.getElementById('m-cant-t').textContent = "Can't remove " + n.name;
     var parts = [];
     if (kids.length) parts.push('<p>It still has ' + kids.length + (kids.length === 1 ? ' node' : ' nodes') + ' beneath it: ' + kids.map(function (k) { return '<span class="font-semibold">' + esc(k.name) + '</span>'; }).join(', ') + '. Move or remove them first.</p>');
     if (here || beneath) { var who = []; if (here) who.push(here + (here === 1 ? ' user is' : ' users are') + ' assigned here'); kids.forEach(function (k) { var c = (k.userCount || 0) + userCountBeneath(k.id); if (c) who.push(c + ' at ' + esc(k.name) + ' beneath it'); }); parts.push('<p class="mt-2">' + who.join(', ') + '. Change their scope on the <a class="text-blue-700 font-semibold underline" href="' + (IS_ABS ? 'abstract.identity-access.users.html?org=' + slug : PORTAL + '.identity-access.users.html') + '">Users page</a> first.</p>'); }
+    if (cards) parts.push('<p' + (parts.length ? ' class="mt-2"' : '') + '>' + cards + (cards === 1 ? ' rate card is' : ' rate cards are') + ' set at this node. Abstract keeps rate cards with their history, so a node that has them cannot be removed.</p>');
     document.getElementById('cant-body').innerHTML = parts.join('');
     S1.openModal('m-cant'); return;
   }
@@ -559,6 +562,9 @@ document.getElementById('btn-add-m').onclick = function () { openAdd(addTarget);
 document.getElementById('btn-expand').onclick = function () { tree.expandAll(); };
 document.getElementById('btn-collapse').onclick = function () { tree.collapseTo(1); };
 document.getElementById('tree-search').addEventListener('input', function () { tree.setQuery(this.value); if (!this.value) foot(); });
+/* 403 beyond the caller's reach (slice 2 §3.3.4; built nodeScope.reach): a scoped user's add, move or remove outside their part of the tree */
+document.addEventListener('s1:state', function (e) { if (e.detail.state === 'reach') setTimeout(function () { S1.confirm({ tone: 'warning', icon: 'fa-lock', title: 'Outside your scope', body: 'This change reaches beyond your scope. You can add, move and remove only within the part of the structure you are scoped to. Nothing was changed.', cancel: 'Close', cta: null }); }, 250); });
+document.addEventListener('s1:ready', function () { var b = document.querySelector('.s1-sw [data-state="reach"]'); if (b) b.textContent = 'Outside your scope (403)'; });
 document.addEventListener('s1:state', function (e) { state = e.detail.state; slug = 'acme'; load(); if (state === 'validation') setTimeout(function () { openAdd(nodes.length ? '__root' : '__root'); }, 200); });
 if (window.S1 && S1.embedded) document.addEventListener('s1:ready', function () { document.querySelectorAll('[data-embedded-hide]').forEach(function (e) { e.style.display = 'none'; }); });
 </script>
