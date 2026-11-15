@@ -102,6 +102,7 @@
     return Object.assign({ id: id, bookingId: bookingId, weekStart: ws, status: status, days: days, submittedAt: null, submittedBy: null, submittedLate: null, approvedAt: null, approvedBy: null, approvalMode: null, returnedAt: null, returnedBy: null, returnReason: null, returnKind: null, enteredOnBehalf: false, approvals: [], events: [], createdAt: ws + 'T00:20:00', updatedAt: addDays(ws, 5) + 'T16:00:00' }, extra || {});
   }
   function fiveDays(ws, h, s, over) { var o = {}; for (var i = 0; i < 5; i++) o[addDays(ws, i)] = W(h, s); o[addDays(ws, 5)] = NB(); o[addDays(ws, 6)] = NB(); return Object.assign(o, over || {}); }
+  var SEED_HELPERS = { ts: function (a, b, c, d2, e, f) { return ts(a, b, c, d2, e, f); }, day: function (a, b, c, e) { return day(a, b, c, e); }, W: function (a, b, c) { return W(a, b, c); }, NB: function () { return NB(); }, addDays: function (a, b) { return addDays(a, b); }, approved: function (a, b, c, d2, e, f, g) { return approved(a, b, c, d2, e, f, g); } };
   function approved(ws, at, by, mode, daysMap, ver, superseded) { return { version: ver || 1, at: at, by: by, mode: mode, days: JSON.parse(JSON.stringify(daysMap)), supersededAt: superseded || null }; }
   function seed() {
     var W1 = '2026-09-14', W2 = '2026-09-21', W3 = '2026-09-28', W4 = '2026-10-05';
@@ -153,6 +154,8 @@
     t135.events.push({ at: '2026-10-09T11:00:00', by: 'Rachel Green', text: 'Submitted' });
     t135.events.push({ at: '2026-10-09T15:30:00', by: 'Sarah Mitchell', text: 'Returned to Draft: Tuesday’s cover as Forklift Driver: please check the hours with the site and confirm Nadia drove that day.' });
     // Ewa Rybak's week of 5 Oct has no timesheet yet: the grid ensures it on open (4.5 TV-1).
+    // Slice 5 (slice5-proto.js) adds BK-2210's weeks; they read only where their Agency-sourced booking does (s5 and full).
+    if (window.S5 && S5.s4) S5.s4.ensure(list, SEED_HELPERS);
     return { ts: list, seq: 140, notified: false };
   }
 
@@ -161,6 +164,7 @@
   function write(k, v) { try { window.localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* private window: this page only */ } }
   var db = read(KEY) || seed();
   function save() { write(KEY, db); }
+  if (window.S5 && S5.s4 && S5.s4.ensure(db.ts, SEED_HELPERS)) save();
   
   // The simulated server's charge to the client: a paid day off whose cost Abstract bears is charged 0.00. Read from the shared
   // store; the client copy keeps no bearer field (design review R1 N2).
@@ -296,6 +300,7 @@
     o.events = (t.events || []).slice().sort(function (a, b2) { return a.at < b2.at ? 1 : -1; });
     o.versions = (t.approvals || []).length;
     o.currentPayStatementId = ABS && t.status === 'Approved' && t.approvals.length ? 'ps-' + t.id + '-v' + t.approvals.length : null;
+    if (window.S5 && S5.s4) S5.s4.dress(o, b, t);
     return o;
   }
   function own(b) { return !S3.clientId || b.clientId === S3.clientId; }
@@ -359,11 +364,13 @@
       if (inp.absenceComment && inp.absenceComment.length > 500) errs[inp.date] = 'Keep the comment to 500 characters.';
     });
     if (Object.keys(errs).length) refuse('VALIDATION_ERROR', 'Check the highlighted days.', { fields: errs });
-    var newlyPending = [];
+    if (window.S5 && S5.s4) S5.s4.check(b, inputs);
+    var newlyPending = [], s5changes = [];
     inputs.forEach(function (inp) {
       var prev = t.days[inp.date], was = before.days.filter(function (y) { return y.date === inp.date; })[0];
       // TSD §3.3.1 rule 3 (R5 decision O3): re-sending the Shift the day already has keeps its default flag; only another Shift clears it
       var sameAsDefault = inp.shiftId && was && was.shiftDefaulted && was.shiftId === inp.shiftId; // design review R1 N11: the Shift alone decides, whatever the status
+      s5changes.push({ date: inp.date, prev: prev ? prev.dayStatus : null, next: inp.dayStatus || null, requestConfirmation: inp.requestConfirmation });
       if (typeChanged(prev, inp.dayStatus || null)) dropBearer(t, inp.date);
       if (!inp.dayStatus) { delete t.days[inp.date]; ev(t, fmtDay(inp.date) + ': cleared', true); return; }
       var e = day(inp.dayStatus, inp.dayStatus === 'Worked' ? (Math.round(Number(inp.hours) * 4) / 4).toFixed(2) : null, null, { updatedAt: NOW() });
@@ -378,6 +385,7 @@
       t.days[inp.date] = e;
       ev(t, fmtDay(inp.date) + ': ' + inp.dayStatus + (inp.dayStatus === 'Worked' ? ' ' + e.hours + ' h' + (inp.shiftId ? ', ' + S3.shiftName(b.clientId, inp.shiftId) : ', Shift by default') : ''), true);
     });
+    if (window.S5 && S5.s4) S5.s4.written(b, s5changes);
     var after = dress(t);
     after.days.forEach(function (x) { var was = before.days.filter(function (y) { return y.date === x.date; })[0]; if (x.pricingState === 'pending manual pricing' && (!was || was.pricingState !== 'pending manual pricing')) newlyPending.push(x); });
     touch(t, true);
@@ -503,6 +511,7 @@
     if (x.held) m.push('<span title="A day waits for manual pricing, so the week can’t be submitted or approved">' + ui3.marker('Held', 'warning') + '</span>');
     if (x.complianceExceptions) m.push('<span title="A covered day has client checks the candidate doesn’t meet. This never blocks.">' + ui3.marker('Compliance exception', 'warning') + '</span>');
     if (x.approvalMode === 'automatic' && x.status === 'Approved') m.push(ui3.marker('Approved automatically'));
+    if (x.invoicedStandIn) m.push('<span title="Prototype stand-in for slice 6’s invoiced periods: the week can’t be reopened">' + ui3.marker('Invoiced') + '</span>');   // slice 5 (slice5-proto.js)
     if (ABS && x.enteredOnBehalf) m.push(ui3.marker('Entered by Abstract', 'info'));   // design-tokens §5 K54; Abstract pages only
     return m.join(' ');
   };
@@ -551,7 +560,7 @@
       '<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-700"><i class="fa-solid fa-triangle-exclamation text-amber-600" aria-hidden="true"></i>Compliance exception</span>' +
       '<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-700"><span class="text-slate-500 font-medium">· default</span>Shift filled in by default</span>' +
       '<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-700"><i class="fa-solid fa-lock text-slate-400" aria-hidden="true"></i>Outside the booking</span>';
-    return '<div class="flex flex-wrap items-center gap-x-3 gap-y-2" role="list" aria-label="Day status legend">' + items.replace(/<span class="inline-flex/g, '<span role="listitem" class="inline-flex') + '</div>';
+    return '<div class="flex flex-wrap items-center gap-x-3 gap-y-2" role="list" aria-label="Day status legend">' + items.replace(/<span class="inline-flex/g, '<span role="listitem" class="inline-flex') + (window.S5 && S5.s4 ? S5.s4.legend() : '') + '</div>';
   };
   function dayLabel(y, b) {
     var s = y.dayStatus || 'not set';
@@ -563,7 +572,7 @@
     o = o || {};
     var p = o.preview, st = p ? p.dayStatus : y.dayStatus, shown = p ? Object.assign({}, y, { dayStatus: p.dayStatus, hours: p.hours, shiftName: p.shiftId ? S3.shiftName(o.clientId, p.shiftId) : null, shiftDefaulted: false, coveredJobRoleId: null, pricingState: null, absencePay: null, complianceException: false }) : y;
     var cls = 'relative w-full h-[64px] rounded-lg border text-left px-1.5 py-1 flex flex-col justify-between text-[11px] leading-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1 ';
-    var style = '', inner = '', aria = dayLabel(shown);
+    var style = '', inner = '', aria = dayLabel(shown) + (window.S5 && S5.s4 ? S5.s4.ariaPart(shown) : '');
     if (y.locked) {
       cls += 'bg-slate-100 text-slate-600 border-slate-200 cursor-not-allowed'; style = HATCH;
       inner = '<span class="font-semibold flex items-center gap-1"><i class="fa-solid fa-minus text-[9px]" aria-hidden="true"></i>Not Booked</span><span class="text-[10px] text-slate-600 flex items-center gap-1"><i class="fa-solid fa-lock text-[9px]" aria-hidden="true"></i>Outside booking</span>';
@@ -592,6 +601,7 @@
       inner = top + sub;
       if (shown.shiftDefaulted && shown.shiftName && !shown.coveredJobRoleId && shown.pricingState !== 'pending manual pricing' && !p) inner += '<span class="absolute top-0.5 right-1 text-[9px] font-semibold ' + (look ? look.tag : 'text-slate-500') + '" aria-hidden="true">default</span>';
       if (shown.coveredJobRoleId) inner += '<span class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#5B2E91] text-white flex items-center justify-center" aria-hidden="true"><i class="fa-solid fa-right-left text-[8px]"></i></span>';
+      if (window.S5 && S5.s4 && !p) inner += S5.s4.cellMark(shown);
       if (shown.complianceException) inner += '<span class="absolute bottom-1 right-1 ' + (look ? look.warn : 'text-amber-600') + '" title="' + esc('Compliance exception: ' + shown.unmetChecks.join(', ') + '. This never blocks.') + '"><i class="fa-solid fa-triangle-exclamation text-[10px]" aria-hidden="true"></i></span>';
     }
     if (p) { cls += 'outline outline-2 outline-dashed outline-blue-500 outline-offset-1 '; inner += '<span class="absolute top-0.5 right-1 text-[9px] font-bold uppercase tracking-wide text-blue-700">unsaved</span>'; aria += ', unsaved preview'; }
@@ -642,7 +652,7 @@
       '<div id="d-worked" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3"><div><label for="d-h" class="' + C.label + '">Hours <span class="text-red-700">*</span></label><input id="d-h" type="number" inputmode="decimal" min="0.25" max="24" step="0.25" class="' + C.input + ' tnum" value="' + esc(y.hours || '') + '"/><p id="d-h-err" class="text-xs font-medium text-red-700 mt-1" style="display:none" role="alert"></p></div>' +
       '<div><label for="d-sh" class="' + C.label + '">Shift</label><select id="d-sh" class="' + C.input + '"><option value="">By default (' + esc(S3.shiftName(b.clientId, shiftDefaultFor(rawT(x.id), b, y.date, rawT(x.id).days))) + ')</option>' + shiftOptions(b.clientId, y.dayStatus === 'Worked' && !y.shiftDefaulted ? y.shiftId : null) + '</select><p class="text-xs text-slate-500 mt-1">Left by default, the Shift is the last one worked earlier this week, else the booking’s Shift, ' + esc(b.shiftName) + '.</p></div>' +
       '<div class="sm:col-span-2 rounded-lg border border-slate-200 p-3"><p class="text-xs font-semibold text-slate-700">Job role</p><div class="flex flex-wrap items-center gap-2 mt-1.5"><span class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-sm"><i class="fa-solid fa-lock text-[10px] text-slate-400" aria-hidden="true"></i>' + esc(y.coveredJobRoleTitle ? y.coveredJobRoleTitle + ' (covered)' : assigned + ' (assigned)') + '</span>' + (can.changeRole && y.dayStatus === 'Worked' ? '<button type="button" id="d-cr" class="' + C.sec + '"><i class="fa-solid fa-right-left" aria-hidden="true"></i> Change role</button>' + (y.coveredJobRoleId ? '<button type="button" id="d-reset" class="' + C.ghost + '">Reset to ' + esc(assigned) + '</button>' : '') : '') + '</div>' + (can.changeRole && y.dayStatus !== 'Worked' ? '<p class="text-xs text-slate-500 mt-1.5">Save the day as Worked first, then change the role.</p>' : '') + '<div id="d-cover" class="mt-2"></div></div></div>' +
-      '<div id="d-abs" class="mt-4 flex flex-col gap-3"><div id="d-pay"></div><div id="d-pshift"></div><div><label for="d-c" class="' + C.label + '">Comment <span class="font-normal text-slate-500">(optional)</span></label><textarea id="d-c" rows="2" maxlength="600" class="' + C.input + '" placeholder="Anything the site wants to note" aria-describedby="d-ch">' + esc(y.absenceComment || '') + '</textarea><p id="d-ch" class="text-xs text-slate-600 mt-1"><i class="fa-solid fa-circle-info text-slate-400" aria-hidden="true"></i> Don’t record medical details.</p><p class="text-xs text-slate-500 mt-0.5"><span id="d-cn">' + (y.absenceComment || '').length + '</span> / 500</p><p id="d-c-err" class="text-xs font-medium text-red-700 mt-1" style="display:none" role="alert"></p></div>' + ovBtn + '</div>';
+      '<div id="d-abs" class="mt-4 flex flex-col gap-3"><div id="d-pay"></div><div id="d-pshift"></div><div id="d-conf"></div><div><label for="d-c" class="' + C.label + '">Comment <span class="font-normal text-slate-500">(optional)</span></label><textarea id="d-c" rows="2" maxlength="600" class="' + C.input + '" placeholder="Anything the site wants to note" aria-describedby="d-ch">' + esc(y.absenceComment || '') + '</textarea><p id="d-ch" class="text-xs text-slate-600 mt-1"><i class="fa-solid fa-circle-info text-slate-400" aria-hidden="true"></i> Don’t record medical details.</p><p class="text-xs text-slate-500 mt-0.5"><span id="d-cn">' + (y.absenceComment || '').length + '</span> / 500</p><p id="d-c-err" class="text-xs font-medium text-red-700 mt-1" style="display:none" role="alert"></p></div>' + ovBtn + '</div>';
     var foot = (y.stored && x.status === 'Draft' ? '<button type="button" class="s1-btn" id="d-clear" style="margin-right:auto">Clear the day</button>' : '') + '<button type="button" class="s1-btn" data-x>Cancel</button><button type="button" class="s1-btn s1-btn-primary" data-ok>Save day</button>';
     var api = scrim(esc(fmtDay(y.date)), body, foot, 560), coverPick = null;
     function paint() {
@@ -651,7 +661,8 @@
       var abs = ['Sick Leave', 'Holiday', 'No-show'].indexOf(st) >= 0; api.q('#d-abs').style.display = abs ? '' : 'none';
       if (abs) {
         var v = y.dayStatus === st && y.absencePayOverride ? { value: y.absencePayOverride.value, why: 'Overridden by ' + actor(y.absencePayOverride.by) } : dv(st);
-        api.q('#d-pay').innerHTML = '<p class="' + C.label + '">Pay impact</p><div class="flex items-start gap-2"><span class="px-2 py-0.5 rounded-full text-xs font-semibold border ' + (v.value === 'Paid' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-700 border-slate-200') + '">' + v.value + '</span><p class="text-xs text-slate-600">' + (ABS ? esc(v.why) : (y.dayStatus === st ? 'Set by the client’s leave policy.' : 'Set by the client’s leave policy when you save.')) + '</p></div>';
+        api.q('#d-pay').innerHTML = '<p class="' + C.label + '">Pay impact</p><div class="flex items-start gap-2"><span class="px-2 py-0.5 rounded-full text-xs font-semibold border ' + (v.value === 'Paid' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-700 border-slate-200') + '">' + v.value + '</span><p class="text-xs text-slate-600">' + (ABS ? esc(v.why) : y.dayStatus === st && y.absencePayOverride ? 'Overridden by Abstract.' : (y.dayStatus === st ? 'Set by the client’s leave policy.' : 'Set by the client’s leave policy when you save.')) + '</p></div>';
+        api.q('#d-conf').innerHTML = window.S5 && S5.s4 ? S5.s4.dialogHtml(x, y, st) : '';
         api.q('#d-pshift').innerHTML = v.value === 'Paid' ? '<label for="d-ps" class="' + C.label + '">Paid hours come from</label><select id="d-ps" class="' + C.input + '"><option value="">The booking’s Shift: ' + esc(b.shiftName + ' (' + SHIFT_INFO[b.shiftId].hours + ' h)') + ' · default</option>' + shiftOptions(b.clientId, y.dayStatus === st && !y.shiftDefaulted ? y.shiftId : null) + '</select><p class="text-xs text-slate-500 mt-1">A paid day off is paid at the Shift the worker was booked for, unless you pick another.</p>' : '';
       }
     }
@@ -669,7 +680,7 @@
       var st = val(api, 'd-st'), inp = { date: y.date, dayStatus: st };
       errText('d-h-err'); errText('d-c-err');
       if (st === 'Worked') { inp.hours = api.q('#d-h').value.trim(); inp.shiftId = api.q('#d-sh').value || undefined; if (o.forceInvalid) inp.hours = '25'; }
-      if (['Sick Leave', 'Holiday', 'No-show'].indexOf(st) >= 0) { inp.absenceComment = api.q('#d-c').value.trim() || null; var ps = api.q('#d-ps'); if (ps && ps.value) inp.shiftId = ps.value; }
+      if (['Sick Leave', 'Holiday', 'No-show'].indexOf(st) >= 0) { inp.absenceComment = api.q('#d-c').value.trim() || null; var ps = api.q('#d-ps'); if (ps && ps.value) inp.shiftId = ps.value; var rc = api.q('#d-rc'); if (rc) inp.requestConfirmation = rc.checked; }
       try {
         var r = S4.act.setDays(x.id, [inp], { stamp: o.conflict ? 'stale' : x.updatedAt });
         var pick = coverPick && api.el.querySelector('input[name="d-co"]:checked');
@@ -960,13 +971,13 @@
         if (y.lines.length) y.lines.forEach(function (l, i) { rows.push(Object.assign({ l: l, first: i === 0, n: y.lines.length }, one)); });
         else rows.push(Object.assign({ l: null, first: true, n: 1 }, one));
       });
-      var bd = false; 
+      var bd = false; var canReq = st !== 'readonly' && st !== 'noapprove';
       var cell = function (r) {
         var y = r.y, notes = [];
         if (y.locked) notes.push('Outside the booking');
         if (y.coveredJobRoleId) notes.push('Covered as ' + y.coveredJobRoleTitle + ' by ' + actor(y.roleChangedBy));
         if (y.complianceException) notes.push('Compliance exception: ' + y.unmetChecks.join(', ') + ' not met');
-        if (y.absencePayOverride) notes.push('Pay impact overridden by ' + actor(y.absencePayOverride.by) + ' (derived ' + y.absencePayDerived + '): ' + y.absencePayOverride.reason);
+        if (y.absencePayOverride) notes.push('Overridden by Abstract');   // the marker only (slice 4 DR-S6): never the reason or who
         
         if (y.absenceComment) notes.push('Comment: ' + y.absenceComment);
         if (y.pricingSource === 'manual') notes.push('Priced by hand by ' + actor(y.manualBy) + ': ' + y.manualReason);
@@ -979,12 +990,12 @@
       
       var body = rows.map(function (r) {
         var y = r.y, l = r.l, notes = r.first ? cell(r) : [];
-        return '<tr class="' + (r.first ? 'border-t border-slate-200' : '') + '">' + (r.first ? '<td class="' + C.td + ' whitespace-nowrap align-top" rowspan="' + r.n + '">' + fmtDay(y.date) + '</td><td class="' + C.td + ' align-top" rowspan="' + r.n + '">' + (y.dayStatus ? ui.chip(y.dayStatus) : '<span class="text-slate-500">Not set</span>') + (y.absencePay ? ' <span class="text-xs font-semibold ' + (y.absencePay === 'Paid' ? 'text-emerald-700' : 'text-slate-600') + '">' + y.absencePay + '</span>' : '') + (notes.length ? '<ul class="mt-1 text-[11px] text-slate-600 list-disc pl-4">' + notes.map(function (n2) { return '<li>' + esc(n2) + '</li>'; }).join('') + '</ul>' : '') + '</td><td class="' + C.td + ' align-top" rowspan="' + r.n + '">' + (y.shiftName ? esc(y.shiftName) + (y.shiftDefaulted ? ' <span class="text-xs text-slate-500">· default</span>' : '') + '<span class="block text-xs text-slate-500">' + esc(y.effectiveJobRoleTitle || '') + '</span>' : '<span class="text-slate-500">—</span>') + '</td>' : '') +
+        return '<tr class="' + (r.first ? 'border-t border-slate-200' : '') + '">' + (r.first ? '<td class="' + C.td + ' whitespace-nowrap align-top" rowspan="' + r.n + '">' + fmtDay(y.date) + '</td><td class="' + C.td + ' align-top" rowspan="' + r.n + '">' + (y.dayStatus ? ui.chip(y.dayStatus) : '<span class="text-slate-500">Not set</span>') + (y.absencePay ? ' <span class="text-xs font-semibold ' + (y.absencePay === 'Paid' ? 'text-emerald-700' : 'text-slate-600') + '">' + y.absencePay + '</span>' : '') + (notes.length ? '<ul class="mt-1 text-[11px] text-slate-600 list-disc pl-4">' + notes.map(function (n2) { return '<li>' + esc(n2) + '</li>'; }).join('') + '</ul>' : '') + (window.S5 && S5.s4 ? S5.s4.dayHtml(x, y, canReq) : '') + '</td><td class="' + C.td + ' align-top" rowspan="' + r.n + '">' + (y.shiftName ? esc(y.shiftName) + (y.shiftDefaulted ? ' <span class="text-xs text-slate-500">· default</span>' : '') + '<span class="block text-xs text-slate-500">' + esc(y.effectiveJobRoleTitle || '') + '</span>' : '<span class="text-slate-500">—</span>') + '</td>' : '') +
           (l ? '<td class="' + C.td + '">' + HOUR_TYPE[l.hourType] + (l.kind === 'absence' ? ' <span class="text-xs text-slate-500">(paid day off)</span>' : '') + '</td><td class="' + C.td + ' text-right tnum">' + l.hours + '</td><td class="' + C.td + ' text-right tnum">' + S3.money(l.chargeRate) + '</td><td class="' + C.td + ' text-right tnum">' + S3.money(l.clientCost) + '</td>' + extra(r) : '<td class="' + C.td + ' text-slate-500" colspan="' + (bd ? 6 : 4) + '">' + (y.pricingState === 'pending manual pricing' ? '<span class="inline-flex items-center gap-1.5 text-amber-800 font-semibold"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i>pending manual pricing</span>' : 'No cost') + '</td>') + '</tr>';
       }).join('');
       var cardExtra = function () { return ''; };
       
-      var cards = x.days.map(function (y) { var notes = cell({ y: y }); return '<li class="' + C.card + ' p-4"><div class="flex items-start justify-between gap-2"><p class="text-sm font-semibold text-slate-900">' + fmtDay(y.date) + '</p>' + (y.dayStatus ? ui.chip(y.dayStatus) : '<span class="text-xs text-slate-500">Not set</span>') + '</div>' + (y.shiftName ? '<p class="text-xs text-slate-600 mt-1">' + esc(y.shiftName) + (y.shiftDefaulted ? ' · default' : '') + ' · ' + esc(y.effectiveJobRoleTitle || '') + '</p>' : '') + y.lines.map(function (l) { return '<p class="text-xs text-slate-700 mt-1 tnum">' + HOUR_TYPE[l.hourType] + ': ' + l.hours + ' h × ' + S3.money(l.chargeRate) + ' = ' + S3.money(l.clientCost) + cardExtra(l) + '</p>'; }).join('') + (y.pricingState === 'pending manual pricing' ? '<p class="text-xs font-semibold text-amber-800 mt-1">pending manual pricing</p>' : '') + (notes.length ? '<ul class="mt-1 text-[11px] text-slate-600 list-disc pl-4">' + notes.map(function (n2) { return '<li>' + esc(n2) + '</li>'; }).join('') + '</ul>' : '') + '</li>'; }).join('');
+      var cards = x.days.map(function (y) { var notes = cell({ y: y }); return '<li class="' + C.card + ' p-4"><div class="flex items-start justify-between gap-2"><p class="text-sm font-semibold text-slate-900">' + fmtDay(y.date) + '</p>' + (y.dayStatus ? ui.chip(y.dayStatus) : '<span class="text-xs text-slate-500">Not set</span>') + '</div>' + (y.shiftName ? '<p class="text-xs text-slate-600 mt-1">' + esc(y.shiftName) + (y.shiftDefaulted ? ' · default' : '') + ' · ' + esc(y.effectiveJobRoleTitle || '') + '</p>' : '') + y.lines.map(function (l) { return '<p class="text-xs text-slate-700 mt-1 tnum">' + HOUR_TYPE[l.hourType] + ': ' + l.hours + ' h × ' + S3.money(l.chargeRate) + ' = ' + S3.money(l.clientCost) + cardExtra(l) + '</p>'; }).join('') + (y.pricingState === 'pending manual pricing' ? '<p class="text-xs font-semibold text-amber-800 mt-1">pending manual pricing</p>' : '') + (notes.length ? '<ul class="mt-1 text-[11px] text-slate-600 list-disc pl-4">' + notes.map(function (n2) { return '<li>' + esc(n2) + '</li>'; }).join('') + '</ul>' : '') + (window.S5 && S5.s4 ? S5.s4.dayHtml(x, y, canReq) : '') + '</li>'; }).join('');
       return '<section aria-labelledby="dt-t"><h2 id="dt-t" class="text-sm font-bold text-slate-900 mb-3">Day by day</h2><div class="hidden md:block ' + C.card + ' overflow-hidden"><div class="relative overflow-x-auto"><table class="w-full text-left"><caption class="sr-only">Each day’s status, Shift and cost lines</caption><thead class="bg-slate-50 border-b border-slate-200"><tr>' + cols + '</tr></thead><tbody>' + body + '</tbody></table></div></div><ul class="md:hidden flex flex-col gap-3">' + cards + '</ul></section>';
     }
     function activity(x) {
@@ -995,6 +1006,7 @@
     function wire(x) {
       host.querySelectorAll('[data-cell]').forEach(function (btn) { btn.onclick = function () { var k = btn.dataset.cell.split('|'), xx = S4.timesheet(k[0]), y = xx.days.filter(function (d2) { return d2.date === k[1]; })[0]; S4.dayDialog(xx, y, can, after, { conflict: st === 'conflict' && !p._c }); }; });
       wireOverride(host, after);
+      host.querySelectorAll('[data-s5-req]').forEach(function (btn) { btn.onclick = function () { var y = S4.timesheet(id).days.filter(function (d2) { return d2.date === btn.dataset.s5Req; })[0]; try { S5.s4.request(S3.booking(x.bookingId), y, { simulateStale: st === 'confconflict' && !p._cc }); S1.toast('Agency confirmation requested for ' + fmtDay(y.date) + '.', 'success'); draw(); } catch (e) { if (!e.code) throw e; if (e.code === 'TIMESHEET_CONFIRMATION_STATE_INVALID') { p._cc = true; conflictMsg = esc(e.message); draw(); } else S1.toast(e.message, 'danger'); } }; });
       var on = function (i, f) { var e = host.querySelector('#' + i); if (e) e.onclick = f; };
       on('w-submit', function () { submitFlow(S4.timesheet(id), after); });
       on('w-rest', function () { restFlow(S4.timesheet(id), after); });
@@ -1007,6 +1019,7 @@
     if (x0 && st === 'held' && x0.status === 'Draft') submitFlow(x0, after);
     
     if (x0 && st === 'validation') { var yc = x0.days.filter(function (y) { return y.inRange && !y.future; })[0]; if (yc && x0.status === 'Draft') S4.dayDialog(x0, yc, can, after, { forceInvalid: true }); }
+    if (x0 && st === 'confconflict') { var rq = host.querySelector('[data-s5-req]'); if (rq) rq.click(); }
     return { redraw: draw };
   };
 

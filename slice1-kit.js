@@ -38,6 +38,12 @@ window.S1_CONFIG = {
   slice4Screens: [
     'client.timesheets.timesheets.html', 'client.timesheets.booking-week.html', 'client.design.slice-4-index.html'
   ],
+  // slice 5 screens (docs/slices/5/design/DESIGN-BRIEF.md Part B; TSD §3.3.11); slice 5 mode shows slices 1 to 4 + these.
+  // The client menu gains *Candidates* after *Timesheets* (candidate_directory:view); Proposal Review is reached from Vacancy Detail.
+  slice5Hub: 'client.design.slice-5-index.html',
+  slice5Screens: [
+    'client.candidates.candidate-directory.html', 'client.demand.proposal-review.html', 'client.design.slice-5-index.html'
+  ],
   // slice 1 raises no notification for client users; the centre starts empty
   notifications: []
 };
@@ -57,11 +63,16 @@ window.S1_CONFIG = {
  *   S1.runJob(chip, {...})         background-job chip: queued → running → completed | failed
  *   S1.sessionWarning()            idle-timeout warning dialog (NFR-009)
  *   S1.setState(name)              prototype state switcher (loading, empty, error, …)
- *   S1.setMode('full'|'s1'|'s2'|'s3'|'s4') navigation mode: full product; slice 1 only (hides every sidebar link
+ *   S1.setMode('full'|'s1'|'s2'|'s3'|'s4'|'s5') navigation mode: full product; slice 1 only (hides every sidebar link
  *                                  that is not a slice 1 screen and every element marked data-s1-later);
  *                                  slices 1 + 2 (slice 1 + slice2Screens; hides data-s2-later — slice 2 brief A3);
  *                                  slices 1 to 3 (those + slice3Screens; hides data-s3-later — slice 3 brief A6);
- *                                  slices 1 to 4 (those + slice4Screens; shows data-s3-later, hides data-s4-later).
+ *                                  slices 1 to 4 (those + slice4Screens; shows data-s3-later, hides data-s4-later);
+ *                                  slices 1 to 5 (those + slice5Screens; shows data-s3-later and data-s4-later, hides
+ *                                  data-s5-later). S1.slice5Mode(on) / S1.isSlice5Mode() as for slice 4.
+ *                                  Markers: data-s3-later = a slice 4 part (shown in s4, s5 and full); data-s4-later = a
+ *                                  slice 5 part (shown in s5 and full); data-s5-later = a slice 6+ part (full product only).
+ *                                  Script pages' later(n, h): n=3 shows in s4, s5 and full; n=4 in s5 and full; n=5 in full only.
  *                                  S1.slice1Mode(on) / S1.slice2Mode(on) are shorthands; data-s1-home links
  *                                  point at the slice 1 dashboard in either slice mode
  *   ?embedded=1                    the page as a wizard step (slice 2 TSD §3.3.8): shell and Prototype menu
@@ -364,6 +375,10 @@ window.S1_CONFIG = {
     sent: 'Link sent', passwordexpired: 'Password expired', notfound: 'Not found (404)', invited: 'Invited user', inactive: 'Inactive user', self: 'Your own record' };
   // Labels for states added in the 2026-11-13 audit fixes (and older states that showed their raw names).
   Object.assign(LABELS, { noexport: 'Without the export key', 'export-failed': 'Export failed', partial: 'Saved in part', photo: 'With a photo', histloading: 'History loading', histerror: 'History failed to load', used: 'Link already used', deactivated: 'Account deactivated', reach: 'Change reaches outside your scope', accessnotenabled: 'Portal access not enabled', nodeliveryview: 'Without the delivery-failures key', block: 'Margin floor: blocked', noshifts: 'No Shifts yet', importjob: 'Import runs as a job', importrefused: 'Import refused: preview expired', importfailed: 'Import failed', nopricing: 'Without the price-manually key', noclient: 'No client chosen', bkloading: 'Bookings loading', bkerror: 'Bookings failed to load', noaudit: 'Without the audit-log key', nofill: 'Without the fill key', noedit: 'Without the edit key' });
+  // Labels for the slice 5 states (2026-11-15 design pass).
+  Object.assign(LABELS, { release: 'Release drawer', releaselarge: 'Release drawer: 14 agencies', releaseconflict: 'Release refused: already released (409)', releaseineligible: 'Release refused: not eligible (422)', noagency: 'No approved agency', norelease: 'Without the release key', noreview: 'Without the review key', accept: 'Accept dialog', reject: 'Reject dialog', stale: 'Proposal changed (409)', positiontaken: 'Accept refused: position taken', agencyinactive: 'Accept refused: agency not Active', clientinactive: 'Accept refused: client not Active', anonymised: 'Accept refused: candidate anonymised', confconflict: 'Confirmation refused: already answered (409)', agencybookings: 'Agency-sourced bookings' });
+  // Labels for the client portal's own slice 5 states (2026-11-15 design pass; the other portals' kits may take them too).
+  Object.assign(LABELS, { agencyhidden: 'Agency name hidden (client key off)', viewer: 'A viewer (no review key)', proploading: 'Proposals loading', properror: 'Proposals failed to load', datesoutside: 'Accept refused: dates outside the vacancy', datesinvalid: 'Accept refused: end before start', absence: 'The absence modal', filtered: 'Filtered by an agency', released: 'Filtered: Released to Agencies' });
   S1.setState = function (name) {
     document.body.setAttribute('data-s1-state', name);
     document.querySelectorAll('[data-s1-show]').forEach(function (e) {
@@ -383,13 +398,15 @@ window.S1_CONFIG = {
       (C.hub ? '<a href="' + esc(C.hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 1 screen index</a>' : '') +
       (C.slice2Hub ? '<a href="' + esc(C.slice2Hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 2 screen index</a>' : '') +
       (C.slice3Hub ? '<a href="' + esc(C.slice3Hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 3 screen index</a>' : '') +
-      (C.slice4Hub ? '<a href="' + esc(C.slice4Hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 4 screen index</a>' : '');
+      (C.slice4Hub ? '<a href="' + esc(C.slice4Hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 4 screen index</a>' : '') +
+      (C.slice5Hub ? '<a href="' + esc(C.slice5Hub) + '" style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;font:500 13px Inter,sans-serif;color:#334155;text-decoration:none"><i class="fa-solid fa-table-list" style="width:14px"></i> Slice 5 screen index</a>' : '');
     var modes = '<p>Navigation</p>' +
       '<button data-mode="full" aria-pressed="false"><i class="fa-solid fa-layer-group" style="width:14px"></i> Full product</button>' +
       '<button data-mode="s1" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slice 1 only</button>' +
       (C.slice2Screens ? '<button data-mode="s2" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slices 1 + 2</button>' : '') +
       (C.slice3Screens ? '<button data-mode="s3" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slices 1 to 3</button>' : '') +
-      (C.slice4Screens ? '<button data-mode="s4" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slices 1 to 4</button>' : '');
+      (C.slice4Screens ? '<button data-mode="s4" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slices 1 to 4</button>' : '') +
+      (C.slice5Screens ? '<button data-mode="s5" aria-pressed="false"><i class="fa-solid fa-filter" style="width:14px"></i> Slices 1 to 5</button>' : '');
     wrap.innerHTML = '<div class="s1-sw-panel" role="menu">' +
       (states.length > 1 ? '<p>Screen state</p>' + states.map(function (s) { return '<button data-state="' + s + '" aria-pressed="false">' + (LABELS[s] || s) + '</button>'; }).join('') : '') +
       modes + '<p>Prototype</p>' + extra + '</div><button aria-haspopup="true" aria-label="Prototype controls"><i class="fa-solid fa-layer-group"></i> <span class="s1-sw-cur">Prototype</span></button>';
@@ -406,26 +423,29 @@ window.S1_CONFIG = {
   }
 
   // ---------- Slice modes: full product · slice 1 only · slices 1 + 2 (slice 2 brief A3) ----------
-  // Stored under one key: 'on' = slice 1 only (the slice 1 value, kept), 's2' = slices 1 + 2, 's3' = slices 1 to 3, 's4' = slices 1 to 4, 'off' = full product.
+  // Stored under one key: 'on' = slice 1 only (the slice 1 value, kept), 's2' = slices 1 + 2, 's3' = slices 1 to 3, 's4' = slices 1 to 4, 's5' = slices 1 to 5, 'off' = full product.
   var MKEY = 's1-mode';
-  S1.mode = function () { var m = sget(MKEY); return m === 'on' ? 's1' : m === 's2' ? 's2' : m === 's3' ? 's3' : m === 's4' ? 's4' : 'full'; };
+  S1.mode = function () { var m = sget(MKEY); return m === 'on' ? 's1' : m === 's2' ? 's2' : m === 's3' ? 's3' : m === 's4' ? 's4' : m === 's5' ? 's5' : 'full'; };
   S1.isSlice1Mode = function () { return S1.mode() === 's1'; };
   S1.isSlice2Mode = function () { return S1.mode() === 's2'; };
-  S1.setMode = function (m) { sset(MKEY, m === 's1' ? 'on' : m === 's2' ? 's2' : m === 's3' ? 's3' : m === 's4' ? 's4' : 'off'); applyMode(); };
+  S1.setMode = function (m) { sset(MKEY, m === 's1' ? 'on' : m === 's2' ? 's2' : m === 's3' ? 's3' : m === 's4' ? 's4' : m === 's5' ? 's5' : 'off'); applyMode(); };
   S1.slice1Mode = function (on) { S1.setMode(on ? 's1' : 'full'); };
   S1.slice2Mode = function (on) { S1.setMode(on ? 's2' : 'full'); };
   S1.slice3Mode = function (on) { S1.setMode(on ? 's3' : 'full'); };
   S1.isSlice3Mode = function () { return S1.mode() === 's3'; };
   S1.slice4Mode = function (on) { S1.setMode(on ? 's4' : 'full'); };
   S1.isSlice4Mode = function () { return S1.mode() === 's4'; };
+  S1.slice5Mode = function (on) { S1.setMode(on ? 's5' : 'full'); };
+  S1.isSlice5Mode = function () { return S1.mode() === 's5'; };
   function base(h) { try { return decodeURIComponent((h || '').split(/[?#]/)[0].split('/').pop()); } catch (e) { return h; } }
   function applyMode() {
     var mode = S1.mode(), on = mode !== 'full';
     var keep = (C.slice1Screens || []).slice();
-    if (mode === 's2' || mode === 's3' || mode === 's4') keep = keep.concat(C.slice2Screens || []);
-    if (mode === 's3' || mode === 's4') keep = keep.concat(C.slice3Screens || []);
-    if (mode === 's4') keep = keep.concat(C.slice4Screens || []);
-    var navHide = mode === 's2' || mode === 's3' || mode === 's4' ? (C.slice2NavHide || []) : [];
+    if (mode === 's2' || mode === 's3' || mode === 's4' || mode === 's5') keep = keep.concat(C.slice2Screens || []);
+    if (mode === 's3' || mode === 's4' || mode === 's5') keep = keep.concat(C.slice3Screens || []);
+    if (mode === 's4' || mode === 's5') keep = keep.concat(C.slice4Screens || []);
+    if (mode === 's5') keep = keep.concat(C.slice5Screens || []);
+    var navHide = mode === 's2' || mode === 's3' || mode === 's4' || mode === 's5' ? (C.slice2NavHide || []) : [];
     var nav = document.querySelectorAll(C.navSelector || '#sidebar-nav, aside nav');
     nav.forEach(function (n) {
       n.querySelectorAll('a[href]').forEach(function (a) {
@@ -457,12 +477,16 @@ window.S1_CONFIG = {
     document.querySelectorAll('[data-s2-later]').forEach(function (e) {
       if (mode === 's1' || mode === 's2') e.style.setProperty('display', 'none', 'important'); else e.style.removeProperty('display');
     });
-    // data-s3-later: a slice 4 (or later) affordance on an earlier page — absent in slice 1, 1 + 2 and 1 to 3 modes, present in slice 4 mode.
+    // data-s3-later: a slice 4 (or later) affordance on an earlier page — absent in slice 1, 1 + 2 and 1 to 3 modes, present in slice 4 and 5 modes.
     document.querySelectorAll('[data-s3-later]').forEach(function (e) {
       if (mode === 's1' || mode === 's2' || mode === 's3') e.style.setProperty('display', 'none', 'important'); else e.style.removeProperty('display');
     });
-    // data-s4-later: a slice 5+ affordance — absent in every slice mode.
+    // data-s4-later: a slice 5 affordance on an earlier page — absent in slice 1 to 4 modes, present in slice 5 mode and the full product.
     document.querySelectorAll('[data-s4-later]').forEach(function (e) {
+      if (on && mode !== 's5') e.style.setProperty('display', 'none', 'important'); else e.style.removeProperty('display');
+    });
+    // data-s5-later: a slice 6+ affordance — absent in every slice mode, present in the full product only.
+    document.querySelectorAll('[data-s5-later]').forEach(function (e) {
       if (on) e.style.setProperty('display', 'none', 'important'); else e.style.removeProperty('display');
     });
     document.querySelectorAll('[data-s1-home]').forEach(function (a) {
@@ -500,6 +524,9 @@ window.S1_CONFIG = {
     if (q.get('s2') === '1') sset(MKEY, 's2');
     if (q.get('s3') === '1') sset(MKEY, 's3');
     if (q.get('s4') === '1') sset(MKEY, 's4');
+    if (q.get('s5') === '1') sset(MKEY, 's5');
+    // a slice 5 page has no place in the earlier modes
+    if (document.body.hasAttribute('data-s5-page') && (sget(MKEY) == null || sget(MKEY) === 'on' || sget(MKEY) === 's2' || sget(MKEY) === 's3' || sget(MKEY) === 's4')) sset(MKEY, 's5');
     // a slice 4 page has no place in the earlier modes
     if (document.body.hasAttribute('data-s4-page') && (sget(MKEY) == null || sget(MKEY) === 'on' || sget(MKEY) === 's2' || sget(MKEY) === 's3')) sset(MKEY, 's4');
     // a slice 3 page has no place in the earlier modes
