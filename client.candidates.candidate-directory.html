@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Candidate Directory - Abstractvms Client Portal</title>
+    <title>Candidates - Abstractvms Client Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -41,10 +41,10 @@
         ::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800 flex bg-[#F3F4F6]">
+<body class="h-full m-0 p-0 overflow-hidden antialiased text-gray-800 flex bg-[#F3F4F6]" data-s5-page data-s1-states="default loading empty error validation denied large agencyhidden filtered">
 
     <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="w-64 bg-navy h-screen flex-shrink-0 flex flex-col border-r border-navy/20">
+    <aside id="sidebar" class="w-64 bg-navy h-screen flex-shrink-0 hidden lg:flex flex-col border-r border-navy/20">
         <!-- Logo -->
         <div class="h-16 flex items-center px-6 border-b border-white/10 shrink-0">
             <div class="flex items-center gap-2">
@@ -123,14 +123,15 @@
     <div class="flex-1 flex flex-col h-screen overflow-hidden">
         
         <!-- Header -->
-        <header id="header" class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 shrink-0 shadow-sm z-10">
+        <header id="header" class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-8 shrink-0 shadow-sm z-10">
             <div class="flex items-center gap-4">
+                <button id="mobile-menu-btn" type="button" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-md text-navy hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
                 <h1 class="text-xl font-sora font-semibold text-navy">Candidate Directory</h1>
             </div>
 
             <div class="flex items-center gap-6">
                 <!-- Search -->
-                <div class="relative w-64 hidden md:block">
+                <div class="relative w-64 hidden md:block" data-s5-later>
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
                     </div>
@@ -150,9 +151,14 @@
             <div class="max-w-[1600px] mx-auto space-y-6">
 
                 <!-- Header Actions & Filters -->
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                    <div class="flex flex-wrap items-center gap-3">
-                        <div class="relative">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200" data-s1-hide="denied loading error">
+                    <div class="flex flex-wrap items-center gap-3 w-full">
+                        <div class="relative w-full sm:w-56">
+                            <label for="f-q" class="sr-only">Search by name</label>
+                            <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400"><i class="fa-solid fa-magnifying-glass text-xs"></i></div>
+                            <input id="f-q" type="search" maxlength="120" placeholder="Search by name" class="block w-full pl-9 pr-3 py-2 border border-gray-300 rounded-md text-sm leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue text-navy">
+                        </div>
+                        <div class="relative" data-s5-later>
                             <select class="appearance-none block w-48 pl-3 pr-10 py-2 border border-gray-300 rounded-md text-sm leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue text-navy font-medium">
                                 <option>All Business Units</option>
                                 <option>Midlands Dist.</option>
@@ -163,39 +169,47 @@
                             </div>
                         </div>
                         <div class="relative">
-                            <select class="appearance-none block w-40 pl-3 pr-10 py-2 border border-gray-300 rounded-md text-sm leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue text-navy font-medium">
-                                <option>All Statuses</option>
+                            <label for="f-comp" class="sr-only">Compliance</label>
+                            <select id="f-comp" class="appearance-none block w-40 pl-3 pr-10 py-2 border border-gray-300 rounded-md text-sm leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue text-navy font-medium">
+                                <option value="">All Statuses</option>
                                 <option>Compliant</option>
                                 <option>Pending</option>
                                 <option>Expired</option>
-                                <option>Not Applicable</option>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                                 <i class="fa-solid fa-shield-halved text-xs"></i>
                             </div>
                         </div>
                         <div class="relative">
-                            <select class="appearance-none block w-40 pl-3 pr-10 py-2 border border-gray-300 rounded-md text-sm leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue text-navy font-medium">
-                                <option>All Roles</option>
-                                <option>Warehouse Op</option>
-                                <option>FLT Driver</option>
-                                <option>Picker/Packer</option>
+                            <label for="f-role" class="sr-only">Job role</label>
+                            <select id="f-role" class="appearance-none block w-40 pl-3 pr-10 py-2 border border-gray-300 rounded-md text-sm leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue text-navy font-medium">
+                                <option value="">All Roles</option>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                                 <i class="fa-solid fa-users-gear text-xs"></i>
                             </div>
                         </div>
+                        <div class="relative">
+                            <label for="f-party" class="sr-only">Supplying party</label>
+                            <select id="f-party" class="appearance-none block w-48 pl-3 pr-10 py-2 border border-gray-300 rounded-md text-sm leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-blue focus:border-blue text-navy font-medium">
+                                <option value="">All Supplying Parties</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                                <i class="fa-solid fa-handshake text-xs"></i>
+                            </div>
+                        </div>
+                        <p id="f-err" class="w-full text-xs font-medium text-red-700" role="alert" style="display:none"></p>
                     </div>
                 </div>
 
                 <!-- Scope Note -->
-                <div class="flex items-center gap-2 text-sm text-gray-600">
+                <div class="flex items-center gap-2 text-sm text-gray-600" data-s1-hide="denied loading error">
                     <i class="fa-solid fa-circle-info text-blue"></i>
                     Showing candidates booked to your organisation only.
                 </div>
 
                 <!-- GDPR Warning Notice -->
-                <div class="bg-blue/5 rounded-xl border border-blue/20 p-4">
+                <div class="bg-blue/5 rounded-xl border border-blue/20 p-4" data-s1-hide="denied loading error">
                     <div class="flex items-start gap-3">
                         <i class="fa-solid fa-shield-halved text-blue mt-0.5"></i>
                         <div>
@@ -205,23 +219,25 @@
                     </div>
                 </div>
 
+                <div id="cd-state"></div>
                 <!-- Candidate Table -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div id="cd-table" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden" data-s1-hide="denied loading error">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Candidate Name</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Primary Role</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Supplying Party</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Compliance Status</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Licence Validity</th>
-                                    <th scope="col" class="relative px-6 py-3">
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Candidate Name</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Job Role</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Supplying Party</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Compliance Status</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Licence Validity</th>
+                                    <th scope="col" class="relative px-6 py-3" data-s5-later>
                                         <span class="sr-only">Actions</span>
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody id="cd-rows" class="bg-white divide-y divide-gray-200"></tbody>
+                            <tbody id="cd-static" class="bg-white divide-y divide-gray-200">
                                 <!-- Candidate Row 1 -->
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -366,7 +382,8 @@
                     </div>
                     
                     <!-- Pagination -->
-                    <div class="bg-gray-50 px-4 py-3 border-t border-gray-200 flex items-center justify-between sm:px-6">
+                    <div id="cd-pager"></div>
+                    <div id="cd-static-pager" class="bg-gray-50 px-4 py-3 border-t border-gray-200 flex items-center justify-between sm:px-6">
                         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                             <div>
                                 <p class="text-sm text-gray-700">
@@ -396,6 +413,64 @@
         </main>
     </div>
 
+<script src="slice3-proto.js"></script>
+<script src="slice5-proto.js"></script>
+<script>S3.mobileNav();</script>
+<script>
+/* Candidates — the client Candidate Directory (slice 5, brief B3; TSD 5.7 TV-3, TV-4, §3.3.3 rule 4 CandidateDirectoryRow).
+   Restyled, not redrawn (2026-11-15): the export's shell, filter card, scope note, GDPR notice and table stay; the static
+   rows and footer of the export stay in the file, hidden, and the script draws the directory's rows in their markup. One row
+   per candidate booked to Acme in any status (S5.directory()): name, job role (of the latest booking), supplying party
+   (Abstract, the agency's name, or Agency when visibility.client_sees_agency_name is off: state agencyhidden), compliance,
+   licence validity. No candidate detail page (Q12), no personal data, no pay. 20 a page. Filters: job role, compliance,
+   supplying party, name; a filter the server refuses answers 422 inline (state validation). */
+(function(){
+ var st='default',page=1,PAGE=20,esc=S3.esc;
+ var $=function(i){return document.getElementById(i);};
+ ['cd-static','cd-static-pager'].forEach(function(k){$(k).style.display='none';});
+ var roles=$('f-role');Object.keys(S3.JOB_ROLES).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=S3.JOB_ROLES[k];roles.appendChild(o);});
+ function parties(){var sel=$('f-party'),cur=sel.value;sel.innerHTML='<option value="">All Supplying Parties</option>'+S5.directoryParties().map(function(p){return'<option'+(p===cur?' selected':'')+'>'+esc(p)+'</option>';}).join('');if(sel.value!==cur)sel.value='';}
+ var COMP={Compliant:['bg-success/10 text-success border-success/20','fa-check-circle'],Pending:['bg-amber-50 text-amber-700 border-amber-200','fa-triangle-exclamation'],Expired:['bg-red-50 text-red-700 border-red-200','fa-circle-xmark']};
+ function comp(s){var c=COMP[s]||COMP.Pending;return'<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border '+c[0]+'"><i class="fa-solid '+c[1]+' mr-1.5" aria-hidden="true"></i> '+esc(s)+'</span>';}
+ function lic(ls){if(!ls.length)return'<span class="text-xs text-gray-500">None held</span>';return'<div class="flex flex-col items-start gap-1">'+ls.map(function(l){return'<span class="flex items-start gap-1.5 text-xs font-medium '+(l.expired?'text-danger':'text-success')+'"><span class="w-4 flex-shrink-0 text-center"><i class="fa-solid '+(l.expired?'fa-circle-xmark':'fa-truck-ramp-box')+'" aria-hidden="true"></i></span><span class="min-w-0"><span class="block text-gray-700">'+esc(l.licenceType)+'</span><span class="block '+(l.expired?'font-semibold text-red-700':'text-gray-500')+'">'+(l.expiryDate?(l.expired?'Expired '+S5.fmtDate(l.expiryDate):'until '+S5.fmtDate(l.expiryDate)):'no expiry')+'</span></span></span>';}).join('')+'</div>';}
+ function rowHtml(r){var ini=r.fullName.split(/\s+/).map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();
+  return'<tr class="hover:bg-gray-50"><td class="px-4 py-4" style="min-width:13rem"><div class="flex items-center"><div class="h-8 w-8 flex-shrink-0 rounded-full bg-navy/10 flex items-center justify-center text-navy font-sora font-semibold text-xs border border-navy/20" aria-hidden="true">'+esc(ini)+'</div><div class="ml-4"><div class="text-sm font-medium text-navy font-sora">'+esc(r.fullName)+'</div><div class="text-xs text-gray-500">From '+S5.fmtDate(r.lastBookedFrom)+' · '+r.bookingCount+' booking'+(r.bookingCount===1?'':'s')+'</div></div></div></td>'+
+   '<td class="px-4 py-4 text-sm text-gray-600">'+esc(r.jobRoleTitle)+'</td><td class="px-4 py-4 text-sm text-gray-600">'+esc(r.supplyingParty)+'</td><td class="px-4 py-4 whitespace-nowrap">'+comp(r.complianceStatus)+'</td><td class="px-4 py-4 text-sm text-gray-500" style="min-width:9.5rem">'+lic(r.licences)+'</td>'+
+   '<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" data-s5-later><button type="button" class="text-blue hover:text-navy transition-colors font-medium text-xs border border-blue/20 bg-blue/5 px-3 py-1.5 rounded">View Status</button></td></tr>';}
+ function pager(total,pages){var from=(page-1)*PAGE+1,to=Math.min(total,page*PAGE),btn='relative inline-flex items-center px-3 py-2 border text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-blue';
+  var nums='';for(var n=Math.max(1,page-1);n<=Math.min(pages,page+1);n++)nums+='<button type="button" data-pg="'+n+'"'+(n===page?' aria-current="page" class="z-10 bg-blue/10 border-blue text-blue '+btn+'"':' class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 '+btn+'"')+'>'+n+'</button>';
+  return'<div class="bg-gray-50 px-4 py-3 border-t border-gray-200 flex flex-wrap items-center justify-between gap-3 sm:px-6"><p class="text-sm text-gray-700">Showing <span class="font-medium">'+from+'</span> to <span class="font-medium">'+to+'</span> of <span class="font-medium">'+total+'</span> candidates</p>'+(pages>1?'<nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination"><button type="button" data-pg="'+(page-1)+'"'+(page===1?' disabled':'')+' class="rounded-l-md border-gray-300 bg-white text-gray-500 hover:bg-gray-50 disabled:opacity-40 '+btn+'"><span class="sr-only">Previous</span><i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i></button>'+nums+'<button type="button" data-pg="'+(page+1)+'"'+(page===pages?' disabled':'')+' class="rounded-r-md border-gray-300 bg-white text-gray-500 hover:bg-gray-50 disabled:opacity-40 '+btn+'"><span class="sr-only">Next</span><i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i></button></nav>':'')+'</div>';}
+ function card(icon,title,text,cta){return'<div class="bg-white rounded-xl shadow-sm border border-gray-200 px-6 py-12 text-center"><div class="w-14 h-14 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mx-auto mb-4"><i class="fa-solid '+icon+' text-xl" aria-hidden="true"></i></div><h2 class="text-base font-semibold text-navy">'+esc(title)+'</h2>'+(text?'<p class="text-sm text-gray-600 mt-1 max-w-md mx-auto">'+text+'</p>':'')+(cta||'')+'</div>';}
+ function setErr(m){var e=$('f-err');e.textContent=m||'';e.style.display=m?'':'none';['f-role','f-comp','f-party','f-q'].forEach(function(i){$(i).removeAttribute('aria-invalid');});}
+ function draw(){
+  S5.seesAgencyName=st!=='agencyhidden';
+  var box=$('cd-state'),tbl=$('cd-table');box.innerHTML='';
+  if(st==='loading'){tbl.style.display='none';box.innerHTML='<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col gap-4" aria-busy="true" aria-label="Loading candidates">'+[60,45,70,50,40].map(function(w){return'<div class="flex items-center gap-4"><div class="h-8 w-8 rounded-full bg-gray-200 animate-pulse"></div><div class="h-3 bg-gray-200 rounded animate-pulse" style="width:'+w+'%"></div></div>';}).join('')+'</div>';return;}
+  if(st==='error'){tbl.style.display='none';box.innerHTML=card('fa-triangle-exclamation','We couldn’t load the candidates','Something went wrong on our side. Try again.','<button type="button" id="cd-retry" class="mt-4 text-blue font-medium text-sm border border-blue/20 bg-blue/5 px-4 py-2 rounded">Retry</button>');$('cd-retry').onclick=function(){S1.setState('default');};return;}
+  if(st==='denied'){tbl.style.display='none';box.innerHTML=card('fa-lock','You don’t have access to this page','Candidates need the permission to view the candidate directory.','<a href="client.shell.dashboard.html" data-s1-home class="mt-4 inline-block text-blue font-medium text-sm border border-blue/20 bg-blue/5 px-4 py-2 rounded">Back to the dashboard</a>');return;}
+  parties();
+  var f={q:$('f-q').value.trim(),jobRoleId:$('f-role').value,complianceStatus:$('f-comp').value,supplyingParty:$('f-party').value},rows;
+  if(st==='validation')f.jobRoleId='jr-retired';
+  try{rows=st==='empty'?[]:S5.directory(f);setErr('');}
+  catch(e){if(!e.code)throw e;var k=Object.keys(e.data.fields||{})[0];setErr((k&&e.data.fields[k])||e.message);var m={jobRoleId:'f-role',complianceStatus:'f-comp',supplyingParty:'f-party',q:'f-q'}[k];if(m)$(m).setAttribute('aria-invalid','true');rows=null;}
+  if(st==='large'&&rows&&rows.length){var o=[];for(var i=0;i<64;i++){var r=rows[i%rows.length];o.push(Object.assign({},r,{fullName:r.fullName+(i>=rows.length?' '+(Math.floor(i/rows.length)+1):'')}));}rows=o;}
+  if(rows===null){tbl.style.display='none';box.innerHTML='';return;}
+  var any=f.q||f.jobRoleId||f.complianceStatus||f.supplyingParty;
+  if(!rows.length){tbl.style.display='none';box.innerHTML=any&&st!=='empty'?card('fa-filter','No candidates match these filters','Try another filter, or clear them.','<button type="button" id="cd-clear" class="mt-4 text-blue font-medium text-sm border border-blue/20 bg-blue/5 px-4 py-2 rounded">Clear filters</button>'):card('fa-address-card','No candidates yet','Candidates appear here once they have been booked to you.');var c=$('cd-clear');if(c)c.onclick=function(){['f-q','f-role','f-comp','f-party'].forEach(function(i){$(i).value='';});page=1;draw();};return;}
+  tbl.style.display='';
+  var pages=Math.ceil(rows.length/PAGE);if(page>pages)page=pages;
+  $('cd-rows').innerHTML=rows.slice((page-1)*PAGE,page*PAGE).map(rowHtml).join('');
+  $('cd-pager').innerHTML=pager(rows.length,pages);
+  $('cd-pager').querySelectorAll('[data-pg]').forEach(function(b){b.onclick=function(){page=+b.dataset.pg;draw();};});
+  if(window.S1&&S1.mode&&S1.mode()!=='full')$('cd-table').querySelectorAll('[data-s5-later]').forEach(function(e){e.style.setProperty('display','none','important');});
+ }
+ ['f-role','f-comp','f-party'].forEach(function(i){$(i).onchange=function(){page=1;draw();};});
+ $('f-q').oninput=function(){page=1;draw();};
+ S3.onState(function(s){st=s;page=1;if(s==='filtered'){$('f-party').value='';$('f-comp').value='';parties();var ps=S5.directoryParties();$('f-party').value=ps.filter(function(p){return p!=='Abstract';})[0]||'';}else if(s!=='validation'){['f-q','f-role','f-comp','f-party'].forEach(function(i){$(i).value='';});}draw();});
+ document.addEventListener('s1:mode',function(){draw();});
+ draw();
+})();
+</script>
 <script src="slice1-kit.js"></script>
 </body>
 </html>

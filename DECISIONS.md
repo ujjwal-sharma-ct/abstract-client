@@ -272,3 +272,14 @@ Context: the second fix round (helpers working from the brief-side audit and the
 9. **User erasure "retention obligation" refusal, DR-S13.** Full-product view only. No slice mode shows it: the product has no such refusal for a user, only a candidate's legal hold (`abstract.identity-access.data-subject-requests.html`).
 
 The project-docs session records these as DR-S11 to DR-S13 in `delivery/design-restore/PLAN.md` §2.
+
+## 2026-11-15 — Slice 5 design pass, client portal (design calls; for Ujjwal Sharma's review)
+
+Context: the slice 5 brief Part B and TSD 5.7; the pass brief's *Keep the existing look* rules. Calls taken on the recommended option:
+
+1. **Proposals on Vacancy Detail** keep the original *Candidate proposals* cards (tinted initials, *Proposed by*, badges, the vacancy's charge rate); the old placeholder's Accept/Reject buttons become one *Review* button, because the TSD puts the decision on Proposal Review. The status badge is the kernel's ProposalStatusBadge; the compliance badge keeps the card's shield look.
+2. **Proposal Review (client)** is a new page in Vacancy Detail's look (title row with avatar and badge, white cards, the *Vacancy details* panel with the highlighted charge rate). Accepting opens the new booking (TV-2). The dialog says *supplied by <party>*, never a source word.
+3. **Candidate Directory** keeps its own (older, Sora/Manrope, navy) look: its static rows and footer stay in the file, hidden by script; the business-unit filter and the header's global search are `data-s5-later` (not slice 5's), *Not Applicable* leaves the compliance filter (not a roll-up value), *View Status* is `data-s5-later` (no candidate detail page, Q12). Its sidebar keeps the *Recruitment › Candidate Directory* item; the slice pages' flat sidebars gain *Candidates* after *Timesheets*.
+4. **Supplying party on Bookings**: every row reads *Supplied by …* under the candidate in s5 and full (Abstract, the agency's name, or *Agency*).
+5. **Override on a client week**: the day table and the day dialog read *Overridden by Abstract* only (slice 4 DR-S6; it read the author and the reason in the day table before).
+6. **Pool candidates' compliance and licences** in the directory are copied, as open facts, from the Abstract portal's slice 3 records into the client's `slice5-proto.js` (the client copy holds no other candidate field).

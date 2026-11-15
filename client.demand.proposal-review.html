@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal review · Abstract VMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;} * { scrollbar-width: none; }
+    .tnum { font-variant-numeric: tabular-nums; }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { inter: ['Inter', 'sans-serif'] }, colors: {
+            navy: { DEFAULT: '#172554', 50: '#EEF1FB', 100: '#D4DCF5', 200: '#A9B9EB', 300: '#7E96E1', 400: '#5373D7', 500: '#2850CD', 600: '#1D3FA4', 700: '#162F7B', 800: '#0F1F52', 900: '#172554' },
+            brand: { blue: '#1D4ED8', purple: '#5B2E91', navy: '#172554' } } } } };
+    </script>
+</head>
+<body class="font-inter bg-slate-100 overflow-hidden text-slate-600" data-s5-page data-s1-states="default loading empty error validation denied large viewer agencyhidden stale accept reject positiontaken agencyinactive clientinactive anonymised datesoutside datesinvalid">
+<div id="app-root" class="flex w-full" style="height: 100vh;">
+    <aside id="sidebar" class="hidden lg:flex flex-col w-64 xl:w-72 flex-shrink-0 overflow-y-auto" style="background: linear-gradient(180deg, #0f1a3e 0%, #172554 42%, #1e1a4a 100%);">
+        <div id="sidebar-logo" class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
+            <img src="logo.png" alt="Abstract VMS" class="h-12 w-auto block -ml-[5px]"/>
+            <p class="text-white/40 text-sm mt-2">Client Portal</p>
+        </div>
+        <nav id="sidebar-nav" class="flex-1 px-3 py-4 flex flex-col gap-1" aria-label="Main"><a href="client.shell.dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-gauge-high text-white/40 w-4 text-center" aria-hidden="true"></i><span>Dashboard</span></a><a href="client.demand.vacancies.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-150" style="background: linear-gradient(135deg, rgba(29,78,216,0.5), rgba(91,46,145,0.4)); border: 1px solid rgba(255,255,255,0.15);" aria-current="page"><i class="fa-solid fa-briefcase text-blue-400 w-4 text-center" aria-hidden="true"></i><span>Vacancies</span><div class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"></div></a><a href="client.bookings.bookings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-calendar-check text-white/40 w-4 text-center" aria-hidden="true"></i><span>Bookings</span></a><a href="client.timesheets.timesheets.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-clock text-white/40 w-4 text-center" aria-hidden="true"></i><span>Timesheets</span></a><a href="client.candidates.candidate-directory.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-address-book text-white/40 w-4 text-center" aria-hidden="true"></i><span>Candidates</span></a><a href="client.organisations.business-units.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-sitemap text-white/40 w-4 text-center" aria-hidden="true"></i><span>Business Units</span></a><a href="client.identity-access.users.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-users text-white/40 w-4 text-center" aria-hidden="true"></i><span>Users & Permissions</span></a><a href="client.notifications.notification-preferences.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:text-white hover:bg-white/8 text-sm transition-all duration-150"><i class="fa-solid fa-bell text-white/40 w-4 text-center" aria-hidden="true"></i><span>Notification preferences</span></a></nav>
+        <div id="sidebar-footer" class="px-4 py-4 border-t border-white/10">
+            <div class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-white/5 transition-all">
+                <span class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 text-xs font-bold flex items-center justify-center flex-shrink-0" aria-hidden="true">RG</span>
+                <div class="flex-1 min-w-0">
+                    <a href="client.identity-access.profile.html" class="block text-white text-xs font-semibold truncate hover:underline" title="Your profile" data-user-name>Rachel Green</a>
+                    <p class="text-white/40 text-xs truncate">Acme Logistics</p>
+                </div>
+                <a href="client.identity-access.sign-in.html?reason=signed-out" aria-label="Sign out" title="Sign out"><i class="fa-solid fa-arrow-right-from-bracket text-white/30 text-xs hover:text-white" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </aside>
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header id="header" class="flex items-center justify-between gap-3 px-4 sm:px-6 xl:px-8 py-4 bg-white border-b border-slate-200 flex-shrink-0">
+            <div class="flex items-center gap-3 min-w-0">
+                <button id="mobile-menu-btn" class="lg:hidden w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-solid fa-bars text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <div class="min-w-0"><h1 id="page-title" class="text-lg font-bold text-slate-900 truncate">Proposal</h1></div>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+                
+                <button data-s1-bell aria-label="Notifications" class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><i class="fa-regular fa-bell text-slate-600 text-sm" aria-hidden="true"></i></button>
+                <a href="client.identity-access.profile.html" aria-label="My account (Rachel Green)" class="flex items-center gap-2 pl-3 border-l border-slate-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"><span class="w-8 h-8 rounded-full text-white text-xs font-bold flex items-center justify-center" style="background: linear-gradient(135deg, #1D4ED8, #5B2E91);" aria-hidden="true">RG</span><span class="hidden xl:block"><span class="block text-xs font-semibold text-slate-700">Rachel Green</span><span class="block text-xs text-slate-500">Acme Logistics</span></span></a>
+            </div>
+        </header>
+        <main id="main" class="flex-1 overflow-y-auto px-4 sm:px-6 xl:px-8 py-6 pb-20 bg-slate-100">
+            <div data-s1-show="denied" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-14 text-center">
+                <div class="w-14 h-14 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-lock text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">You don't have access to this page</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Proposals need the permission to view them.</p>
+                <a href="client.shell.dashboard.html" data-s1-home class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold transition-colors min-h-[38px] mt-5"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to the dashboard</a>
+            </div>
+            <div data-s1-show="loading" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col gap-4" aria-busy="true" aria-label="Loading"><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:40%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:26%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:66%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:52%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:52%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:38%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:44%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:30%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><div class="flex items-center gap-4"><div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded animate-pulse" style="width:60%"></div><div class="h-2.5 bg-slate-200 rounded animate-pulse" style="width:46%"></div></div><div class="hidden sm:block w-20 h-6 rounded-full bg-slate-200 animate-pulse"></div></div><p class="sr-only">Loading…</p></div>
+            <div data-s1-show="error" class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-12 text-center" role="alert">
+                <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-triangle-exclamation text-xl" aria-hidden="true"></i></div>
+                <h2 class="text-base font-bold text-slate-900">We couldn't load this proposal</h2>
+                <p class="text-sm text-slate-600 mt-1 max-w-md mx-auto">Something went wrong on our side. Try again. If it keeps happening, quote reference <span class="font-semibold text-slate-800 tnum">ERR-S3-VAC-3C12</span> to Abstract.</p>
+                <button type="button" onclick="S1.setState('loading');setTimeout(function(){S1.setState('default')},700)" class="inline-flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 rounded-lg px-3 py-2 text-xs font-semibold min-h-[38px] mt-5"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Retry</button>
+            </div>
+            <div id="app" data-s1-hide="denied loading error"></div>
+        </main>
+    </div>
+</div>
+<script src="slice3-proto.js"></script>
+<script src="slice5-proto.js"></script>
+<script>S3.mobileNav();</script>
+<script>
+/* Proposal Review, client (slice 5, brief B2; TSD 5.7, §3.3.2 rules 3, 4, 8, §3.3.11 ProposalReview variant client).
+   Drawn in the look of the client's Vacancy Detail — the title row with its badge, the white cards, the highlighted
+   charge rate in the side panel — from slice5-proto.js. What a client reads of a proposal (PP-006, PP-013): the candidate's
+   name, compliance and licence validity, the agency's notes, the supplying party (the agency's name, or Agency when Abstract
+   has turned visibility.client_sees_agency_name off for the client, CP-019). No link to a candidate record and no personal
+   data: a client portal has neither. The client sees its charge rate only: never a pay figure, never the booking source.
+   Start review, Accept and Reject need proposal:review (administrator, manager); a viewer reads only (state viewer). */
+var C=S3.C,ui=S3.ui,esc=S3.esc,app=document.getElementById('app'),id=S3.param('id')||'p1005',st='default',stale=false,banner='';
+var FOC=' focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1';
+var TIMES={'sh-am':['06:00','14:00'],'sh-pm':['14:00','22:00'],'sh-nt':['22:00','06:00'],'ng-d':['07:00','15:00'],'ng-l':['15:00','23:00']};
+var dash='<span class="text-slate-500">—</span>';
+function compBadge(s){var t={Compliant:['bg-emerald-50 text-emerald-700 border-emerald-200','fa-shield-halved'],Pending:['bg-amber-50 text-amber-700 border-amber-200','fa-triangle-exclamation'],Expired:['bg-red-50 text-red-700 border-red-200','fa-circle-xmark']}[s]||['bg-slate-100 text-slate-700 border-slate-200','fa-circle'];return'<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border '+t[0]+'"><i class="fa-solid '+t[1]+'" aria-hidden="true"></i>'+esc(s)+'</span>';}
+function row(l,x){return'<div class="flex justify-between items-start gap-4 py-2 border-b border-slate-100"><dt class="text-sm text-slate-500 flex-shrink-0">'+l+'</dt><dd class="text-sm font-medium text-slate-900 text-right min-w-0 break-words">'+(x==null||x===''?dash:x)+'</dd></div>';}
+function draw(){
+ S5.seesAgencyName=st!=='agencyhidden';
+ var p=S5.proposal(id);
+ if(!p||st==='empty'){document.getElementById('page-title').textContent='Proposal';app.innerHTML=ui.empty('fa-magnifying-glass','We can’t find that proposal','It may have been removed from your view, or the link is wrong.','<a class="'+C.sec+'" href="client.demand.vacancies.html">Back to the vacancies</a>');return;}
+ var v=S3.vacancy(p.vacancyId),mayReview=st!=='viewer',isPend=S5.PENDING.indexOf(p.status)>=0,open=v.rosterRows.filter(function(r){return r.status==='Open';}),t=TIMES[v.shiftId];
+ document.title=p.reference+' · Proposal review · Abstract VMS';
+ document.getElementById('page-title').textContent=p.reference;
+ // actions, as the status allows (PP-005): Start review on Submitted; Accept and Reject while pending; none to a viewer
+ var act='';
+ if(isPend&&mayReview){
+  if(p.status==='Submitted')act+='<button type="button" id="a-start" class="'+C.sec+'"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Start review</button>';
+  act+='<button type="button" id="a-reject" class="'+C.dan+'"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Reject</button>';
+  act+='<button type="button" id="a-accept" class="'+C.pri+'" style="'+C.priStyle+'"'+(open.length?'':' disabled aria-describedby="acc-why"')+'><i class="fa-solid fa-user-check" aria-hidden="true"></i> Accept</button>';
+ }
+ var title='<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"><div class="min-w-0 flex items-start gap-4"><span class="w-12 h-12 rounded-full flex items-center justify-center font-bold flex-shrink-0 bg-blue-50 text-blue-700" aria-hidden="true">'+esc(S3.initials(p.candidateName))+'</span><div class="min-w-0"><div class="flex flex-wrap items-center gap-3"><h2 class="text-2xl font-bold text-navy break-words">'+esc(p.candidateName)+'</h2>'+S5.ui.proposalBadge(p.status)+'</div><p class="text-sm text-slate-600 mt-1"><span class="font-mono font-semibold text-slate-700 tnum">'+esc(p.reference)+'</span> · proposed by <span class="font-semibold text-slate-700">'+esc(p.supplyingParty)+'</span> for <a class="'+C.link+'" href="client.demand.vacancy-detail.html?id='+v.id+'">'+esc(v.reference)+'</a></p></div></div>'+(act?'<div class="flex flex-wrap items-center gap-2 sm:justify-end">'+act+'</div>':'')+'</div>'+
+  (isPend&&mayReview&&!open.length?'<p id="acc-why" class="text-xs text-slate-600 mt-2 sm:text-right">No position is open on this vacancy, so this proposal can’t be accepted. It can still be rejected.</p>':'')+
+  (isPend&&!mayReview?'<p class="text-xs text-slate-600 mt-3"><i class="fa-solid fa-circle-info text-slate-400" aria-hidden="true"></i> Accepting or rejecting a proposal needs the permission to review proposals. You can read it.</p>':'');
+ // the outcome, once decided
+ var outcome='';
+ if(p.status==='Accepted')outcome=ui.banner('success','<strong>Accepted</strong> on '+S5.fmtDateTime(p.decidedAt)+(p.decidedByName?' by '+esc(p.decidedByName):'')+'. Position '+p.positionNumber+', booking <a class="'+C.link+'" href="client.bookings.booking-detail.html?id='+p.bookingId+'">'+esc(p.bookingReference)+'</a>.');
+ if(p.status==='Rejected')outcome=ui.banner('error','<strong>Rejected</strong> on '+S5.fmtDateTime(p.decidedAt)+(p.decidedByParty==='system'?' automatically':p.decidedByName?' by '+esc(p.decidedByName):'')+'. Reason: '+esc(p.decisionReason));
+ if(p.status==='Withdrawn')outcome=ui.banner('info','<strong>Withdrawn</strong> by '+esc(p.supplyingParty)+' on '+S5.fmtDateTime(p.decidedAt)+'.'+(p.decisionReason?' Reason: '+esc(p.decisionReason):''));
+ if(p.status==='Rejected (Position Filled)')outcome=ui.banner('info','<strong>Rejected (Position Filled)</strong> on '+S5.fmtDateTime(p.decidedAt)+': the vacancy’s last open position was filled, so every proposal still pending was closed. Nothing was wrong with the candidate.');
+ // the candidate: name, compliance, licence validity and the agency's notes — nothing else (PP-006)
+ var lic=p.candidateLicences.length?'<ul class="flex flex-wrap gap-2">'+p.candidateLicences.map(function(l){return'<li>'+S5.ui.licenceChip(l)+'</li>';}).join('')+'</ul>':'<p class="text-sm text-slate-600">None held</p>';
+ var cand='<section class="'+C.card+' p-6" aria-labelledby="cd-t"><h2 id="cd-t" class="text-lg font-semibold text-navy mb-4 border-b border-slate-100 pb-3">Candidate</h2><div class="flex flex-col gap-6">'+
+  '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><h3 class="text-sm font-semibold text-slate-900 mb-2">Compliance</h3>'+compBadge(p.candidateComplianceStatus)+'</div><div><h3 class="text-sm font-semibold text-slate-900 mb-2">Supplied by</h3><p class="text-sm text-slate-700">'+esc(p.supplyingParty)+'</p></div></div>'+
+  '<div><h3 class="text-sm font-semibold text-slate-900 mb-3">Licences</h3>'+lic+'</div>'+
+  '<div><h3 class="text-sm font-semibold text-slate-900 mb-2">The agency’s notes</h3><div class="p-4 rounded-xl bg-purple-50 border border-purple-100"><p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line">'+esc(p.notes||'—')+'</p><p class="text-xs text-purple-700 mt-2 flex items-center gap-1.5"><i class="fa-solid fa-building-user" aria-hidden="true"></i>'+esc(p.supplyingParty)+' · '+S5.fmtDate(p.submittedAt)+'</p></div></div></div></section>';
+ // the proposal's history (PP-005)
+ var log=[{at:p.submittedAt,by:p.supplyingParty,text:'Submitted'}];if(p.reviewStartedAt)log.push({at:p.reviewStartedAt,by:null,text:'Moved to Under Review'});if(p.decidedAt)log.push({at:p.decidedAt,by:p.decidedByParty==='system'?null:p.decidedByParty==='agency'?p.supplyingParty:p.decidedByName,text:p.status+(p.decisionReason?': '+p.decisionReason:'')+(p.bookingReference?' ('+p.bookingReference+', position '+p.positionNumber+')':'')});
+ log.sort(function(a,b){return a.at<b.at?1:-1;});
+ if(st==='large'){var big=[];for(var j=0;j<60;j++)big.push({at:'2026-10-0'+(1+j%9)+'T1'+(j%10)+':00:00',by:j%2?'Rachel Green':p.supplyingParty,text:'Entry '+(60-j)+': the proposal changed'});log=big;}
+ var hist='<section class="'+C.card+' overflow-hidden" aria-labelledby="hi-t"><div class="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-slate-100"><h2 id="hi-t" class="text-lg font-semibold text-navy">History</h2>'+(log.length>20?'<span class="text-sm font-semibold text-slate-600 tnum">20 of '+log.length+'</span>':'')+'</div><ol class="p-5 flex flex-col gap-3">'+log.slice(0,20).map(function(a){return'<li class="flex items-start gap-3"><span class="w-7 h-7 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-clock-rotate-left text-[10px]"></i></span><div class="min-w-0"><p class="text-sm text-slate-700 break-words">'+esc(a.text)+'</p><p class="text-xs text-slate-500 tnum">'+(a.by?esc(a.by)+' · ':'')+S5.fmtDateTime(a.at)+'</p></div></li>';}).join('')+'</ol></section>';
+ // the side panel: the vacancy's details in Vacancy Detail's look, with its charge rate (never a pay figure)
+ var summary='<section class="'+C.card+' overflow-hidden" aria-labelledby="vs-t"><div class="px-5 py-4 border-b border-slate-100 bg-slate-50/50"><h2 id="vs-t" class="text-sm font-semibold text-navy uppercase tracking-wider">Vacancy details</h2></div><dl class="p-5 flex flex-col gap-1">'+
+  row('Vacancy','<a class="'+C.link+'" href="client.demand.vacancy-detail.html?id='+v.id+'">'+esc(v.reference)+'</a> · '+esc(v.jobTitle))+row('Status',ui.badge(v.status,true))+row('Place',esc(v.orgNodePath.join(' › ')))+row('Job role',esc(v.jobRoleTitle))+row('Shift',esc(v.shiftName)+(t?' <span class="tnum text-slate-600">('+t[0]+'–'+t[1]+')</span>':''))+row('Positions','<span class="tnum">'+v.filledCount+' / '+v.positionCount+' filled · '+v.openCount+' open</span>')+row('Dates','<span class="tnum">'+S3.fmtDate(v.startDate)+' to '+S3.fmtDate(v.endDate)+'</span>')+
+  '<div class="flex justify-between items-center gap-4 py-2 bg-blue-50 rounded-lg px-3 mt-2"><dt class="text-sm font-semibold text-navy flex-shrink-0 whitespace-nowrap">Charge rate</dt><dd class="text-sm font-bold text-navy text-right"><span class="font-mono tnum">'+(v.chargeRate?S3.money(v.chargeRate)+'</span> per hour':'</span>No rate in force')+'</dd></div></dl></section>';
+ var meta='<section class="'+C.card+' overflow-hidden" aria-labelledby="pm-t"><div class="px-5 py-4 border-b border-slate-100 bg-slate-50/50"><h2 id="pm-t" class="text-sm font-semibold text-navy uppercase tracking-wider">Proposal</h2></div><dl class="p-5 flex flex-col gap-1">'+
+  row('Reference','<span class="font-mono tnum">'+esc(p.reference)+'</span>')+row('Status',S5.ui.proposalBadge(p.status,true))+row('Submitted','<span class="tnum">'+S5.fmtDateTime(p.submittedAt)+'</span>')+row('Review started',p.reviewStartedAt?'<span class="tnum">'+S5.fmtDateTime(p.reviewStartedAt)+'</span>':null)+row('Decided',p.decidedAt?'<span class="tnum">'+S5.fmtDateTime(p.decidedAt)+'</span>':null)+(p.bookingId?row('Booking','<a class="'+C.link+' font-mono tnum" href="client.bookings.booking-detail.html?id='+p.bookingId+'">'+esc(p.bookingReference)+'</a>'):'')+'</dl></section>';
+ app.innerHTML='<div class="flex flex-col gap-6"><div>'+ui.crumbs([['Vacancies','client.demand.vacancies.html'],[v.reference,'client.demand.vacancy-detail.html?id='+v.id],[p.reference]])+title+'</div>'+
+  (banner?ui.banner('warning',banner):'')+outcome+
+  '<div class="flex flex-col lg:flex-row gap-6 items-start"><div class="w-full lg:w-2/3 min-w-0 flex flex-col gap-6">'+cand+hist+'</div><div class="w-full lg:w-1/3 min-w-0 flex flex-col gap-6">'+summary+meta+'</div></div></div>';
+ function on(i,f){var e=document.getElementById(i);if(e)e.onclick=f;}
+ on('a-start',function(){try{S5.act.startReview(p.id,{simulateStale:st==='stale'&&!stale});S1.toast('Review started: '+p.reference+' is Under Review.','success');banner='';draw();}catch(e){if(!e.code)throw e;reload(e);}});
+ on('a-accept',function(){acceptDialog(p,v);});
+ on('a-reject',function(){rejectDialog(p);});
+}
+// 409 PROPOSAL_STATUS_INVALID reloads the proposal and says it changed (TSD §5 UI rules)
+function reload(e){stale=true;banner='<p class="font-semibold">This proposal changed while you had it open</p><p class="mt-0.5">'+esc(e.message)+'</p>';draw();}
+// Accept (POST /bookings/from-proposal): the position picker defaults to the lowest open, the dates to the vacancy's;
+// the acceptance's refusals show inline in the dialog. On success the booking opens (TV-2).
+function acceptDialog(p,v,sim,dates){
+ var open=v.rosterRows.filter(function(r){return r.status==='Open';});if(st==='large'&&open.length){var big=[];for(var i=1;i<=120;i++)big.push({n:i});open=big;}
+ var d=dates||{};
+ return S3.dialog({title:'Accept '+p.candidateName+'?',body:'A booking is created for '+esc(p.candidateName)+', supplied by '+esc(p.supplyingParty)+', on the position you choose, and the agency is told. '+(v.openCount===1?'<strong>This fills the last open position:</strong> every other pending proposal becomes Rejected (Position Filled).':''),cta:'Accept and book',cancel:'Keep reviewing',width:520,
+  fields:[{id:'ac-pos',label:'Position',type:'select',options:open.map(function(r){return[r.n,'Position '+r.n+(r.n===open[0].n?' (lowest open)':'')];}),value:open[0]?open[0].n:'',required:true,hint:open.length+' open on '+v.reference+'.'},{id:'ac-start',label:'Start date',type:'date',value:d.start||v.startDate,required:true,requiredMessage:'Choose a start date.'},{id:'ac-end',label:'End date',type:'date',value:d.end||v.endDate,required:true,requiredMessage:'Choose an end date.',hint:'The vacancy runs '+S5.fmtDate(v.startDate)+' to '+S5.fmtDate(v.endDate)+'.'}],
+  onOk:function(x,api){var res;try{res=S5.act.accept(p.id,{positionNumber:Number(x['ac-pos']),startDate:x['ac-start'],endDate:x['ac-end']},{simulate:sim});}catch(e){if(e.code==='PROPOSAL_STATUS_INVALID'){api.close();reload(e);return false;}if(e.code){api.banner('error','<p class="font-semibold">This proposal couldn’t be accepted</p>'+esc(e.message));return false;}throw e;}
+   S1.toast(p.candidateName+' accepted: '+res.bookingReference+' on position '+res.positionNumber+(res.autoRejected?'. '+res.autoRejected+' other proposal'+(res.autoRejected===1?' was':'s were')+' closed as Rejected (Position Filled).':'.'),'success');
+   setTimeout(function(){location.href='client.bookings.booking-detail.html?id='+res.bookingId;},900);}});
+}
+function rejectDialog(p,submitEmpty){
+ S3.dialog({title:'Reject '+p.candidateName+'?',body:'The agency is told, with your reason. A rejected proposal can’t be reopened.',tone:'danger',cta:'Reject proposal',cancel:'Keep reviewing',fields:[{id:'rj-r',label:'Reason',type:'textarea',required:true,requiredMessage:'Enter a reason.',hint:'The agency reads it. Up to 1,000 characters.'}],
+  validate:function(x){return x['rj-r'].length>1000?{'rj-r':'Keep the reason to 1,000 characters.'}:{};},
+  onOk:function(x,api){try{S5.act.reject(p.id,x['rj-r']);}catch(e){if(e.code==='PROPOSAL_STATUS_INVALID'){api.close();reload(e);return false;}throw e;}S1.toast(p.reference+' rejected; the agency is told.','info');banner='';draw();}});
+ if(submitEmpty)setTimeout(function(){document.querySelector('.s1-scrim [data-ok]').click();},60);
+}
+S3.onState(function(s){st=s;stale=false;banner='';document.querySelectorAll('.s1-scrim').forEach(function(x){x.remove();});if(['loading','error','denied'].indexOf(s)>=0)return;draw();
+ S5.seesAgencyName=s!=='agencyhidden';var p=S5.proposal(id);if(!p||s==='empty')return;var v=S3.vacancy(p.vacancyId),pend=S5.PENDING.indexOf(p.status)>=0;
+ if(!pend)return;
+ if(s==='accept')acceptDialog(p,v);
+ if(s==='reject')rejectDialog(p);
+ if(s==='validation')rejectDialog(p,true);
+ var sims={positiontaken:'taken',agencyinactive:'agencyinactive',clientinactive:'clientinactive',anonymised:'anonymised'};
+ var dts={datesoutside:{start:'2026-09-01'},datesinvalid:{start:v.endDate,end:v.startDate}};
+ if(sims[s]||dts[s]){acceptDialog(p,v,sims[s],dts[s]);setTimeout(function(){var ok=document.querySelector('.s1-scrim [data-ok]');if(ok)ok.click();},60);}
+ if(s==='stale'){try{S5.act.accept(p.id,{},{simulate:'stale'});}catch(e){reload(e);}}
+});
+document.addEventListener('s1:mode',function(){var s=document.body.getAttribute('data-s1-state');if(s&&['loading','error','denied'].indexOf(s)<0)draw();});
+</script>
+<script src="slice1-kit.js"></script>
+</body>
+</html>
