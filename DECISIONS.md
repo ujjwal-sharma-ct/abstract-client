@@ -283,3 +283,11 @@ Context: the slice 5 brief Part B and TSD 5.7; the pass brief's *Keep the existi
 4. **Supplying party on Bookings**: every row reads *Supplied by …* under the candidate in s5 and full (Abstract, the agency's name, or *Agency*).
 5. **Override on a client week**: the day table and the day dialog read *Overridden by Abstract* only (slice 4 DR-S6; it read the author and the reason in the day table before).
 6. **Pool candidates' compliance and licences** in the directory are copied, as open facts, from the Abstract portal's slice 3 records into the client's `slice5-proto.js` (the client copy holds no other candidate field).
+
+
+## 2026-11-16 — Requirement IDs stripped from the earlier slices' pages too (ruled by Ujjwal Sharma)
+
+Extends the entry above to every page: no requirement ID in copy a user reads — text, tooltips (`title`), toasts
+and dialog bodies drawn by script. A trailing *(XX-NNN)* goes with its space; a leading *XX-NNN ·* label goes and
+the rest is capitalised (*SYS-007 · effective-dated* → *Effective-dated*). Code comments keep their IDs, and so do
+the slice design hubs (reviewer pages). Nothing else in the copy changed.
