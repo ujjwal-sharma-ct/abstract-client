@@ -90,6 +90,9 @@
       vac({ id: 'v1046', reference: 'VAC-1046', clientId: 'acme', orgNodeId: 'lds', jobRoleId: 'jr-wo', jobTitle: 'Leeds weekend cover', startDate: '2026-10-03', endDate: '2026-11-29', shiftId: 'sh-am', publishedAt: '2026-09-18T13:00:00', publishedBy: 'Abstract', cancelledAt: '2026-10-07T11:05:00', cancelledBy: 'Abstract', cancellationReason: 'Acme moved this work to its Leicester site.', positions: [pos(1, 'Filled', 'b2206', { filledAt: '2026-09-25T10:00:00' }), pos(2, 'Cancelled', null, { cancelledAt: '2026-10-07T11:05:00', cancelledReason: 'vacancy_cancelled' })] }),
       vac({ id: 'v1047', reference: 'VAC-1047', clientId: 'acme', orgNodeId: 'bhx-d', jobRoleId: 'jr-wo', jobTitle: 'Days team cover', startDate: '2026-09-14', endDate: '2026-11-06', shiftId: 'sh-am', workingTimes: 'Mon to Fri, 06:00 to 14:00', publishedAt: '2026-09-01T09:00:00', publishedBy: 'Abstract', closedAt: '2026-10-01T16:00:00', closedBy: 'Abstract', closeReason: 'All seats filled for the period.', reopenedAt: '2026-10-08T10:20:00', reopenedByBookingReference: 'BK-2207', positions: [pos(1, 'Filled', 'b2208', { filledAt: '2026-09-08T11:00:00' }), pos(2, 'Open')] }),
       vac({ id: 'v1048', reference: 'VAC-1048', clientId: 'northgate', orgNodeId: 'ng-leeds', jobRoleId: 'jr-pp', jobTitle: 'Bakery packers', startDate: '2026-10-26', endDate: '2026-12-23', shiftId: 'ng-d', workingTimes: 'Mon to Sat, 07:00 to 15:00', publishedAt: '2026-10-05T09:40:00', publishedBy: 'James Okafor', positions: [pos(1, 'Open'), pos(2, 'Open')] })
+      // VAC-1050 is slice 5 sample data (ruled 2026-11-16, Ujjwal Sharma): an open Acme vacancy released to TechForce alone, so the
+      // agency demo starts with a vacancy it can propose to. `s5only` keeps it out of every read below the slice 5 mode (see own()).
+      , vac({ id: 'v1050', reference: 'VAC-1050', clientId: 'acme', orgNodeId: 'lei', jobRoleId: 'jr-wo', jobTitle: 'Goods-in operatives', startDate: '2026-10-26', endDate: '2026-12-18', shiftId: 'sh-am', workingTimes: 'Mon to Fri, 06:00 to 14:00', closeDate: '2026-10-23', description: 'Unloading inbound trailers, checking deliveries against the paperwork, and putting stock away.', requirements: REQ, publishedAt: '2026-10-06T10:00:00', publishedBy: 'Rachel Green', createdBy: 'Rachel Green', createdAt: '2026-10-06T09:40:00', updatedAt: '2026-10-06T10:00:00', positions: [pos(1, 'Open'), pos(2, 'Open'), pos(3, 'Open')], s5only: true })
       
     ];
     var b = [
@@ -111,7 +114,9 @@
       { type: 'vacancy', id: 'v1042', at: '2026-09-23T09:30:00', by: 'Abstract', label: 'Updated', text: 'Position 3 filled: BK-2202' },
       { type: 'booking', id: 'b2202', at: '2026-09-23T09:30:00', by: 'Abstract', label: 'Created', text: 'Booking created from the worker pool' },
       { type: 'booking', id: 'b2202', at: '2026-09-28T00:30:00', by: null, label: 'Updated', text: 'Status: Pending Start → Active' },
-      { type: 'booking', id: 'b2202', at: '2026-10-02T10:00:00', by: 'Abstract', label: 'Updated', text: 'End date: 27 Nov 2026 → 18 Dec 2026. Status: Active → Extended' }
+      { type: 'booking', id: 'b2202', at: '2026-10-02T10:00:00', by: 'Abstract', label: 'Updated', text: 'End date: 27 Nov 2026 → 18 Dec 2026. Status: Active → Extended' },
+      { type: 'vacancy', id: 'v1050', at: '2026-10-06T09:40:00', by: 'Rachel Green', label: 'Created', text: 'Vacancy created as a draft' },
+      { type: 'vacancy', id: 'v1050', at: '2026-10-06T10:00:00', by: 'Rachel Green', label: 'Updated', text: 'Status: Draft → Open (Abstract Tier)' }
     ];
     return { vacancies: v, bookings: b, audit: a, seq: { vac: 1060, bk: 2240 }, extra: [] };
   }
@@ -123,6 +128,8 @@
   function read(k) { try { return JSON.parse(window.localStorage.getItem(k) || 'null'); } catch (e) { return null; } }
   function write(k, v) { try { window.localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* private window: this page only */ } }
   var db = read(KEY) || seed();
+  // a store written before VAC-1050 existed gains it (slice 5 sample data; nothing else of the seed is re-applied)
+  (function () { var sd = seed(); sd.vacancies.forEach(function (v) { if (v.s5only && !db.vacancies.some(function (x) { return x.id === v.id; })) { db.vacancies.push(v); sd.audit.filter(function (a) { return a.id === v.id; }).forEach(function (a) { db.audit.push(a); }); } }); })();
   function save() { write(KEY, db); }
 
   var S3 = window.S3 = { PORTAL: PORTAL, TODAY: TODAY, CLIENTS: CLIENTS, JOB_ROLES: JOB_ROLES, SHIFTS: SHIFTS, TREES: TREES, CLIENT_ROLES: CLIENT_ROLES };
@@ -187,7 +194,8 @@
     o.chargeRate = o.rate ? o.rate.charge : null;
     return o;
   }
-  function own(x) { return !S3.clientId || x.clientId === S3.clientId; }
+  // a slice 5 sample record (s5only) reads only in the slice 5 mode and the full product (S5.on(); absent when slice5-proto.js is not loaded)
+  function own(x) { return (!S3.clientId || x.clientId === S3.clientId) && (!x.s5only || !!(window.S5 && S5.on())); }
   S3.vacancies = function () { return db.vacancies.filter(own).map(dressV); };
   S3.vacancy = function (id) { var v = rawV(id); return v && own(v) ? dressV(v) : null; };
   S3.bookings = function () { return db.bookings.filter(own).map(dressB); };

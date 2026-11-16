@@ -131,6 +131,7 @@
     var vacancies = {
       v1041: facts('v1041', 'VAC-1041', 'Warehouse operatives, peak cover', 'Warehouse Operative', 'Birmingham DC', '2026-10-19', '2026-12-18', '2026-10-16', 'Morning', 'Mon to Fri, 06:00 to 14:00', 'General warehouse duties at the site: goods in, picking to order, and loading for despatch.', 'Safety boots and hi-vis provided on site. Able to lift up to 20 kg.', 3, 'Released to Agencies', '2026-10-05T14:20:00'),
       v1042: facts('v1042', 'VAC-1042', 'Reach truck drivers', 'Forklift Driver (Reach)', 'Leeds Hub', '2026-09-28', '2026-11-27', null, 'Afternoon', 'Mon to Fri, 14:00 to 22:00', 'Racking and replenishment in the high-bay aisles.', 'Current reach truck licence.', 1, 'Released to Agencies', '2026-09-24T10:15:00'),
+      v1050: facts('v1050', 'VAC-1050', 'Goods-in operatives', 'Warehouse Operative', 'Leicester DC', '2026-10-26', '2026-12-18', '2026-10-23', 'Morning', 'Mon to Fri, 06:00 to 14:00', 'Unloading inbound trailers, checking deliveries against the paperwork, and putting stock away.', 'Safety boots and hi-vis provided on site. Able to lift up to 20 kg.', 3, 'Released to Agencies', '2026-10-09T11:30:00'),
       v1043: facts('v1043', 'VAC-1043', 'Night shift operatives', 'Warehouse Operative', 'Nights', '2026-10-12', '2026-11-13', null, 'Night', 'Sun to Thu, 22:00 to 06:00', null, null, 0, 'Filled', '2026-09-30T08:50:00')
       , v1047: facts('v1047', 'VAC-1047', 'Days team cover', 'Warehouse Operative', 'Days', '2026-09-14', '2026-11-06', null, 'Morning', 'Mon to Fri, 06:00 to 14:00', null, null, 0, 'Filled', '2026-10-08T11:00:00')
     };
@@ -538,10 +539,12 @@
       return y.confirmationState === 'Justified' ? '<span class="absolute bottom-1 right-1 text-emerald-700" title="' + esc('Justified: ' + y.confirmation.justification) + '"><i class="fa-solid fa-circle-check text-[10px]" aria-hidden="true"></i></span>' : '<span class="absolute bottom-1 right-1 text-amber-700" title="Requested (awaiting agency)"><i class="fa-solid fa-hourglass-half text-[10px]" aria-hidden="true"></i></span>';
     },
     ariaPart: function (y) { return on() && y.confirmationState && y.confirmationState !== 'Not Requested' ? ', ' + y.confirmationState : ''; },
-    // the day-by-day table's status cell: the state's badge, the reason, and the standalone request on a Not Requested absence
+    // the day-by-day table's status cell: the state's badge, the reason, and the standalone request on a Not Requested absence.
+    // Not Requested draws no badge (ruled 2026-11-16, Ujjwal Sharma): such a day shows only the request link, where it is offered.
     dayHtml: function (x, y, canRequest) {
       if (!on() || !x.agencySourced || !y.confirmationState) return '';
-      var c = y.confirmation, h = '<div class="mt-1.5 flex flex-col gap-1">' + chip(y.confirmationState, true);
+      if (y.confirmationState === 'Not Requested' && !canRequest) return '';
+      var c = y.confirmation, h = '<div class="mt-1.5 flex flex-col gap-1">' + (y.confirmationState === 'Not Requested' ? '' : chip(y.confirmationState, true));
       if (y.confirmationState === 'Justified') h += '<p class="text-[11px] text-slate-700"><span class="font-semibold">' + esc(x.supplyingParty) + '’s reason:</span> ' + esc(c.justification) + '</p>';
       else if (y.confirmationState === 'Requested (awaiting agency)') h += '<p class="text-[11px] text-slate-600">Asked of ' + esc(x.supplyingParty) + ' on ' + fmtDateTime(c.requestedAt) + '</p>';
       else if (canRequest) h += '<button type="button" class="self-start text-[11px] font-semibold text-blue-700 hover:underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600" data-s5-req="' + esc(y.date) + '">Request agency confirmation</button>';

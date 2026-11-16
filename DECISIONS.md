@@ -291,3 +291,14 @@ No requirement ID in copy a user reads — text, tooltips (`title`), toasts
 and dialog bodies drawn by script. A trailing *(XX-NNN)* goes with its space; a leading *XX-NNN ·* label goes and
 the rest is capitalised (*SYS-007 · effective-dated* → *Effective-dated*). Code comments keep their IDs, and so do
 the slice design hubs (reviewer pages). Nothing else in the copy changed.
+
+## 2026-11-16 — Slice 5 sample data; no Not Requested badge (ruled by Ujjwal Sharma)
+
+1. **VAC-1050 *Goods-in operatives*** (Leicester DC, three open positions, created and published by Rachel Green on
+   6 Oct) is new slice 5 sample data, released to an agency on 9 Oct, so Vacancies lists it under *Released to
+   Agencies*. It is in `slice3-proto.js` flagged `s5only`: it reads only in the slice 5 mode and the full product.
+2. **No *Not Requested* badge in the day table.** An Agency-sourced absence whose confirmation was never requested shows
+   no badge, only the *Request agency confirmation* link where it is offered (the same rule as Abstract's).
+   *Requested (awaiting agency)* and *Justified* keep theirs.
+3. The shared `slice5-proto.js` copy is rebuilt from the source; nothing of the third Acme agency Abstract added
+   (Calder Recruitment) or of the agency pay figures is in this copy.
