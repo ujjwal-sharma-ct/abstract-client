@@ -680,7 +680,7 @@
       var st = val(api, 'd-st'), inp = { date: y.date, dayStatus: st };
       errText('d-h-err'); errText('d-c-err');
       if (st === 'Worked') { inp.hours = api.q('#d-h').value.trim(); inp.shiftId = api.q('#d-sh').value || undefined; if (o.forceInvalid) inp.hours = '25'; }
-      if (['Sick Leave', 'Holiday', 'No-show'].indexOf(st) >= 0) { inp.absenceComment = api.q('#d-c').value.trim() || null; var ps = api.q('#d-ps'); if (ps && ps.value) inp.shiftId = ps.value; var rc = api.q('#d-rc'); if (rc) inp.requestConfirmation = rc.checked; }
+      if (['Sick Leave', 'Holiday', 'No-show'].indexOf(st) >= 0) { inp.absenceComment = api.q('#d-c').value.trim() || null; var ps = api.q('#d-ps'); if (ps && ps.value) inp.shiftId = ps.value; var rc = api.q('#d-rc'); if (rc && rc.checked !== rc.defaultChecked) inp.requestConfirmation = rc.checked; /* sent only when the user changed the tick from its default (the client's setting), so a defaulted request records 'policy' (ruled 2026-11-16, R5-D9) */ }
       try {
         var r = S4.act.setDays(x.id, [inp], { stamp: o.conflict ? 'stale' : x.updatedAt });
         var pick = coverPick && api.el.querySelector('input[name="d-co"]:checked');

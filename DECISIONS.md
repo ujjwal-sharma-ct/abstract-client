@@ -302,3 +302,20 @@ the slice design hubs (reviewer pages). Nothing else in the copy changed.
    *Requested (awaiting agency)* and *Justified* keep theirs.
 3. The shared `slice5-proto.js` copy is rebuilt from the source; nothing of the third Acme agency Abstract added
    (Calder Recruitment) or of the agency pay figures is in this copy.
+
+## 2026-11-16 — Slice 5 TSD review R5: the rulings applied to the client's pages (ruled by Ujjwal Sharma)
+
+From the slice 5 TSD review R5 (project-docs `review/slices/SLICE-5-TSD-REVIEW-R5-RECORD.md`); `slice5-proto.js` rebuilt
+from the source in the Abstract repo.
+
+1. **R5-D6 — "Awaiting agency".** A requested day's pill, legend entry, cell mark tooltip and aria text read
+   design-tokens §6's *Awaiting agency*, not *Requested (awaiting agency)*. *Justified* stays.
+2. **R5-D9 — The absence modal sends the tick only if it changed.** `requestConfirmation` is sent only when the user
+   changes the tick from its default (the client's setting), so an untouched default records party `policy`, read as
+   *Requested automatically (client setting)*.
+3. **R5-G1 — No proposal reference on a booking.** Booking Detail's *From proposal* row is gone. The Bookings list
+   never showed one. Proposal pages keep their PRP ids.
+4. **R5-P1 — Candidate Directory's menu.** The directory keeps its own look, but its sidebar now lists the slice pages'
+   items in their order and words: Dashboard, Vacancies, Bookings, Timesheets, *Candidates*, Business Units, Users &
+   Permissions, Notification preferences (then Invoices and Reports, full product only). Replaces call 3's
+   *Recruitment › Candidate Directory* item (2026-11-15).
