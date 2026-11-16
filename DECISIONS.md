@@ -319,3 +319,5 @@ from the source in the Abstract repo.
    items in their order and words: Dashboard, Vacancies, Bookings, Timesheets, *Candidates*, Business Units, Users &
    Permissions, Notification preferences (then Invoices and Reports, full product only). Replaces call 3's
    *Recruitment › Candidate Directory* item (2026-11-15).
+5. **Follow-up, same day.** `slice5-proto.js` rebuilt again: the *Awaiting agency* label is now every portal's, and
+   the agencies' seeded NI numbers changed in the source (nothing of either reaches a client page differently).

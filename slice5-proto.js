@@ -561,10 +561,10 @@
   // judgement on the candidate (the pass's choice, flagged for K59). The confirmation words likewise (K59).
   var PWORD = { 'Submitted': ['info', 'fa-paper-plane'], 'Under Review': ['info', 'fa-magnifying-glass'], 'Accepted': ['good', 'fa-circle-check'], 'Rejected': ['bad', 'fa-circle-xmark'], 'Withdrawn': ['closed', 'fa-rotate-left'], 'Rejected (Position Filled)': ['closed', 'fa-user-check'] };
   var CWORD = { 'Not Requested': ['neutral', 'fa-minus'], 'Requested (awaiting agency)': ['waiting', 'fa-hourglass-half'], 'Justified': ['good', 'fa-circle-check'] };
-  // the words a requested day reads on Abstract's and the client's pages: design-tokens §6's pill, "Awaiting agency" (pill,
+  // the words a requested day reads on every portal's pages: design-tokens §6's pill, "Awaiting agency" (pill,
   // legend, cell mark and its aria text; ruled 2026-11-16, slice 5 TSD review R5-D6). The state's value is unchanged.
-  var CLABEL = {};
-  CLABEL = { 'Requested (awaiting agency)': 'Awaiting agency' };
+  // Every portal, the agency's included (R5-D6, widened 2026-11-16 by the coordinator's correction of the pass's brief).
+  var CLABEL = { 'Requested (awaiting agency)': 'Awaiting agency' };
   function badge(map, s, small, label) { var w = map[s] || ['neutral', 'fa-circle']; return '<span class="inline-flex items-center gap-1.5 ' + (small ? 'px-2 py-0.5 text-[11px]' : 'px-2.5 py-1 text-xs') + ' rounded-full font-semibold whitespace-nowrap ' + BUCKET[w[0]] + '"><i class="fa-solid ' + w[1] + ' text-[10px]" aria-hidden="true"></i>' + esc(label || s) + '</span>'; }
   S5.ui = {
     proposalBadge: function (s, small) { return badge(PWORD, s, small); },
